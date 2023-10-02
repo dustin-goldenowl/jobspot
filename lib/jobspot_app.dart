@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jobspot/src/presentations/on_boarding/screen/on_boarding_page.dart';
 
+import 'src/core/config/localization/app_localizations_setup.dart';
 import 'src/core/constants/constants.dart';
 
 class JobspotApp extends StatelessWidget {
@@ -11,6 +12,10 @@ class JobspotApp extends StatelessWidget {
     return MaterialApp(
       title: 'Jobspot',
       debugShowCheckedModeBanner: false,
+      supportedLocales: AppLocalizationsSetup.supportedLocales,
+      localizationsDelegates: AppLocalizationsSetup.localizationsDelegates,
+      localeResolutionCallback: AppLocalizationsSetup.localeResolutionCallback,
+      locale: const Locale("en"),
       theme: ThemeData(
         useMaterial3: true,
         fontFamily: "Open Sans",
