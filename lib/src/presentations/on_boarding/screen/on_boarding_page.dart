@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobspot/injection.dart';
+import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../core/constants/constants.dart';
@@ -10,6 +12,8 @@ class OnBoardingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    getIt.registerSingleton(AppLocalizations.of(context)!);
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
@@ -52,16 +56,16 @@ class OnBoardingPage extends StatelessWidget {
                   height: 0.947,
                 ),
                 children: [
-                  TextSpan(text: "${AppLocalizations.of(context)!.findYour}\n"),
+                  TextSpan(text: "${AppLocal.text.find_your}\n"),
                   TextSpan(
-                    text: AppLocalizations.of(context)!.dreamJob,
+                    text: AppLocal.text.dream_job,
                     style: TextStyle(
                       color: AppColors.neonCarrot,
                       decoration: TextDecoration.underline,
                       decorationColor: AppColors.neonCarrot,
                     ),
                   ),
-                  TextSpan(text: "\n${AppLocalizations.of(context)!.here}"),
+                  TextSpan(text: "\n${AppLocal.text.here}"),
                 ],
               ),
             ),
@@ -71,7 +75,7 @@ class OnBoardingPage extends StatelessWidget {
                 maxWidth: width - AppDimens.mediumPadding - 60,
               ),
               child: Text(
-                AppLocalizations.of(context)!.onBoardingContent,
+                AppLocal.text.on_boarding_content,
                 style: TextStyle(color: AppColors.mulledWine, fontSize: 14),
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
