@@ -53,7 +53,7 @@ class _SignInViewState extends State<SignInView> {
             customToast(context, state.error);
           }
           if (state is SignInSuccessState) {
-            customToast(context, "Đăng nhập thành công");
+            customToast(context, AppLocal.text.logged_in_successfully);
             GoogleSignIn().signOut();
             print(state.userCredential);
           }

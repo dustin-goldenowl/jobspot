@@ -74,9 +74,9 @@
 <!-- Screenshots -->
 ### :camera: Screenshots
 
-| On Boarding  | 
-| --- |
-| <img src="screenshots/on_boarding_screen.png" width=250> |
+| On Boarding  | Sign in |
+| --- | --- |
+| <img src="screenshots/on_boarding_screen.png" width=250> | <img src="screenshots/sign_in_screen.png" width=250> |
 
 
 <!-- TechStack -->

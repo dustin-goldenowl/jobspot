@@ -18,5 +18,6 @@
     "email_invalidate": "Email không đúng định dạng",
     "please_enter_your_password": "Vui lòng nhập vào mật khẩu",
     "minimum_of_password": "Mật khẩu phải có tối thiểu 8 ký tự",
-    "cancel_google_login": "Bạn đã hủy đăng nhập Google"
+    "cancel_google_login": "Bạn đã hủy đăng nhập Google",
+    "logged_in_successfully": "Đăng nhập thành công"
 }

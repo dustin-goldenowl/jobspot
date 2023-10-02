@@ -18,5 +18,7 @@
     "email_invalidate": "Email invalidate",
     "please_enter_your_password": "Please enter your password",
     "minimum_of_password": "Password must have a minimum of 8 characters",
-    "cancel_google_login": "You have canceled your Google login"
+    "cancel_google_login": "You have canceled your Google login",
+    "logged_in_successfully": "Logged in successfully"
+
 }
