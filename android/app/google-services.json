@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "126210642252",
+    "project_id": "walter-jobspot",
+    "storage_bucket": "walter-jobspot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126210642252:android:df72db6b111e578e3a3fe9",
+        "android_client_info": {
+          "package_name": "com.walter.jobspot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126210642252-g1vo8vvdogniefq83or0qcith866dt3t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJ2e75hYl_fghF6fO1qFXwu31FiONIz60"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126210642252-g1vo8vvdogniefq83or0qcith866dt3t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "126210642252-m1fbjcjnfv59uq36ju7psver3o0k4lrd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.walter.jobspot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
