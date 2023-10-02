@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:jobspot/src/presentations/on_boarding/screen/on_boarding_page.dart';
+import 'package:jobspot/injection.dart';
+import 'package:jobspot/src/core/config/router/app_router.dart';
 
 import 'src/core/config/localization/app_localizations_setup.dart';
 import 'src/core/constants/constants.dart';
@@ -9,7 +10,7 @@ class JobspotApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Jobspot',
       debugShowCheckedModeBanner: false,
       supportedLocales: AppLocalizationsSetup.supportedLocales,
@@ -32,7 +33,7 @@ class JobspotApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const OnBoardingPage(),
+      routerConfig: getIt<AppRouter>().config(),
     );
   }
 }

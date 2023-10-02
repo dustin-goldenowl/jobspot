@@ -1,27 +1,52 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/injection.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jobspot/src/core/config/router/app_router.gr.dart';
+import 'package:jobspot/src/core/function/on_will_pop.dart';
 
 import '../../../core/constants/constants.dart';
 
-class OnBoardingPage extends StatelessWidget {
+@RoutePage()
+class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
 
   @override
+  State<OnBoardingPage> createState() => _OnBoardingPageState();
+}
+
+class _OnBoardingPageState extends State<OnBoardingPage> {
+  DateTime? _currentBackPressTime;
+
+  @override
   Widget build(BuildContext context) {
-    getIt.registerSingleton(AppLocalizations.of(context)!);
+    if (!getIt.isRegistered<AppLocalizations>()) {
+      getIt.registerSingleton(AppLocalizations.of(context)!);
+    }
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          context.router.pushAndPopUntil(
+            const SignInRoute(),
+            predicate: (_) => false,
+          );
+        },
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(360)),
         elevation: 0,
         child: const Icon(FontAwesomeIcons.arrowRight),
       ),
-      body: _body(context),
+      body: WillPopScope(
+        onWillPop: () => onWillPop(
+          context: context,
+          action: (now) => _currentBackPressTime = now,
+          currentBackPressTime: _currentBackPressTime,
+        ),
+        child: _body(context),
+      ),
     );
   }
 

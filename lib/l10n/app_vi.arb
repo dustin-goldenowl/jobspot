@@ -2,5 +2,16 @@
     "find_your": "Find Your",
     "dream_job": "Dream Job",
     "here": "Here!",
-    "on_boarding_content": "Khám phá tất cả các vai trò công việc thú vị nhất dựa trên sở thích và chuyên ngành học tập của bạn."
+    "on_boarding_content": "Khám phá tất cả các vai trò công việc thú vị nhất dựa trên sở thích và chuyên ngành học tập của bạn.",
+    "sign_in_content": "Chào mừng bạn trở lại Jobspot, ứng dụng tìm việc làm hàng đầu Việt Nam.",
+    "welcome_back": "Welcome Back",
+    "remember_me": "Ghi nhớ",
+    "forgot_password": "Quên mật khẩu?",
+    "press_again_to_exit": "Nhấn lần nữa để thoát",
+    "you_dont_have_an_account_yet": "Bạn chưa có tài khoản? ",
+    "sign_in": "Đăng nhập",
+    "sign_up": "Đăng ký",
+    "sign_in_with_google": "Đăng ký với Google",
+    "email": "Email",
+    "password": "Password"
 }
