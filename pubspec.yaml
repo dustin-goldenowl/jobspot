@@ -31,22 +31,32 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_localizations:
+    sdk: flutter
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   firebase_core: ^2.16.0
+  font_awesome_flutter: ^10.5.0
+  flutter_svg: ^2.0.7
+  intl: ^0.18.0
+  get_it: ^7.6.4
+  injectable: ^2.3.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  build_runner: ^2.4.6
+  injectable_generator: ^2.4.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^2.0.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -58,10 +68,11 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+     - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -75,17 +86,34 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
+  fonts:
+    - family: "Open Sans"
+      fonts:
+        - asset: assets/fonts/open_sans/open_sans_light.ttf
+          weight: 300
+        - asset: assets/fonts/open_sans/open_sans_light_italic.ttf
+          weight: 300
+          style: italic
+        - asset: assets/fonts/open_sans/open_sans_regular.ttf
+          weight: 400
+        - asset: assets/fonts/open_sans/open_sans_italic.ttf
+          weight: 400
+          style: italic
+        - asset: assets/fonts/open_sans/open_sans_medium.ttf
+          weight: 500
+        - asset: assets/fonts/open_sans/open_sans_medium_italic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/open_sans/open_sans_semi_bold.ttf
+          weight: 600
+        - asset: assets/fonts/open_sans/open_sans_semi_bold_italic.ttf
+          weight: 600
+          style: italic
+        - asset: assets/fonts/open_sans/open_sans_bold.ttf
+          weight: 700
+        - asset: assets/fonts/open_sans/open_sans_bold_italic.ttf
+          weight: 700
+          style: italic
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
