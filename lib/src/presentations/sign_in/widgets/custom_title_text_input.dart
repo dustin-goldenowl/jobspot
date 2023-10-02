@@ -10,7 +10,7 @@ class CustomTitleTextInput extends StatelessWidget {
     this.obscureText = false,
     this.isPassword = false,
     this.title,
-    this.onChange,
+    this.onHidePassword,
     this.titleFontSize,
     this.maxLines = 1,
     this.isSearch = false,
@@ -18,6 +18,8 @@ class CustomTitleTextInput extends StatelessWidget {
     this.onClear,
     this.onTap,
     this.focusNode,
+    this.validator,
+    this.keyboardType,
   });
 
   final TextEditingController controller;
@@ -29,10 +31,12 @@ class CustomTitleTextInput extends StatelessWidget {
   final bool isSearch;
   final int maxLines;
   final TextInputAction? textInputAction;
-  final Function(bool isShow)? onChange;
+  final Function(bool isHide)? onHidePassword;
   final VoidCallback? onClear;
   final VoidCallback? onTap;
   final FocusNode? focusNode;
+  final String? Function(String? value)? validator;
+  final TextInputType? keyboardType;
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +64,7 @@ class CustomTitleTextInput extends StatelessWidget {
             ],
           ),
           child: TextFormField(
+            keyboardType: keyboardType,
             focusNode: focusNode,
             onTap: onTap,
             readOnly: onTap != null,
@@ -67,6 +72,7 @@ class CustomTitleTextInput extends StatelessWidget {
             obscureText: obscureText,
             maxLines: maxLines,
             textInputAction: textInputAction,
+            validator: validator,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: AppDimens.smallPadding,
@@ -89,7 +95,7 @@ class CustomTitleTextInput extends StatelessWidget {
                   : null,
               suffixIcon: isPassword
                   ? IconButton(
-                      onPressed: () => onChange!(!obscureText),
+                      onPressed: () => onHidePassword!(!obscureText),
                       icon: Icon(obscureText
                           ? FontAwesomeIcons.eye
                           : FontAwesomeIcons.eyeSlash),

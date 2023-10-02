@@ -13,5 +13,10 @@
     "sign_up": "Sign up",
     "sign_in_with_google": "Sign in with Google",
     "email": "Email",
-    "password": "Password"
+    "password": "Password",
+    "please_enter_email": "Please enter Email",
+    "email_invalidate": "Email invalidate",
+    "please_enter_your_password": "Please enter your password",
+    "minimum_of_password": "Password must have a minimum of 8 characters",
+    "cancel_google_login": "You have canceled your Google login"
 }

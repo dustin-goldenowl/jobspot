@@ -13,5 +13,10 @@
     "sign_up": "Đăng ký",
     "sign_in_with_google": "Đăng ký với Google",
     "email": "Email",
-    "password": "Password"
+    "password": "Password",
+    "please_enter_email": "Vui lòng nhập vào Email",
+    "email_invalidate": "Email không đúng định dạng",
+    "please_enter_your_password": "Vui lòng nhập vào mật khẩu",
+    "minimum_of_password": "Mật khẩu phải có tối thiểu 8 ký tự",
+    "cancel_google_login": "Bạn đã hủy đăng nhập Google"
 }

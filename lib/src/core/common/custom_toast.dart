@@ -14,7 +14,7 @@ Widget toast(String text) {
       ),
       child: Row(
         children: [
-          SvgPicture.asset(AppImages.logo, width: 40, height: 40),
+          SvgPicture.asset(AppImages.logo, width: 30, height: 30),
           const SizedBox(width: 10),
           Flexible(
             child: Text(
@@ -34,7 +34,7 @@ void customToast(BuildContext context, String text) {
   fToast.showToast(
     child: toast(text),
     toastDuration: const Duration(seconds: 3),
-    gravity: ToastGravity.BOTTOM,
+    gravity: ToastGravity.TOP,
     fadeDuration: const Duration(seconds: 1),
   );
 }
