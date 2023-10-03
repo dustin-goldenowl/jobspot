@@ -11,7 +11,6 @@ class JobspotApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Jobspot',
       debugShowCheckedModeBanner: false,
       supportedLocales: AppLocalizationsSetup.supportedLocales,
       localizationsDelegates: AppLocalizationsSetup.localizationsDelegates,

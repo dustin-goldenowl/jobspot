@@ -1,50 +1,60 @@
 part of 'sign_in_cubit.dart';
 
-@immutable
-sealed class SignInState extends Equatable {}
-
-final class SignInInitial extends SignInState {
-  @override
-  List<Object?> get props => [identityHashCode(this)];
-}
-
-final class SignInLoadingState extends SignInState {
-  @override
-  List<Object?> get props => [identityHashCode(this)];
-}
-
-final class SignInSuccessState extends SignInState {
-  final UserCredential userCredential;
-
-  SignInSuccessState(this.userCredential);
-
-  @override
-  List<Object?> get props => [userCredential];
-}
-
-final class SignInErrorState extends SignInState {
-  final String error;
-
-  SignInErrorState(this.error);
-
-  @override
-  List<Object?> get props => [error];
-}
-
-final class HidePasswordState extends SignInState {
+class SignInState extends Equatable {
   final bool isHide;
-
-  HidePasswordState(this.isHide);
-
-  @override
-  List<Object?> get props => [isHide];
-}
-
-final class RememberMeState extends SignInState {
   final bool isRememberMe;
+  final bool isLoading;
+  final UserCredential? data;
+  final String? error;
 
-  RememberMeState(this.isRememberMe);
+  const SignInState({
+    required this.isHide,
+    required this.isRememberMe,
+    this.isLoading = false,
+    this.data,
+    this.error,
+  });
 
   @override
-  List<Object?> get props => [isRememberMe];
+  List<Object?> get props => [isHide, isRememberMe, isLoading];
+
+  SignInState copyWith({bool? isHide, bool? isRememberMe}) {
+    return SignInState(
+      isHide: isHide ?? this.isHide,
+      isRememberMe: isRememberMe ?? this.isRememberMe,
+      isLoading: false,
+      data: data,
+      error: error,
+    );
+  }
+
+  SignInState loading() {
+    return SignInState(
+      isHide: isHide,
+      isRememberMe: isRememberMe,
+      isLoading: true,
+      data: null,
+      error: null,
+    );
+  }
+
+  SignInState success(UserCredential data) {
+    return SignInState(
+      isHide: isHide,
+      isRememberMe: isRememberMe,
+      isLoading: false,
+      data: data,
+      error: null,
+    );
+  }
+
+  SignInState failed(String error) {
+    return SignInState(
+      isHide: isHide,
+      isRememberMe: isRememberMe,
+      isLoading: false,
+      data: null,
+      error: error,
+    );
+  }
 }

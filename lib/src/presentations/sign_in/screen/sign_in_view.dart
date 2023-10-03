@@ -10,26 +10,15 @@ import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/core/function/on_will_pop.dart';
 import 'package:jobspot/src/presentations/sign_in/cubit/sign_in_cubit.dart';
-import 'package:jobspot/src/presentations/sign_in/domain/entities/email_password_entity.dart';
+import 'package:jobspot/src/presentations/sign_in/domain/entities/authentication_entity.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_input.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../core/constants/constants.dart';
 
-class SignInView extends StatefulWidget {
+class SignInView extends StatelessWidget {
   const SignInView({super.key});
-
-  @override
-  State<SignInView> createState() => _SignInViewState();
-}
-
-class _SignInViewState extends State<SignInView> {
-  DateTime? _currentBackPressTime;
-  bool _isRememberMe = false;
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,42 +29,40 @@ class _SignInViewState extends State<SignInView> {
     return Scaffold(
       body: BlocListener<SignInCubit, SignInState>(
         listenWhen: (previous, current) {
-          if (previous is SignInLoadingState) {
-            Navigator.of(context).pop();
-          }
+          if (previous.isLoading) Navigator.of(context).pop();
           return true;
         },
         listener: (context, state) {
-          if (state is SignInLoadingState) {
-            loadingAnimation(context);
-          }
-          if (state is SignInErrorState) {
-            customToast(context, state.error);
-          }
-          if (state is SignInSuccessState) {
-            customToast(context, AppLocal.text.logged_in_successfully);
+          if (state.isLoading) loadingAnimation(context);
+
+          if (state.error != null) customToast(context, text: state.error!);
+
+          if (state.data != null) {
+            customToast(context, text: AppLocal.text.logged_in_successfully);
             GoogleSignIn().signOut();
-            print(state.userCredential);
+            print(state.data);
           }
         },
         child: WillPopScope(
           onWillPop: () => onWillPop(
             context: context,
-            action: (now) => _currentBackPressTime = now,
-            currentBackPressTime: _currentBackPressTime,
+            action: (now) =>
+                context.read<SignInCubit>().currentBackPressTime = now,
+            currentBackPressTime:
+                context.read<SignInCubit>().currentBackPressTime,
           ),
-          child: _buildBody(),
+          child: _buildBody(context),
         ),
       ),
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
     return SafeArea(
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Form(
-          key: _formKey,
+          key: context.read<SignInCubit>().formKey,
           child: Padding(
             padding: const EdgeInsets.all(AppDimens.largePadding),
             child: Column(
@@ -83,7 +70,7 @@ class _SignInViewState extends State<SignInView> {
                 const SizedBox(height: 50),
                 _buildTitle(),
                 const SizedBox(height: 64),
-                _buildInput(),
+                _buildInput(context),
                 const SizedBox(height: 24),
                 Row(
                   children: [
@@ -102,12 +89,22 @@ class _SignInViewState extends State<SignInView> {
                 CustomButton(
                   title: AppLocal.text.sign_in.toUpperCase(),
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
+                    if (context
+                        .read<SignInCubit>()
+                        .formKey
+                        .currentState!
+                        .validate()) {
                       context
                           .read<SignInCubit>()
-                          .signInWithEmailAndPassword(EmailPasswordEntity(
-                            email: _emailController.text,
-                            password: _passwordController.text,
+                          .signInWithEmailAndPassword(AuthenticationEntity(
+                            email: context
+                                .read<SignInCubit>()
+                                .emailController
+                                .text,
+                            password: context
+                                .read<SignInCubit>()
+                                .passwordController
+                                .text,
                           ));
                     }
                   },
@@ -127,7 +124,7 @@ class _SignInViewState extends State<SignInView> {
                       const SizedBox(width: 10),
                       Text(
                         AppLocal.text.sign_in_with_google.toUpperCase(),
-                        style: TextStyle(color: AppColors.primary),
+                        style: AppStyles.normalTextPrimaryColor,
                       ),
                     ],
                   ),
@@ -138,7 +135,7 @@ class _SignInViewState extends State<SignInView> {
                     children: [
                       TextSpan(
                         text: AppLocal.text.you_dont_have_an_account_yet,
-                        style: TextStyle(color: AppColors.mulledWine),
+                        style: AppStyles.normalTextMulledWineColor,
                       ),
                       TextSpan(
                         text: AppLocal.text.sign_up,
@@ -173,18 +170,18 @@ class _SignInViewState extends State<SignInView> {
         const SizedBox(height: 8),
         Text(
           AppLocal.text.sign_in_content,
-          style: TextStyle(color: AppColors.mulledWine),
+          style: AppStyles.normalTextMulledWineColor,
           textAlign: TextAlign.center,
         ),
       ],
     );
   }
 
-  Widget _buildInput() {
+  Widget _buildInput(BuildContext context) {
     return Column(
       children: [
         CustomTitleTextInput(
-          controller: _emailController,
+          controller: context.read<SignInCubit>().emailController,
           title: AppLocal.text.email,
           hintText: AppLocal.text.email,
           keyboardType: TextInputType.emailAddress,
@@ -200,14 +197,14 @@ class _SignInViewState extends State<SignInView> {
         ),
         const SizedBox(height: 15),
         BlocBuilder<SignInCubit, SignInState>(
-          buildWhen: (previous, current) => current is HidePasswordState,
+          buildWhen: (previous, current) => current.isHide != previous.isHide,
           builder: (context, state) {
             return CustomTitleTextInput(
-              controller: _passwordController,
+              controller: context.read<SignInCubit>().passwordController,
               title: AppLocal.text.password,
               hintText: AppLocal.text.password,
               isPassword: true,
-              obscureText: state is HidePasswordState ? state.isHide : true,
+              obscureText: state.isHide,
               onHidePassword: context.read<SignInCubit>().hidePassword,
               validator: (value) {
                 if (value!.isEmpty) {
@@ -229,13 +226,13 @@ class _SignInViewState extends State<SignInView> {
     return Row(
       children: [
         BlocBuilder<SignInCubit, SignInState>(
-          buildWhen: (previous, current) => current is RememberMeState,
+          buildWhen: (previous, current) =>
+              current.isRememberMe != previous.isRememberMe,
           builder: (context, state) {
             return Checkbox(
-              value: _isRememberMe,
+              value: state.isRememberMe,
               onChanged: (value) {
                 context.read<SignInCubit>().rememberMe(value!);
-                _isRememberMe = value;
               },
               activeColor: AppColors.lavenderMist,
             );

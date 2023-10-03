@@ -1,7 +1,7 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
-import 'package:jobspot/src/presentations/sign_in/domain/entities/email_password_entity.dart';
+import 'package:jobspot/src/presentations/sign_in/domain/entities/authentication_entity.dart';
 import 'package:jobspot/src/presentations/sign_in/domain/repositories/sign_in_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -9,7 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class LoginRepositoryImpl extends SignInRepository {
   @override
   Future<DataState<UserCredential>> signInWithEmailPassword(
-      EmailPasswordEntity entity) async {
+      AuthenticationEntity entity) async {
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: entity.email,
@@ -17,10 +17,10 @@ class LoginRepositoryImpl extends SignInRepository {
       );
       return DataSuccess(credential);
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        return DataFailed('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        return DataFailed('The account already exists for that email.');
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
       }
       return DataFailed(e.toString());
     } catch (e) {

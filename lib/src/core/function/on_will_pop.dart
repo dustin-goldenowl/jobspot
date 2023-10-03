@@ -11,7 +11,7 @@ Future<bool> onWillPop({
   if (currentBackPressTime == null ||
       now.difference(currentBackPressTime) > const Duration(seconds: 3)) {
     action(now);
-    customToast(context, AppLocal.text.press_again_to_exit);
+    customToast(context, text: AppLocal.text.press_again_to_exit);
     return Future.value(false);
   }
   return Future.value(true);

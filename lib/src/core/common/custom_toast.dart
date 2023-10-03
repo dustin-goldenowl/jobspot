@@ -28,7 +28,7 @@ Widget toast(String text) {
   );
 }
 
-void customToast(BuildContext context, String text) {
+void customToast(BuildContext context, {required String text}) {
   FToast fToast = FToast();
   fToast.init(context);
   fToast.showToast(
