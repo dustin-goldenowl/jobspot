@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "126210642252-vdnr9mgm5qda7k52r4cuqajcrqet9vf0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.walter.jobspot",
+            "certificate_hash": "850dd3101696b938d7679686d37f6d0dbe08e623"
+          }
+        },
+        {
           "client_id": "126210642252-g1vo8vvdogniefq83or0qcith866dt3t.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -2,5 +2,23 @@
     "find_your": "Find Your",
     "dream_job": "Dream Job",
     "here": "Here!",
-    "on_boarding_content": "Explore all the most exciting job roles based on your interest and study major."
+    "on_boarding_content": "Explore all the most exciting job roles based on your interest and study major.",
+    "sign_in_content": "Welcome back to Jobspot, Vietnam's leading job search application.",
+    "welcome_back": "Welcome Back",
+    "remember_me": "Remember me",
+    "forgot_password": "Forgot Password?",
+    "press_again_to_exit": "Press again to exit",
+    "you_dont_have_an_account_yet": "You don't have an account yet? ",
+    "sign_in": "Sign in",
+    "sign_up": "Sign up",
+    "sign_in_with_google": "Sign in with Google",
+    "email": "Email",
+    "password": "Password",
+    "please_enter_email": "Please enter Email",
+    "email_invalidate": "Email invalidate",
+    "please_enter_your_password": "Please enter your password",
+    "minimum_of_password": "Password must have a minimum of 8 characters",
+    "cancel_google_login": "You have canceled your Google login",
+    "logged_in_successfully": "Logged in successfully"
+
 }
