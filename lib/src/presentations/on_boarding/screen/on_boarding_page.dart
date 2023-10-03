@@ -96,7 +96,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               ),
               child: Text(
                 AppLocal.text.on_boarding_content,
-                style: TextStyle(color: AppColors.mulledWine, fontSize: 14),
+                style: AppStyles.normalTextMulledWine,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),

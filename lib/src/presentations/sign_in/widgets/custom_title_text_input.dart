@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 
@@ -20,6 +21,8 @@ class CustomTitleTextInput extends StatelessWidget {
     this.focusNode,
     this.validator,
     this.keyboardType,
+    this.textCapitalization = TextCapitalization.none,
+    this.inputFormatters,
   });
 
   final TextEditingController controller;
@@ -37,6 +40,8 @@ class CustomTitleTextInput extends StatelessWidget {
   final FocusNode? focusNode;
   final String? Function(String? value)? validator;
   final TextInputType? keyboardType;
+  final TextCapitalization textCapitalization;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -46,11 +51,8 @@ class CustomTitleTextInput extends StatelessWidget {
         if (title != null)
           Text(
             title!,
-            style: TextStyle(
-              color: AppColors.nightBlue,
-              fontWeight: FontWeight.w700,
-              fontSize: titleFontSize,
-            ),
+            style:
+                AppStyles.boldTextNightBlue.copyWith(fontSize: titleFontSize),
           ),
         if (title != null) const SizedBox(height: 10),
         Container(
@@ -64,6 +66,8 @@ class CustomTitleTextInput extends StatelessWidget {
             ],
           ),
           child: TextFormField(
+            inputFormatters: inputFormatters,
+            textCapitalization: textCapitalization,
             keyboardType: keyboardType,
             focusNode: focusNode,
             onTap: onTap,

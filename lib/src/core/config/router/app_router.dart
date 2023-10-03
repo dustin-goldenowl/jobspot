@@ -13,5 +13,10 @@ class AppRouter extends $AppRouter {
           page: SignInRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
+        CustomRoute(
+          path: '/signUp',
+          page: SignUpRoute.page,
+          transitionsBuilder: TransitionsBuilders.zoomIn,
+        ),
       ];
 }
