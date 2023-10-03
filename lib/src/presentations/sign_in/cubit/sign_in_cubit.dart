@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -30,27 +29,21 @@ class SignInCubit extends Cubit<SignInState> {
       emit(state.copyWith(isRememberMe: isRememberMe));
 
   Future signInWithEmailAndPassword(AuthenticationEntity entity) async {
-    emit(state.loading());
+    emit(state.copyWith(isLoading: true));
     final response = await _signInEmailPasswordUseCase.call(params: entity);
-    if (response is DataSuccess && response.data != null) {
-      emit(state.success(response.data!));
-    } else {
-      emit(state.failed(response.error ?? ""));
-    }
+    emit(state.copyWith(dataState: response));
   }
 
   Future signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     if (googleUser != null) {
-      emit(state.loading());
+      emit(state.copyWith(isLoading: true));
       final response = await _signInGoogleUseCase.call(params: googleUser);
-      if (response is DataSuccess && response.data != null) {
-        emit(state.success(response.data!));
-      } else {
-        emit(state.failed(response.error ?? ""));
-      }
+      emit(state.copyWith(dataState: response));
     } else {
-      emit(state.failed(AppLocal.text.cancel_google_login));
+      emit(state.copyWith(
+        dataState: DataFailed(AppLocal.text.cancel_google_login),
+      ));
     }
   }
 }

@@ -18,13 +18,12 @@ class LoginRepositoryImpl extends SignInRepository {
       return DataSuccess(credential);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        return DataFailed('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        return DataFailed('Wrong password provided for that user.');
       }
-      return DataFailed(e.toString());
+      return DataFailed(e.message ?? e.toString());
     } catch (e) {
-      print(e);
       return DataFailed(e.toString());
     }
   }
@@ -35,12 +34,10 @@ class LoginRepositoryImpl extends SignInRepository {
     try {
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
-
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-
       return DataSuccess(
         await FirebaseAuth.instance.signInWithCredential(credential),
       );

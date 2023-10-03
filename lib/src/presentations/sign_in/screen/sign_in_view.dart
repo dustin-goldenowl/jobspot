@@ -9,6 +9,7 @@ import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/core/function/on_will_pop.dart';
+import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/sign_in/cubit/sign_in_cubit.dart';
 import 'package:jobspot/src/presentations/sign_in/domain/entities/authentication_entity.dart';
 import 'package:jobspot/src/presentations/sign_in/domain/router/sign_in_coordinator.dart';
@@ -36,12 +37,14 @@ class SignInView extends StatelessWidget {
         listener: (context, state) {
           if (state.isLoading) loadingAnimation(context);
 
-          if (state.error != null) customToast(context, text: state.error!);
+          if (state.dataState is DataFailed) {
+            customToast(context, text: state.dataState?.error ?? "");
+          }
 
-          if (state.data != null) {
+          if (state.dataState is DataSuccess) {
             customToast(context, text: AppLocal.text.logged_in_successfully);
             GoogleSignIn().signOut();
-            print(state.data);
+            print(state.dataState!.data);
           }
         },
         child: WillPopScope(

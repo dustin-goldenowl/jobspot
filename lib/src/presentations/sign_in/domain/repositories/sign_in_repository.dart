@@ -6,6 +6,7 @@ import 'package:jobspot/src/presentations/sign_in/domain/entities/authentication
 abstract class SignInRepository {
   Future<DataState<UserCredential>> signInWithEmailPassword(
       AuthenticationEntity entity);
+
   Future<DataState<UserCredential>> signInWithGoogle(
       GoogleSignInAccount googleUser);
 }
