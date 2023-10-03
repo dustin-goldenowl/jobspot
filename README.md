@@ -74,16 +74,16 @@
 <!-- Screenshots -->
 ### :camera: Screenshots
 
-| On Boarding  | Sign in |
-| --- | --- |
-| <img src="screenshots/on_boarding_screen.png" width=250> | <img src="screenshots/sign_in_screen.png" width=250> |
+| On Boarding  | Sign in | Sign up |
+| --- | --- | --- |
+| <img src="screenshots/on_boarding_screen.png" width=250> | <img src="screenshots/sign_in_screen.png" width=250> | <img src="screenshots/sign_up_screen.png" width=250> |
 
 
 <!-- TechStack -->
 ### :space_invader: Tech Stack
 
 <details>
-  <summary>Client</summary>
+  <summary>Mobile</summary>
   <ul>
     <li><a href="https://dart.dev/">Dart</a></li>
     <li><a href="https://flutter.dev/">Flutter</a></li>
@@ -266,8 +266,8 @@ See `contributing.md` for ways to get started.
 
 <!-- Code of Conduct -->
 ### :scroll: Code of Conduct
-
-Please read the [Code of Conduct](https://github.com/dustin-goldenowl/jobspot/blob/master/CODE_OF_CONDUCT.md)
+coming soon
+<!-- Please read the [Code of Conduct](https://github.com/dustin-goldenowl/jobspot/blob/master/CODE_OF_CONDUCT.md) -->
 
 <!-- FAQ -->
 ## :grey_question: FAQ

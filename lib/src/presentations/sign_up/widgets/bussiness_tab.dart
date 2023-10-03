@@ -56,6 +56,7 @@ class BussinessTab extends StatelessWidget {
           controller: context.read<SignUpCubit>().emailBussinessController,
           title: AppLocal.text.email,
           hintText: AppLocal.text.email,
+          keyboardType: TextInputType.emailAddress,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocal.text.please_enter_email;
@@ -74,6 +75,7 @@ class BussinessTab extends StatelessWidget {
               context.read<SignUpCubit>().headquartersBussinessController,
           title: AppLocal.text.headquarters,
           hintText: AppLocal.text.headquarters,
+          textCapitalization: TextCapitalization.words,
           validator: (value) {
             if (value!.isEmpty) {
               return AppLocal.text.enter_business_headquarters_address;
@@ -139,11 +141,11 @@ class BussinessTab extends StatelessWidget {
                 if (value!.isEmpty) {
                   return AppLocal.text.confirm_your_password_again;
                 }
-                if (value !=
-                    context
+                if (value.compareTo(context
                         .read<SignUpCubit>()
                         .passwordBussinessController
-                        .text) {
+                        .text) !=
+                    0) {
                   return AppLocal.text.passwords_do_not_match;
                 }
                 return null;

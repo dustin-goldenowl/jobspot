@@ -48,7 +48,7 @@ class _SignUpViewState extends State<SignUpView>
           }
 
           if (state.dataState is DataSuccess) {
-            customToast(context, text: AppLocal.text.logged_in_successfully);
+            customToast(context, text: AppLocal.text.sign_up_successfully);
             print(state.dataState!.data);
           }
         },
