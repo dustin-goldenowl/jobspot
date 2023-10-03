@@ -16,15 +16,15 @@ class SignInState extends Equatable {
   });
 
   @override
-  List<Object?> get props => [isHide, isRememberMe, isLoading];
+  List<Object?> get props => [isHide, isRememberMe, isLoading, data, error];
 
   SignInState copyWith({bool? isHide, bool? isRememberMe}) {
     return SignInState(
       isHide: isHide ?? this.isHide,
       isRememberMe: isRememberMe ?? this.isRememberMe,
       isLoading: false,
-      data: data,
-      error: error,
+      data: null,
+      error: null,
     );
   }
 
