@@ -52,6 +52,7 @@ dependencies:
   firebase_storage: ^11.2.7
   firebase_crashlytics: ^3.3.6
   cloud_firestore: ^4.9.2
+  open_mail_app: ^0.4.5
 
 dev_dependencies:
   flutter_test:

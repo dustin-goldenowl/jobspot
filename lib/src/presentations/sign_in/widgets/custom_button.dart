@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../core/constants/constants.dart';
+import 'package:jobspot/src/core/constants/constants.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
