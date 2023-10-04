@@ -11,7 +11,6 @@ import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/core/function/on_will_pop.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/sign_in/cubit/sign_in_cubit.dart';
-import 'package:jobspot/src/presentations/sign_in/domain/entities/authentication_entity.dart';
 import 'package:jobspot/src/presentations/sign_in/domain/router/sign_in_coordinator.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_input.dart';
@@ -98,18 +97,7 @@ class SignInView extends StatelessWidget {
                         .formKey
                         .currentState!
                         .validate()) {
-                      context
-                          .read<SignInCubit>()
-                          .signInWithEmailAndPassword(AuthenticationEntity(
-                            email: context
-                                .read<SignInCubit>()
-                                .emailController
-                                .text,
-                            password: context
-                                .read<SignInCubit>()
-                                .passwordController
-                                .text,
-                          ));
+                      context.read<SignInCubit>().signInWithEmailAndPassword();
                     }
                   },
                 ),
@@ -128,7 +116,7 @@ class SignInView extends StatelessWidget {
                       const SizedBox(width: 10),
                       Text(
                         AppLocal.text.sign_in_with_google.toUpperCase(),
-                        style: AppStyles.normalTextPrimaryColor,
+                        style: AppStyles.normalTextPrimary,
                       ),
                     ],
                   ),
@@ -139,7 +127,7 @@ class SignInView extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: AppLocal.text.you_dont_have_an_account_yet,
-                        style: AppStyles.normalTextMulledWineColor,
+                        style: AppStyles.normalTextMulledWine,
                       ),
                       TextSpan(
                         text: AppLocal.text.sign_up,
@@ -166,16 +154,12 @@ class SignInView extends StatelessWidget {
       children: [
         Text(
           AppLocal.text.welcome_back,
-          style: TextStyle(
-            fontSize: 30,
-            fontWeight: FontWeight.w700,
-            color: AppColors.nightBlue,
-          ),
+          style: AppStyles.boldTextNightBlue.copyWith(fontSize: 30),
         ),
         const SizedBox(height: 8),
         Text(
           AppLocal.text.sign_in_content,
-          style: AppStyles.normalTextMulledWineColor,
+          style: AppStyles.normalTextMulledWine,
           textAlign: TextAlign.center,
         ),
       ],

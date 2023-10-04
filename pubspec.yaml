@@ -49,6 +49,9 @@ dependencies:
   equatable: ^2.0.5
   firebase_auth: ^4.10.0
   google_sign_in: ^6.1.5
+  firebase_storage: ^11.2.7
+  firebase_crashlytics: ^3.3.6
+  cloud_firestore: ^4.9.2
 
 dev_dependencies:
   flutter_test:
