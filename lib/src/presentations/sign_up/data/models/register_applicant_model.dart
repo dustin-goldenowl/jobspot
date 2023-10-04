@@ -2,11 +2,13 @@ import 'package:jobspot/src/presentations/sign_up/domain/entities/register_appli
 
 class RegisterApplicantModel {
   final String fullname;
+  final String email;
   final bool gender;
   final DateTime birthday;
 
   RegisterApplicantModel({
     required this.fullname,
+    required this.email,
     required this.gender,
     required this.birthday,
   });
@@ -14,6 +16,7 @@ class RegisterApplicantModel {
   factory RegisterApplicantModel.fromEntity(RegisterApplicantEntity entity) {
     return RegisterApplicantModel(
       fullname: entity.fullname,
+      email: entity.email,
       gender: entity.gender,
       birthday: entity.birthday,
     );
@@ -22,6 +25,7 @@ class RegisterApplicantModel {
   Map<String, dynamic> toJson() {
     return {
       "fullname": fullname,
+      "email": email,
       "gender": gender,
       "birthday": birthday,
       "address": "",

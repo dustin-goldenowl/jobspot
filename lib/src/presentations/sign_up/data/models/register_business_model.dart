@@ -2,12 +2,14 @@ import 'package:jobspot/src/presentations/sign_up/domain/entities/register_busin
 
 class RegisterBusinessModel {
   final String name;
+  final String email;
   final DateTime founding;
   final String headquarters;
   final String employeeSize;
 
   RegisterBusinessModel({
     required this.name,
+    required this.email,
     required this.employeeSize,
     required this.founding,
     required this.headquarters,
@@ -16,6 +18,7 @@ class RegisterBusinessModel {
   factory RegisterBusinessModel.fromEntity(RegisterBusinessEntity entity) {
     return RegisterBusinessModel(
       name: entity.name,
+      email: entity.email,
       employeeSize: entity.employeeSize,
       founding: entity.founding,
       headquarters: entity.headquarters,
@@ -25,6 +28,7 @@ class RegisterBusinessModel {
   Map<String, dynamic> toJson() {
     return {
       "name": name,
+      "email": email,
       "founding": founding,
       "headquarters": headquarters,
       "employeeSize": employeeSize,

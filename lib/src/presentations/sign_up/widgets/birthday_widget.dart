@@ -33,7 +33,7 @@ class BirthdayWidget extends StatelessWidget {
             ),
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
             child: Text(
-              DateTimeUtils.formatDMY.format(selectedDate),
+              DateTimeUtils.formatDMY(selectedDate),
               style: AppStyles.normalTextMulledWine,
             ),
           ),
