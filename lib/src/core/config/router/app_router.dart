@@ -19,6 +19,15 @@ class AppRouter extends $AppRouter {
           transitionsBuilder: TransitionsBuilders.zoomIn,
         ),
         CustomRoute(
+          path: '/forgotPassword',
+          page: ForgotPasswordRoute.page,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+        ),
+        CustomRoute(
+          path: '/checkEmail',
+          page: CheckEmailRoute.page,
+          transitionsBuilder: TransitionsBuilders.zoomIn,
+        CustomRoute(
           path: '/verifyEmail',
           page: VerifyEmailRoute.page,
           transitionsBuilder: TransitionsBuilders.slideTop,

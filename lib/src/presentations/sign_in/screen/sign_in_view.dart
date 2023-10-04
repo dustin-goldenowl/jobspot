@@ -79,7 +79,7 @@ class SignInView extends StatelessWidget {
                     _rememberWidget(),
                     const Spacer(),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: SignInCoordinator.showForgotPassword,
                       child: Text(
                         AppLocal.text.forgot_password,
                         style: TextStyle(color: AppColors.nightBlue),
