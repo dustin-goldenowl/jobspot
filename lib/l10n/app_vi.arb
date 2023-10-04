@@ -53,4 +53,15 @@
     "check_email_page_content": "Chúng tôi đã gửi liên kết đặt lại mật khẩu đến địa chỉ email ",
     "check_email_page_check_your_email": "Kiểm Tra Email Của Bạn",
     "check_email_page_open_your_email": "Mở email của bạn"
+
+    "verify_email_page_wait_to_resend": "\nĐợi {time} giây để gửi lại",
+    "verify_email_page_check_mail_content": "Chúng tôi đã gửi liên kết xác thực đến địa chỉ email ",
+    "verify_email_page_check_your_email": "Kiểm Tra Email Của Bạn",
+    "verify_email_page_have_not_received_email": "Bạn chưa nhận được email? ",
+    "verify_email_page_open_your_email": "Mở email của bạn",
+    "verify_email_page_back_to_login": "Trở về đăng nhập",
+    "verify_email_page_resend": "Gửi lại",
+
+    "verify_success_page_successfully": "Thành công",
+    "verify_success_page_success_content": "Bạn đã xác thực tài khoản thành công, vui lòng đăng nhập lại"
 }

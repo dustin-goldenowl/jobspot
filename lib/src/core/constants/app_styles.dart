@@ -7,6 +7,7 @@ class AppStyles {
   static TextStyle normalTextPrimary = TextStyle(color: AppColors.primary);
   static TextStyle normalTextMulledWine =
       TextStyle(color: AppColors.mulledWine);
+  static TextStyle normalTextHaiti = TextStyle(color: AppColors.haiti);
   static TextStyle boldText = const TextStyle(fontWeight: FontWeight.w700);
   static TextStyle boldTextNightBlue = TextStyle(
     color: AppColors.nightBlue,
