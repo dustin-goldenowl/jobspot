@@ -27,6 +27,7 @@ class AppRouter extends $AppRouter {
           path: '/checkEmail',
           page: CheckEmailRoute.page,
           transitionsBuilder: TransitionsBuilders.zoomIn,
+        ),
         CustomRoute(
           path: '/verifyEmail',
           page: VerifyEmailRoute.page,

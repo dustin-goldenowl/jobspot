@@ -52,7 +52,7 @@
 
     "check_email_page_content": "We have sent a password reset link to the email address ",
     "check_email_page_check_your_email": "Check Your Email",
-    "check_email_page_open_your_email": "Open your emal"
+    "check_email_page_open_your_email": "Open your emal",
 
     "verify_email_page_wait_to_resend": "\nWait {time} seconds to resend",
     "verify_email_page_check_mail_content": "We have sent a verification link to the email address ",

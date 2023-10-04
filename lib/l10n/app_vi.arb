@@ -52,7 +52,7 @@
 
     "check_email_page_content": "Chúng tôi đã gửi liên kết đặt lại mật khẩu đến địa chỉ email ",
     "check_email_page_check_your_email": "Kiểm Tra Email Của Bạn",
-    "check_email_page_open_your_email": "Mở email của bạn"
+    "check_email_page_open_your_email": "Mở email của bạn",
 
     "verify_email_page_wait_to_resend": "\nĐợi {time} giây để gửi lại",
     "verify_email_page_check_mail_content": "Chúng tôi đã gửi liên kết xác thực đến địa chỉ email ",
