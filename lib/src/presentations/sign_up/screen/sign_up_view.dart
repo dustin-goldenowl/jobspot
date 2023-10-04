@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
+import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/core/function/on_will_pop.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
@@ -11,8 +12,6 @@ import 'package:jobspot/src/presentations/sign_up/domain/router/sign_up_coordina
 import 'package:jobspot/src/presentations/sign_up/widgets/applicant_tab.dart';
 import 'package:jobspot/src/presentations/sign_up/widgets/business_tab.dart';
 import 'package:jobspot/src/presentations/sign_up/widgets/slide_transition_x.dart';
-
-import '../../../core/constants/constants.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});

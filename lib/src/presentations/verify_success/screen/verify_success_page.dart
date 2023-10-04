@@ -2,10 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
+import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
 import 'package:jobspot/src/presentations/verify_success/domain/router/verify_success_coordinator.dart';
-
-import '../../../core/constants/constants.dart';
-import '../../sign_in/widgets/custom_button.dart';
 
 @RoutePage()
 class VerifySuccessPage extends StatelessWidget {

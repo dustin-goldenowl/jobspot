@@ -5,10 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/injection.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/function/on_will_pop.dart';
 import 'package:jobspot/src/presentations/on_boarding/domain/router/on_boarding_coordinator.dart';
-
-import '../../../core/constants/constants.dart';
 
 @RoutePage()
 class OnBoardingPage extends StatefulWidget {

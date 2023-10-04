@@ -4,11 +4,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
+import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
 import 'package:jobspot/src/presentations/verify_email/cubit/verify_email_cubit.dart';
 import 'package:jobspot/src/presentations/verify_email/domain/router/verify_email_coordinator.dart';
-
-import '../../../core/constants/constants.dart';
-import '../../sign_in/widgets/custom_button.dart';
 
 class VerifyEmailView extends StatelessWidget {
   const VerifyEmailView({super.key});
