@@ -1,14 +1,13 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
-import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/core/function/on_will_pop.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/sign_up/cubit/sign_up_cubit.dart';
+import 'package:jobspot/src/presentations/sign_up/domain/router/sign_up_coordinator.dart';
 import 'package:jobspot/src/presentations/sign_up/widgets/applicant_tab.dart';
 import 'package:jobspot/src/presentations/sign_up/widgets/business_tab.dart';
 import 'package:jobspot/src/presentations/sign_up/widgets/slide_transition_x.dart';
@@ -48,6 +47,7 @@ class _SignUpViewState extends State<SignUpView>
 
           if (state.dataState is DataSuccess) {
             customToast(context, text: AppLocal.text.sign_up_successfully);
+            SignUpCoordinator.showVerifyEmail();
             print(state.dataState!.data);
           }
         },
@@ -94,12 +94,7 @@ class _SignUpViewState extends State<SignUpView>
                         color: AppColors.deepSaffron,
                       ),
                       recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          context.router.pushAndPopUntil(
-                            const SignInRoute(),
-                            predicate: (_) => false,
-                          );
-                        },
+                        ..onTap = SignUpCoordinator.showSignIn,
                     )
                   ],
                 ),

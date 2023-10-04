@@ -43,5 +43,16 @@
     "birthday": "Birthday",
     "gender": "Gender",
     "male": "Male",
-    "female": "Female"
+    "female": "Female",
+
+    "verify_email_page_wait_to_resend": "\nWait {time} seconds to resend",
+    "verify_email_page_check_mail_content": "We have sent a verification link to the email address ",
+    "verify_email_page_check_your_email": "Check Your Email",
+    "verify_email_page_have_not_received_email": "You have not received the email? ",
+    "verify_email_page_open_your_email": "Open your email",
+    "verify_email_page_back_to_login": "Back to login",
+    "verify_email_page_resend": "Resend",
+
+    "verify_success_page_successfully": "Successfully",
+    "verify_success_page_success_content": "You have successfully authenticated your account, please log in again"
 }
