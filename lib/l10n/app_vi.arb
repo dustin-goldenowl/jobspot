@@ -43,5 +43,14 @@
     "birthday": "Ngày sinh",
     "gender": "Giới tính",
     "male": "Nam",
-    "female": "Nữ"
+    "female": "Nữ",
+
+    "forgot_password_page_forgot_password": "Quên mật khẩu?",
+    "forgot_password_page_reset_password": "Đặt lại mật khẩu",
+    "forgot_password_page_back_to_login": "Trở về đăng nhập",
+    "forgot_password_page_forgot_password_content": "Để đặt lại mật khẩu, bạn cần có email đã được xác thực",
+
+    "check_email_page_content": "Chúng tôi đã gửi liên kết đặt lại mật khẩu đến địa chỉ email ",
+    "check_email_page_check_your_email": "Kiểm Tra Email Của Bạn",
+    "check_email_page_open_your_email": "Mở email của bạn"
 }

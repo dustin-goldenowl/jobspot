@@ -43,5 +43,14 @@
     "birthday": "Birthday",
     "gender": "Gender",
     "male": "Male",
-    "female": "Female"
+    "female": "Female",
+
+    "forgot_password_page_forgot_password": "Forgot password",
+    "forgot_password_page_reset_password": "Reset password",
+    "forgot_password_page_back_to_login": "Back to login",
+    "forgot_password_page_forgot_password_content": "To reset your password, you need your email that can be authenticated",
+
+    "check_email_page_content": "We have sent a password reset link to the email address ",
+    "check_email_page_check_your_email": "Check Your Email",
+    "check_email_page_open_your_email": "Open your emal"
 }
