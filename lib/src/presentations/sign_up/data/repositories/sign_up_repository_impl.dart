@@ -4,9 +4,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/sign_up/data/models/register_applicant_model.dart';
-import 'package:jobspot/src/presentations/sign_up/data/models/register_bussiness_model.dart';
+import 'package:jobspot/src/presentations/sign_up/data/models/register_business_model.dart';
 import 'package:jobspot/src/presentations/sign_up/domain/entities/register_applicant_entity.dart';
-import 'package:jobspot/src/presentations/sign_up/domain/entities/register_bussiness_entity.dart';
+import 'package:jobspot/src/presentations/sign_up/domain/entities/register_business_entity.dart';
 import 'package:jobspot/src/presentations/sign_up/domain/repositories/sign_up_repository.dart';
 
 @LazySingleton(as: SignUpRepository)
@@ -69,12 +69,12 @@ class SignUpRepositoryImpl extends SignUpRepository {
   }
 
   @override
-  Future<DataState<UserCredential>> signUpBussiness(
-      RegisterBussinessEntity entity) {
+  Future<DataState<UserCredential>> signUpBusiness(
+      RegisterBusinessEntity entity) {
     return signUpWithEmailPassword(
       email: entity.email,
       password: entity.password,
-      data: RegisterBussinessModel.fromEntity(entity).toJson(),
+      data: RegisterBusinessModel.fromEntity(entity).toJson(),
     );
   }
 }

@@ -8,13 +8,13 @@ import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_inpu
 import 'package:jobspot/src/presentations/sign_up/cubit/sign_up_cubit.dart';
 import 'package:jobspot/src/presentations/sign_up/widgets/birthday_widget.dart';
 
-class BussinessTab extends StatelessWidget {
-  const BussinessTab({super.key});
+class BusinessTab extends StatelessWidget {
+  const BusinessTab({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: context.read<SignUpCubit>().formKeyBussiness,
+      key: context.read<SignUpCubit>().formKeyBusiness,
       child: Column(
         children: [
           _buildInput(context),
@@ -24,10 +24,10 @@ class BussinessTab extends StatelessWidget {
             onPressed: () {
               if (context
                   .read<SignUpCubit>()
-                  .formKeyBussiness
+                  .formKeyBusiness
                   .currentState!
                   .validate()) {
-                context.read<SignUpCubit>().registerBussiness();
+                context.read<SignUpCubit>().registerBusiness();
               }
             },
           ),
@@ -40,7 +40,7 @@ class BussinessTab extends StatelessWidget {
     return Column(
       children: [
         CustomTitleTextInput(
-          controller: context.read<SignUpCubit>().nameBussinessController,
+          controller: context.read<SignUpCubit>().nameBusinessController,
           title: AppLocal.text.company_name,
           hintText: AppLocal.text.company_name,
           textCapitalization: TextCapitalization.words,
@@ -53,7 +53,7 @@ class BussinessTab extends StatelessWidget {
         ),
         const SizedBox(height: 15),
         CustomTitleTextInput(
-          controller: context.read<SignUpCubit>().emailBussinessController,
+          controller: context.read<SignUpCubit>().emailBusinessController,
           title: AppLocal.text.email,
           hintText: AppLocal.text.email,
           keyboardType: TextInputType.emailAddress,
@@ -72,7 +72,7 @@ class BussinessTab extends StatelessWidget {
         const SizedBox(height: 15),
         CustomTitleTextInput(
           controller:
-              context.read<SignUpCubit>().headquartersBussinessController,
+              context.read<SignUpCubit>().headquartersBusinessController,
           title: AppLocal.text.headquarters,
           hintText: AppLocal.text.headquarters,
           textCapitalization: TextCapitalization.words,
@@ -86,7 +86,7 @@ class BussinessTab extends StatelessWidget {
         const SizedBox(height: 15),
         CustomTitleTextInput(
           controller:
-              context.read<SignUpCubit>().employeeSizeBussinessController,
+              context.read<SignUpCubit>().employeeSizeBusinessController,
           title: AppLocal.text.employee_size,
           hintText: AppLocal.text.employee_size,
           keyboardType: TextInputType.number,
@@ -101,16 +101,16 @@ class BussinessTab extends StatelessWidget {
         const SizedBox(height: 15),
         BlocBuilder<SignUpCubit, SignUpState>(
           buildWhen: (previous, current) =>
-              current.isHideBussiness != previous.isHideBussiness,
+              current.isHideBusiness != previous.isHideBusiness,
           builder: (context, state) {
             return CustomTitleTextInput(
               controller:
-                  context.read<SignUpCubit>().passwordBussinessController,
+                  context.read<SignUpCubit>().passwordBusinessController,
               title: AppLocal.text.password,
               hintText: AppLocal.text.password,
               isPassword: true,
-              obscureText: state.isHideBussiness,
-              onHidePassword: context.read<SignUpCubit>().hidePasswordBussiness,
+              obscureText: state.isHideBusiness,
+              onHidePassword: context.read<SignUpCubit>().hidePasswordBusiness,
               validator: (value) {
                 if (value!.isEmpty) {
                   return AppLocal.text.please_enter_your_password;
@@ -126,24 +126,24 @@ class BussinessTab extends StatelessWidget {
         const SizedBox(height: 15),
         BlocBuilder<SignUpCubit, SignUpState>(
           buildWhen: (previous, current) =>
-              current.isHideRepassBussiness != previous.isHideRepassBussiness,
+              current.isHideRepassBusiness != previous.isHideRepassBusiness,
           builder: (context, state) {
             return CustomTitleTextInput(
               controller:
-                  context.read<SignUpCubit>().repasswordBussinessController,
+                  context.read<SignUpCubit>().repasswordBusinessController,
               title: AppLocal.text.repassword,
               hintText: AppLocal.text.repassword,
               isPassword: true,
-              obscureText: state.isHideRepassBussiness,
+              obscureText: state.isHideRepassBusiness,
               onHidePassword:
-                  context.read<SignUpCubit>().hideRepasswordBussiness,
+                  context.read<SignUpCubit>().hideRepasswordBusiness,
               validator: (value) {
                 if (value!.isEmpty) {
                   return AppLocal.text.confirm_your_password_again;
                 }
                 if (value.compareTo(context
                         .read<SignUpCubit>()
-                        .passwordBussinessController
+                        .passwordBusinessController
                         .text) !=
                     0) {
                   return AppLocal.text.passwords_do_not_match;

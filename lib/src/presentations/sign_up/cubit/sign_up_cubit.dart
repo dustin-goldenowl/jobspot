@@ -6,9 +6,9 @@ import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/sign_up/domain/entities/register_applicant_entity.dart';
-import 'package:jobspot/src/presentations/sign_up/domain/entities/register_bussiness_entity.dart';
+import 'package:jobspot/src/presentations/sign_up/domain/entities/register_business_entity.dart';
 import 'package:jobspot/src/presentations/sign_up/domain/use_cases/register_applicant_use_case.dart';
-import 'package:jobspot/src/presentations/sign_up/domain/use_cases/register_bussiness_use_case.dart';
+import 'package:jobspot/src/presentations/sign_up/domain/use_cases/register_business_use_case.dart';
 import 'package:jobspot/src/presentations/sign_up/domain/use_cases/register_google_use_case.dart';
 
 part 'sign_up_state.dart';
@@ -17,7 +17,7 @@ part 'sign_up_state.dart';
 class SignUpCubit extends Cubit<SignUpState> {
   //use case
   final RegisterApplicantUseCase _applicantUseCase;
-  final RegisterBussinessUseCase _bussinessUseCase;
+  final RegisterBusinessUseCase _businessUseCase;
   final RegisterGoogleUseCase _googleUseCase;
 
   //applicant
@@ -30,34 +30,34 @@ class SignUpCubit extends Cubit<SignUpState> {
   final TextEditingController repasswordApplicantController =
       TextEditingController();
 
-  //bussiness
-  final formKeyBussiness = GlobalKey<FormState>();
-  final TextEditingController nameBussinessController = TextEditingController();
-  final TextEditingController emailBussinessController =
+  //business
+  final formKeyBusiness = GlobalKey<FormState>();
+  final TextEditingController nameBusinessController = TextEditingController();
+  final TextEditingController emailBusinessController = TextEditingController();
+  final TextEditingController headquartersBusinessController =
       TextEditingController();
-  final TextEditingController headquartersBussinessController =
+  final TextEditingController employeeSizeBusinessController =
       TextEditingController();
-  final TextEditingController employeeSizeBussinessController =
+  final TextEditingController passwordBusinessController =
       TextEditingController();
-  final TextEditingController passwordBussinessController =
-      TextEditingController();
-  final TextEditingController repasswordBussinessController =
+  final TextEditingController repasswordBusinessController =
       TextEditingController();
 
   //screen
   DateTime? currentBackPressTime;
   AxisDirection axisDirection = AxisDirection.right;
+  late TabController tabController;
 
   SignUpCubit(
     this._applicantUseCase,
-    this._bussinessUseCase,
+    this._businessUseCase,
     this._googleUseCase,
   ) : super(SignUpState(
           isMale: true,
           isHideApplicant: true,
           isHideRepassApplicant: true,
-          isHideBussiness: true,
-          isHideRepassBussiness: true,
+          isHideBusiness: true,
+          isHideRepassBusiness: true,
           isLoading: false,
           founding: DateTime.now(),
           currentTab: 0,
@@ -82,11 +82,11 @@ class SignUpCubit extends Cubit<SignUpState> {
   void hideRepasswordApplicant(bool isHide) =>
       emit(state.copyWith(isHideRepassApplicant: isHide));
 
-  void hidePasswordBussiness(bool isHide) =>
-      emit(state.copyWith(isHideBussiness: isHide));
+  void hidePasswordBusiness(bool isHide) =>
+      emit(state.copyWith(isHideBusiness: isHide));
 
-  void hideRepasswordBussiness(bool isHide) =>
-      emit(state.copyWith(isHideRepassBussiness: isHide));
+  void hideRepasswordBusiness(bool isHide) =>
+      emit(state.copyWith(isHideRepassBusiness: isHide));
 
   Future registerApplicant() async {
     emit(state.copyWith(isLoading: true));
@@ -101,16 +101,16 @@ class SignUpCubit extends Cubit<SignUpState> {
     emit(state.copyWith(dataState: response));
   }
 
-  Future registerBussiness() async {
+  Future registerBusiness() async {
     emit(state.copyWith(isLoading: true));
-    final response = await _bussinessUseCase.call(
-        params: RegisterBussinessEntity(
-      email: emailBussinessController.text,
-      name: nameBussinessController.text,
-      employeeSize: employeeSizeBussinessController.text,
+    final response = await _businessUseCase.call(
+        params: RegisterBusinessEntity(
+      email: emailBusinessController.text,
+      name: nameBusinessController.text,
+      employeeSize: employeeSizeBusinessController.text,
       founding: state.founding,
-      headquarters: headquartersBussinessController.text,
-      password: passwordBussinessController.text,
+      headquarters: headquartersBusinessController.text,
+      password: passwordBusinessController.text,
     ));
     emit(state.copyWith(dataState: response));
   }

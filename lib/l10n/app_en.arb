@@ -29,7 +29,7 @@
     "full_name": "Full name",
     "repassword": "Repassword",
     "applicant": "Applicant",
-    "bussiness": "Bussiness",
+    "business": "Business",
     "confirm_your_password_again": "Please confirm your password again",
     "passwords_do_not_match": "Passwords do not match",
     "enter_employee_size": "Please enter employee size",
@@ -39,6 +39,9 @@
     "founding": "Founding",
     "enter_business_headquarters_address": "Please enter the business headquarters address",
     "headquarters": "Headquarters",
-    "full_name_cannot_left_blank": "Họ và tên không được để trống"
-
+    "full_name_cannot_left_blank": "Full name cannot left blank",
+    "birthday": "Birthday",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female"
 }

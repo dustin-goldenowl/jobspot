@@ -1,4 +1,4 @@
-class RegisterBussinessEntity {
+class RegisterBusinessEntity {
   final String name;
   final String email;
   final String password;
@@ -6,7 +6,7 @@ class RegisterBussinessEntity {
   final String headquarters;
   final String employeeSize;
 
-  RegisterBussinessEntity({
+  RegisterBusinessEntity({
     required this.email,
     required this.name,
     required this.employeeSize,

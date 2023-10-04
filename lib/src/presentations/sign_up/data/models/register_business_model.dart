@@ -1,20 +1,20 @@
-import 'package:jobspot/src/presentations/sign_up/domain/entities/register_bussiness_entity.dart';
+import 'package:jobspot/src/presentations/sign_up/domain/entities/register_business_entity.dart';
 
-class RegisterBussinessModel {
+class RegisterBusinessModel {
   final String name;
   final DateTime founding;
   final String headquarters;
   final String employeeSize;
 
-  RegisterBussinessModel({
+  RegisterBusinessModel({
     required this.name,
     required this.employeeSize,
     required this.founding,
     required this.headquarters,
   });
 
-  factory RegisterBussinessModel.fromEntity(RegisterBussinessEntity entity) {
-    return RegisterBussinessModel(
+  factory RegisterBusinessModel.fromEntity(RegisterBusinessEntity entity) {
+    return RegisterBusinessModel(
       name: entity.name,
       employeeSize: entity.employeeSize,
       founding: entity.founding,
@@ -29,7 +29,7 @@ class RegisterBussinessModel {
       "headquarters": headquarters,
       "employeeSize": employeeSize,
       "avatar": null,
-      "role": "bussiness",
+      "role": "business",
       "description": "",
       "industry": "",
       "website": "",

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/utils/date_time_utils.dart';
 
 class BirthdayWidget extends StatelessWidget {
   const BirthdayWidget({
     super.key,
-    this.title = "Birthday",
+    required this.title,
     required this.onChange,
     required this.selectedDate,
     required this.lastDate,
@@ -18,7 +18,6 @@ class BirthdayWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formater = DateFormat('dd/MM/yyyy');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -34,7 +33,7 @@ class BirthdayWidget extends StatelessWidget {
             ),
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
             child: Text(
-              formater.format(selectedDate),
+              DateTimeUtils.formatDMY.format(selectedDate),
               style: AppStyles.normalTextMulledWine,
             ),
           ),

@@ -30,7 +30,7 @@ import 'package:jobspot/src/presentations/sign_up/domain/repositories/sign_up_re
     as _i6;
 import 'package:jobspot/src/presentations/sign_up/domain/use_cases/register_applicant_use_case.dart'
     as _i8;
-import 'package:jobspot/src/presentations/sign_up/domain/use_cases/register_bussiness_use_case.dart'
+import 'package:jobspot/src/presentations/sign_up/domain/use_cases/register_business_use_case.dart'
     as _i9;
 import 'package:jobspot/src/presentations/sign_up/domain/use_cases/register_google_use_case.dart'
     as _i10;
@@ -51,8 +51,8 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i6.SignUpRepository>(() => _i7.SignUpRepositoryImpl());
     gh.lazySingleton<_i8.RegisterApplicantUseCase>(
         () => _i8.RegisterApplicantUseCase(gh<_i6.SignUpRepository>()));
-    gh.lazySingleton<_i9.RegisterBussinessUseCase>(
-        () => _i9.RegisterBussinessUseCase(gh<_i6.SignUpRepository>()));
+    gh.lazySingleton<_i9.RegisterBusinessUseCase>(
+        () => _i9.RegisterBusinessUseCase(gh<_i6.SignUpRepository>()));
     gh.lazySingleton<_i10.RegisterGoogleUseCase>(
         () => _i10.RegisterGoogleUseCase(gh<_i6.SignUpRepository>()));
     gh.lazySingleton<_i11.SignInEmailPasswordUseCase>(
@@ -61,7 +61,7 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i12.SignInGoogleUseCase(gh<_i4.SignInRepository>()));
     gh.factory<_i13.SignUpCubit>(() => _i13.SignUpCubit(
           gh<_i8.RegisterApplicantUseCase>(),
-          gh<_i9.RegisterBussinessUseCase>(),
+          gh<_i9.RegisterBusinessUseCase>(),
           gh<_i10.RegisterGoogleUseCase>(),
         ));
     gh.factory<_i14.SignInCubit>(() => _i14.SignInCubit(

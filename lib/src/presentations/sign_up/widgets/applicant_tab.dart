@@ -168,6 +168,7 @@ class ApplicantTab extends StatelessWidget {
       buildWhen: (previous, current) => current.birthday != previous.birthday,
       builder: (context, state) {
         return BirthdayWidget(
+          title: AppLocal.text.birthday,
           onChange: context.read<SignUpCubit>().changeBirthdate,
           selectedDate: state.birthday,
           lastDate: DateTime(now.year - 18, now.month, now.day),

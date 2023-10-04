@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 
 class GenderWidget extends StatelessWidget {
@@ -12,13 +13,13 @@ class GenderWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Gender", style: AppStyles.boldTextNightBlue),
+        Text(AppLocal.text.gender, style: AppStyles.boldTextNightBlue),
         const SizedBox(height: 10),
         Row(
           children: [
             Expanded(
               child: _buildGender(
-                title: "Male",
+                title: AppLocal.text.male,
                 value: true,
                 groupValue: isMale,
                 onChange: onChange,
@@ -27,7 +28,7 @@ class GenderWidget extends StatelessWidget {
             const SizedBox(width: 15),
             Expanded(
               child: _buildGender(
-                title: "Female",
+                title: AppLocal.text.female,
                 value: false,
                 groupValue: isMale,
                 onChange: onChange,

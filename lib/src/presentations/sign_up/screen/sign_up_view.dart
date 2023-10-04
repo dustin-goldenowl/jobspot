@@ -10,7 +10,7 @@ import 'package:jobspot/src/core/function/on_will_pop.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/sign_up/cubit/sign_up_cubit.dart';
 import 'package:jobspot/src/presentations/sign_up/widgets/applicant_tab.dart';
-import 'package:jobspot/src/presentations/sign_up/widgets/bussiness_tab.dart';
+import 'package:jobspot/src/presentations/sign_up/widgets/business_tab.dart';
 import 'package:jobspot/src/presentations/sign_up/widgets/slide_transition_x.dart';
 
 import '../../../core/constants/constants.dart';
@@ -24,11 +24,10 @@ class SignUpView extends StatefulWidget {
 
 class _SignUpViewState extends State<SignUpView>
     with SingleTickerProviderStateMixin {
-  late TabController tabController;
-
   @override
   void initState() {
-    tabController = TabController(length: 2, vsync: this);
+    context.read<SignUpCubit>().tabController =
+        TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -139,7 +138,7 @@ class _SignUpViewState extends State<SignUpView>
                 color: AppColors.primary,
                 borderRadius: BorderRadius.circular(10),
               ),
-              controller: tabController,
+              controller: context.read<SignUpCubit>().tabController,
               tabAlignment: TabAlignment.fill,
               dividerColor: Colors.transparent,
               indicatorSize: TabBarIndicatorSize.tab,
@@ -147,7 +146,7 @@ class _SignUpViewState extends State<SignUpView>
               onTap: context.read<SignUpCubit>().changeTab,
               tabs: [
                 Tab(text: AppLocal.text.applicant),
-                Tab(text: AppLocal.text.bussiness),
+                Tab(text: AppLocal.text.business),
               ],
             ),
           ],
@@ -179,9 +178,9 @@ class _SignUpViewState extends State<SignUpView>
             );
           },
           child: IndexedStack(
-            key: ValueKey(tabController.index),
-            index: tabController.index,
-            children: const [ApplicantTab(), BussinessTab()],
+            key: ValueKey(context.read<SignUpCubit>().tabController.index),
+            index: context.read<SignUpCubit>().tabController.index,
+            children: const [ApplicantTab(), BusinessTab()],
           ),
         );
       },

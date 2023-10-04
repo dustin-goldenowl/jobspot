@@ -29,7 +29,7 @@
     "full_name": "Họ và tên",
     "repassword": "Nhập mật khẩu lại",
     "applicant": "Applicant",
-    "bussiness": "Bussiness",
+    "business": "Business",
     "confirm_your_password_again": "Vui lòng xác nhận lại mật khẩu",
     "passwords_do_not_match": "Mật khẩu không trùng khớp",
     "enter_employee_size": "Vui lòng nhập vào quy mô nhân viên",
@@ -39,6 +39,9 @@
     "founding": "Ngày thành lập",
     "enter_business_headquarters_address": "Vui lòng nhập vào địa chỉ trụ sở doanh nghiệp",
     "headquarters": "Trụ sở",
-    "full_name_cannot_left_blank": "Họ và tên không được để trống"
-
+    "full_name_cannot_left_blank": "Họ và tên không được để trống",
+    "birthday": "Ngày sinh",
+    "gender": "Giới tính",
+    "male": "Nam",
+    "female": "Nữ"
 }

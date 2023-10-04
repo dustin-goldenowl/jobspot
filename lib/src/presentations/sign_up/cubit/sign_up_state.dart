@@ -4,8 +4,8 @@ class SignUpState extends Equatable {
   final int currentTab;
   final bool isHideApplicant;
   final bool isHideRepassApplicant;
-  final bool isHideBussiness;
-  final bool isHideRepassBussiness;
+  final bool isHideBusiness;
+  final bool isHideRepassBusiness;
   final bool isMale;
   final bool isLoading;
   final DateTime birthday;
@@ -16,8 +16,8 @@ class SignUpState extends Equatable {
     required this.currentTab,
     required this.isHideApplicant,
     required this.isHideRepassApplicant,
-    required this.isHideBussiness,
-    required this.isHideRepassBussiness,
+    required this.isHideBusiness,
+    required this.isHideRepassBusiness,
     required this.isMale,
     required this.isLoading,
     required this.birthday,
@@ -29,8 +29,8 @@ class SignUpState extends Equatable {
     int? currentTab,
     bool? isHideApplicant,
     bool? isHideRepassApplicant,
-    bool? isHideBussiness,
-    bool? isHideRepassBussiness,
+    bool? isHideBusiness,
+    bool? isHideRepassBusiness,
     bool? isMale,
     DateTime? birthday,
     DateTime? founding,
@@ -42,9 +42,8 @@ class SignUpState extends Equatable {
       isHideApplicant: isHideApplicant ?? this.isHideApplicant,
       isHideRepassApplicant:
           isHideRepassApplicant ?? this.isHideRepassApplicant,
-      isHideBussiness: isHideBussiness ?? this.isHideApplicant,
-      isHideRepassBussiness:
-          isHideRepassBussiness ?? this.isHideRepassBussiness,
+      isHideBusiness: isHideBusiness ?? this.isHideApplicant,
+      isHideRepassBusiness: isHideRepassBusiness ?? this.isHideRepassBusiness,
       isMale: isMale ?? this.isMale,
       isLoading: isLoading,
       birthday: birthday ?? this.birthday,
@@ -56,9 +55,9 @@ class SignUpState extends Equatable {
   @override
   List<Object?> get props => [
         isHideApplicant,
-        isHideBussiness,
+        isHideBusiness,
         isHideRepassApplicant,
-        isHideRepassBussiness,
+        isHideRepassBusiness,
         currentTab,
         birthday,
         founding,
