@@ -11,4 +11,6 @@ class SignInCoordinator {
 
   static void showForgotPassword() =>
       rootRouter.push(const ForgotPasswordRoute());
+
+  static void showMain() => rootRouter.replace(const MainRoute());
 }

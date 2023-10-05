@@ -126,4 +126,18 @@ class SignUpCubit extends Cubit<SignUpState> {
           dataState: DataFailed(AppLocal.text.cancel_google_register)));
     }
   }
+
+  @override
+  Future<void> close() {
+    nameApplicantController.dispose();
+    nameBusinessController.dispose();
+    emailApplicantController.dispose();
+    emailBusinessController.dispose();
+    employeeSizeBusinessController.dispose();
+    passwordApplicantController.dispose();
+    passwordBusinessController.dispose();
+    repasswordApplicantController.dispose();
+    repasswordBusinessController.dispose();
+    return super.close();
+  }
 }

@@ -18,7 +18,6 @@ class VerifyEmailView extends StatelessWidget {
       body: BlocListener<VerifyEmailCubit, VerifyEmailState>(
         listener: (context, state) {
           if (state.isVerify) {
-            context.read<VerifyEmailCubit>().dispose();
             VerifyEmailCoordinator.showVerifySuccess();
           }
         },

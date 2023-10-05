@@ -38,5 +38,10 @@ class AppRouter extends $AppRouter {
           page: VerifySuccessRoute.page,
           transitionsBuilder: TransitionsBuilders.fadeIn,
         ),
+        CustomRoute(
+          path: '/main',
+          page: MainRoute.page,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+        ),
       ];
 }

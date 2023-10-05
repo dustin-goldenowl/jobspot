@@ -24,13 +24,13 @@ class RegisterApplicantModel {
 
   Map<String, dynamic> toJson() {
     return {
-      "fullname": fullname,
+      "name": fullname,
       "email": email,
       "gender": gender,
       "birthday": birthday,
       "address": "",
       "appreciation": [],
-      "avatar": null,
+      "avatar": "",
       "role": "applicant",
       "description": "",
       "education": [],

@@ -53,6 +53,8 @@ dependencies:
   firebase_crashlytics: ^3.3.6
   cloud_firestore: ^4.9.2
   open_mail_app: ^0.4.5
+  shared_preferences: ^2.2.1
+  cached_network_image: ^3.3.0
 
 dev_dependencies:
   flutter_test:

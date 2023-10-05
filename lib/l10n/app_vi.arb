@@ -63,5 +63,30 @@
     "verify_email_page_resend": "Gửi lại",
 
     "verify_success_page_successfully": "Thành công",
-    "verify_success_page_success_content": "Bạn đã xác thực tài khoản thành công, vui lòng đăng nhập lại"
+    "verify_success_page_success_content": "Bạn đã xác thực tài khoản thành công, vui lòng đăng nhập lại",
+    
+    "connection_page_connection": "Kết nối",
+
+    "home_page_recent_job_list": "Công Việc Gần Đây",
+    "home_page_find_your_job": "Tìm Kiếm Việc Làm Của Bạn",
+    "home_page_full_time": "Full Time",
+    "home_page_part_time": "Part Time",
+    "home_page_remote_job": "Remote Job",
+    "home_page_hello": "Hello\n{name}",
+
+    "main_page_what_would_you_like_to_add": "Bạn muốn thêm gì?",
+    "main_page_content_bottom_sheet": "Bạn có muốn đăng các mẹo và kinh nghiệm của mình hoặc tạo việc làm không?",
+    "main_page_post": "Bài viết",
+    "main_page_make_job": "Tạo một công việc",
+
+    "notification_page_notifications": "Thông báo",
+    "notification_page_read_all": "Đọc tất cả",
+    "notification_page_delete": "Xóa",
+
+    "save_job_page_save_job": "Công Việc Đã Lưu",
+    "save_job_page_apply": "Ứng tuyển",
+    "save_job_page_share": "Chia sẻ",
+    "save_job_page_send_message": "Gửi tin nhắn",
+    "save_job_page_delete_all": "Xóa tất cả",
+    "save_job_page_delete": "Xóa"
 }
