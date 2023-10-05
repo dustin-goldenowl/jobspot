@@ -5,6 +5,7 @@ import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/check_email/domain/router/check_mail_coordinator.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
+import 'package:open_mail_app/open_mail_app.dart';
 
 @RoutePage()
 class CheckEmailPage extends StatelessWidget {
@@ -36,7 +37,7 @@ class CheckEmailPage extends StatelessWidget {
                     ),
                     TextSpan(
                       text: email,
-                      style: TextStyle(color: AppColors.haiti),
+                      style: AppStyles.normalTextHaiti,
                     )
                   ],
                 ),
@@ -47,7 +48,7 @@ class CheckEmailPage extends StatelessWidget {
               CustomButton(
                 title: AppLocal.text.check_email_page_open_your_email
                     .toUpperCase(),
-                onPressed: () {},
+                onPressed: OpenMailApp.openMailApp,
               ),
               const SizedBox(height: 20),
               CustomButton(

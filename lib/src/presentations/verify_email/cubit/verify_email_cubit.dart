@@ -42,12 +42,14 @@ class VerifyEmailCubit extends Cubit<VerifyEmailState> {
 
   Future openMailApp() async => await OpenMailApp.openMailApp();
 
-  void dispose() {
+  @override
+  Future<void> close() {
     if (timer != null) {
       timer!.cancel();
     }
     if (countdown != null) {
       countdown!.cancel();
     }
+    return super.close();
   }
 }

@@ -63,5 +63,31 @@
     "verify_email_page_resend": "Resend",
 
     "verify_success_page_successfully": "Successfully",
-    "verify_success_page_success_content": "You have successfully authenticated your account, please log in again"
+    "verify_success_page_success_content": "You have successfully authenticated your account, please log in again",
+
+    "connection_page_connection": "Connection",
+
+    "home_page_recent_job_list": "Recent Job List",
+    "home_page_find_your_job": "Find Your Job",
+    "home_page_full_time": "Full Time",
+    "home_page_part_time": "Part Time",
+    "home_page_remote_job": "Remote Job",
+    "home_page_hello": "Hello\n{name}",
+
+    "main_page_what_would_you_like_to_add": "What would you like to add?",
+    "main_page_content_bottom_sheet": "Would you like to post your tips and experiences or create a job?",
+    "main_page_post": "Post",
+    "main_page_make_job": "Make a job",
+
+    "notification_page_notifications": "Notifications",
+    "notification_page_read_all": "Read all",
+    "notification_page_delete": "Delete",
+
+    "save_job_page_save_job": "Save Job",
+    "save_job_page_apply": "Apply",
+    "save_job_page_share": "Share",
+    "save_job_page_send_message": "Send message",
+    "save_job_page_delete_all": "Delete all",
+    "save_job_page_feature_not_yet_released": "Feature not yet released",
+    "save_job_page_delete": "Delete"
 }

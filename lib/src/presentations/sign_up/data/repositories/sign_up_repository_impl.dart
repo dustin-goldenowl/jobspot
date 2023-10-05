@@ -11,6 +11,44 @@ import 'package:jobspot/src/presentations/sign_up/domain/repositories/sign_up_re
 
 @LazySingleton(as: SignUpRepository)
 class SignUpRepositoryImpl extends SignUpRepository {
+  @override
+  Future<DataState<UserCredential>> signUpApplicant(
+      RegisterApplicantEntity entity) async {
+    return signUpWithEmailPassword(
+      email: entity.email,
+      password: entity.password,
+      data: RegisterApplicantModel.fromEntity(entity).toJson(),
+    );
+  }
+
+  @override
+  Future<DataState<UserCredential>> signUpWithGoogle(
+      GoogleSignInAccount googleUser) async {
+    try {
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final googleCredential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      final credential =
+          await FirebaseAuth.instance.signInWithCredential(googleCredential);
+      return DataSuccess(credential);
+    } catch (e) {
+      return DataFailed(e.toString());
+    }
+  }
+
+  @override
+  Future<DataState<UserCredential>> signUpBusiness(
+      RegisterBusinessEntity entity) {
+    return signUpWithEmailPassword(
+      email: entity.email,
+      password: entity.password,
+      data: RegisterBusinessModel.fromEntity(entity).toJson(),
+    );
+  }
+
   Future<DataState<UserCredential>> signUpWithEmailPassword({
     required String email,
     required String password,
@@ -38,43 +76,5 @@ class SignUpRepositoryImpl extends SignUpRepository {
       print(e);
       return DataFailed(e.toString());
     }
-  }
-
-  @override
-  Future<DataState<UserCredential>> signUpApplicant(
-      RegisterApplicantEntity entity) async {
-    return signUpWithEmailPassword(
-      email: entity.email,
-      password: entity.password,
-      data: RegisterApplicantModel.fromEntity(entity).toJson(),
-    );
-  }
-
-  @override
-  Future<DataState<UserCredential>> signUpWithGoogle(
-      GoogleSignInAccount googleUser) async {
-    try {
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      return DataSuccess(
-        await FirebaseAuth.instance.signInWithCredential(credential),
-      );
-    } catch (e) {
-      return DataFailed(e.toString());
-    }
-  }
-
-  @override
-  Future<DataState<UserCredential>> signUpBusiness(
-      RegisterBusinessEntity entity) {
-    return signUpWithEmailPassword(
-      email: entity.email,
-      password: entity.password,
-      data: RegisterBusinessModel.fromEntity(entity).toJson(),
-    );
   }
 }

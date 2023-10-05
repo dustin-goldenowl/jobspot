@@ -29,10 +29,10 @@ class RegisterBusinessModel {
     return {
       "name": name,
       "email": email,
-      "founding": founding,
-      "headquarters": headquarters,
+      "birthday": founding,
+      "address": headquarters,
       "employeeSize": employeeSize,
-      "avatar": null,
+      "avatar": "",
       "role": "business",
       "description": "",
       "industry": "",

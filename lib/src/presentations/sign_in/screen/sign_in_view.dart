@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jobspot/injection.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
@@ -41,8 +40,7 @@ class SignInView extends StatelessWidget {
 
           if (state.dataState is DataSuccess) {
             customToast(context, text: AppLocal.text.logged_in_successfully);
-            GoogleSignIn().signOut();
-            print(state.dataState!.data);
+            SignInCoordinator.showMain();
           }
         },
         child: WillPopScope(
@@ -228,7 +226,7 @@ class SignInView extends StatelessWidget {
         ),
         Text(
           AppLocal.text.remember_me,
-          style: TextStyle(color: AppColors.spunPearl),
+          style: AppStyles.normalTextSpunPearl,
         ),
       ],
     );
