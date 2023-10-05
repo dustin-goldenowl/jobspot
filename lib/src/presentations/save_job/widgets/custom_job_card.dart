@@ -78,14 +78,14 @@ class CustomJobCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "25 minute ago",
+                  "25 minute ago", //Hard text to test UI
                   style: AppStyles.normalTextSpunPearl,
                 ),
                 RichText(
                   text: TextSpan(
                     children: [
                       const TextSpan(
-                        text: "\$15K",
+                        text: "\$15K", //Hard text to test UI
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w700,
@@ -93,7 +93,7 @@ class CustomJobCard extends StatelessWidget {
                         ),
                       ),
                       TextSpan(
-                        text: "/Mo",
+                        text: "/Mo", //Hard text to test UI
                         style: AppStyles.normalTextSpunPearl,
                       )
                     ],

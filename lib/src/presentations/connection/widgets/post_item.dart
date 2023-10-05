@@ -23,17 +23,17 @@ class PostItem extends StatelessWidget {
               children: [
                 _buildHeaderPost(
                   context,
-                  name: "Arnold Leonardo",
+                  name: "Arnold Leonardo", //Hard text to test UI
                   time: "21 minuts ago",
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  "What are the characteristics of a fake job call form?",
+                  "What are the characteristics of a fake job call form?", //Hard text to test UI
                   style: AppStyles.boldTextHaiti,
                 ),
                 const SizedBox(height: 15),
                 Text(
-                  "Because I always find fake job calls so I'm confused which job to take can you share your knowledge here? thank you",
+                  "Because I always find fake job calls so I'm confused which job to take can you share your knowledge here? thank you", //Hard text to test UI
                   style: AppStyles.normalTextMulledWine,
                 ),
               ],
@@ -54,7 +54,9 @@ class PostItem extends StatelessWidget {
     return Row(
       children: [
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            // TODO: open page profile of post
+          },
           child: SvgPicture.asset(AppImages.google, height: 50, width: 50),
         ),
         const SizedBox(width: 10),
@@ -90,7 +92,9 @@ class PostItem extends StatelessWidget {
       child: Row(
         children: [
           _buildItemReaction(
-            onTap: () {},
+            onTap: () {
+              // TODO: tap to favourist
+            },
             icon: const Icon(
               FontAwesomeIcons.solidHeart,
               color: Color(0xFFFF4D46),
@@ -100,13 +104,17 @@ class PostItem extends StatelessWidget {
           ),
           const SizedBox(width: 28),
           _buildItemReaction(
-            onTap: () {},
+            onTap: () {
+              // TODO: tap to open comment
+            },
             icon: SvgPicture.asset(AppImages.comment),
             quantity: 10,
           ),
           const Spacer(),
           _buildItemReaction(
-            onTap: () {},
+            onTap: () {
+              // TODO: tap to share post
+            },
             icon: SvgPicture.asset(AppImages.share),
             quantity: 10,
           )
@@ -128,7 +136,7 @@ class PostItem extends StatelessWidget {
           const SizedBox(width: 5),
           Text(
             "$quantity",
-            style: const TextStyle(color: Color(0xFF6F6B80)),
+            style: TextStyle(color: AppColors.oldLavender),
           ),
         ],
       ),

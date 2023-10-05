@@ -16,4 +16,10 @@ class AppColors {
   static Color haiti = const Color(0xFF150B3D);
   static Color santaGrey = const Color(0xFFA49EB5);
   static Color ghost = const Color(0xFFCBC9D4);
+  static Color oldLavender = const Color(0xFF6F6B80);
+  static Color veryLightBlue = const Color(0xFF7551FF);
+  static Color tartOrange = const Color(0xFFFF4B4B);
+  static Color davyGrey = const Color(0xFF5B5858);
+  static Color independence = const Color(0xFF524B6C);
+  static Color wildBlueYonder = const Color(0xFF99ABC6);
 }

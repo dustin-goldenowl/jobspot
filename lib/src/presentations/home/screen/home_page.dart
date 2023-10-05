@@ -138,7 +138,7 @@ class HomePage extends StatelessWidget {
                 _buildJobContainer(
                   width: width,
                   title: AppLocal.text.home_page_full_time,
-                  quantity: "66.8k",
+                  quantity: "66.8k", //Hard text to test UI
                   color: const Color(0xFFBEAFFE),
                   onTap: () {},
                 ),
@@ -146,7 +146,7 @@ class HomePage extends StatelessWidget {
                 _buildJobContainer(
                   width: width,
                   title: AppLocal.text.home_page_part_time,
-                  quantity: "38.9k",
+                  quantity: "38.9k", //Hard text to test UI
                   color: const Color(0xFFFFD6AD),
                   onTap: () {},
                 ),

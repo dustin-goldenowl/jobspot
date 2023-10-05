@@ -17,13 +17,13 @@ class NotificationItem extends StatelessWidget {
         padding: const EdgeInsets.all(AppDimens.smallPadding),
         decoration: BoxDecoration(
           color:
-              isRead ? const Color(0xFF7551FF).withOpacity(0.1) : Colors.white,
+              isRead ? AppColors.veryLightBlue.withOpacity(0.1) : Colors.white,
           borderRadius: BorderRadius.circular(16),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-              color: Color.fromARGB(18, 153, 171, 198),
+              color: AppColors.wildBlueYonder.withAlpha(18),
               blurRadius: 62,
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
             ),
           ],
         ),
@@ -41,7 +41,7 @@ class NotificationItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    "Applications for Apple companies have entered for company review",
+                    "Applications for Apple companies have entered for company review", //Hard text to test UI
                     style: AppStyles.normalTextMulledWine,
                   ),
                   const SizedBox(height: 15),
@@ -49,13 +49,13 @@ class NotificationItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "1 Day ago",
+                        "1 Day ago", //Hard text to test UI
                         style: AppStyles.normalTextSpunPearl,
                       ),
                       TextButton(
                         onPressed: () {},
                         style: TextButton.styleFrom(
-                          foregroundColor: const Color(0xFFFF4B4B),
+                          foregroundColor: AppColors.tartOrange,
                         ),
                         child: Text(AppLocal.text.notification_page_delete),
                       )
