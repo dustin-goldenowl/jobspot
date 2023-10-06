@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
+import 'package:jobspot/src/presentations/main/domain/router/main_coordinator.dart';
 
 class BottomSheetPostOptionView extends StatelessWidget {
   const BottomSheetPostOptionView({super.key});
@@ -39,7 +40,7 @@ class BottomSheetPostOptionView extends StatelessWidget {
           CustomButton(
             onPressed: () {
               context.router.pop();
-              //TODO show create post page
+              MainCoordinator.showAddPost();
             },
             title: AppLocal.text.main_page_post.toUpperCase(),
           ),

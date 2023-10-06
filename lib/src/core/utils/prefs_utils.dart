@@ -9,6 +9,10 @@ class PrefsUtils {
 
   static SharedPreferences get prefs => getIt<SharedPreferences>();
 
+  static bool get isFirstOpen => prefs.getBool("first_open") ?? false;
+
+  static Future openedApp() async => await prefs.setBool("first_open", true);
+
   static Future saveUserInfo(Map<String, dynamic> data) async =>
       await prefs.setString("user", jsonEncode(data));
 

@@ -7,7 +7,7 @@ import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 class AppRouter extends $AppRouter {
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: OnBoardingRoute.page, initial: true),
+        AutoRoute(page: OnBoardingRoute.page),
         CustomRoute(
           path: '/signIn',
           page: SignInRoute.page,
@@ -42,6 +42,11 @@ class AppRouter extends $AppRouter {
           path: '/main',
           page: MainRoute.page,
           transitionsBuilder: TransitionsBuilders.fadeIn,
+        ),
+        CustomRoute(
+          path: '/addPost',
+          page: AddPostRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
       ];
 }

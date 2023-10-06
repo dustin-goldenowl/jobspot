@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:jobspot/injection.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
@@ -14,17 +13,12 @@ import 'package:jobspot/src/presentations/sign_in/cubit/sign_in_cubit.dart';
 import 'package:jobspot/src/presentations/sign_in/domain/router/sign_in_coordinator.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_input.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignInView extends StatelessWidget {
   const SignInView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    if (!getIt.isRegistered<AppLocalizations>()) {
-      getIt.registerSingleton(AppLocalizations.of(context)!);
-    }
-
     return Scaffold(
       body: BlocListener<SignInCubit, SignInState>(
         listenWhen: (previous, current) {

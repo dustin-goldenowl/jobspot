@@ -1,6 +1,10 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:jobspot/injection.dart';
 import 'package:jobspot/src/core/config/router/app_router.dart';
+import 'package:jobspot/src/core/config/router/app_router.gr.dart';
+import 'package:jobspot/src/core/utils/prefs_utils.dart';
 
 import 'src/core/config/localization/app_localizations_setup.dart';
 import 'src/core/constants/constants.dart';
@@ -32,7 +36,20 @@ class JobspotApp extends StatelessWidget {
           ),
         ),
       ),
-      routerConfig: getIt<AppRouter>().config(),
+      routerConfig: getIt<AppRouter>().config(
+        deepLinkBuilder: (deepLink) {
+          if (PrefsUtils.isFirstOpen) {
+            PrefsUtils.openedApp();
+            return const DeepLink([OnBoardingRoute()]);
+          } else {
+            if (FirebaseAuth.instance.currentUser != null) {
+              return const DeepLink([MainRoute()]);
+            } else {
+              return const DeepLink([SignInRoute()]);
+            }
+          }
+        },
+      ),
     );
   }
 }
