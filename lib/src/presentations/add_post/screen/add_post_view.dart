@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
+import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
@@ -104,7 +105,8 @@ class AddPostView extends StatelessWidget {
                       ? SvgPicture.asset(AppImages.logo, height: 60, width: 60)
                       : CachedNetworkImage(
                           imageUrl: user.avatar,
-                          placeholder: (_, __) => const SizedBox(),
+                          placeholder: (_, __) => const ItemLoading(
+                              width: 60, height: 60, radius: 0),
                           errorWidget: (_, __, ___) =>
                               const Icon(Icons.warning),
                           height: 60,
@@ -167,6 +169,8 @@ class AddPostView extends StatelessWidget {
                         width: 100,
                         height: 100,
                         fit: BoxFit.fill,
+                        placeholder: (context, url) => const ItemLoading(
+                            width: 100, height: 100, radius: 0),
                       )
                     else
                       Image.file(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/common/widgets/image_widget/widget/image_widget.dart';
+import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/constants/constants.dart';
@@ -66,6 +67,8 @@ class PostItem extends StatelessWidget {
                     imageUrl: post.user!.avatar,
                     width: 50,
                     height: 50,
+                    placeholder: (context, url) =>
+                        const ItemLoading(width: 50, height: 50, radius: 0),
                   ),
           ),
         ),

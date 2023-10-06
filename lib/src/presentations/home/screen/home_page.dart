@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
@@ -102,7 +103,8 @@ class HomePage extends StatelessWidget {
                       ? SvgPicture.asset(AppImages.logo, height: 40, width: 40)
                       : CachedNetworkImage(
                           imageUrl: user.avatar,
-                          placeholder: (_, __) => const SizedBox(),
+                          placeholder: (_, __) => const ItemLoading(
+                              width: 40, height: 40, radius: 0),
                           errorWidget: (_, __, ___) =>
                               const Icon(Icons.warning),
                           height: 40,

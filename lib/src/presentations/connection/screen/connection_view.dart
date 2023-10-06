@@ -5,6 +5,7 @@ import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/connection/cubit/connection_cubit.dart'
     as cubit;
 import 'package:jobspot/src/presentations/connection/widgets/post_item.dart';
+import 'package:jobspot/src/presentations/connection/widgets/post_loading.dart';
 
 class ConnectionView extends StatelessWidget {
   const ConnectionView({super.key});
@@ -27,21 +28,20 @@ class ConnectionView extends StatelessWidget {
           },
           child: BlocBuilder<cubit.ConnectionCubit, cubit.ConnectionState>(
             builder: (context, state) {
-              if (state.posts != null) {
-                return ListView.separated(
-                  itemCount: state.posts!.length,
-                  physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics(),
-                  ),
-                  padding: const EdgeInsets.all(AppDimens.smallPadding),
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 20),
-                  itemBuilder: (context, index) {
-                    return PostItem(post: state.posts![index]);
-                  },
-                );
-              }
-              return const Center(child: CircularProgressIndicator());
+              return ListView.separated(
+                itemCount: state.posts?.length ?? 10,
+                physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics(),
+                ),
+                padding: const EdgeInsets.all(AppDimens.smallPadding),
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 20),
+                itemBuilder: (context, index) {
+                  return state.posts == null
+                      ? const PostLoading()
+                      : PostItem(post: state.posts![index]);
+                },
+              );
             },
           ),
         ),

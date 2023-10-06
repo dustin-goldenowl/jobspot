@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobspot/src/core/common/widgets/image_widget/cubit/image_widget_cubit.dart';
+import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -89,9 +90,8 @@ class ImageWidgetView extends StatelessWidget {
                           height: 150,
                           width: 150,
                           fit: BoxFit.cover,
-                          placeholder: (context, url) => const Center(
-                            child: CircularProgressIndicator(),
-                          ),
+                          placeholder: (context, url) => const ItemLoading(
+                              width: 150, height: 150, radius: 0),
                           errorWidget: (context, url, error) =>
                               Image.asset(AppImages.logo, fit: BoxFit.cover),
                         )
