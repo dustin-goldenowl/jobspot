@@ -27,6 +27,7 @@ class PostModel {
       "images": images,
       "like": [],
       "comment": [],
+      "share": [],
       "owner": FirebaseAuth.instance.currentUser!.uid,
       "createAt": DateTime.now(),
       "updateAt": DateTime.now(),

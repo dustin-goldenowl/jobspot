@@ -8,7 +8,7 @@ import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/forgot_password/cubit/forgot_password_cubit.dart';
-import 'package:jobspot/src/presentations/forgot_password/domain/forgot_password_coordinator.dart';
+import 'package:jobspot/src/presentations/forgot_password/domain/router/forgot_password_coordinator.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_input.dart';
 

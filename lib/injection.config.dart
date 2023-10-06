@@ -19,7 +19,7 @@ import 'package:jobspot/src/presentations/add_post/data/repositories/add_post_re
     as _i4;
 import 'package:jobspot/src/presentations/add_post/domain/repositories/add_post_repository.dart'
     as _i3;
-import 'package:jobspot/src/presentations/add_post/domain/use_case/add_post_use_case.dart'
+import 'package:jobspot/src/presentations/add_post/domain/use_cases/add_post_use_case.dart'
     as _i5;
 import 'package:jobspot/src/presentations/sign_in/cubit/sign_in_cubit.dart'
     as _i19;

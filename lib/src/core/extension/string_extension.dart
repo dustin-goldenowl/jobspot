@@ -3,4 +3,8 @@ extension StringExtension on String {
     return RegExp(r"^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$")
         .hasMatch(this);
   }
+
+  bool get isLink => contains("https://") || contains("http://");
+
+  bool get isAssets => contains("assets/");
 }

@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/permission_service.dart';
 import 'package:jobspot/src/presentations/add_post/domain/entities/post_entity.dart';
-import 'package:jobspot/src/presentations/add_post/domain/use_case/add_post_use_case.dart';
+import 'package:jobspot/src/presentations/add_post/domain/use_cases/add_post_use_case.dart';
 
 part 'add_post_state.dart';
 

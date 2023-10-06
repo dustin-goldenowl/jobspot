@@ -57,6 +57,10 @@ dependencies:
   cached_network_image: ^3.3.0
   image_picker: ^1.0.4
   permission_handler: ^11.0.1
+  timeago: ^3.5.0
+  smooth_page_indicator: ^1.1.0
+  zoom_pinch_overlay: ^1.4.1+3
+  easy_image_viewer: ^1.2.1
 
 dev_dependencies:
   flutter_test:
