@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jobspot/src/presentations/add_post/domain/entities/update_post_entity.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 
 class PostModel {
@@ -81,5 +82,15 @@ class PostModel {
       "createAt": createAt,
       "updateAt": DateTime.now(),
     };
+  }
+
+  UpdatePostEntity toUpdatePostEntity() {
+    return UpdatePostEntity(
+      id: id,
+      title: title,
+      images: images,
+      description: description,
+      removeImages: [],
+    );
   }
 }

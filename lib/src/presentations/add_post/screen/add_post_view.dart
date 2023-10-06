@@ -9,6 +9,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
@@ -30,12 +31,19 @@ class AddPostView extends StatelessWidget {
         scrolledUnderElevation: 0,
         actions: [
           TextButton(
-            onPressed: context.read<AddPostCubit>().addPost,
+            onPressed: context.read<AddPostCubit>().isEdit
+                ? context.read<AddPostCubit>().updatePost
+                : context.read<AddPostCubit>().addPost,
             style: TextButton.styleFrom(foregroundColor: AppColors.deepSaffron),
-            child: Text(AppLocal.text.add_post_page_post),
+            child: Text(
+              context.read<AddPostCubit>().isEdit
+                  ? AppLocal.text.add_post_page_update
+                  : AppLocal.text.add_post_page_post,
+            ),
           ),
         ],
       ),
+      resizeToAvoidBottomInset: false,
       bottomNavigationBar: Container(
         color: Colors.white,
         height: 70,
@@ -83,7 +91,9 @@ class AddPostView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              AppLocal.text.add_post_page_add_post,
+              context.read<AddPostCubit>().isEdit
+                  ? AppLocal.text.add_post_page_edit_post
+                  : AppLocal.text.add_post_page_add_post,
               style: AppStyles.boldTextHaiti.copyWith(fontSize: 18),
             ),
             const SizedBox(height: 32),
@@ -148,18 +158,23 @@ class AddPostView extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
+                String image = context.read<AddPostCubit>().state.images[index];
                 return Stack(
                   children: [
-                    Image.file(
-                      File(context
-                          .read<AddPostCubit>()
-                          .state
-                          .images[index]
-                          .path),
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.fill,
-                    ),
+                    if (image.isLink)
+                      CachedNetworkImage(
+                        imageUrl: image,
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.fill,
+                      )
+                    else
+                      Image.file(
+                        File(image),
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.fill,
+                      ),
                     Positioned(
                       right: 0,
                       child: GestureDetector(

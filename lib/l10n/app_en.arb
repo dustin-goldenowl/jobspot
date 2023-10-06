@@ -92,9 +92,11 @@
     "save_job_page_delete": "Delete",
 
     "add_post_page_add_post": "Add post",
+    "add_post_page_edit_post": "Edit post",
     "add_post_page_post_title": "Post title",
     "add_post_page_post_title_hint": "Write the title of your post here",
     "add_post_page_description": "Description",
     "add_post_page_description_hint": "What do you want to talk about?",
+    "add_post_page_update": "Update",
     "add_post_page_post": "Post"
 }

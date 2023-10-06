@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/common/widgets/image_widget/widget/image_widget.dart';
+import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
@@ -53,6 +55,8 @@ class PostItem extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
+            //Temporarily assigned to test the post editing function
+            context.router.push(AddPostRoute(post: post.toUpdatePostEntity()));
             // TODO: open page profile of post
           },
           child: ClipOval(

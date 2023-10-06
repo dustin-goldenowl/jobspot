@@ -10,6 +10,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i10;
 import 'package:flutter/material.dart' as _i11;
+import 'package:jobspot/src/presentations/add_post/domain/entities/update_post_entity.dart'
+    as _i12;
 import 'package:jobspot/src/presentations/add_post/screen/add_post_page.dart'
     as _i1;
 import 'package:jobspot/src/presentations/check_email/screen/check_email_page.dart'
@@ -34,9 +36,14 @@ abstract class $AppRouter extends _i10.RootStackRouter {
   @override
   final Map<String, _i10.PageFactory> pagesMap = {
     AddPostRoute.name: (routeData) {
+      final args = routeData.argsAs<AddPostRouteArgs>(
+          orElse: () => const AddPostRouteArgs());
       return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i1.AddPostPage(),
+        child: _i1.AddPostPage(
+          key: args.key,
+          post: args.post,
+        ),
       );
     },
     CheckEmailRoute.name: (routeData) {
@@ -96,16 +103,40 @@ abstract class $AppRouter extends _i10.RootStackRouter {
 
 /// generated route for
 /// [_i1.AddPostPage]
-class AddPostRoute extends _i10.PageRouteInfo<void> {
-  const AddPostRoute({List<_i10.PageRouteInfo>? children})
-      : super(
+class AddPostRoute extends _i10.PageRouteInfo<AddPostRouteArgs> {
+  AddPostRoute({
+    _i11.Key? key,
+    _i12.UpdatePostEntity? post,
+    List<_i10.PageRouteInfo>? children,
+  }) : super(
           AddPostRoute.name,
+          args: AddPostRouteArgs(
+            key: key,
+            post: post,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'AddPostRoute';
 
-  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
+  static const _i10.PageInfo<AddPostRouteArgs> page =
+      _i10.PageInfo<AddPostRouteArgs>(name);
+}
+
+class AddPostRouteArgs {
+  const AddPostRouteArgs({
+    this.key,
+    this.post,
+  });
+
+  final _i11.Key? key;
+
+  final _i12.UpdatePostEntity? post;
+
+  @override
+  String toString() {
+    return 'AddPostRouteArgs{key: $key, post: $post}';
+  }
 }
 
 /// generated route for

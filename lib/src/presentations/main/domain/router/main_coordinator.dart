@@ -7,5 +7,5 @@ class MainCoordinator {
 
   static AppRouter get rootRouter => getIt<AppRouter>();
 
-  static void showAddPost() => rootRouter.push(const AddPostRoute());
+  static void showAddPost() => rootRouter.push(AddPostRoute());
 }

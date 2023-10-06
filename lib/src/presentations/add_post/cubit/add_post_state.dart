@@ -5,24 +5,28 @@ class AddPostState extends Equatable {
     this.dataState,
     required this.isLoading,
     required this.images,
+    required this.removeImages,
   });
 
   final bool isLoading;
   final DataState? dataState;
-  final List<XFile> images;
+  final List<String> images;
+  final List<String> removeImages;
 
   AddPostState copyWith({
     DataState? dataState,
     bool isLoading = false,
-    List<XFile>? images,
+    List<String>? images,
+    List<String>? removeImages,
   }) {
     return AddPostState(
       isLoading: isLoading,
       dataState: dataState,
       images: images ?? this.images,
+      removeImages: removeImages ?? this.removeImages,
     );
   }
 
   @override
-  List<Object?> get props => [dataState, isLoading, images];
+  List<Object?> get props => [dataState, isLoading, images, removeImages];
 }
