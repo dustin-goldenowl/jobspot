@@ -29,7 +29,9 @@ class ConnectionView extends StatelessWidget {
           child: BlocBuilder<cubit.ConnectionCubit, cubit.ConnectionState>(
             builder: (context, state) {
               return ListView.separated(
-                itemCount: state.posts?.length ?? 10,
+                controller:
+                    context.read<cubit.ConnectionCubit>().scrollController,
+                itemCount: (state.posts?.length ?? 10) + (state.isMore ? 1 : 0),
                 physics: const BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics(),
                 ),
@@ -37,9 +39,9 @@ class ConnectionView extends StatelessWidget {
                 separatorBuilder: (context, index) =>
                     const SizedBox(height: 20),
                 itemBuilder: (context, index) {
-                  return state.posts == null
-                      ? const PostLoading()
-                      : PostItem(post: state.posts![index]);
+                  return state.posts != null && index < state.posts!.length
+                      ? PostItem(post: state.posts![index])
+                      : const PostLoading();
                 },
               );
             },

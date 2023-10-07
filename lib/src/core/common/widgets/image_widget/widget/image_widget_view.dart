@@ -82,7 +82,7 @@ class ImageWidgetView extends StatelessWidget {
             child: SizedBox(
               width: size,
               height: size,
-              child: image.contains("assets/")
+              child: image.isAssets
                   ? Image.asset(image, fit: BoxFit.cover)
                   : (image.isLink
                       ? CachedNetworkImage(
