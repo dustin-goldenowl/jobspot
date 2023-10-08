@@ -9,7 +9,6 @@ class UserModel {
   DateTime birthday;
   String address;
   String description;
-  List<dynamic> posts;
   List<dynamic> follower;
   List<dynamic> following;
   DateTime updateAt;
@@ -30,7 +29,6 @@ class UserModel {
   String? industry;
   String? employeeSize;
   List<String>? images;
-  List<String>? jobs;
   List<String>? specialization;
 
   UserModel({
@@ -43,7 +41,6 @@ class UserModel {
     required this.follower,
     required this.updateAt,
     required this.createAt,
-    required this.posts,
     required this.resume,
     required this.role,
     required this.education,
@@ -57,7 +54,6 @@ class UserModel {
     required this.images,
     required this.industry,
     required this.isAccept,
-    required this.jobs,
     required this.specialization,
     required this.website,
   });
@@ -72,7 +68,7 @@ class UserModel {
         education: json["education"] != null
             ? List<String>.from(json["education"].map((x) => x))
             : null,
-        follower: json["follower"] as List<dynamic>,
+        follower: List<String>.from(json["follower"].map((x) => x)),
         gender: json["gender"],
         workExperience: json["workExperience"] != null
             ? List<String>.from(json["workExperience"].map((x) => x))
@@ -86,9 +82,8 @@ class UserModel {
             ? List<String>.from(json["language"].map((x) => x))
             : null,
         avatar: json["avatar"],
-        posts: json["posts"] as List<dynamic>,
         createAt: DateTime.parse(json["createAt"]),
-        following: json["following"] as List<dynamic>,
+        following: List<String>.from(json["following"].map((x) => x)),
         skill: json["skill"] != null
             ? List<String>.from(json["skill"].map((x) => x))
             : null,
@@ -99,9 +94,6 @@ class UserModel {
             ? List<String>.from(json["images"].map((x) => x))
             : null,
         isAccept: json["isAccept"],
-        jobs: json["jobs"] != null
-            ? List<String>.from(json["jobs"].map((x) => x))
-            : null,
         industry: json["industry"],
         employeeSize: json["employeeSize"],
         specialization: json["specialization"] != null
@@ -119,7 +111,7 @@ class UserModel {
         education: json["education"] != null
             ? List<String>.from(json["education"].map((x) => x))
             : null,
-        follower: json["follower"] as List<dynamic>,
+        follower: List<String>.from(json["follower"].map((x) => x)),
         gender: json["gender"],
         workExperience: json["workExperience"] != null
             ? List<String>.from(json["workExperience"].map((x) => x))
@@ -133,9 +125,8 @@ class UserModel {
             ? List<String>.from(json["language"].map((x) => x))
             : null,
         avatar: json["avatar"],
-        posts: json["posts"] as List<dynamic>,
         createAt: (json["createAt"] as Timestamp).toDate(),
-        following: json["following"] as List<dynamic>,
+        following: List<String>.from(json["following"].map((x) => x)),
         skill: json["skill"] != null
             ? List<String>.from(json["skill"].map((x) => x))
             : null,
@@ -146,9 +137,6 @@ class UserModel {
             ? List<String>.from(json["images"].map((x) => x))
             : null,
         isAccept: json["isAccept"],
-        jobs: json["jobs"] != null
-            ? List<String>.from(json["jobs"].map((x) => x))
-            : null,
         industry: json["industry"],
         employeeSize: json["employeeSize"],
         specialization: json["specialization"] != null
@@ -156,32 +144,46 @@ class UserModel {
             : null,
       );
 
-  Map<String, dynamic> toJson() => {
-        "birthday": birthday.toIso8601String(),
-        if (resume != null) "resume": resume,
-        "address": address,
-        "role": role,
-        if (education != null) "education": education,
-        "follower": follower,
-        "gender": gender,
-        if (workExperience != null) "workExperience": workExperience,
-        if (appreciation != null) "appreciation": appreciation,
-        "description": description,
-        "updateAt": updateAt.toIso8601String(),
-        if (language != null) "language": language,
-        "avatar": avatar,
-        "posts": posts,
-        "createAt": createAt.toIso8601String(),
-        "following": following,
-        if (skill != null) "skill": skill,
-        "name": name,
-        "email": email,
-        "website": website,
-        if (images != null) "images": images,
-        "isAccept": isAccept,
-        if (jobs != null) "jobs": jobs,
-        "industry": industry,
-        "employeeSize": employeeSize,
-        if (specialization != null) "specialization": specialization,
-      };
+  Map<String, dynamic> toJson() {
+    return role == "business"
+        ? {
+            "birthday": birthday.toIso8601String(),
+            "address": address,
+            "role": role,
+            "follower": follower,
+            "description": description,
+            "updateAt": updateAt.toIso8601String(),
+            "avatar": avatar,
+            "createAt": createAt.toIso8601String(),
+            "following": following,
+            "name": name,
+            "email": email,
+            "website": website,
+            "images": images,
+            "isAccept": isAccept,
+            "industry": industry,
+            "employeeSize": employeeSize,
+            "specialization": specialization,
+          }
+        : {
+            "birthday": birthday.toIso8601String(),
+            "resume": resume,
+            "address": address,
+            "role": role,
+            "education": education,
+            "follower": follower,
+            "gender": gender,
+            "workExperience": workExperience,
+            "appreciation": appreciation,
+            "description": description,
+            "updateAt": updateAt.toIso8601String(),
+            "language": language,
+            "avatar": avatar,
+            "createAt": createAt.toIso8601String(),
+            "following": following,
+            "skill": skill,
+            "name": name,
+            "email": email,
+          };
+  }
 }

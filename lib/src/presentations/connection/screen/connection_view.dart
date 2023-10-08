@@ -31,7 +31,7 @@ class ConnectionView extends StatelessWidget {
               return ListView.separated(
                 controller:
                     context.read<cubit.ConnectionCubit>().scrollController,
-                itemCount: (state.posts?.length ?? 10) + (state.isMore ? 1 : 0),
+                itemCount: (state.posts?.length ?? 9) + 1,
                 physics: const BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics(),
                 ),
@@ -41,7 +41,15 @@ class ConnectionView extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return state.posts != null && index < state.posts!.length
                       ? PostItem(post: state.posts![index])
-                      : const PostLoading();
+                      : state.isMore
+                          ? const PostLoading()
+                          : Center(
+                              child: Text(
+                                AppLocal.text.connection_page_no_new_posts,
+                                style: AppStyles.boldTextHaiti
+                                    .copyWith(fontSize: 16),
+                              ),
+                            );
                 },
               );
             },

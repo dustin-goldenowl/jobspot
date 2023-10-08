@@ -37,7 +37,6 @@ class RegisterApplicantModel {
       "follower": [],
       "following": [],
       "language": [],
-      "posts": [],
       "resume": [],
       "skill": [],
       "workExperience": [],

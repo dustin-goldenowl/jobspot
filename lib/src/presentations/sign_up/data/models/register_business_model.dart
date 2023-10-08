@@ -41,8 +41,6 @@ class RegisterBusinessModel {
       "images": [],
       "follower": [],
       "following": [],
-      "posts": [],
-      "jobs": [],
       "specialization": [],
       "createAt": DateTime.now(),
       "updateAt": DateTime.now(),

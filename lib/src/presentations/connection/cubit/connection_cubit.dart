@@ -17,16 +17,14 @@ class ConnectionCubit extends Cubit<ConnectionState> {
   ConnectionCubit() : super(const ConnectionState(isMore: true)) {
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
-              scrollController.position.maxScrollExtent &&
-          state.isMore) {
+          scrollController.position.maxScrollExtent) {
         fetchPostData(limit: _limit + 15, isLoading: false);
       }
     });
   }
 
-  void fetchPostData({int limit = 5, bool isLoading = true}) {
-    if (isLoading) emit(state.copyWith());
-    _limit = limit;
+  void fetchPostData({int limit = 15, bool isLoading = true}) {
+    emit(state.copyWith(posts: isLoading ? null : state.posts, isMore: true));
     if (_postStream != null) _postStream!.cancel();
     _postStream = FirebaseFirestore.instance
         .collection("posts")
@@ -35,13 +33,21 @@ class ConnectionCubit extends Cubit<ConnectionState> {
         .limit(limit)
         .snapshots()
         .listen((event) async {
-      final documents =
-          await FirebaseFirestore.instance.collection("posts").get();
       List<PostModel> posts = [];
       for (var element in event.docs) {
         posts.add(PostModel.fromDocumentSnapshot(element));
       }
-      final listUser = await getListUser(posts);
+      final data = await Future.wait([
+        getListUser(posts),
+        FirebaseFirestore.instance
+            .collection("posts")
+            // .where("owner", isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
+            //TODO This command is to filter posts that are not from the current account.
+            .count()
+            .get(),
+      ]);
+      final listUser = data.first as List<UserModel>;
+      final documents = data.last as AggregateQuerySnapshot;
       posts = posts
           .map(
             (e) => e.copyWith(
@@ -49,7 +55,8 @@ class ConnectionCubit extends Cubit<ConnectionState> {
             ),
           )
           .toList();
-      emit(state.copyWith(posts: posts, isMore: _limit < documents.size));
+      _limit = limit < documents.count ? limit : documents.count;
+      emit(state.copyWith(posts: posts, isMore: limit < documents.count));
     });
   }
 

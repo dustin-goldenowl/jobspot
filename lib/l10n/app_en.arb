@@ -66,6 +66,7 @@
     "verify_success_page_success_content": "You have successfully authenticated your account, please log in again",
 
     "connection_page_connection": "Connection",
+    "connection_page_no_new_posts": "There are no new posts",
 
     "home_page_recent_job_list": "Recent Job List",
     "home_page_find_your_job": "Find Your Job",

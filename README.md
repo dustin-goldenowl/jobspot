@@ -78,6 +78,10 @@
 | --- | --- | --- |
 | <img src="screenshots/on_boarding_screen.png" width=250> | <img src="screenshots/sign_in_screen.png" width=250> | <img src="screenshots/sign_up_screen.png" width=250> |
 
+| Connection  | Add Post | Edit Post |
+| --- | --- | --- |
+| <img src="screenshots/connection_screen.png" width=250> | <img src="screenshots/add_post_screen.png" width=250> | <img src="screenshots/edit_post_screen.png" width=250> |
+
 
 <!-- TechStack -->
 ### :space_invader: Tech Stack

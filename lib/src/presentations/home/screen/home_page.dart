@@ -141,7 +141,7 @@ class HomePage extends StatelessWidget {
                   width: width,
                   title: AppLocal.text.home_page_full_time,
                   quantity: "66.8k", //Hard text to test UI
-                  color: const Color(0xFFBEAFFE),
+                  color: AppColors.vodka,
                   onTap: () {},
                 ),
                 const SizedBox(height: 20),
@@ -149,7 +149,7 @@ class HomePage extends StatelessWidget {
                   width: width,
                   title: AppLocal.text.home_page_part_time,
                   quantity: "38.9k", //Hard text to test UI
-                  color: const Color(0xFFFFD6AD),
+                  color: AppColors.feldspar,
                   onTap: () {},
                 ),
               ],

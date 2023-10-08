@@ -66,6 +66,7 @@
     "verify_success_page_success_content": "Bạn đã xác thực tài khoản thành công, vui lòng đăng nhập lại",
     
     "connection_page_connection": "Kết nối",
+    "connection_page_no_new_posts": "Không có bài viết mới",
 
     "home_page_recent_job_list": "Công Việc Gần Đây",
     "home_page_find_your_job": "Tìm Kiếm Việc Làm Của Bạn",
