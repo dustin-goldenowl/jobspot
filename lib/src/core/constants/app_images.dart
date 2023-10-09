@@ -20,4 +20,5 @@ class AppImages {
   static String checkCircle = "assets/images/check_circle.svg";
   static String camera = "assets/images/camera.svg";
   static String picture = "assets/images/picture.svg";
+  static String edit = "assets/images/edit.svg";
 }
