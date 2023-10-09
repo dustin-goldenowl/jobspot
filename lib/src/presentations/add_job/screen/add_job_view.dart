@@ -6,6 +6,7 @@ import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/app_lists.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/add_job/cubit/add_job_cubit.dart';
+import 'package:jobspot/src/presentations/add_job/domain/router/add_job_coordinator.dart';
 import 'package:jobspot/src/presentations/add_job/widgets/add_button.dart';
 
 class AddJobView extends StatelessWidget {
@@ -69,7 +70,10 @@ class AddJobView extends StatelessWidget {
           content: state.description.isEmpty ? null : state.description,
           isShowLine: true,
           onTap: () {
-            //TODO push to description screen
+            AddJobCoordinator.showAddJobDescription(
+              onBack: context.read<AddJobCubit>().changeJobDescription,
+              description: state.description,
+            );
           },
         );
       },

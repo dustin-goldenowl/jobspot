@@ -122,5 +122,12 @@
     "add_job_page_type_workplace": "Loại nơi làm việc",
     "add_job_page_job_position": "Vị trí công việc*",
     "add_job_page_add_job": "Thêm một công việc",
-    "add_job_page_description": "Mô tả"
+    "add_job_page_description": "Mô tả",
+
+    "job_description_page_job_description": "Mô tả công việc",
+    "job_description_page_save_changes": "Lưu thay đổi?",
+    "job_description_page_save_changes_content": "Bạn có chắc chắn muốn thay đổi những gì bạn đã nhập không?",
+    "job_description_page_continue_fill": "Tiếp tục điền",
+    "job_description_page_undo_changes": "Hoàn tác thay đổi",
+    "job_description_page_save": "Lưu"
 }
