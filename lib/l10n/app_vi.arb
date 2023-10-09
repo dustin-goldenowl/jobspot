@@ -122,5 +122,8 @@
     "add_job_page_type_workplace": "Loại nơi làm việc",
     "add_job_page_job_position": "Vị trí công việc*",
     "add_job_page_add_job": "Thêm một công việc",
-    "add_job_page_description": "Mô tả"
+    "add_job_page_description": "Mô tả",
+
+    "location_page_location": "Vị trí",
+    "location_page_search": "Tìm kiếm"
 }

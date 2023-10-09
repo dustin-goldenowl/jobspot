@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
-import 'package:jobspot/src/core/constants/app_lists.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 
 class BottomSheetJobTypeView extends StatelessWidget {
