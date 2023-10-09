@@ -161,41 +161,7 @@ class AddPostView extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
                 String image = context.read<AddPostCubit>().state.images[index];
-                return Stack(
-                  children: [
-                    if (image.isLink)
-                      CachedNetworkImage(
-                        imageUrl: image,
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.fill,
-                        placeholder: (context, url) => const ItemLoading(
-                            width: 100, height: 100, radius: 0),
-                      )
-                    else
-                      Image.file(
-                        File(image),
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.fill,
-                      ),
-                    Positioned(
-                      right: 0,
-                      child: GestureDetector(
-                        onTap: () =>
-                            context.read<AddPostCubit>().removeImage(index),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.black38,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          padding: const EdgeInsets.all(2),
-                          child: const Icon(FontAwesomeIcons.xmark, size: 12),
-                        ),
-                      ),
-                    )
-                  ],
-                );
+                return _buildImageItem(context, image: image, index: index);
               },
               separatorBuilder: (context, index) => const SizedBox(width: 10),
               itemCount: context.read<AddPostCubit>().state.images.length,
@@ -204,6 +170,42 @@ class AddPostView extends StatelessWidget {
         }
         return const SizedBox.shrink();
       },
+    );
+  }
+
+  Widget _buildImageItem(
+    BuildContext context, {
+    required String image,
+    required int index,
+  }) {
+    return Stack(
+      children: [
+        if (image.isLink)
+          CachedNetworkImage(
+            imageUrl: image,
+            width: 100,
+            height: 100,
+            fit: BoxFit.fill,
+            placeholder: (context, url) =>
+                const ItemLoading(width: 100, height: 100, radius: 0),
+          )
+        else
+          Image.file(File(image), width: 100, height: 100, fit: BoxFit.fill),
+        Positioned(
+          right: 0,
+          child: GestureDetector(
+            onTap: () => context.read<AddPostCubit>().removeImage(index),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.black38,
+                borderRadius: BorderRadius.circular(30),
+              ),
+              padding: const EdgeInsets.all(2),
+              child: const Icon(FontAwesomeIcons.xmark, size: 12),
+            ),
+          ),
+        )
+      ],
     );
   }
 }
