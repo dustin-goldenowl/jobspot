@@ -66,6 +66,7 @@
     "verify_success_page_success_content": "Bạn đã xác thực tài khoản thành công, vui lòng đăng nhập lại",
     
     "connection_page_connection": "Kết nối",
+    "connection_page_no_new_posts": "Không có bài viết mới",
 
     "home_page_recent_job_list": "Công Việc Gần Đây",
     "home_page_find_your_job": "Tìm Kiếm Việc Làm Của Bạn",
@@ -89,5 +90,14 @@
     "save_job_page_send_message": "Gửi tin nhắn",
     "save_job_page_delete_all": "Xóa tất cả",
     "save_job_page_feature_not_yet_released": "Tính năng chưa ra mắt",
-    "save_job_page_delete": "Xóa"
+    "save_job_page_delete": "Xóa",
+
+    "add_post_page_add_post": "Thêm bài viết",
+    "add_post_page_edit_post": "Chỉnh sửa bài viết",
+    "add_post_page_post_title": "Tiêu đề bài viết",
+    "add_post_page_post_title_hint": "Viết tiêu đề bài viết của bạn ở đây",
+    "add_post_page_description": "Mô tả",
+    "add_post_page_description_hint": "Bạn muốn nói về điều gì?",
+    "add_post_page_update": "Cập nhật",
+    "add_post_page_post": "Đăng"
 }

@@ -8,91 +8,144 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i9;
-import 'package:flutter/material.dart' as _i10;
-import 'package:jobspot/src/presentations/check_email/screen/check_email_page.dart'
+import 'package:auto_route/auto_route.dart' as _i10;
+import 'package:flutter/material.dart' as _i11;
+import 'package:jobspot/src/presentations/add_post/domain/entities/update_post_entity.dart'
+    as _i12;
+import 'package:jobspot/src/presentations/add_post/screen/add_post_page.dart'
     as _i1;
-import 'package:jobspot/src/presentations/forgot_password/screen/forgot_password_page.dart'
+import 'package:jobspot/src/presentations/check_email/screen/check_email_page.dart'
     as _i2;
-import 'package:jobspot/src/presentations/main/screen/main_page.dart' as _i3;
+import 'package:jobspot/src/presentations/forgot_password/screen/forgot_password_page.dart'
+    as _i3;
+import 'package:jobspot/src/presentations/main/screen/main_page.dart' as _i4;
 import 'package:jobspot/src/presentations/on_boarding/screen/on_boarding_page.dart'
-    as _i4;
-import 'package:jobspot/src/presentations/sign_in/screen/sign_in_page.dart'
     as _i5;
-import 'package:jobspot/src/presentations/sign_up/screen/sign_up_page.dart'
+import 'package:jobspot/src/presentations/sign_in/screen/sign_in_page.dart'
     as _i6;
-import 'package:jobspot/src/presentations/verify_email/screen/verify_email_page.dart'
+import 'package:jobspot/src/presentations/sign_up/screen/sign_up_page.dart'
     as _i7;
-import 'package:jobspot/src/presentations/verify_success/screen/verify_success_page.dart'
+import 'package:jobspot/src/presentations/verify_email/screen/verify_email_page.dart'
     as _i8;
+import 'package:jobspot/src/presentations/verify_success/screen/verify_success_page.dart'
+    as _i9;
 
-abstract class $AppRouter extends _i9.RootStackRouter {
+abstract class $AppRouter extends _i10.RootStackRouter {
   $AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, _i9.PageFactory> pagesMap = {
+  final Map<String, _i10.PageFactory> pagesMap = {
+    AddPostRoute.name: (routeData) {
+      final args = routeData.argsAs<AddPostRouteArgs>(
+          orElse: () => const AddPostRouteArgs());
+      return _i10.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: _i1.AddPostPage(
+          key: args.key,
+          post: args.post,
+        ),
+      );
+    },
     CheckEmailRoute.name: (routeData) {
       final args = routeData.argsAs<CheckEmailRouteArgs>();
-      return _i9.AutoRoutePage<dynamic>(
+      return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i1.CheckEmailPage(
+        child: _i2.CheckEmailPage(
           key: args.key,
           email: args.email,
         ),
       );
     },
     ForgotPasswordRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i2.ForgotPasswordPage(),
+        child: const _i3.ForgotPasswordPage(),
       );
     },
     MainRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i3.MainPage(),
+        child: const _i4.MainPage(),
       );
     },
     OnBoardingRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.OnBoardingPage(),
+        child: const _i5.OnBoardingPage(),
       );
     },
     SignInRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i5.SignInPage(),
+        child: const _i6.SignInPage(),
       );
     },
     SignUpRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i6.SignUpPage(),
+        child: const _i7.SignUpPage(),
       );
     },
     VerifyEmailRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i7.VerifyEmailPage(),
+        child: const _i8.VerifyEmailPage(),
       );
     },
     VerifySuccessRoute.name: (routeData) {
-      return _i9.AutoRoutePage<dynamic>(
+      return _i10.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i8.VerifySuccessPage(),
+        child: const _i9.VerifySuccessPage(),
       );
     },
   };
 }
 
 /// generated route for
-/// [_i1.CheckEmailPage]
-class CheckEmailRoute extends _i9.PageRouteInfo<CheckEmailRouteArgs> {
+/// [_i1.AddPostPage]
+class AddPostRoute extends _i10.PageRouteInfo<AddPostRouteArgs> {
+  AddPostRoute({
+    _i11.Key? key,
+    _i12.UpdatePostEntity? post,
+    List<_i10.PageRouteInfo>? children,
+  }) : super(
+          AddPostRoute.name,
+          args: AddPostRouteArgs(
+            key: key,
+            post: post,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AddPostRoute';
+
+  static const _i10.PageInfo<AddPostRouteArgs> page =
+      _i10.PageInfo<AddPostRouteArgs>(name);
+}
+
+class AddPostRouteArgs {
+  const AddPostRouteArgs({
+    this.key,
+    this.post,
+  });
+
+  final _i11.Key? key;
+
+  final _i12.UpdatePostEntity? post;
+
+  @override
+  String toString() {
+    return 'AddPostRouteArgs{key: $key, post: $post}';
+  }
+}
+
+/// generated route for
+/// [_i2.CheckEmailPage]
+class CheckEmailRoute extends _i10.PageRouteInfo<CheckEmailRouteArgs> {
   CheckEmailRoute({
-    _i10.Key? key,
+    _i11.Key? key,
     required String email,
-    List<_i9.PageRouteInfo>? children,
+    List<_i10.PageRouteInfo>? children,
   }) : super(
           CheckEmailRoute.name,
           args: CheckEmailRouteArgs(
@@ -104,8 +157,8 @@ class CheckEmailRoute extends _i9.PageRouteInfo<CheckEmailRouteArgs> {
 
   static const String name = 'CheckEmailRoute';
 
-  static const _i9.PageInfo<CheckEmailRouteArgs> page =
-      _i9.PageInfo<CheckEmailRouteArgs>(name);
+  static const _i10.PageInfo<CheckEmailRouteArgs> page =
+      _i10.PageInfo<CheckEmailRouteArgs>(name);
 }
 
 class CheckEmailRouteArgs {
@@ -114,7 +167,7 @@ class CheckEmailRouteArgs {
     required this.email,
   });
 
-  final _i10.Key? key;
+  final _i11.Key? key;
 
   final String email;
 
@@ -125,9 +178,9 @@ class CheckEmailRouteArgs {
 }
 
 /// generated route for
-/// [_i2.ForgotPasswordPage]
-class ForgotPasswordRoute extends _i9.PageRouteInfo<void> {
-  const ForgotPasswordRoute({List<_i9.PageRouteInfo>? children})
+/// [_i3.ForgotPasswordPage]
+class ForgotPasswordRoute extends _i10.PageRouteInfo<void> {
+  const ForgotPasswordRoute({List<_i10.PageRouteInfo>? children})
       : super(
           ForgotPasswordRoute.name,
           initialChildren: children,
@@ -135,13 +188,13 @@ class ForgotPasswordRoute extends _i9.PageRouteInfo<void> {
 
   static const String name = 'ForgotPasswordRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i3.MainPage]
-class MainRoute extends _i9.PageRouteInfo<void> {
-  const MainRoute({List<_i9.PageRouteInfo>? children})
+/// [_i4.MainPage]
+class MainRoute extends _i10.PageRouteInfo<void> {
+  const MainRoute({List<_i10.PageRouteInfo>? children})
       : super(
           MainRoute.name,
           initialChildren: children,
@@ -149,13 +202,13 @@ class MainRoute extends _i9.PageRouteInfo<void> {
 
   static const String name = 'MainRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i4.OnBoardingPage]
-class OnBoardingRoute extends _i9.PageRouteInfo<void> {
-  const OnBoardingRoute({List<_i9.PageRouteInfo>? children})
+/// [_i5.OnBoardingPage]
+class OnBoardingRoute extends _i10.PageRouteInfo<void> {
+  const OnBoardingRoute({List<_i10.PageRouteInfo>? children})
       : super(
           OnBoardingRoute.name,
           initialChildren: children,
@@ -163,13 +216,13 @@ class OnBoardingRoute extends _i9.PageRouteInfo<void> {
 
   static const String name = 'OnBoardingRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i5.SignInPage]
-class SignInRoute extends _i9.PageRouteInfo<void> {
-  const SignInRoute({List<_i9.PageRouteInfo>? children})
+/// [_i6.SignInPage]
+class SignInRoute extends _i10.PageRouteInfo<void> {
+  const SignInRoute({List<_i10.PageRouteInfo>? children})
       : super(
           SignInRoute.name,
           initialChildren: children,
@@ -177,13 +230,13 @@ class SignInRoute extends _i9.PageRouteInfo<void> {
 
   static const String name = 'SignInRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i6.SignUpPage]
-class SignUpRoute extends _i9.PageRouteInfo<void> {
-  const SignUpRoute({List<_i9.PageRouteInfo>? children})
+/// [_i7.SignUpPage]
+class SignUpRoute extends _i10.PageRouteInfo<void> {
+  const SignUpRoute({List<_i10.PageRouteInfo>? children})
       : super(
           SignUpRoute.name,
           initialChildren: children,
@@ -191,13 +244,13 @@ class SignUpRoute extends _i9.PageRouteInfo<void> {
 
   static const String name = 'SignUpRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i7.VerifyEmailPage]
-class VerifyEmailRoute extends _i9.PageRouteInfo<void> {
-  const VerifyEmailRoute({List<_i9.PageRouteInfo>? children})
+/// [_i8.VerifyEmailPage]
+class VerifyEmailRoute extends _i10.PageRouteInfo<void> {
+  const VerifyEmailRoute({List<_i10.PageRouteInfo>? children})
       : super(
           VerifyEmailRoute.name,
           initialChildren: children,
@@ -205,13 +258,13 @@ class VerifyEmailRoute extends _i9.PageRouteInfo<void> {
 
   static const String name = 'VerifyEmailRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i8.VerifySuccessPage]
-class VerifySuccessRoute extends _i9.PageRouteInfo<void> {
-  const VerifySuccessRoute({List<_i9.PageRouteInfo>? children})
+/// [_i9.VerifySuccessPage]
+class VerifySuccessRoute extends _i10.PageRouteInfo<void> {
+  const VerifySuccessRoute({List<_i10.PageRouteInfo>? children})
       : super(
           VerifySuccessRoute.name,
           initialChildren: children,
@@ -219,5 +272,5 @@ class VerifySuccessRoute extends _i9.PageRouteInfo<void> {
 
   static const String name = 'VerifySuccessRoute';
 
-  static const _i9.PageInfo<void> page = _i9.PageInfo<void>(name);
+  static const _i10.PageInfo<void> page = _i10.PageInfo<void>(name);
 }

@@ -18,4 +18,6 @@ class AppImages {
   static String send = "assets/images/send.svg";
   static String trash = "assets/images/trash.svg";
   static String checkCircle = "assets/images/check_circle.svg";
+  static String camera = "assets/images/camera.svg";
+  static String picture = "assets/images/picture.svg";
 }

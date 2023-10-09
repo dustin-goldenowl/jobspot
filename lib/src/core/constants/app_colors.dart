@@ -22,4 +22,6 @@ class AppColors {
   static Color davyGrey = const Color(0xFF5B5858);
   static Color independence = const Color(0xFF524B6C);
   static Color wildBlueYonder = const Color(0xFF99ABC6);
+  static Color feldspar = const Color(0xFFFFD6AD);
+  static Color vodka = const Color(0xFFBEAFFE);
 }
