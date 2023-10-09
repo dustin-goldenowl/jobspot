@@ -39,16 +39,16 @@ class BottomSheetPostOptionView extends StatelessWidget {
           const SizedBox(height: 30),
           CustomButton(
             onPressed: () {
-              context.router.pop();
               MainCoordinator.showAddPost();
+              context.router.pop();
             },
             title: AppLocal.text.main_page_post.toUpperCase(),
           ),
           const SizedBox(height: 10),
           CustomButton(
             onPressed: () {
+              MainCoordinator.showAddJob();
               context.router.pop();
-              //TODO show create job page
             },
             title: AppLocal.text.main_page_make_job.toUpperCase(),
             isElevated: false,
