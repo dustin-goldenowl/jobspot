@@ -127,7 +127,7 @@ class AddJobView extends StatelessWidget {
       buildWhen: (previous, current) => previous.salary != current.salary,
       builder: (context, state) {
         return _buildJobInfo(
-          title: AppLocal.text.add_job_page_choose_salary,
+          title: AppLocal.text.add_job_page_salary,
           content: state.salary != -1 ? "${state.salary}\$" : null,
           onTap: () {
             context.read<AddJobCubit>().showBottomSheetSalary(context);
