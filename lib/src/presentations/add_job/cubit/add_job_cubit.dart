@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jobspot/src/core/extension/date_time_extension.dart';
 import 'package:jobspot/src/presentations/add_job/widgets/bottom_sheet_job_type_view.dart';
 import 'package:jobspot/src/presentations/add_job/widgets/bottom_sheet_level.dart';
 import 'package:jobspot/src/presentations/add_job/widgets/bottom_sheet_salary.dart';
@@ -25,7 +26,7 @@ class AddJobCubit extends Cubit<AddJobState> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: isStartDate ? DateTime.now() : state.startDate,
+      firstDate: isStartDate ? DateTime.now().getDate : state.startDate,
       lastDate: DateTime(2100),
     );
     if (picked != null && picked != selectedDate) {

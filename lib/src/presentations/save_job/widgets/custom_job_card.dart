@@ -25,11 +25,11 @@ class CustomJobCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-              color: Color.fromARGB(18, 153, 171, 198),
+              color: AppColors.wildBlueYonder.withAlpha(18),
               blurRadius: 62,
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
             ),
           ],
         ),
@@ -68,7 +68,7 @@ class CustomJobCard extends StatelessWidget {
                     onTap: onApply,
                     child: TagItem(
                       title: "Apply",
-                      backgroundColor: const Color(0xFFFF6B2C).withOpacity(0.2),
+                      backgroundColor: AppColors.orangeRed.withOpacity(0.2),
                     ),
                   ),
               ],
