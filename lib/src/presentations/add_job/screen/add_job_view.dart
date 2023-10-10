@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/utils/date_time_utils.dart';
 import 'package:jobspot/src/presentations/add_job/cubit/add_job_cubit.dart';
 import 'package:jobspot/src/presentations/add_job/domain/router/add_job_coordinator.dart';
 import 'package:jobspot/src/presentations/add_job/widgets/add_button.dart';
@@ -19,6 +20,8 @@ class AddJobView extends StatelessWidget {
           onTap: () => context.router.pop(),
           child: const Icon(FontAwesomeIcons.xmark),
         ),
+        elevation: 0,
+        scrolledUnderElevation: 0,
         actions: [
           TextButton(
             onPressed: () {},
@@ -46,6 +49,8 @@ class AddJobView extends StatelessWidget {
             const SizedBox(height: 32),
             _buildJobPosition(),
             const SizedBox(height: 10),
+            _buildLevel(),
+            const SizedBox(height: 10),
             _buildTypeWorkplace(),
             const SizedBox(height: 10),
             _buildLocation(),
@@ -53,9 +58,60 @@ class AddJobView extends StatelessWidget {
             _buildJobType(),
             const SizedBox(height: 10),
             _buildJobDescription(),
+            const SizedBox(height: 10),
+            _buildSalary(),
+            const SizedBox(height: 10),
+            _buildStartDate(),
+            const SizedBox(height: 10),
+            _buildEndDate(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildEndDate() {
+    return BlocBuilder<AddJobCubit, AddJobState>(
+      buildWhen: (previous, current) => previous.endDate != current.endDate,
+      builder: (context, state) {
+        return _buildJobInfo(
+          title: AppLocal.text.add_job_page_end_date,
+          content: DateTimeUtils.formatDMY(state.endDate),
+          onTap: () {
+            context.read<AddJobCubit>().selectDate(context, isStartDate: false);
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildStartDate() {
+    return BlocBuilder<AddJobCubit, AddJobState>(
+      buildWhen: (previous, current) => previous.startDate != current.startDate,
+      builder: (context, state) {
+        return _buildJobInfo(
+          title: AppLocal.text.add_job_page_start_date,
+          content: DateTimeUtils.formatDMY(state.startDate),
+          onTap: () {
+            context.read<AddJobCubit>().selectDate(context);
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildSalary() {
+    return BlocBuilder<AddJobCubit, AddJobState>(
+      buildWhen: (previous, current) => previous.salary != current.salary,
+      builder: (context, state) {
+        return _buildJobInfo(
+          title: AppLocal.text.add_job_page_choose_salary,
+          content: state.salary != -1 ? state.salary.toString() : null,
+          onTap: () {
+            context.read<AddJobCubit>().showBottomSheetSalary(context);
+          },
+        );
+      },
     );
   }
 
@@ -73,6 +129,23 @@ class AddJobView extends StatelessWidget {
               onBack: context.read<AddJobCubit>().changeJobDescription,
               description: state.description,
             );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildLevel() {
+    return BlocBuilder<AddJobCubit, AddJobState>(
+      buildWhen: (previous, current) => previous.level != current.level,
+      builder: (context, state) {
+        return _buildJobInfo(
+          title: AppLocal.text.add_job_page_level,
+          content: state.level != -1 ? AppLists.listLevel[state.level] : null,
+          onTap: () {
+            context
+                .read<AddJobCubit>()
+                .showBottomSheetLevel(context, groupValue: state.level);
           },
         );
       },
@@ -129,13 +202,9 @@ class AddJobView extends StatelessWidget {
               : null,
           onTap: () {
             context.read<AddJobCubit>().showBottomSheetTypeWorkplace(
-              context,
-              groupValue: state.typeWorkplace,
-              onChange: (value) {
-                context.router.pop();
-                context.read<AddJobCubit>().changeTypeWorkplace(value!);
-              },
-            );
+                  context,
+                  groupValue: state.typeWorkplace,
+                );
           },
         );
       },
@@ -151,14 +220,9 @@ class AddJobView extends StatelessWidget {
           content:
               state.jobType != -1 ? AppLists.listJobType[state.jobType] : null,
           onTap: () {
-            context.read<AddJobCubit>().showBottomSheetJobType(
-              context,
-              groupValue: state.jobType,
-              onChange: (value) {
-                context.router.pop();
-                context.read<AddJobCubit>().changeJobType(value!);
-              },
-            );
+            context
+                .read<AddJobCubit>()
+                .showBottomSheetJobType(context, groupValue: state.jobType);
           },
         );
       },
