@@ -2,6 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
+import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/presentations/add_job/domain/entities/job_entity.dart';
+import 'package:jobspot/src/presentations/add_job/domain/use_cases/add_job_use_case.dart';
 import 'package:jobspot/src/presentations/add_job/widgets/bottom_sheet_job_type_view.dart';
 import 'package:jobspot/src/presentations/add_job/widgets/bottom_sheet_level.dart';
 import 'package:jobspot/src/presentations/add_job/widgets/bottom_sheet_salary.dart';
@@ -9,8 +13,17 @@ import 'package:jobspot/src/presentations/add_job/widgets/bottom_sheet_type_work
 
 part 'add_job_state.dart';
 
+@injectable
 class AddJobCubit extends Cubit<AddJobState> {
-  AddJobCubit() : super(AddJobState.ds());
+  final AddJobUseCase _addJobUseCase;
+
+  AddJobCubit(this._addJobUseCase) : super(AddJobState.ds());
+
+  Future addJob() async {
+    emit(state.copyWith(isLoading: true));
+    final response = await _addJobUseCase.call(params: state.getJobEntity);
+    emit(state.copyWith(dataState: response));
+  }
 
   void changeJobPosition(String jobTitle) =>
       emit(state.copyWith(jobPosition: jobTitle));
