@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '../../../core/constants/constants.dart';
+import 'package:jobspot/src/core/constants/constants.dart';
 
 class AddButton extends StatelessWidget {
   const AddButton({super.key, required this.isShowEdit, required this.onTap});

@@ -16,7 +16,6 @@ class CustomTitleTextInput extends StatelessWidget {
     this.maxLines = 1,
     this.isSearch = false,
     this.textInputAction,
-    this.onClear,
     this.onTap,
     this.focusNode,
     this.validator,
@@ -35,7 +34,6 @@ class CustomTitleTextInput extends StatelessWidget {
   final int maxLines;
   final TextInputAction? textInputAction;
   final Function(bool isHide)? onHidePassword;
-  final VoidCallback? onClear;
   final VoidCallback? onTap;
   final FocusNode? focusNode;
   final String? Function(String? value)? validator;
@@ -106,7 +104,7 @@ class CustomTitleTextInput extends StatelessWidget {
                     )
                   : isSearch && controller.text.isNotEmpty
                       ? IconButton(
-                          onPressed: () => controller.clear(), //onClear
+                          onPressed: () => controller.clear(),
                           icon: const Icon(FontAwesomeIcons.xmark),
                         )
                       : null,
