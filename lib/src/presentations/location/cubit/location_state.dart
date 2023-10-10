@@ -16,6 +16,10 @@ class LocationState extends Equatable {
     );
   }
 
+  factory LocationState.ds() {
+    return LocationState(provinces: AppLists.provinces, text: "");
+  }
+
   @override
   List<Object> get props => [provinces, text];
 }

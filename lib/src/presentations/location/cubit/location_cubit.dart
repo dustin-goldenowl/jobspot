@@ -8,8 +8,7 @@ part 'location_state.dart';
 class LocationCubit extends Cubit<LocationState> {
   TextEditingController searchController = TextEditingController();
 
-  LocationCubit()
-      : super(LocationState(provinces: AppLists.provinces, text: "")) {
+  LocationCubit() : super(LocationState.ds()) {
     searchController.addListener(() => searchLocation());
   }
 
