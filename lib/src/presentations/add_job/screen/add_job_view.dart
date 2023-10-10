@@ -69,7 +69,10 @@ class AddJobView extends StatelessWidget {
           content: state.description.isEmpty ? null : state.description,
           isShowLine: true,
           onTap: () {
-            //TODO push to description screen
+            AddJobCoordinator.showAddJobDescription(
+              onBack: context.read<AddJobCubit>().changeJobDescription,
+              description: state.description,
+            );
           },
         );
       },

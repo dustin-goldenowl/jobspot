@@ -128,5 +128,12 @@
     "job_position_page_search": "Search",
 
     "location_page_location": "Location",
-    "location_page_search": "Search"
+    "location_page_search": "Search",
+
+    "job_description_page_job_description": "Job Description",
+    "job_description_page_save_changes": "Save Changes?",
+    "job_description_page_save_changes_content": "Are you sure you want to change what you entered?",
+    "job_description_page_continue_fill": "Continue filling",
+    "job_description_page_undo_changes": "Undo Changes",
+    "job_description_page_save": "Save"
 }
