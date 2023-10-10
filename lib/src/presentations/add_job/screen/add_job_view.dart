@@ -46,6 +46,8 @@ class AddJobView extends StatelessWidget {
             const SizedBox(height: 32),
             _buildJobPosition(),
             const SizedBox(height: 10),
+            _buildLevel(),
+            const SizedBox(height: 10),
             _buildTypeWorkplace(),
             const SizedBox(height: 10),
             _buildLocation(),
@@ -73,6 +75,23 @@ class AddJobView extends StatelessWidget {
               onBack: context.read<AddJobCubit>().changeJobDescription,
               description: state.description,
             );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildLevel() {
+    return BlocBuilder<AddJobCubit, AddJobState>(
+      buildWhen: (previous, current) => previous.level != current.level,
+      builder: (context, state) {
+        return _buildJobInfo(
+          title: AppLocal.text.add_job_page_level,
+          content: state.level != -1 ? AppLists.listLevel[state.level] : null,
+          onTap: () {
+            context
+                .read<AddJobCubit>()
+                .showBottomSheetLevel(context, groupValue: state.level);
           },
         );
       },
@@ -129,13 +148,9 @@ class AddJobView extends StatelessWidget {
               : null,
           onTap: () {
             context.read<AddJobCubit>().showBottomSheetTypeWorkplace(
-              context,
-              groupValue: state.typeWorkplace,
-              onChange: (value) {
-                context.router.pop();
-                context.read<AddJobCubit>().changeTypeWorkplace(value!);
-              },
-            );
+                  context,
+                  groupValue: state.typeWorkplace,
+                );
           },
         );
       },
@@ -151,14 +166,9 @@ class AddJobView extends StatelessWidget {
           content:
               state.jobType != -1 ? AppLists.listJobType[state.jobType] : null,
           onTap: () {
-            context.read<AddJobCubit>().showBottomSheetJobType(
-              context,
-              groupValue: state.jobType,
-              onChange: (value) {
-                context.router.pop();
-                context.read<AddJobCubit>().changeJobType(value!);
-              },
-            );
+            context
+                .read<AddJobCubit>()
+                .showBottomSheetJobType(context, groupValue: state.jobType);
           },
         );
       },

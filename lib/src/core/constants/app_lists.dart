@@ -12,6 +12,14 @@ class AppLists {
         AppLocal.text.add_job_page_apprenticeship,
       ];
 
+  static List<String> get listLevel => [
+        AppLocal.text.add_job_page_choose_intern,
+        AppLocal.text.add_job_page_choose_fresher,
+        AppLocal.text.add_job_page_choose_junior,
+        AppLocal.text.add_job_page_choose_middle,
+        AppLocal.text.add_job_page_choose_senior,
+      ];
+
   static List<Map<String, String>> get listTypeWorkplace => [
         {
           "title": AppLocal.text.add_job_page_on_site,
