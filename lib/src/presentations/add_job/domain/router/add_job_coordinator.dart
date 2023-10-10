@@ -13,4 +13,10 @@ class AddJobCoordinator {
   }) =>
       rootRouter
           .push(JobDescriptionRoute(onBack: onBack, description: description));
+
+  static void showJobLocation({required Function(int code) onBack}) =>
+      rootRouter.push(LocationRoute(onBack: onBack));
+
+  static void showJobPosition({required Function(String title) onBack}) =>
+      rootRouter.push(JobPositionRoute(onBack: onBack));
 }

@@ -124,6 +124,13 @@
     "add_job_page_add_job": "Thêm một công việc",
     "add_job_page_description": "Mô tả",
 
+    "job_position_page_job_position": "Vị trí công việc",
+    "job_position_page_search": "Tìm kiếm",
+
+    "location_page_location": "Vị trí",
+    "location_page_search": "Tìm kiếm"
+    "add_job_page_description": "Mô tả",
+
     "job_description_page_job_description": "Mô tả công việc",
     "job_description_page_save_changes": "Lưu thay đổi?",
     "job_description_page_save_changes_content": "Bạn có chắc chắn muốn thay đổi những gì bạn đã nhập không?",
