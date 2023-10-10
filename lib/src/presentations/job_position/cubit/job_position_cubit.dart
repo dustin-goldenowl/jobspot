@@ -13,7 +13,7 @@ class JobPositionCubit extends Cubit<JobPositionState> {
   TextEditingController searchController = TextEditingController();
 
   JobPositionCubit(this._searchJobPositionUseCase)
-      : super(const JobPositionState(text: "")) {
+      : super(JobPositionState.ds()) {
     searchController.addListener(() => searchJobPosition());
   }
 

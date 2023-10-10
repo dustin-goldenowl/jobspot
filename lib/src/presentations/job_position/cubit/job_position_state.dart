@@ -13,6 +13,8 @@ class JobPositionState extends Equatable {
     return JobPositionState(dataState: dataState, text: text ?? this.text);
   }
 
+  factory JobPositionState.ds() => const JobPositionState(text: "");
+
   @override
   List<Object?> get props => [dataState, text];
 }
