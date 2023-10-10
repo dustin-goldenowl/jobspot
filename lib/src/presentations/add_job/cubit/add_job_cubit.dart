@@ -4,17 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobspot/src/presentations/add_job/widgets/bottom_sheet_job_type_view.dart';
 import 'package:jobspot/src/presentations/add_job/widgets/bottom_sheet_level.dart';
+import 'package:jobspot/src/presentations/add_job/widgets/bottom_sheet_salary.dart';
 import 'package:jobspot/src/presentations/add_job/widgets/bottom_sheet_type_workplace_view.dart';
 
 part 'add_job_state.dart';
 
 class AddJobCubit extends Cubit<AddJobState> {
   AddJobCubit() : super(AddJobState.ds());
-
-  void changeJobType(int index) => emit(state.copyWith(jobType: index));
-
-  void changeTypeWorkplace(int index) =>
-      emit(state.copyWith(typeWorkplace: index));
 
   void changeJobPosition(String jobTitle) =>
       emit(state.copyWith(jobPosition: jobTitle));
@@ -24,7 +20,25 @@ class AddJobCubit extends Cubit<AddJobState> {
   void changeJobDescription(String description) =>
       emit(state.copyWith(description: description));
 
-  void changeLevel(int level) => emit(state.copyWith(level: level));
+  Future selectDate(BuildContext context, {bool isStartDate = true}) async {
+    DateTime selectedDate = isStartDate ? state.startDate : state.endDate;
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: isStartDate ? DateTime.now() : state.startDate,
+      lastDate: DateTime(2100),
+    );
+    if (picked != null && picked != selectedDate) {
+      if (isStartDate) {
+        emit(state.copyWith(
+          startDate: picked,
+          endDate: picked.isAfter(state.endDate) ? picked : null,
+        ));
+      } else {
+        emit(state.copyWith(endDate: picked));
+      }
+    }
+  }
 
   void showBottomSheetTypeWorkplace(
     BuildContext context, {
@@ -41,7 +55,31 @@ class AddJobCubit extends Cubit<AddJobState> {
           groupValue: groupValue,
           onChange: (value) {
             context.router.pop();
-            changeTypeWorkplace(value!);
+            emit(state.copyWith(typeWorkplace: value));
+          },
+        );
+      },
+    );
+  }
+
+  void showBottomSheetSalary(BuildContext context) {
+    TextEditingController controller = TextEditingController(
+        text: state.salary != -1 ? state.salary.toString() : "");
+    final formKey = GlobalKey<FormState>();
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      backgroundColor: Colors.white,
+      isScrollControlled: true,
+      builder: (context) {
+        return BottomSheetSalary(
+          formKey: formKey,
+          controller: controller,
+          onChange: (value) {
+            context.router.pop();
+            emit(state.copyWith(salary: value));
           },
         );
       },
@@ -61,7 +99,7 @@ class AddJobCubit extends Cubit<AddJobState> {
           groupValue: groupValue,
           onChange: (value) {
             context.router.pop();
-            changeLevel(value!);
+            emit(state.copyWith(level: value));
           },
         );
       },
@@ -81,7 +119,7 @@ class AddJobCubit extends Cubit<AddJobState> {
           groupValue: groupValue,
           onChange: (value) {
             context.router.pop();
-            changeJobType(value!);
+            emit(state.copyWith(jobType: value));
           },
         );
       },

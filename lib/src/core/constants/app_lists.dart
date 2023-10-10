@@ -13,11 +13,11 @@ class AppLists {
       ];
 
   static List<String> get listLevel => [
-        AppLocal.text.add_job_page_choose_intern,
-        AppLocal.text.add_job_page_choose_fresher,
-        AppLocal.text.add_job_page_choose_junior,
-        AppLocal.text.add_job_page_choose_middle,
-        AppLocal.text.add_job_page_choose_senior,
+        AppLocal.text.add_job_page_intern,
+        AppLocal.text.add_job_page_fresher,
+        AppLocal.text.add_job_page_junior,
+        AppLocal.text.add_job_page_middle,
+        AppLocal.text.add_job_page_senior,
       ];
 
   static List<Map<String, String>> get listTypeWorkplace => [
