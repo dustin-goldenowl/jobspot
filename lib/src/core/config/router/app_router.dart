@@ -58,5 +58,10 @@ class AppRouter extends $AppRouter {
           page: JobPositionRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
+        CustomRoute(
+          path: '/location',
+          page: LocationRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+        ),
       ];
 }

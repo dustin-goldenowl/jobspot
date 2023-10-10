@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
-import 'package:jobspot/src/core/constants/app_lists.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/add_job/cubit/add_job_cubit.dart';
 import 'package:jobspot/src/presentations/add_job/domain/router/add_job_coordinator.dart';
@@ -82,10 +81,16 @@ class AddJobView extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.jobLocation != current.jobLocation,
       builder: (context, state) {
+        String? province = state.jobLocation != -1
+            ? AppLists.provinces.firstWhere((element) =>
+                (element["code"] as int) == state.jobLocation)["name"]
+            : null;
         return _buildJobInfo(
           title: AppLocal.text.add_job_page_job_location,
+          content: province,
           onTap: () {
-            // TODO push to location screen
+            AddJobCoordinator.showJobLocation(
+                onBack: context.read<AddJobCubit>().changeJobLocation);
           },
         );
       },

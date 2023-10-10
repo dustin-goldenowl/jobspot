@@ -125,5 +125,8 @@
     "add_job_page_description": "Description",
 
     "job_position_page_job_position": "Job Position",
-    "job_position_page_search": "Search"
+    "job_position_page_search": "Search",
+
+    "location_page_location": "Location",
+    "location_page_search": "Search"
 }

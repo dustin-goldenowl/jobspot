@@ -7,6 +7,9 @@ class AddJobCoordinator {
 
   static AppRouter get rootRouter => getIt<AppRouter>();
 
+  static void showJobLocation({required Function(int code) onBack}) =>
+      rootRouter.push(LocationRoute(onBack: onBack));
+
   static void showJobPosition({required Function(String title) onBack}) =>
       rootRouter.push(JobPositionRoute(onBack: onBack));
 }
