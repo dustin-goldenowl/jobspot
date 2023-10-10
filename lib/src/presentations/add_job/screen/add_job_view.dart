@@ -106,7 +106,8 @@ class AddJobView extends StatelessWidget {
           title: AppLocal.text.add_job_page_job_position,
           content: state.jobPosition.isEmpty ? null : state.jobPosition,
           onTap: () {
-            //TODO push to add job position screen
+            AddJobCoordinator.showJobPosition(
+                onBack: context.read<AddJobCubit>().changeJobPosition);
           },
         );
       },

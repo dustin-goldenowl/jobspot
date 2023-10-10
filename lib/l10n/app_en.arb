@@ -124,6 +124,10 @@
     "add_job_page_add_job": "Add a job",
     "add_job_page_description": "Description",
 
+    "job_position_page_job_position": "Job Position",
+    "job_position_page_search": "Search"
+    "add_job_page_description": "Description",
+
     "location_page_location": "Location",
     "location_page_search": "Search"
 }
