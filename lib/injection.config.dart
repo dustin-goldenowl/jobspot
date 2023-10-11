@@ -47,7 +47,7 @@ import 'package:jobspot/src/presentations/home/data/repositories/home_repository
 import 'package:jobspot/src/presentations/home/domain/repositories/home_repository.dart'
     as _i13;
 import 'package:jobspot/src/presentations/home/domain/use_cases/fetch_job_use_case.dart'
-    as _i30;
+    as _i31;
 import 'package:jobspot/src/presentations/job_position/cubit/job_position_cubit.dart'
     as _i33;
 import 'package:jobspot/src/presentations/job_position/data/repositories/job_position_repository_impl.dart'
@@ -85,7 +85,7 @@ import 'package:jobspot/src/presentations/view_job/data/repositories/view_job_re
 import 'package:jobspot/src/presentations/view_job/domain/repositories/view_job_repository.dart'
     as _i25;
 import 'package:jobspot/src/presentations/view_job/domain/use_cases/fetch_job_use_case.dart'
-    as _i31;
+    as _i30;
 import 'package:shared_preferences/shared_preferences.dart' as _i18;
 
 extension GetItInjectableX on _i1.GetIt {
@@ -139,11 +139,11 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i29.ConnectionCubit>(
         () => _i29.ConnectionCubit(gh<_i12.FetchPostUseCase>()));
     gh.lazySingleton<_i30.FetchJobUseCase>(
-        () => _i30.FetchJobUseCase(gh<_i13.HomeRepository>()));
+        () => _i30.FetchJobUseCase(gh<_i25.ViewJobRepository>()));
     gh.lazySingleton<_i31.FetchJobUseCase>(
-        () => _i31.FetchJobUseCase(gh<_i25.ViewJobRepository>()));
+        () => _i31.FetchJobUseCase(gh<_i13.HomeRepository>()));
     gh.factory<_i32.HomeCubit>(
-        () => _i32.HomeCubit(gh<_i30.FetchJobUseCase>()));
+        () => _i32.HomeCubit(gh<_i31.FetchJobUseCase>()));
     gh.factory<_i33.JobPositionCubit>(
         () => _i33.JobPositionCubit(gh<_i17.SearchJobPositionUseCase>()));
     gh.lazySingleton<_i34.RegisterApplicantUseCase>(
@@ -162,7 +162,7 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i36.RegisterGoogleUseCase>(),
         ));
     gh.factory<_i40.ViewJobCubit>(
-        () => _i40.ViewJobCubit(gh<_i31.FetchJobUseCase>()));
+        () => _i40.ViewJobCubit(gh<_i30.FetchJobUseCase>()));
     gh.factory<_i41.SignInCubit>(() => _i41.SignInCubit(
           gh<_i37.SignInEmailPasswordUseCase>(),
           gh<_i38.SignInGoogleUseCase>(),

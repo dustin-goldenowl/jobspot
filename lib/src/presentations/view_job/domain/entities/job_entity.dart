@@ -12,6 +12,7 @@ class JobEntity {
   final int typeWorkplace;
   final String jobPosition;
   final String description;
+  final List<String> requirements;
   final DateTime startDate;
   final DateTime endDate;
 
@@ -27,6 +28,7 @@ class JobEntity {
     required this.description,
     required this.endDate,
     required this.jobPosition,
+    required this.requirements,
     required this.startDate,
     required this.company,
   });

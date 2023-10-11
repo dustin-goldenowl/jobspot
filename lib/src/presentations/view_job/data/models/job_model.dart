@@ -14,6 +14,7 @@ class JobModel {
   int typeWorkplace;
   String jobPosition;
   String description;
+  List<String> requirements;
   DateTime startDate;
   DateTime endDate;
 
@@ -29,6 +30,7 @@ class JobModel {
     required this.description,
     required this.endDate,
     required this.jobPosition,
+    required this.requirements,
     required this.startDate,
     this.company,
   });
@@ -37,19 +39,19 @@ class JobModel {
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data()!;
     return JobModel(
-      id: snapshot.id,
-      jobType: data["jobType"],
-      location: data["location"],
-      owner: data["owner"],
-      position: data["position"],
-      salary: data["salary"],
-      typeWorkplace: data["typeWorkplace"],
-      level: data["level"],
-      description: data["description"],
-      endDate: (data["endDate"] as Timestamp).toDate(),
-      jobPosition: data["position"],
-      startDate: (data["startDate"] as Timestamp).toDate(),
-    );
+        id: snapshot.id,
+        jobType: data["jobType"],
+        location: data["location"],
+        owner: data["owner"],
+        position: data["position"],
+        salary: data["salary"],
+        typeWorkplace: data["typeWorkplace"],
+        level: data["level"],
+        description: data["description"],
+        endDate: (data["endDate"] as Timestamp).toDate(),
+        jobPosition: data["position"],
+        startDate: (data["startDate"] as Timestamp).toDate(),
+        requirements: List<String>.from(data["requirements"].map((x) => x)));
   }
 
   JobEntity toJobEntity() {
@@ -66,6 +68,7 @@ class JobModel {
       endDate: endDate,
       jobPosition: jobPosition,
       startDate: startDate,
+      requirements: requirements,
       company: company!.toCompanyEntity(),
     );
   }

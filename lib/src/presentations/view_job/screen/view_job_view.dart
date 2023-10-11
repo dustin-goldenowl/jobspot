@@ -12,13 +12,6 @@ import 'package:jobspot/src/presentations/view_job/widgets/custom_app_bar_compan
 import 'package:jobspot/src/presentations/view_job/widgets/job_subtitle_info.dart';
 import 'package:jobspot/src/presentations/view_job/widgets/job_title_info.dart';
 
-final list = [
-  "Sed ut perspiciatis unde omnis iste natus error sit.",
-  "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur & adipisci velit.",
-  "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.",
-  "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur",
-];
-
 class ViewJobView extends StatelessWidget {
   const ViewJobView({super.key});
 
@@ -64,7 +57,7 @@ class ViewJobView extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildRequirements(),
+              _buildRequirements(state.dataState!.data!.requirements),
               const SizedBox(height: 20),
               _buildLocation("Overlook Avenue, Belleville, NJ, USA"),
               const SizedBox(height: 20),
@@ -160,7 +153,7 @@ class ViewJobView extends StatelessWidget {
     );
   }
 
-  Widget _buildRequirements() {
+  Widget _buildRequirements(List<String> requirements) {
     return JobTitleInfo(
       title: "Requirements",
       child: ListView.separated(
@@ -172,13 +165,14 @@ class ViewJobView extends StatelessWidget {
               _buildDotText,
               const SizedBox(width: 10),
               Expanded(
-                child: Text(list[index], style: AppStyles.normalTextMulledWine),
+                child: Text(requirements[index],
+                    style: AppStyles.normalTextMulledWine),
               ),
             ],
           );
         },
         separatorBuilder: (context, index) => const SizedBox(height: 15),
-        itemCount: list.length,
+        itemCount: requirements.length,
       ),
     );
   }

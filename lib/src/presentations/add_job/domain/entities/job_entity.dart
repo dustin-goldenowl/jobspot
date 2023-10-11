@@ -6,6 +6,7 @@ class JobEntity {
   final int salary;
   final String jobPosition;
   final String description;
+  final List<String> requirements;
   final DateTime startDate;
   final DateTime endDate;
 
@@ -17,6 +18,7 @@ class JobEntity {
     required this.level,
     required this.salary,
     required this.typeWorkplace,
+    required this.requirements,
     required this.startDate,
     required this.endDate,
   });

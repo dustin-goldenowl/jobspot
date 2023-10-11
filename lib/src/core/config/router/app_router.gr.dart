@@ -91,8 +91,9 @@ abstract class $AppRouter extends _i15.RootStackRouter {
         routeData: routeData,
         child: _i5.JobDescriptionPage(
           key: args.key,
-          onBack: args.onBack,
+          title: args.title,
           description: args.description,
+          onBack: args.onBack,
         ),
       );
     },
@@ -298,15 +299,17 @@ class ForgotPasswordRoute extends _i15.PageRouteInfo<void> {
 class JobDescriptionRoute extends _i15.PageRouteInfo<JobDescriptionRouteArgs> {
   JobDescriptionRoute({
     _i16.Key? key,
-    required dynamic Function(String) onBack,
+    required String title,
     required String description,
+    required dynamic Function(String) onBack,
     List<_i15.PageRouteInfo>? children,
   }) : super(
           JobDescriptionRoute.name,
           args: JobDescriptionRouteArgs(
             key: key,
-            onBack: onBack,
+            title: title,
             description: description,
+            onBack: onBack,
           ),
           initialChildren: children,
         );
@@ -320,19 +323,22 @@ class JobDescriptionRoute extends _i15.PageRouteInfo<JobDescriptionRouteArgs> {
 class JobDescriptionRouteArgs {
   const JobDescriptionRouteArgs({
     this.key,
-    required this.onBack,
+    required this.title,
     required this.description,
+    required this.onBack,
   });
 
   final _i16.Key? key;
 
-  final dynamic Function(String) onBack;
+  final String title;
 
   final String description;
 
+  final dynamic Function(String) onBack;
+
   @override
   String toString() {
-    return 'JobDescriptionRouteArgs{key: $key, onBack: $onBack, description: $description}';
+    return 'JobDescriptionRouteArgs{key: $key, title: $title, description: $description, onBack: $onBack}';
   }
 }
 

@@ -92,6 +92,21 @@ class AddJobCubit extends Cubit<AddJobState> {
   void changeJobDescription(String description) =>
       emit(state.copyWith(description: description));
 
+  void addJobRequirement(String requirement) =>
+      emit(state.copyWith(requirements: [...state.requirements, requirement]));
+
+  void editJobRequirement({required String requirement, required int index}) {
+    List<String> requirements = [...state.requirements];
+    requirements[index] = requirement;
+    emit(state.copyWith(requirements: requirements));
+  }
+
+  void removeJobRequirement(int index) {
+    List<String> requirements = [...state.requirements];
+    requirements.removeAt(index);
+    emit(state.copyWith(requirements: requirements));
+  }
+
   Future selectDate(BuildContext context, {bool isStartDate = true}) async {
     DateTime selectedDate = isStartDate ? state.startDate : state.endDate;
     final DateTime? picked = await showDatePicker(

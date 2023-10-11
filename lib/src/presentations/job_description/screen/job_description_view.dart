@@ -9,8 +9,13 @@ import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_input.dart';
 
 class JobDescriptionView extends StatelessWidget {
-  const JobDescriptionView({super.key, required this.onBack});
+  const JobDescriptionView({
+    super.key,
+    required this.onBack,
+    required this.title,
+  });
 
+  final String title;
   final Function(String description) onBack;
 
   @override
@@ -52,14 +57,14 @@ class JobDescriptionView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            AppLocal.text.job_description_page_job_description,
+            title,
             style: AppStyles.boldTextHaiti.copyWith(fontSize: 18),
           ),
           const SizedBox(height: 30),
           CustomTitleTextInput(
             controller:
                 context.read<JobDescriptionCubit>().descriptionController,
-            hintText: AppLocal.text.job_description_page_job_description,
+            hintText: title,
             maxLines: 8,
           ),
         ],

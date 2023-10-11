@@ -8,18 +8,20 @@ import 'package:jobspot/src/presentations/job_description/screen/job_description
 class JobDescriptionPage extends StatelessWidget {
   const JobDescriptionPage({
     super.key,
-    required this.onBack,
+    required this.title,
     required this.description,
+    required this.onBack,
   });
 
-  final Function(String description) onBack;
+  final String title;
   final String description;
+  final Function(String description) onBack;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => JobDescriptionCubit(description: description),
-      child: JobDescriptionView(onBack: onBack),
+      child: JobDescriptionView(title: title, onBack: onBack),
     );
   }
 }

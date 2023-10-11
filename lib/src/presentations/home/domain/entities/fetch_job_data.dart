@@ -1,6 +1,7 @@
 import 'package:jobspot/src/presentations/home/data/models/job_model.dart';
 
 class FetchJobData {
+  //TODO finish project => JobModel to JobEntity
   List<JobModel> jobs;
   int remote;
   int fulltime;
