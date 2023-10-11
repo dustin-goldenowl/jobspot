@@ -24,4 +24,6 @@ class AppColors {
   static Color wildBlueYonder = const Color(0xFF99ABC6);
   static Color feldspar = const Color(0xFFFFD6AD);
   static Color vodka = const Color(0xFFBEAFFE);
+  static Color platinum = const Color(0xFFDEE1E7);
+  static Color orangeRed = const Color(0xFFFF6B2C);
 }

@@ -7,4 +7,7 @@ extension StringExtension on String {
   bool get isLink => contains("https://") || contains("http://");
 
   bool get isAssets => contains("assets/");
+
+  String get capitalizedString => replaceAllMapped(
+      RegExp(r'\b\w'), (match) => match.group(0)!.toUpperCase());
 }

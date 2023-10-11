@@ -20,5 +20,5 @@ class ConnectionState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [posts, isMore];
+  List<Object?> get props => [posts, isMore, error];
 }

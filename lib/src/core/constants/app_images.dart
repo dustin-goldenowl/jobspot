@@ -11,6 +11,7 @@ class AppImages {
   static String comment = "assets/images/comment.svg";
   static String share = "assets/images/share.svg";
   static String save = "assets/images/save.svg";
+  static String saveJob = "assets/images/save_job.svg";
   static String findJob = "assets/images/find_job.svg";
   static String home = "assets/images/home.svg";
   static String connection = "assets/images/connection.svg";
@@ -20,4 +21,5 @@ class AppImages {
   static String checkCircle = "assets/images/check_circle.svg";
   static String camera = "assets/images/camera.svg";
   static String picture = "assets/images/picture.svg";
+  static String edit = "assets/images/edit.svg";
 }
