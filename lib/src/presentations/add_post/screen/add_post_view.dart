@@ -71,7 +71,11 @@ class AddPostView extends StatelessWidget {
         listener: (context, state) {
           if (state.isLoading) loadingAnimation(context);
 
-          if (state.dataState is DataSuccess) context.router.pop();
+          if (state.dataState is DataSuccess) {
+            customToast(context,
+                text: AppLocal.text.add_post_created_successful_post);
+            context.router.pop();
+          }
 
           if (state.dataState is DataFailed) {
             customToast(context, text: state.dataState!.error ?? "");

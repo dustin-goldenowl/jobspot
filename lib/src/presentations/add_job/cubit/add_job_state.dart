@@ -11,6 +11,8 @@ class AddJobState extends Equatable {
     required this.description,
     required this.endDate,
     required this.startDate,
+    required this.isLoading,
+    this.dataState,
   });
 
   final int typeWorkplace;
@@ -22,6 +24,8 @@ class AddJobState extends Equatable {
   final String description;
   final DateTime startDate;
   final DateTime endDate;
+  final bool isLoading;
+  final DataState? dataState;
 
   AddJobState copyWith({
     int? typeWorkplace,
@@ -33,6 +37,8 @@ class AddJobState extends Equatable {
     String? description,
     DateTime? startDate,
     DateTime? endDate,
+    bool isLoading = false,
+    DataState? dataState,
   }) {
     return AddJobState(
       typeWorkplace: typeWorkplace ?? this.typeWorkplace,
@@ -44,6 +50,8 @@ class AddJobState extends Equatable {
       salary: salary ?? this.salary,
       endDate: endDate ?? this.endDate,
       startDate: startDate ?? this.startDate,
+      isLoading: isLoading,
+      dataState: dataState,
     );
   }
 
@@ -58,11 +66,24 @@ class AddJobState extends Equatable {
       salary: -1,
       endDate: DateTime.now(),
       startDate: DateTime.now(),
+      isLoading: false,
     );
   }
 
+  JobEntity get getJobEntity => JobEntity(
+        description: description,
+        jobLocation: jobLocation,
+        jobPosition: jobPosition,
+        jobType: jobType,
+        level: level,
+        salary: salary,
+        typeWorkplace: typeWorkplace,
+        startDate: startDate,
+        endDate: endDate,
+      );
+
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         typeWorkplace,
         jobType,
         jobPosition,
@@ -71,6 +92,8 @@ class AddJobState extends Equatable {
         level,
         salary,
         endDate,
-        startDate
+        startDate,
+        isLoading,
+        dataState,
       ];
 }
