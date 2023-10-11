@@ -1,7 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:jobspot/src/presentations/add_job/domain/entities/job_entity.dart';
+import 'package:jobspot/src/presentations/add_job/domain/entities/update_job_entity.dart';
 
-class JobModel {
+class UpdateJobModel {
   final int typeWorkplace;
   final int jobType;
   final int jobLocation;
@@ -12,7 +11,7 @@ class JobModel {
   final DateTime startDate;
   final DateTime endDate;
 
-  JobModel({
+  UpdateJobModel({
     required this.description,
     required this.jobLocation,
     required this.jobPosition,
@@ -24,8 +23,8 @@ class JobModel {
     required this.endDate,
   });
 
-  factory JobModel.fromJobEntity(JobEntity entity) {
-    return JobModel(
+  factory UpdateJobModel.fromJobEntity(UpdateJobEntity entity) {
+    return UpdateJobModel(
       description: entity.description,
       jobLocation: entity.jobLocation,
       jobPosition: entity.jobPosition,
@@ -40,7 +39,6 @@ class JobModel {
 
   Map<String, dynamic> toJson() {
     return {
-      "owner": FirebaseAuth.instance.currentUser!.uid,
       "description": description,
       "location": jobLocation,
       "position": jobPosition,
@@ -50,7 +48,6 @@ class JobModel {
       "typeWorkplace": typeWorkplace,
       "startDate": startDate,
       "endDate": endDate,
-      "creatAt": DateTime.now(),
       "updateAt": DateTime.now(),
     };
   }

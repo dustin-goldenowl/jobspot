@@ -9,5 +9,5 @@ class MainCoordinator {
 
   static void showAddPost() => rootRouter.push(AddPostRoute());
 
-  static void showAddJob() => rootRouter.push(const AddJobRoute());
+  static void showAddJob() => rootRouter.push(AddJobRoute());
 }

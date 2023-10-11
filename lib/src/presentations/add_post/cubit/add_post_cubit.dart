@@ -27,11 +27,7 @@ class AddPostCubit extends Cubit<AddPostState> {
   bool get isEdit => _isEdit;
 
   AddPostCubit(this._addPostUseCase, this._updatePostUseCase)
-      : super(const AddPostState(
-          isLoading: false,
-          images: [],
-          removeImages: [],
-        ));
+      : super(AddPostState.ds());
 
   void initUpdatePost(UpdatePostEntity? post) {
     if (post != null) {

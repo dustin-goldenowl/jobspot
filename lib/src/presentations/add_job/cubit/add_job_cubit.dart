@@ -6,8 +6,10 @@ import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/add_job/domain/entities/job_entity.dart';
+import 'package:jobspot/src/presentations/add_job/domain/entities/update_job_entity.dart';
 import 'package:jobspot/src/presentations/add_job/domain/use_cases/add_job_use_case.dart';
 import 'package:jobspot/src/core/extension/date_time_extension.dart';
+import 'package:jobspot/src/presentations/add_job/domain/use_cases/update_job_use_case.dart';
 import 'package:jobspot/src/presentations/add_job/widgets/bottom_sheet_job_type_view.dart';
 import 'package:jobspot/src/presentations/add_job/widgets/bottom_sheet_level.dart';
 import 'package:jobspot/src/presentations/add_job/widgets/bottom_sheet_salary.dart';
@@ -18,13 +20,39 @@ part 'add_job_state.dart';
 @injectable
 class AddJobCubit extends Cubit<AddJobState> {
   final AddJobUseCase _addJobUseCase;
+  final UpdateJobUseCase _updateJobUseCase;
 
-  AddJobCubit(this._addJobUseCase) : super(AddJobState.ds());
+  String? _jobID;
+  bool _isEdit = false;
+
+  bool get isEdit => _isEdit;
+
+  AddJobCubit(this._addJobUseCase, this._updateJobUseCase)
+      : super(AddJobState.ds());
+
+  void initUpdateJob(UpdateJobEntity? job) {
+    if (job != null) {
+      _jobID = job.id;
+      _isEdit = true;
+      emit(AddJobState.fromUpdateJobEntity(job));
+    }
+  }
 
   Future addJob() async {
     if (_validate() == null) {
       emit(state.copyWith(isLoading: true));
       final response = await _addJobUseCase.call(params: state.getJobEntity);
+      emit(state.copyWith(dataState: response));
+    } else {
+      emit(state.copyWith(dataState: DataFailed(_validate()!)));
+    }
+  }
+
+  Future updateJob() async {
+    if (_validate() == null) {
+      emit(state.copyWith(isLoading: true));
+      final response = await _updateJobUseCase.call(
+          params: state.getUpdateJobEntity(_jobID!));
       emit(state.copyWith(dataState: response));
     } else {
       emit(state.copyWith(dataState: DataFailed(_validate()!)));
@@ -84,25 +112,31 @@ class AddJobCubit extends Cubit<AddJobState> {
     }
   }
 
-  void showBottomSheetTypeWorkplace(
-    BuildContext context, {
-    required int groupValue,
-  }) {
+  void customBottomSheet(BuildContext context, {required Widget child}) {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       backgroundColor: Colors.white,
-      builder: (context) {
-        return BottomSheetTypeWorkplaceView(
-          groupValue: groupValue,
-          onChange: (value) {
-            context.router.pop();
-            emit(state.copyWith(typeWorkplace: value));
-          },
-        );
-      },
+      isScrollControlled: true,
+      builder: (context) => child,
+    );
+  }
+
+  void showBottomSheetTypeWorkplace(
+    BuildContext context, {
+    required int groupValue,
+  }) {
+    customBottomSheet(
+      context,
+      child: BottomSheetTypeWorkplaceView(
+        groupValue: groupValue,
+        onChange: (value) {
+          context.router.pop();
+          emit(state.copyWith(typeWorkplace: value));
+        },
+      ),
     );
   }
 
@@ -110,63 +144,42 @@ class AddJobCubit extends Cubit<AddJobState> {
     TextEditingController controller = TextEditingController(
         text: state.salary != -1 ? state.salary.toString() : "");
     final formKey = GlobalKey<FormState>();
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    customBottomSheet(
+      context,
+      child: BottomSheetSalary(
+        formKey: formKey,
+        controller: controller,
+        onChange: (value) {
+          context.router.pop();
+          emit(state.copyWith(salary: value));
+        },
       ),
-      backgroundColor: Colors.white,
-      isScrollControlled: true,
-      builder: (context) {
-        return BottomSheetSalary(
-          formKey: formKey,
-          controller: controller,
-          onChange: (value) {
-            context.router.pop();
-            emit(state.copyWith(salary: value));
-          },
-        );
-      },
     );
   }
 
   void showBottomSheetLevel(BuildContext context, {required int groupValue}) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    customBottomSheet(
+      context,
+      child: BottomSheetLevel(
+        groupValue: groupValue,
+        onChange: (value) {
+          context.router.pop();
+          emit(state.copyWith(level: value));
+        },
       ),
-      backgroundColor: Colors.white,
-      builder: (context) {
-        return BottomSheetLevel(
-          groupValue: groupValue,
-          onChange: (value) {
-            context.router.pop();
-            emit(state.copyWith(level: value));
-          },
-        );
-      },
     );
   }
 
   void showBottomSheetJobType(BuildContext context, {required int groupValue}) {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    customBottomSheet(
+      context,
+      child: BottomSheetJobTypeView(
+        groupValue: groupValue,
+        onChange: (value) {
+          context.router.pop();
+          emit(state.copyWith(jobType: value));
+        },
       ),
-      backgroundColor: Colors.white,
-      isScrollControlled: true,
-      builder: (context) {
-        return BottomSheetJobTypeView(
-          groupValue: groupValue,
-          onChange: (value) {
-            context.router.pop();
-            emit(state.copyWith(jobType: value));
-          },
-        );
-      },
     );
   }
 }

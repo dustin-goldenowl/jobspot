@@ -27,6 +27,14 @@ class AddPostState extends Equatable {
     );
   }
 
+  factory AddPostState.ds() {
+    return const AddPostState(
+      isLoading: false,
+      images: [],
+      removeImages: [],
+    );
+  }
+
   @override
   List<Object?> get props => [dataState, isLoading, images, removeImages];
 }

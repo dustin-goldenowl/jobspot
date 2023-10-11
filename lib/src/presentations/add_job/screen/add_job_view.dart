@@ -27,9 +27,15 @@ class AddJobView extends StatelessWidget {
         scrolledUnderElevation: 0,
         actions: [
           TextButton(
-            onPressed: context.read<AddJobCubit>().addJob,
+            onPressed: context.read<AddJobCubit>().isEdit
+                ? context.read<AddJobCubit>().updateJob
+                : context.read<AddJobCubit>().addJob,
             style: TextButton.styleFrom(foregroundColor: AppColors.deepSaffron),
-            child: Text(AppLocal.text.add_post_page_post),
+            child: Text(
+              context.read<AddJobCubit>().isEdit
+                  ? AppLocal.text.add_post_page_update
+                  : AppLocal.text.add_post_page_post,
+            ),
           ),
         ],
       ),
