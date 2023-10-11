@@ -36,12 +36,12 @@ class BottomSheetSalary extends StatelessWidget {
           ),
           const SizedBox(height: 50),
           Text(
-            AppLocal.text.add_job_page_choose_salary,
+            AppLocal.text.add_job_page_enter_salary,
             style: AppStyles.boldTextHaiti.copyWith(fontSize: 18),
           ),
           const SizedBox(height: 10),
           Text(
-            AppLocal.text.add_job_page_choose_salary_content,
+            AppLocal.text.add_job_page_enter_salary_content,
             style: AppStyles.normalTextMulledWine,
             textAlign: TextAlign.center,
           ),

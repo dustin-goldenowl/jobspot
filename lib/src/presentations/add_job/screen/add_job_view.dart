@@ -2,8 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/function/loading_animation.dart';
+import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/utils/date_time_utils.dart';
 import 'package:jobspot/src/presentations/add_job/cubit/add_job_cubit.dart';
 import 'package:jobspot/src/presentations/add_job/domain/router/add_job_coordinator.dart';
@@ -24,13 +27,32 @@ class AddJobView extends StatelessWidget {
         scrolledUnderElevation: 0,
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: context.read<AddJobCubit>().addJob,
             style: TextButton.styleFrom(foregroundColor: AppColors.deepSaffron),
             child: Text(AppLocal.text.add_post_page_post),
           ),
         ],
       ),
-      body: _buildBody(context),
+      body: BlocListener<AddJobCubit, AddJobState>(
+        listenWhen: (previous, current) {
+          if (previous.isLoading) Navigator.of(context).pop();
+          return true;
+        },
+        listener: (context, state) {
+          if (state.isLoading) loadingAnimation(context);
+
+          if (state.dataState is DataSuccess) {
+            customToast(context,
+                text: AppLocal.text.add_job_page_create_successful_jobs);
+            context.router.pop();
+          }
+
+          if (state.dataState is DataFailed) {
+            customToast(context, text: state.dataState!.error ?? "");
+          }
+        },
+        child: _buildBody(context),
+      ),
     );
   }
 
@@ -105,8 +127,8 @@ class AddJobView extends StatelessWidget {
       buildWhen: (previous, current) => previous.salary != current.salary,
       builder: (context, state) {
         return _buildJobInfo(
-          title: AppLocal.text.add_job_page_choose_salary,
-          content: state.salary != -1 ? state.salary.toString() : null,
+          title: AppLocal.text.add_job_page_salary,
+          content: state.salary != -1 ? "${state.salary}\$" : null,
           onTap: () {
             context.read<AddJobCubit>().showBottomSheetSalary(context);
           },
