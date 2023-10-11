@@ -175,26 +175,31 @@ class ViewJobView extends StatelessWidget {
   Widget _buildRequirements(List<String> requirements) {
     return JobTitleInfo(
       title: AppLocal.text.view_job_page_requirement,
-      child: ListView.separated(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          return Row(
-            children: [
-              _buildDotText,
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  requirements[index],
-                  style: AppStyles.normalTextMulledWine,
-                ),
-              ),
-            ],
-          );
-        },
-        separatorBuilder: (context, index) => const SizedBox(height: 15),
-        itemCount: requirements.length,
-      ),
+      child: requirements.isNotEmpty
+          ? ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Row(
+                  children: [
+                    _buildDotText,
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        requirements[index],
+                        style: AppStyles.normalTextMulledWine,
+                      ),
+                    ),
+                  ],
+                );
+              },
+              separatorBuilder: (context, index) => const SizedBox(height: 15),
+              itemCount: requirements.length,
+            )
+          : Text(
+              AppLocal.text.view_job_page_no_requirement,
+              style: AppStyles.normalTextMulledWine,
+            ),
     );
   }
 

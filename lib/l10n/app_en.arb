@@ -171,5 +171,6 @@
     "view_job_page_position": "Position",
     "view_job_page_level": "Level",
     "view_job_page_job_type": "Job Type",
+    "view_job_page_no_requirement": "No requirement",
     "view_job_page_job_description": "Job Description"
 }
