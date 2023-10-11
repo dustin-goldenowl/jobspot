@@ -70,6 +70,21 @@ class AddJobState extends Equatable {
     );
   }
 
+  factory AddJobState.fromUpdateJobEntity(UpdateJobEntity entity) {
+    return AddJobState(
+      typeWorkplace: entity.typeWorkplace,
+      jobType: entity.jobType,
+      level: entity.level,
+      salary: entity.salary,
+      jobLocation: entity.jobLocation,
+      jobPosition: entity.jobPosition,
+      description: entity.description,
+      endDate: entity.endDate,
+      startDate: entity.startDate,
+      isLoading: false,
+    );
+  }
+
   JobEntity get getJobEntity => JobEntity(
         description: description,
         jobLocation: jobLocation,
@@ -80,6 +95,19 @@ class AddJobState extends Equatable {
         typeWorkplace: typeWorkplace,
         startDate: startDate,
         endDate: endDate,
+      );
+
+  UpdateJobEntity getUpdateJobEntity(String id) => UpdateJobEntity(
+        description: description,
+        jobLocation: jobLocation,
+        jobPosition: jobPosition,
+        jobType: jobType,
+        level: level,
+        salary: salary,
+        typeWorkplace: typeWorkplace,
+        startDate: startDate,
+        endDate: endDate,
+        id: id,
       );
 
   @override

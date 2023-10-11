@@ -10,10 +10,12 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i14;
 import 'package:flutter/material.dart' as _i15;
+import 'package:jobspot/src/presentations/add_job/domain/entities/update_job_entity.dart'
+    as _i16;
 import 'package:jobspot/src/presentations/add_job/screen/add_job_page.dart'
     as _i1;
 import 'package:jobspot/src/presentations/add_post/domain/entities/update_post_entity.dart'
-    as _i16;
+    as _i17;
 import 'package:jobspot/src/presentations/add_post/screen/add_post_page.dart'
     as _i2;
 import 'package:jobspot/src/presentations/check_email/screen/check_email_page.dart'
@@ -44,9 +46,14 @@ abstract class $AppRouter extends _i14.RootStackRouter {
   @override
   final Map<String, _i14.PageFactory> pagesMap = {
     AddJobRoute.name: (routeData) {
+      final args = routeData.argsAs<AddJobRouteArgs>(
+          orElse: () => const AddJobRouteArgs());
       return _i14.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i1.AddJobPage(),
+        child: _i1.AddJobPage(
+          key: args.key,
+          job: args.job,
+        ),
       );
     },
     AddPostRoute.name: (routeData) {
@@ -148,16 +155,40 @@ abstract class $AppRouter extends _i14.RootStackRouter {
 
 /// generated route for
 /// [_i1.AddJobPage]
-class AddJobRoute extends _i14.PageRouteInfo<void> {
-  const AddJobRoute({List<_i14.PageRouteInfo>? children})
-      : super(
+class AddJobRoute extends _i14.PageRouteInfo<AddJobRouteArgs> {
+  AddJobRoute({
+    _i15.Key? key,
+    _i16.UpdateJobEntity? job,
+    List<_i14.PageRouteInfo>? children,
+  }) : super(
           AddJobRoute.name,
+          args: AddJobRouteArgs(
+            key: key,
+            job: job,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'AddJobRoute';
 
-  static const _i14.PageInfo<void> page = _i14.PageInfo<void>(name);
+  static const _i14.PageInfo<AddJobRouteArgs> page =
+      _i14.PageInfo<AddJobRouteArgs>(name);
+}
+
+class AddJobRouteArgs {
+  const AddJobRouteArgs({
+    this.key,
+    this.job,
+  });
+
+  final _i15.Key? key;
+
+  final _i16.UpdateJobEntity? job;
+
+  @override
+  String toString() {
+    return 'AddJobRouteArgs{key: $key, job: $job}';
+  }
 }
 
 /// generated route for
@@ -165,7 +196,7 @@ class AddJobRoute extends _i14.PageRouteInfo<void> {
 class AddPostRoute extends _i14.PageRouteInfo<AddPostRouteArgs> {
   AddPostRoute({
     _i15.Key? key,
-    _i16.UpdatePostEntity? post,
+    _i17.UpdatePostEntity? post,
     List<_i14.PageRouteInfo>? children,
   }) : super(
           AddPostRoute.name,
@@ -190,7 +221,7 @@ class AddPostRouteArgs {
 
   final _i15.Key? key;
 
-  final _i16.UpdatePostEntity? post;
+  final _i17.UpdatePostEntity? post;
 
   @override
   String toString() {
