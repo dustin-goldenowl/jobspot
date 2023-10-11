@@ -39,19 +39,20 @@ class JobModel {
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data()!;
     return JobModel(
-        id: snapshot.id,
-        jobType: data["jobType"],
-        location: data["location"],
-        owner: data["owner"],
-        position: data["position"],
-        salary: data["salary"],
-        typeWorkplace: data["typeWorkplace"],
-        level: data["level"],
-        description: data["description"],
-        endDate: (data["endDate"] as Timestamp).toDate(),
-        jobPosition: data["position"],
-        startDate: (data["startDate"] as Timestamp).toDate(),
-        requirements: List<String>.from(data["requirements"].map((x) => x)));
+      id: snapshot.id,
+      jobType: data["jobType"],
+      location: data["location"],
+      owner: data["owner"],
+      position: data["position"],
+      salary: data["salary"],
+      typeWorkplace: data["typeWorkplace"],
+      level: data["level"],
+      description: data["description"],
+      endDate: (data["endDate"] as Timestamp).toDate(),
+      requirements: List<String>.from(data["requirements"].map((x) => x)),
+      jobPosition: data["position"],
+      startDate: (data["startDate"] as Timestamp).toDate(),
+    );
   }
 
   JobEntity toJobEntity() {

@@ -161,5 +161,15 @@
     "job_description_page_save_changes_content": "Bạn có chắc chắn muốn thay đổi những gì bạn đã nhập không?",
     "job_description_page_continue_fill": "Tiếp tục điền",
     "job_description_page_undo_changes": "Hoàn tác thay đổi",
-    "job_description_page_save": "Lưu"
+    "job_description_page_save": "Lưu",
+
+    "view_job_page_apply_now": "Ứng tuyển ngay",
+    "view_job_page_read_more": "Đọc thêm",
+    "view_job_page_requirement": "Yêu cầu",
+    "view_job_page_location": "Vị trí",
+    "view_job_page_informations": "Thông tin",
+    "view_job_page_position": "Vị trí công việc",
+    "view_job_page_level": "Cấp bậc",
+    "view_job_page_job_type": "Loại công việ",
+    "view_job_page_job_description": "Mô tả công việc"
 }

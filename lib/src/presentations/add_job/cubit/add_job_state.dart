@@ -68,9 +68,9 @@ class AddJobState extends Equatable {
       jobPosition: "",
       description: "",
       salary: -1,
-      endDate: DateTime.now(),
-      startDate: DateTime.now(),
-      requirements: [],
+      endDate: DateTime.now().getDate,
+      startDate: DateTime.now().getDate,
+      requirements: const [],
       isLoading: false,
     );
   }
@@ -86,7 +86,7 @@ class AddJobState extends Equatable {
       description: entity.description,
       endDate: entity.endDate,
       startDate: entity.startDate,
-      requirements: [],
+      requirements: const [],
       isLoading: false,
     );
   }

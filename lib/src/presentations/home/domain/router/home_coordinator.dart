@@ -8,5 +8,5 @@ class HomeCoordinator {
   static AppRouter get rootRouter => getIt<AppRouter>();
 
   static void showviewJobDescription(String postID) =>
-      rootRouter.replace(ViewJobRoute(postID: postID));
+      rootRouter.push(ViewJobRoute(postID: postID));
 }

@@ -13,14 +13,7 @@ class JobTitleInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: TextStyle(
-            color: AppColors.haiti,
-            fontWeight: FontWeight.w700,
-            fontSize: 16,
-          ),
-        ),
+        Text(title, style: AppStyles.boldTextHaiti.copyWith(fontSize: 16)),
         const SizedBox(height: 16),
         child,
       ],

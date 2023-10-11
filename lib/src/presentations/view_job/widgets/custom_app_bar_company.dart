@@ -1,21 +1,27 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 
 import '../../../core/constants/constants.dart';
 
-class CustomAppBarCompany extends StatelessWidget
-    implements PreferredSizeWidget {
+class CustomAppBarCompany extends StatelessWidget {
   const CustomAppBarCompany({
     super.key,
-    required this.width,
-    required this.onPop,
-    required this.onMore,
+    required this.avatar,
+    required this.companyName,
+    required this.jobPosition,
+    required this.location,
+    required this.time,
   });
 
-  final double width;
-  final VoidCallback onPop;
-  final VoidCallback onMore;
+  final String companyName;
+  final String time;
+  final String location;
+  final String jobPosition;
+  final String avatar;
 
   @override
   Widget build(BuildContext context) {
@@ -24,62 +30,75 @@ class CustomAppBarCompany extends StatelessWidget
         alignment: Alignment.center,
         children: [
           Column(
-            children: [
-              Container(
-                height: 120,
-                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                alignment: Alignment.topCenter,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      onPressed: onPop,
-                      icon: const Icon(Icons.arrow_back_rounded),
-                    ),
-                    IconButton(
-                      onPressed: onMore,
-                      icon: const Icon(FontAwesomeIcons.ellipsisVertical),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                height: 120,
-                width: double.infinity,
-                decoration: const BoxDecoration(color: Color(0xFFF3F2F2)),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 28),
-                    Text(
-                      "UI/UX Designer",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18,
-                        color: AppColors.nightBlue,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _buildText("Google"),
-                        _buildDotText,
-                        _buildText("California"),
-                        _buildDotText,
-                        _buildText("1 day ago")
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ],
+            children: [_buildUpBody(context), _buildBottomBody()],
           ),
-          Positioned(
-            top: 60,
-            child: SvgPicture.asset(AppImages.google, width: 84, height: 84),
-          ),
+          Positioned(top: 60, child: _buildAvatar()),
         ],
       ),
+    );
+  }
+
+  Container _buildBottomBody() {
+    return Container(
+      height: 120,
+      width: double.infinity,
+      decoration: const BoxDecoration(color: Color(0xFFF3F2F2)),
+      child: Column(
+        children: [
+          const SizedBox(height: 28),
+          Text(
+            jobPosition,
+            style: AppStyles.boldTextNightBlue.copyWith(fontSize: 18),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildText(companyName),
+              _buildDotText,
+              _buildText(location),
+              _buildDotText,
+              _buildText(time)
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Container _buildUpBody(BuildContext context) {
+    return Container(
+      height: 120,
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+      alignment: Alignment.topCenter,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          IconButton(
+            onPressed: context.router.pop,
+            icon: const Icon(Icons.arrow_back_rounded),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(FontAwesomeIcons.ellipsisVertical),
+          )
+        ],
+      ),
+    );
+  }
+
+  ClipOval _buildAvatar() {
+    return ClipOval(
+      child: avatar.isEmpty
+          ? SvgPicture.asset(AppImages.logo, height: 84, width: 84)
+          : CachedNetworkImage(
+              imageUrl: avatar,
+              placeholder: (_, __) =>
+                  const ItemLoading(width: 84, height: 84, radius: 360),
+              errorWidget: (_, __, ___) => const Icon(Icons.warning),
+              height: 84,
+              width: 84,
+            ),
     );
   }
 
@@ -92,7 +111,4 @@ class CustomAppBarCompany extends StatelessWidget
       style: AppStyles.normalTextNightBlue.copyWith(fontSize: 16),
     );
   }
-
-  @override
-  Size get preferredSize => Size(width, 240);
 }

@@ -16,18 +16,9 @@ class JobSubtitleInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: TextStyle(
-            color: AppColors.mulledWine,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
+        Text(title, style: AppStyles.boldTextMulledWine),
         const SizedBox(height: 5),
-        Text(
-          content,
-          style: TextStyle(color: AppColors.mulledWine),
-        ),
+        Text(content, style: TextStyle(color: AppColors.mulledWine)),
         const SizedBox(height: 12),
         const Divider(color: Color(0xFFDEE1E7), thickness: 0.5)
       ],

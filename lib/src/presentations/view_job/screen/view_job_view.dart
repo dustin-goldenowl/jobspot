@@ -1,7 +1,11 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jobspot/src/core/common/custom_toast.dart';
+import 'package:jobspot/src/core/config/localization/app_local.dart';
+import 'package:jobspot/src/presentations/view_job/widgets/app_bar_company_loading.dart';
+import 'package:jobspot/src/presentations/view_job/widgets/job_description_loading.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/save_job/widgets/tag_item.dart';
@@ -17,12 +21,10 @@ class ViewJobView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+
     return Scaffold(
-      appBar: CustomAppBarCompany(
-        width: MediaQuery.sizeOf(context).width,
-        onMore: () {},
-        onPop: () => context.router.pop(),
-      ),
+      appBar: _buildAppBar(width),
       bottomNavigationBar: _buildBottomBar(context),
       body: RefreshIndicator(
         onRefresh: context.read<ViewJobCubit>().fetchJobData,
@@ -32,19 +34,34 @@ class ViewJobView extends StatelessWidget {
             padding: const EdgeInsets.all(AppDimens.smallPadding),
             child: BlocListener<ViewJobCubit, ViewJobState>(
               listener: (context, state) {
-                // TODO: implement listener
+                if (state.dataState is DataFailed) {
+                  customToast(context, text: state.dataState!.error ?? "");
+                }
               },
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildDescription(),
-                  const SizedBox(height: 20),
-                  _buildBody(),
-                ],
-              ),
+              child: _buildBody(),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  PreferredSize _buildAppBar(double width) {
+    return PreferredSize(
+      preferredSize: Size(width, 240),
+      child: BlocBuilder<ViewJobCubit, ViewJobState>(
+        builder: (context, state) {
+          if (state.dataState is DataSuccess) {
+            return CustomAppBarCompany(
+              avatar: state.dataState!.data!.company.avatar,
+              companyName: state.dataState!.data!.company.name,
+              location: state.dataState!.data!.company.address,
+              jobPosition: state.dataState!.data!.position,
+              time: timeago.format(state.dataState!.data!.startDate),
+            );
+          }
+          return const AppBarCompanyLoading();
+        },
       ),
     );
   }
@@ -54,21 +71,23 @@ class ViewJobView extends StatelessWidget {
       buildWhen: (previous, current) => current is! DataFailed,
       builder: (context, state) {
         if (state.dataState is DataSuccess) {
+          final data = state.dataState!.data!;
+          String province = AppLists.provinces.firstWhere(
+              (element) => (element["code"] as int) == data.location)["name"];
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildRequirements(state.dataState!.data!.requirements),
+              _buildDescription(),
               const SizedBox(height: 20),
-              _buildLocation("Overlook Avenue, Belleville, NJ, USA"),
+              _buildRequirements(data.requirements),
               const SizedBox(height: 20),
-              _buildInformation(state.dataState!.data!),
-              // const SizedBox(height: 20),
-              // _buildFacilitiesAndOthers(),
+              _buildLocation(province),
+              const SizedBox(height: 20),
+              _buildInformation(data),
             ],
           );
-        } else {
-          return const CircularProgressIndicator();
         }
+        return const JobDescriptionLoading();
       },
     );
   }
@@ -116,7 +135,7 @@ class ViewJobView extends StatelessWidget {
               onPressed: () {
                 //TODO tap to apply job
               },
-              title: "APPLY NOW",
+              title: AppLocal.text.view_job_page_apply_now.toUpperCase(),
             ),
           )
         ],
@@ -126,19 +145,19 @@ class ViewJobView extends StatelessWidget {
 
   Widget _buildInformation(JobEntity job) {
     return JobTitleInfo(
-      title: "Informations",
+      title: AppLocal.text.view_job_page_informations,
       child: Column(
         children: [
           JobSubtitleInfo(
-            title: "Position",
+            title: AppLocal.text.view_job_page_position,
             content: job.jobPosition,
           ),
           JobSubtitleInfo(
-            title: "Level",
+            title: AppLocal.text.view_job_page_level,
             content: AppLists.listLevel[job.level],
           ),
           JobSubtitleInfo(
-            title: "Job Type",
+            title: AppLocal.text.view_job_page_job_type,
             content: AppLists.listJobType[job.jobType],
           ),
         ],
@@ -148,14 +167,14 @@ class ViewJobView extends StatelessWidget {
 
   Widget _buildLocation(String location) {
     return JobTitleInfo(
-      title: "Location",
+      title: AppLocal.text.view_job_page_location,
       child: Text(location, style: TextStyle(color: AppColors.mulledWine)),
     );
   }
 
   Widget _buildRequirements(List<String> requirements) {
     return JobTitleInfo(
-      title: "Requirements",
+      title: AppLocal.text.view_job_page_requirement,
       child: ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -165,8 +184,10 @@ class ViewJobView extends StatelessWidget {
               _buildDotText,
               const SizedBox(width: 10),
               Expanded(
-                child: Text(requirements[index],
-                    style: AppStyles.normalTextMulledWine),
+                child: Text(
+                  requirements[index],
+                  style: AppStyles.normalTextMulledWine,
+                ),
               ),
             ],
           );
@@ -183,7 +204,7 @@ class ViewJobView extends StatelessWidget {
       builder: (context, state) {
         final description = state.dataState?.data!.description ?? "";
         return JobTitleInfo(
-          title: "Job Description",
+          title: AppLocal.text.view_job_page_job_description,
           child: LayoutBuilder(
             builder: (context, constraints) {
               var span = TextSpan(
@@ -235,7 +256,7 @@ class ViewJobView extends StatelessWidget {
           GestureDetector(
             onTap: context.read<ViewJobCubit>().readMore,
             child: TagItem(
-              title: "Read more",
+              title: AppLocal.text.view_job_page_read_more,
               backgroundColor: AppColors.veryLightBlue.withOpacity(0.2),
             ),
           ),
@@ -245,31 +266,4 @@ class ViewJobView extends StatelessWidget {
 
   Widget get _buildDotText =>
       Text("•", style: AppStyles.boldTextNightBlue.copyWith(fontSize: 25));
-
-  // TODO It may be added later or removed from the project
-  Widget _buildFacilitiesAndOthers() {
-    return JobTitleInfo(
-      title: "Facilities and Others",
-      child: ListView.separated(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          return Row(
-            children: [
-              _buildDotText,
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  "listFacilities[index]",
-                  style: TextStyle(color: AppColors.mulledWine),
-                ),
-              ),
-            ],
-          );
-        },
-        separatorBuilder: (context, index) => const SizedBox(height: 10),
-        itemCount: 10, //listFacilities.length,
-      ),
-    );
-  }
 }
