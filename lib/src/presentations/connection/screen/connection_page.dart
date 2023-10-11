@@ -10,7 +10,7 @@ class ConnectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<ConnectionCubit>(),
+      create: (_) => getIt<ConnectionCubit>()..fetchPostData(),
       child: const ConnectionView(),
     );
   }

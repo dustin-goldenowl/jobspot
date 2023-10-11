@@ -42,4 +42,10 @@ class ConnectionCubit extends Cubit<ConnectionState> {
       }
     });
   }
+
+  @override
+  Future<void> close() {
+    if (_postStream != null) _postStream!.cancel();
+    return super.close();
+  }
 }

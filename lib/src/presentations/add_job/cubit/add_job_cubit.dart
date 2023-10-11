@@ -7,6 +7,7 @@ import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/add_job/domain/entities/job_entity.dart';
 import 'package:jobspot/src/presentations/add_job/domain/use_cases/add_job_use_case.dart';
+import 'package:jobspot/src/core/extension/date_time_extension.dart';
 import 'package:jobspot/src/presentations/add_job/widgets/bottom_sheet_job_type_view.dart';
 import 'package:jobspot/src/presentations/add_job/widgets/bottom_sheet_level.dart';
 import 'package:jobspot/src/presentations/add_job/widgets/bottom_sheet_salary.dart';
@@ -68,7 +69,7 @@ class AddJobCubit extends Cubit<AddJobState> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: isStartDate ? DateTime.now() : state.startDate,
+      firstDate: isStartDate ? DateTime.now().getDate : state.startDate,
       lastDate: DateTime(2100),
     );
     if (picked != null && picked != selectedDate) {

@@ -13,7 +13,6 @@ class ConnectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<cubit.ConnectionCubit>().fetchPostData();
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocal.text.connection_page_connection),
