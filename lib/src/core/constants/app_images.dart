@@ -22,4 +22,7 @@ class AppImages {
   static String camera = "assets/images/camera.svg";
   static String picture = "assets/images/picture.svg";
   static String edit = "assets/images/edit.svg";
+  static String upload = "assets/images/upload.svg";
+  static String pdf = "assets/images/pdf.svg";
+  static String applySuccess = "assets/images/apply_success.svg";
 }

@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/function/get_location.dart';
 import 'package:jobspot/src/presentations/home/data/models/job_model.dart';
 import 'package:jobspot/src/presentations/save_job/widgets/tag_item.dart';
 
@@ -23,9 +24,7 @@ class RecentJobCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final location = AppLists.provinces.firstWhere(
-      (element) => element["code"] == jobModel.location,
-    )["name"];
+    final location = getLocation(jobModel.location);
     return GestureDetector(
       onTap: onTap,
       child: Container(

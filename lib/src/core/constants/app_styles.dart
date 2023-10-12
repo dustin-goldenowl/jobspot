@@ -25,4 +25,7 @@ class AppStyles {
 
   static TextStyle boldTextMulledWine =
       TextStyle(color: AppColors.mulledWine, fontWeight: FontWeight.w700);
+
+  static TextStyle boldTextJacarta =
+      TextStyle(color: AppColors.jacarta, fontWeight: FontWeight.w700);
 }

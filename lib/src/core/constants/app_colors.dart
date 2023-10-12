@@ -27,4 +27,8 @@ class AppColors {
   static Color platinum = const Color(0xFFDEE1E7);
   static Color orangeRed = const Color(0xFFFF6B2C);
   static Color pastelBlue = const Color(0xFFACC8D3);
+  static Color manatee = const Color(0xFF9D97B5);
+  static Color venetianRed = const Color(0xFFFC4646);
+  static Color interdimensionalBlue = const Color(0xFF3F13E4);
+  static Color jacarta = const Color(0xFF3A3452);
 }
