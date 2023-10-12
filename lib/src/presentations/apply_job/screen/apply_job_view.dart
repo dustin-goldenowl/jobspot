@@ -93,12 +93,12 @@ class ApplyJobView extends StatelessWidget {
         ),
         const SizedBox(height: 32),
         Text(
-          AppLocal.text.apply_job_page_successful.toUpperCase(),
+          AppLocal.text.apply_job_page_successful,
           style: AppStyles.boldTextJacarta.copyWith(fontSize: 18),
         ),
         const SizedBox(height: 16),
         Text(
-          AppLocal.text.apply_job_page_successful_content.toUpperCase(),
+          AppLocal.text.apply_job_page_successful_content,
           style: AppStyles.normalTextMulledWine,
         ),
         const SizedBox(height: 40),
@@ -134,23 +134,25 @@ class ApplyJobView extends StatelessWidget {
               children: [
                 SvgPicture.asset(AppImages.pdf, height: 45),
                 const SizedBox(width: 20),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      cubit.state.file!.name,
-                      style: AppStyles.normalTextHaiti,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      "${cubit.state.file!.size.getFileSizeString(decimals: 1)} - ${DateTimeUtils.formatCVTime(cubit.state.time!)}",
-                      style: AppStyles.normalTextSpunPearl,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    )
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        cubit.state.file!.name,
+                        style: AppStyles.normalTextHaiti,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        "${cubit.state.file!.size.getFileSizeString(decimals: 1)} - ${DateTimeUtils.formatCVTime(cubit.state.time!)}",
+                        style: AppStyles.normalTextSpunPearl,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    ],
+                  ),
                 )
               ],
             ),
@@ -229,23 +231,25 @@ class ApplyJobView extends StatelessWidget {
                 children: [
                   SvgPicture.asset(AppImages.pdf, height: 45),
                   const SizedBox(width: 20),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        cubit.state.file!.name,
-                        style: AppStyles.normalTextHaiti,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        "${cubit.state.file!.size.getFileSizeString(decimals: 1)} - ${DateTimeUtils.formatCVTime(cubit.state.time!)}",
-                        style: AppStyles.normalTextSpunPearl,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          cubit.state.file!.name,
+                          style: AppStyles.normalTextHaiti,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          "${cubit.state.file!.size.getFileSizeString(decimals: 1)} - ${DateTimeUtils.formatCVTime(cubit.state.time!)}",
+                          style: AppStyles.normalTextSpunPearl,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),
