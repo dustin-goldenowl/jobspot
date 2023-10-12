@@ -1,13 +1,12 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
-import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/home/cubit/home_cubit.dart';
+import 'package:jobspot/src/presentations/home/domain/router/home_coordinator.dart';
 import 'package:jobspot/src/presentations/home/widgets/job_card_loading.dart';
 import 'package:jobspot/src/presentations/home/widgets/recent_job_card.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -68,16 +67,12 @@ class HomeView extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (context, index) {
+                final job = state.data?.jobs[index];
                 return state.data != null
                     ? RecentJobCard(
-                        jobModel: state.data!.jobs[index],
+                        jobModel: job!,
                         onTap: () {
-                          // TODO tap to view full job desciption
-
-                          // TODO Temporarily for testing => will be deleted after completion
-                          context.router.push(AddJobRoute(
-                            job: state.data!.jobs[index].toUpdateJobEntity(),
-                          ));
+                          HomeCoordinator.showviewJobDescription(job.id);
                         },
                         onSave: () {
                           // TODO tap to save job

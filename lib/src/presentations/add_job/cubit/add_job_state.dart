@@ -12,6 +12,7 @@ class AddJobState extends Equatable {
     required this.endDate,
     required this.startDate,
     required this.isLoading,
+    required this.requirements,
     this.dataState,
   });
 
@@ -26,6 +27,7 @@ class AddJobState extends Equatable {
   final DateTime endDate;
   final bool isLoading;
   final DataState? dataState;
+  final List<String> requirements;
 
   AddJobState copyWith({
     int? typeWorkplace,
@@ -37,6 +39,7 @@ class AddJobState extends Equatable {
     String? description,
     DateTime? startDate,
     DateTime? endDate,
+    List<String>? requirements,
     bool isLoading = false,
     DataState? dataState,
   }) {
@@ -50,6 +53,7 @@ class AddJobState extends Equatable {
       salary: salary ?? this.salary,
       endDate: endDate ?? this.endDate,
       startDate: startDate ?? this.startDate,
+      requirements: requirements ?? this.requirements,
       isLoading: isLoading,
       dataState: dataState,
     );
@@ -64,8 +68,9 @@ class AddJobState extends Equatable {
       jobPosition: "",
       description: "",
       salary: -1,
-      endDate: DateTime.now(),
-      startDate: DateTime.now(),
+      endDate: DateTime.now().getDate,
+      startDate: DateTime.now().getDate,
+      requirements: const [],
       isLoading: false,
     );
   }
@@ -81,6 +86,7 @@ class AddJobState extends Equatable {
       description: entity.description,
       endDate: entity.endDate,
       startDate: entity.startDate,
+      requirements: const [],
       isLoading: false,
     );
   }
@@ -95,6 +101,7 @@ class AddJobState extends Equatable {
         typeWorkplace: typeWorkplace,
         startDate: startDate,
         endDate: endDate,
+        requirements: requirements,
       );
 
   UpdateJobEntity getUpdateJobEntity(String id) => UpdateJobEntity(
@@ -105,6 +112,7 @@ class AddJobState extends Equatable {
         level: level,
         salary: salary,
         typeWorkplace: typeWorkplace,
+        requirements: requirements,
         startDate: startDate,
         endDate: endDate,
         id: id,
@@ -123,5 +131,6 @@ class AddJobState extends Equatable {
         startDate,
         isLoading,
         dataState,
+        requirements,
       ];
 }

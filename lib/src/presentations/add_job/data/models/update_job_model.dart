@@ -8,6 +8,7 @@ class UpdateJobModel {
   final int salary;
   final String jobPosition;
   final String description;
+  final List<String> requirements;
   final DateTime startDate;
   final DateTime endDate;
 
@@ -19,6 +20,7 @@ class UpdateJobModel {
     required this.level,
     required this.salary,
     required this.typeWorkplace,
+    required this.requirements,
     required this.startDate,
     required this.endDate,
   });
@@ -32,6 +34,7 @@ class UpdateJobModel {
       level: entity.level,
       salary: entity.salary,
       typeWorkplace: entity.typeWorkplace,
+      requirements: entity.requirements,
       startDate: entity.startDate,
       endDate: entity.endDate,
     );
@@ -46,6 +49,7 @@ class UpdateJobModel {
       "level": level,
       "salary": salary,
       "typeWorkplace": typeWorkplace,
+      "requirements": requirements,
       "startDate": startDate,
       "endDate": endDate,
       "updateAt": DateTime.now(),

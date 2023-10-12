@@ -149,6 +149,8 @@
     "add_job_page_please_select_job_type": "Please select job type",
     "add_job_page_please_enter_job_description": "Please enter job description",
     "add_job_page_please_enter_salary": "Please enter salary",
+    "add_job_page_requirements": "Requirements",
+    "add_job_page_job_requirement": "Job Requirement",
 
     "job_position_page_job_position": "Job Position",
     "job_position_page_search": "Search",
@@ -161,5 +163,16 @@
     "job_description_page_save_changes_content": "Are you sure you want to change what you entered?",
     "job_description_page_continue_fill": "Continue filling",
     "job_description_page_undo_changes": "Undo Changes",
-    "job_description_page_save": "Save"
+    "job_description_page_save": "Save",
+    
+    "view_job_page_apply_now": "Apply now",
+    "view_job_page_read_more": "Read more",
+    "view_job_page_requirement": "Requirement",
+    "view_job_page_location": "Location",
+    "view_job_page_informations": "Informations",
+    "view_job_page_position": "Position",
+    "view_job_page_level": "Level",
+    "view_job_page_job_type": "Job Type",
+    "view_job_page_no_requirement": "No requirement",
+    "view_job_page_job_description": "Job Description"
 }

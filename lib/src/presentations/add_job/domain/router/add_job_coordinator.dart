@@ -8,11 +8,15 @@ class AddJobCoordinator {
   static AppRouter get rootRouter => getIt<AppRouter>();
 
   static void showAddJobDescription({
-    required dynamic Function(String description) onBack,
     required String description,
+    required String title,
+    required dynamic Function(String description) onBack,
   }) =>
-      rootRouter
-          .push(JobDescriptionRoute(onBack: onBack, description: description));
+      rootRouter.push(JobDescriptionRoute(
+        title: title,
+        description: description,
+        onBack: onBack,
+      ));
 
   static void showJobLocation({required Function(int code) onBack}) =>
       rootRouter.push(LocationRoute(onBack: onBack));

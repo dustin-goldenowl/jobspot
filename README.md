@@ -82,6 +82,9 @@
 | --- | --- | --- |
 | <img src="screenshots/connection_screen.png" width=250> | <img src="screenshots/add_post_screen.png" width=250> | <img src="screenshots/edit_post_screen.png" width=250> |
 
+| Home  | Add Job | View Job |
+| --- | --- | --- |
+| <img src="screenshots/home_screen.png" width=250> | <img src="screenshots/add_job_screen.png" width=250> | <img src="screenshots/view_job_screen.png" width=250> |
 
 <!-- TechStack -->
 ### :space_invader: Tech Stack

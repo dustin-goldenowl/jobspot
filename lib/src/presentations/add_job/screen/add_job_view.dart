@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
@@ -87,6 +88,8 @@ class AddJobView extends StatelessWidget {
             const SizedBox(height: 10),
             _buildJobDescription(),
             const SizedBox(height: 10),
+            _buildJobRequirements(),
+            const SizedBox(height: 10),
             _buildSalary(),
             const SizedBox(height: 10),
             _buildStartDate(),
@@ -154,12 +157,84 @@ class AddJobView extends StatelessWidget {
           isShowLine: true,
           onTap: () {
             AddJobCoordinator.showAddJobDescription(
-              onBack: context.read<AddJobCubit>().changeJobDescription,
+              title: AppLocal.text.job_description_page_job_description,
               description: state.description,
+              onBack: context.read<AddJobCubit>().changeJobDescription,
             );
           },
         );
       },
+    );
+  }
+
+  Widget _buildJobRequirements() {
+    return BlocBuilder<AddJobCubit, AddJobState>(
+      buildWhen: (previous, current) =>
+          previous.requirements != current.requirements,
+      builder: (context, state) {
+        return _buildJobInfo(
+          title: AppLocal.text.add_job_page_requirements,
+          isShowLine: true,
+          child: state.requirements.isEmpty
+              ? null
+              : ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return _buildItemRequirement(
+                      context,
+                      requirement: state.requirements[index],
+                      index: index,
+                    );
+                  },
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 15),
+                  itemCount: state.requirements.length,
+                ),
+          onTap: () {
+            AddJobCoordinator.showAddJobDescription(
+              title: AppLocal.text.add_job_page_job_requirement,
+              description: "",
+              onBack: context.read<AddJobCubit>().addJobRequirement,
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildItemRequirement(
+    BuildContext context, {
+    required String requirement,
+    required int index,
+  }) {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(requirement, style: AppStyles.normalTextMulledWine),
+        ),
+        GestureDetector(
+          onTap: () {
+            AddJobCoordinator.showAddJobDescription(
+              title: AppLocal.text.add_job_page_job_requirement,
+              description: requirement,
+              onBack: (requirement) {
+                context
+                    .read<AddJobCubit>()
+                    .editJobRequirement(requirement: requirement, index: index);
+              },
+            );
+          },
+          child: SvgPicture.asset(AppImages.edit),
+        ),
+        const SizedBox(width: 10),
+        GestureDetector(
+          onTap: () {
+            context.read<AddJobCubit>().removeJobRequirement(index);
+          },
+          child: Icon(FontAwesomeIcons.xmark, color: AppColors.orangeRed),
+        )
+      ],
     );
   }
 
@@ -260,6 +335,7 @@ class AddJobView extends StatelessWidget {
   Widget _buildJobInfo({
     required String title,
     String? content,
+    Widget? child,
     bool isShowLine = false,
     required VoidCallback onTap,
   }) {
@@ -277,22 +353,23 @@ class AddJobView extends StatelessWidget {
         ],
       ),
       constraints: const BoxConstraints(minHeight: 70),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(title, style: AppStyles.boldTextHaiti),
-              if (isShowLine && content != null) const SizedBox(height: 10),
-              if (isShowLine && content != null)
-                Divider(color: AppColors.platinum, thickness: 0.5),
-              if (content != null) const SizedBox(height: 10),
-              if (content != null)
-                Text(content, style: AppStyles.normalTextMulledWine),
+              AddButton(isShowEdit: content != null, onTap: onTap),
             ],
           ),
-          AddButton(isShowEdit: content != null, onTap: onTap),
+          if (isShowLine && content != null) const SizedBox(height: 10),
+          if (isShowLine && (content != null || child != null))
+            Divider(color: AppColors.platinum, thickness: 0.5),
+          if (content != null || child != null) const SizedBox(height: 10),
+          if (content != null)
+            Text(content, style: AppStyles.normalTextMulledWine),
+          if (child != null) child,
         ],
       ),
     );

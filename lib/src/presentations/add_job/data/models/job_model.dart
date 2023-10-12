@@ -9,6 +9,7 @@ class JobModel {
   final int salary;
   final String jobPosition;
   final String description;
+  final List<String> requirements;
   final DateTime startDate;
   final DateTime endDate;
 
@@ -20,6 +21,7 @@ class JobModel {
     required this.level,
     required this.salary,
     required this.typeWorkplace,
+    required this.requirements,
     required this.startDate,
     required this.endDate,
   });
@@ -33,6 +35,7 @@ class JobModel {
       level: entity.level,
       salary: entity.salary,
       typeWorkplace: entity.typeWorkplace,
+      requirements: entity.requirements,
       startDate: entity.startDate,
       endDate: entity.endDate,
     );
@@ -48,6 +51,7 @@ class JobModel {
       "level": level,
       "salary": salary,
       "typeWorkplace": typeWorkplace,
+      "requirements": requirements,
       "startDate": startDate,
       "endDate": endDate,
       "creatAt": DateTime.now(),

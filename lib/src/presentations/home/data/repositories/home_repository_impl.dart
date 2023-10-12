@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jobspot/src/core/extension/date_time_extension.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/home/data/models/company_model.dart';
 import 'package:jobspot/src/presentations/home/data/models/job_model.dart';
@@ -11,7 +12,7 @@ class HomeRepositoryImpl extends HomeRepository {
   @override
   Stream<DataState<FetchJobData>> fetchJobData() {
     try {
-      Timestamp time = Timestamp.fromDate(DateTime.now());
+      Timestamp time = Timestamp.fromDate(DateTime.now().getDate);
       return FirebaseFirestore.instance
           .collection("jobs")
           .where("startDate", isLessThanOrEqualTo: time)
@@ -20,7 +21,8 @@ class HomeRepositoryImpl extends HomeRepository {
           .asyncMap((event) async {
         List<JobModel> jobs = [];
         for (var element in event.docs) {
-          if ((element.data()["endDate"] as Timestamp).seconds > time.seconds) {
+          if ((element.data()["endDate"] as Timestamp).seconds >=
+              time.seconds) {
             jobs.add(JobModel.fromDocumentSnapshot(element));
           }
           if (jobs.length > 20) break;
