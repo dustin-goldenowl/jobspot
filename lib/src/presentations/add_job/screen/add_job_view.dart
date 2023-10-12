@@ -173,7 +173,7 @@ class AddJobView extends StatelessWidget {
           previous.requirements != current.requirements,
       builder: (context, state) {
         return _buildJobInfo(
-          title: "Requirements",
+          title: AppLocal.text.add_job_page_requirements,
           isShowLine: true,
           child: state.requirements.isEmpty
               ? null
@@ -193,7 +193,7 @@ class AddJobView extends StatelessWidget {
                 ),
           onTap: () {
             AddJobCoordinator.showAddJobDescription(
-              title: " Job Requirement",
+              title: AppLocal.text.add_job_page_job_requirement,
               description: "",
               onBack: context.read<AddJobCubit>().addJobRequirement,
             );
@@ -216,7 +216,7 @@ class AddJobView extends StatelessWidget {
         GestureDetector(
           onTap: () {
             AddJobCoordinator.showAddJobDescription(
-              title: " Job Requirement",
+              title: AppLocal.text.add_job_page_job_requirement,
               description: requirement,
               onBack: (requirement) {
                 context
