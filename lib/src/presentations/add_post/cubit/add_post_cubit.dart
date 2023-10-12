@@ -67,7 +67,7 @@ class AddPostCubit extends Cubit<AddPostState> {
     bool result = await PermissionService.requestPhotoPermission();
     if (result) {
       final ImagePicker picker = ImagePicker();
-      final List<XFile> images = await picker.pickMultiImage();
+      final List<XFile> images = await picker.pickMultiImage(maxWidth: 512);
       if (images.isNotEmpty) {
         final list = [...state.images, ...images.map((e) => e.path)];
         emit(state.copyWith(images: list));
@@ -77,7 +77,8 @@ class AddPostCubit extends Cubit<AddPostState> {
 
   Future pickImageFromCamera() async {
     final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.camera);
+    final XFile? image =
+        await picker.pickImage(source: ImageSource.camera, maxWidth: 512);
     if (image != null) {
       final list = [...state.images, image.path];
       emit(state.copyWith(images: list));

@@ -177,6 +177,9 @@
     "view_job_page_job_description": "Mô tả công việc",
 
     "apply_job_page_apply_job": "Ứng tuyển công việc",
+    "apply_job_page_select_cv": "Chọn một CV của bạn",
+    "apply_job_page_maximum_size": "Kích thước tệp tải lên tối đa: 3MB",
+    "apply_job_page_file_size_larger": "Kích thước tệp lớn hơn 3MB",
     "apply_job_page_remove_file": "Xóa Tệp",
     "apply_job_page_information": "Thông tin",
     "apply_job_page_information_hint": "Giải thích tại sao bạn là người phù hợp cho công việc này",

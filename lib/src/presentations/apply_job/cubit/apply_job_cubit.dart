@@ -3,6 +3,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jobspot/src/core/common/custom_toast.dart';
+import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/apply_job/domain/entities/cv_entity.dart';
 import 'package:jobspot/src/presentations/apply_job/domain/use_cases/apply_job_use_case.dart';
@@ -17,14 +19,19 @@ class ApplyJobCubit extends Cubit<ApplyJobState> {
 
   ApplyJobCubit(this._useCase) : super(const ApplyJobState());
 
-  Future pickCVFile() async {
+  Future pickCVFile(BuildContext context) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf'],
-      dialogTitle: "Please select an your CV",
+      dialogTitle: AppLocal.text.apply_job_page_select_cv,
     );
     if (result != null) {
-      emit(state.copyWith(file: result.files.single, time: DateTime.now()));
+      if (result.files.single.size > 3000000 && context.mounted) {
+        customToast(context,
+            text: AppLocal.text.apply_job_page_file_size_larger);
+      } else {
+        emit(state.copyWith(file: result.files.single, time: DateTime.now()));
+      }
     }
   }
 
