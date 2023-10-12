@@ -3,12 +3,12 @@ part of 'connection_cubit.dart';
 class ConnectionState extends Equatable {
   const ConnectionState({this.posts, required this.isMore, this.error});
 
-  final List<PostModel>? posts;
+  final List<PostEntity>? posts;
   final bool isMore;
   final String? error;
 
   ConnectionState copyWith({
-    List<PostModel>? posts,
+    List<PostEntity>? posts,
     bool? isMore,
     String? error,
   }) {

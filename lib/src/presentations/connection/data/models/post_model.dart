@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jobspot/src/presentations/add_post/domain/entities/update_post_entity.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 
 class PostModel {
   String id;
@@ -29,9 +30,26 @@ class PostModel {
     required this.updateAt,
   });
 
-  factory PostModel.fromDocumentSnapshot(
+  factory PostModel.fromQueryDocumentSnapshot(
       QueryDocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data();
+    return PostModel(
+      id: snapshot.id,
+      title: data["title"],
+      description: data["description"],
+      owner: data["owner"],
+      images: List<String>.from(data["images"].map((x) => x)),
+      like: List<String>.from(data["like"].map((x) => x)),
+      comment: List<String>.from(data["comment"].map((x) => x)),
+      share: List<String>.from(data["share"].map((x) => x)),
+      createAt: (data["createAt"] as Timestamp).toDate(),
+      updateAt: (data["updateAt"] as Timestamp).toDate(),
+    );
+  }
+
+  factory PostModel.fromDocumentSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    final data = snapshot.data()!;
     return PostModel(
       id: snapshot.id,
       title: data["title"],
@@ -82,6 +100,21 @@ class PostModel {
       "createAt": createAt,
       "updateAt": DateTime.now(),
     };
+  }
+
+  PostEntity toPostEntity() {
+    return PostEntity(
+      user: user!.toUserEntity(),
+      id: id,
+      title: title,
+      description: description,
+      images: images,
+      like: like,
+      comment: comment,
+      share: share,
+      owner: owner,
+      createAt: createAt,
+    );
   }
 
   UpdatePostEntity toUpdatePostEntity() {

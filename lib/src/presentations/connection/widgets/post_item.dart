@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,15 +5,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/common/widgets/image_widget/widget/image_widget.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
-import 'package:jobspot/src/core/config/router/app_router.gr.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/router/connection_coordinator.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/constants/constants.dart';
-import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 
 class PostItem extends StatelessWidget {
   const PostItem({super.key, required this.post});
 
-  final PostModel post;
+  final PostEntity post;
 
   @override
   Widget build(BuildContext context) {
@@ -52,45 +51,47 @@ class PostItem extends StatelessWidget {
   }
 
   Widget _buildHeaderPost(BuildContext context) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () {
-            //Temporarily assigned to test the post editing function
-            context.router.push(AddPostRoute(post: post.toUpdatePostEntity()));
-            // TODO: open page profile of post
-          },
-          child: ClipOval(
-            child: post.user!.avatar.isEmpty
-                ? SvgPicture.asset(AppImages.logo, height: 50, width: 50)
-                : CachedNetworkImage(
-                    imageUrl: post.user!.avatar,
-                    width: 50,
-                    height: 50,
-                    placeholder: (context, url) =>
-                        const ItemLoading(width: 50, height: 50, radius: 0),
-                  ),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => ConnectionCoordinator.showFullPost(post: post),
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              // TODO: open page profile of post
+            },
+            child: ClipOval(
+              child: post.user.avatar.isEmpty
+                  ? SvgPicture.asset(AppImages.logo, height: 50, width: 50)
+                  : CachedNetworkImage(
+                      imageUrl: post.user.avatar,
+                      width: 50,
+                      height: 50,
+                      placeholder: (context, url) =>
+                          const ItemLoading(width: 50, height: 50, radius: 0),
+                    ),
+            ),
           ),
-        ),
-        const SizedBox(width: 10),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(post.user!.name, style: AppStyles.boldTextHaiti),
-            const SizedBox(height: 5),
-            Row(
-              children: [
-                SvgPicture.asset(AppImages.clock, height: 16),
-                const SizedBox(width: 8),
-                Text(
-                  timeago.format(post.createAt),
-                  style: TextStyle(color: AppColors.spunPearl, fontSize: 12),
-                )
-              ],
-            )
-          ],
-        )
-      ],
+          const SizedBox(width: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(post.user.name, style: AppStyles.boldTextHaiti),
+              const SizedBox(height: 5),
+              Row(
+                children: [
+                  SvgPicture.asset(AppImages.clock, height: 16),
+                  const SizedBox(width: 8),
+                  Text(
+                    timeago.format(post.createAt),
+                    style: TextStyle(color: AppColors.spunPearl, fontSize: 12),
+                  )
+                ],
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 

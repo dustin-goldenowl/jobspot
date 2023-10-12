@@ -22,7 +22,7 @@ class ConnectionRepositoryImpl extends ConnectionRepository {
           .asyncMap((event) async {
         List<PostModel> posts = [];
         for (var element in event.docs) {
-          posts.add(PostModel.fromDocumentSnapshot(element));
+          posts.add(PostModel.fromQueryDocumentSnapshot(element));
         }
         final data = await Future.wait([
           getListUser(posts),
@@ -44,7 +44,7 @@ class ConnectionRepositoryImpl extends ConnectionRepository {
             .toList();
         return DataSuccess(FetchPostData(
           isMore: limit < documents.count,
-          posts: posts,
+          posts: posts.map((e) => e.toPostEntity()).toList(),
           limit: limit < documents.count ? limit : documents.count,
         ));
       });

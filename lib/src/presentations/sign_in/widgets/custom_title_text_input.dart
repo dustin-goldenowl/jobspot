@@ -22,6 +22,7 @@ class CustomTitleTextInput extends StatelessWidget {
     this.keyboardType,
     this.textCapitalization = TextCapitalization.none,
     this.inputFormatters,
+    this.suffixIcon,
   });
 
   final TextEditingController controller;
@@ -40,6 +41,7 @@ class CustomTitleTextInput extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextCapitalization textCapitalization;
   final List<TextInputFormatter>? inputFormatters;
+  final Widget? suffixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -95,19 +97,20 @@ class CustomTitleTextInput extends StatelessWidget {
                       size: 20,
                     )
                   : null,
-              suffixIcon: isPassword
-                  ? IconButton(
-                      onPressed: () => onHidePassword!(!obscureText),
-                      icon: Icon(obscureText
-                          ? FontAwesomeIcons.eye
-                          : FontAwesomeIcons.eyeSlash),
-                    )
-                  : isSearch && controller.text.isNotEmpty
+              suffixIcon: suffixIcon ??
+                  (isPassword
                       ? IconButton(
-                          onPressed: () => controller.clear(),
-                          icon: const Icon(FontAwesomeIcons.xmark),
+                          onPressed: () => onHidePassword!(!obscureText),
+                          icon: Icon(obscureText
+                              ? FontAwesomeIcons.eye
+                              : FontAwesomeIcons.eyeSlash),
                         )
-                      : null,
+                      : isSearch && controller.text.isNotEmpty
+                          ? IconButton(
+                              onPressed: () => controller.clear(),
+                              icon: const Icon(FontAwesomeIcons.xmark),
+                            )
+                          : null),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
                 borderSide: const BorderSide(width: 0, style: BorderStyle.none),
