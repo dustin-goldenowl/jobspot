@@ -184,7 +184,11 @@ class ApplyJobView extends StatelessWidget {
             decoration: InputDecoration(
               filled: true,
               fillColor: Colors.white,
-              hintStyle: AppStyles.normalTextSpunPearl,
+              hintStyle: TextStyle(
+                color: AppColors.spunPearl,
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+              ),
               hintText: AppLocal.text.apply_job_page_information_hint,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -280,7 +284,7 @@ class ApplyJobView extends StatelessWidget {
 
   Widget _buildPickCVFile(BuildContext context) {
     return GestureDetector(
-      onTap: context.read<ApplyJobCubit>().pickCVFile,
+      onTap: () => context.read<ApplyJobCubit>().pickCVFile(context),
       child: DottedBorder(
         borderType: BorderType.RRect,
         radius: const Radius.circular(12),
@@ -292,14 +296,24 @@ class ApplyJobView extends StatelessWidget {
           child: SizedBox(
             height: 75,
             width: double.infinity,
-            child: Row(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset(AppImages.upload, width: 24),
-                const SizedBox(width: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(AppImages.upload, width: 24),
+                    const SizedBox(width: 15),
+                    Text(
+                      AppLocal.text.apply_job_page_upload_resume,
+                      style: AppStyles.normalTextHaiti,
+                    )
+                  ],
+                ),
+                const SizedBox(height: 5),
                 Text(
-                  AppLocal.text.apply_job_page_upload_resume,
-                  style: AppStyles.normalTextHaiti,
+                  AppLocal.text.apply_job_page_maximum_size,
+                  style: AppStyles.normalTextSpunPearl.copyWith(fontSize: 12),
                 )
               ],
             ),
