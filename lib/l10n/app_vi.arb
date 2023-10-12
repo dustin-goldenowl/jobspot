@@ -174,5 +174,17 @@
     "view_job_page_level": "Cấp bậc",
     "view_job_page_job_type": "Loại công việc",
     "view_job_page_no_requirement": "Không có yêu cầu",
-    "view_job_page_job_description": "Mô tả công việc"
+    "view_job_page_job_description": "Mô tả công việc",
+
+    "apply_job_page_apply_job": "Ứng tuyển công việc",
+    "apply_job_page_remove_file": "Xóa Tệp",
+    "apply_job_page_information": "Thông tin",
+    "apply_job_page_information_hint": "Giải thích tại sao bạn là người phù hợp cho công việc này",
+    "apply_job_page_upload_resume": "Tải lên CV/Hồ sơ",
+    "apply_job_page_upload_CV": "Tải lên CV",
+    "apply_job_page_upload_CV_content": "Thêm CV/Hồ sơ của bạn để xin việc",
+    "apply_job_page_back_to_home": "Trở về trang chủ",
+    "apply_job_page_find_similar_job": "Tìm công việc tương tự",
+    "apply_job_page_successful": "Thành công",
+    "apply_job_page_successful_content": "Xin chúc mừng, đơn đăng ký của bạn đã được gửi"
 }

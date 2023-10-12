@@ -174,5 +174,17 @@
     "view_job_page_level": "Level",
     "view_job_page_job_type": "Job Type",
     "view_job_page_no_requirement": "No requirement",
-    "view_job_page_job_description": "Job Description"
+    "view_job_page_job_description": "Job Description",
+
+    "apply_job_page_apply_job": "Apply job",
+    "apply_job_page_remove_file": "Remove File",
+    "apply_job_page_information": "Information",
+    "apply_job_page_information_hint": "Explain why you are the right person for this job",
+    "apply_job_page_upload_resume": "Upload CV/Resume",
+    "apply_job_page_upload_CV": "Upload CV",
+    "apply_job_page_upload_CV_content": "Add your CV/Resume to apply for a job",
+    "apply_job_page_back_to_home": "Back to home",
+    "apply_job_page_find_similar_job": "Find a similar job",
+    "apply_job_page_successful": "Successful",
+    "apply_job_page_successful_content": "Congratulations, your application has been sent"
 }

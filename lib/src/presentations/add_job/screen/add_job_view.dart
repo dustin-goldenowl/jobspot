@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/function/get_location.dart';
 import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/utils/date_time_utils.dart';
@@ -260,10 +261,8 @@ class AddJobView extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.jobLocation != current.jobLocation,
       builder: (context, state) {
-        String? province = state.jobLocation != -1
-            ? AppLists.provinces.firstWhere((element) =>
-                (element["code"] as int) == state.jobLocation)["name"]
-            : null;
+        String? province =
+            state.jobLocation != -1 ? getLocation(state.jobLocation) : null;
         return _buildJobInfo(
           title: AppLocal.text.add_job_page_job_location,
           content: province,

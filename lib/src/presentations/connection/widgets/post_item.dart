@@ -97,7 +97,7 @@ class PostItem extends StatelessWidget {
   Widget _buildBottomPost() {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF3F13E4).withOpacity(0.1),
+        color: AppColors.interdimensionalBlue.withOpacity(0.1),
         borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)),
       ),
       height: 64,

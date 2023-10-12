@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
+import 'package:jobspot/src/core/function/get_location.dart';
+import 'package:jobspot/src/presentations/view_job/domain/router/view_job_coordinator.dart';
 import 'package:jobspot/src/presentations/view_job/widgets/app_bar_company_loading.dart';
 import 'package:jobspot/src/presentations/view_job/widgets/job_description_loading.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -52,12 +54,13 @@ class ViewJobView extends StatelessWidget {
       child: BlocBuilder<ViewJobCubit, ViewJobState>(
         builder: (context, state) {
           if (state.dataState is DataSuccess) {
+            final data = state.dataState!.data!;
             return CustomAppBarCompany(
-              avatar: state.dataState!.data!.company.avatar,
-              companyName: state.dataState!.data!.company.name,
-              location: state.dataState!.data!.company.address,
-              jobPosition: state.dataState!.data!.position,
-              time: timeago.format(state.dataState!.data!.startDate),
+              avatar: data.company.avatar,
+              companyName: data.company.name,
+              location: data.company.address,
+              jobPosition: data.position,
+              time: timeago.format(data.startDate),
             );
           }
           return const AppBarCompanyLoading();
@@ -72,8 +75,6 @@ class ViewJobView extends StatelessWidget {
       builder: (context, state) {
         if (state.dataState is DataSuccess) {
           final data = state.dataState!.data!;
-          String province = AppLists.provinces.firstWhere(
-              (element) => (element["code"] as int) == data.location)["name"];
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -81,7 +82,7 @@ class ViewJobView extends StatelessWidget {
               const SizedBox(height: 20),
               _buildRequirements(data.requirements),
               const SizedBox(height: 20),
-              _buildLocation(province),
+              _buildLocation(getLocation(data.location) ?? ""),
               const SizedBox(height: 20),
               _buildInformation(data),
             ],
@@ -133,7 +134,11 @@ class ViewJobView extends StatelessWidget {
           Expanded(
             child: CustomButton(
               onPressed: () {
-                //TODO tap to apply job
+                DataState? dataState =
+                    context.read<ViewJobCubit>().state.dataState;
+                if (dataState is DataSuccess) {
+                  ViewJobCoordinator.showApplyJob(job: dataState.data!);
+                }
               },
               title: AppLocal.text.view_job_page_apply_now.toUpperCase(),
             ),
