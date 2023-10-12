@@ -177,6 +177,9 @@
     "view_job_page_job_description": "Job Description",
 
     "apply_job_page_apply_job": "Apply job",
+    "apply_job_page_select_cv": "Please select one for your CV",
+    "apply_job_page_maximum_size": "Maximum upload file size: 3MB",
+    "apply_job_page_file_size_larger": "File size larger than 3MB",
     "apply_job_page_remove_file": "Remove File",
     "apply_job_page_information": "Information",
     "apply_job_page_information_hint": "Explain why you are the right person for this job",
