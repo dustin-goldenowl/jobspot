@@ -9,10 +9,12 @@ import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/comment_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
+import 'package:jobspot/src/presentations/view_post/domain/entities/reply_comment_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/send_comment_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/favourite_comment_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/favourite_post_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/fetch_data_comment_first_level_use_case.dart';
+import 'package:jobspot/src/presentations/view_post/domain/use_cases/reply_comment_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/send_comment_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/sync_post_data_use_case.dart';
 
@@ -26,11 +28,15 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
   final SendCommentUseCase _sendCommentUseCase;
   final FavouritePostUseCase _favouritePostUseCase;
   final FavouriteCommentUseCase _favouriteCommentUseCase;
+  final ReplyCommentUseCase _replyCommentUseCase;
 
   final TextEditingController commentController = TextEditingController();
 
   StreamSubscription? _postStream;
   String? _postID;
+  FocusNode commentFocusNode = FocusNode();
+  bool isKeyboardVisible = false;
+  CommentEntity? replyComment;
 
   ViewPostBloc(
     this._commentFirstLevelUseCase,
@@ -38,10 +44,19 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     this._favouritePostUseCase,
     this._sendCommentUseCase,
     this._syncPostDataUseCase,
+    this._replyCommentUseCase,
   ) : super(ViewPostInitial()) {
+    commentController.addListener(() => add(ChangeTextCommentEvent()));
+
+    on<ChangeTextCommentEvent>((event, emit) => emit(ChangeTextCommentState()));
+
+    on<ReplyCommentClickEvent>(_replyCommentClick);
+
     on<SyncPostDataEvent>(_syncPostData);
 
     on<SendPostDataEvent>(_sendPostData);
+
+    on<ReplyCommentEvent>(_replyComment);
 
     on<GetListCommentFirstLevelEvent>(_getListCommentFirstLevel);
 
@@ -50,6 +65,11 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     on<FavouritePostEvent>(_favouritePost);
 
     on<FavouriteCommentEvent>(_favouriteComment);
+  }
+
+  void _replyCommentClick(ReplyCommentClickEvent event, _) {
+    commentFocusNode.requestFocus();
+    replyComment = event.comment;
   }
 
   void _syncPostData(SyncPostDataEvent event, Emitter emitter) {
@@ -82,13 +102,31 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
   Future _sendComment(SendCommentEvent event, Emitter emit) async {
     String comment = commentController.text;
     commentController.clear();
+    commentFocusNode.unfocus();
     final response = await _sendCommentUseCase.call(
         params: SendCommentEntity(
       content: comment,
-      owner: FirebaseAuth.instance.currentUser!.uid,
       post: _postID!,
     ));
     if (response is DataSuccess) {}
+  }
+
+  Future _replyComment(ReplyCommentEvent event, Emitter emit) async {
+    String comment = commentController.text;
+    String commentID = replyComment!.id;
+    replyComment = null;
+    commentController.clear();
+    commentFocusNode.unfocus();
+    emit(ChangeTextCommentState());
+    final response = await _replyCommentUseCase.call(
+        params: ReplyCommentEntity(
+      postID: _postID!,
+      commentID: commentID,
+      content: comment,
+    ));
+    if (response is DataSuccess) {
+      add(SyncPostDataEvent());
+    }
   }
 
   Future _favouritePost(FavouritePostEvent event, Emitter emit) async {
@@ -101,11 +139,6 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
   Future _favouriteComment(FavouriteCommentEvent event, Emitter emit) async {
     List<String> listFavourite = [...event.listFavourite];
     String uid = FirebaseAuth.instance.currentUser!.uid;
-    // if (listFavourite.contains(uid)) {
-    //   listFavourite.remove(uid);
-    // } else {
-    //   listFavourite.add(uid);
-    // }
     listFavourite.contains(uid)
         ? listFavourite.remove(uid)
         : listFavourite.add(uid);
@@ -121,6 +154,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
   Future<void> close() {
     if (_postStream != null) _postStream!.cancel();
     commentController.dispose();
+    commentFocusNode.dispose();
     return super.close();
   }
 }

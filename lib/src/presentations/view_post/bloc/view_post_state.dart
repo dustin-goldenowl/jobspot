@@ -44,3 +44,17 @@ class FavouriteCommentSuccess extends ViewPostState {
   @override
   List<Object?> get props => [id];
 }
+
+class ChangeTextCommentState extends ViewPostState {
+  @override
+  List<Object?> get props => [identityHashCode(this)];
+}
+
+class ReplyCommentClickState extends ViewPostState {
+  final CommentEntity comment;
+
+  ReplyCommentClickState(this.comment);
+
+  @override
+  List<Object?> get props => [comment];
+}

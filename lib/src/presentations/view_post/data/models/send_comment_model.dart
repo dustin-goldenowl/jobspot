@@ -1,20 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/send_comment_entity.dart';
 
 class SendCommentModel {
-  final String owner;
   final String content;
   final String post;
 
   SendCommentModel({
     required this.content,
-    required this.owner,
     required this.post,
   });
 
   factory SendCommentModel.fromEntity(SendCommentEntity entity) {
     return SendCommentModel(
       content: entity.content,
-      owner: entity.owner,
       post: entity.post,
     );
   }
@@ -22,11 +20,12 @@ class SendCommentModel {
   Map<String, dynamic> toJson() {
     return {
       "content": content,
-      "owner": owner,
       "post": post,
+      "owner": FirebaseAuth.instance.currentUser!.uid,
       "reply": [],
       "like": [],
       "createAt": DateTime.now(),
+      "updateAt": DateTime.now(),
     };
   }
 }

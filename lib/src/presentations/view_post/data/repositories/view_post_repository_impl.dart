@@ -6,9 +6,11 @@ import 'package:jobspot/src/presentations/connection/data/models/post_model.dart
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 import 'package:jobspot/src/presentations/view_post/data/models/comment_model.dart';
+import 'package:jobspot/src/presentations/view_post/data/models/reply_comment_model.dart';
 import 'package:jobspot/src/presentations/view_post/data/models/send_comment_model.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/comment_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
+import 'package:jobspot/src/presentations/view_post/domain/entities/reply_comment_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/send_comment_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/repositories/view_post_repository.dart';
 
@@ -124,6 +126,31 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
           .collection("comments")
           .doc(favourite.id)
           .update({"like": favourite.listFavourite});
+      return DataSuccess(true);
+    } catch (e) {
+      return DataFailed(e.toString());
+    }
+  }
+
+  @override
+  Future<DataState<bool>> replyComment(ReplyCommentEntity comment) async {
+    try {
+      final commentStore = FirebaseFirestore.instance
+          .collection("comments")
+          .doc(comment.commentID);
+      final replyCommentStore =
+          FirebaseFirestore.instance.collection("comments").doc();
+      final replyCommentModel = ReplyCommentModel.fromEntity(comment);
+      final response = await Future.wait([
+        replyCommentStore.set(replyCommentModel.toJson()),
+        commentStore.get(),
+      ]);
+      final snapshot = response.last as DocumentSnapshot<Map<String, dynamic>>;
+      List<String> listReply =
+          List<String>.from(snapshot.data()!["reply"].map((x) => x));
+      await commentStore.update({
+        "reply": [...listReply, replyCommentStore.id]
+      });
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());

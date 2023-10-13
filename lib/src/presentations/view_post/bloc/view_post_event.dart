@@ -52,3 +52,22 @@ class FavouriteCommentEvent extends ViewPostEvent {
   @override
   List<Object?> get props => [id, listFavourite];
 }
+
+class ChangeTextCommentEvent extends ViewPostEvent {
+  @override
+  List<Object?> get props => [identityHashCode(this)];
+}
+
+class ReplyCommentClickEvent extends ViewPostEvent {
+  final CommentEntity comment;
+
+  ReplyCommentClickEvent(this.comment);
+
+  @override
+  List<Object?> get props => [comment];
+}
+
+class ReplyCommentEvent extends ViewPostEvent {
+  @override
+  List<Object?> get props => [identityHashCode(this)];
+}

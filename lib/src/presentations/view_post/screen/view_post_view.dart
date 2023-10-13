@@ -228,17 +228,28 @@ class ViewPostView extends StatelessWidget {
 
   Widget _writeCommentWidget() {
     return BlocBuilder<ViewPostBloc, ViewPostState>(
+      buildWhen: (previous, current) =>
+          current is ChangeTextCommentState ||
+          current is ReplyCommentClickState,
       builder: (context, state) {
+        final bloc = context.read<ViewPostBloc>();
         return CustomTitleTextInput(
-          controller: context.read<ViewPostBloc>().commentController,
-          hintText: false ? "reply ngoctienTNT" : "Add a comment",
-          suffixIcon: true
-              ? InkWell(
+          controller: bloc.commentController,
+          hintText: bloc.replyComment != null
+              ? "reply @${bloc.replyComment!.user.name}"
+              : "Add a comment",
+          focusNode: context.read<ViewPostBloc>().commentFocusNode,
+          suffixIcon: bloc.commentController.text.isNotEmpty
+              ? GestureDetector(
                   onTap: () {
-                    context.read<ViewPostBloc>().add(SendCommentEvent());
+                    bloc.replyComment == null
+                        ? bloc.add(SendCommentEvent())
+                        : bloc.add(ReplyCommentEvent());
                   },
-                  child: const Icon(FontAwesomeIcons.paperPlane,
-                      color: Colors.black),
+                  child: const Icon(
+                    FontAwesomeIcons.paperPlane,
+                    color: Colors.black,
+                  ),
                 )
               : null,
         );
@@ -257,7 +268,7 @@ class ViewPostView extends StatelessWidget {
             itemCount: state.listComment.length,
             padding: const EdgeInsets.all(10),
             itemBuilder: (context, index) {
-              return _buildComment(state.listComment[index]);
+              return _buildComment(context, comment: state.listComment[index]);
             },
           );
         }
@@ -266,13 +277,13 @@ class ViewPostView extends StatelessWidget {
     );
   }
 
-  Widget _buildComment(CommentEntity comment) {
+  Widget _buildComment(BuildContext context, {required CommentEntity comment}) {
     return Column(
       children: [
-        _commentItem(comment: comment),
+        _commentItem(context, comment: comment),
         const SizedBox(height: 10),
         Visibility(
-          visible: false,
+          visible: comment.reply.isNotEmpty,
           child: Row(
             children: [
               SizedBox(
@@ -286,9 +297,9 @@ class ViewPostView extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {},
-                child: const Text(
-                  "xem 10 comment",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                child: Text(
+                  "xem ${comment.reply.length} comment",
+                  style: AppStyles.boldText,
                 ),
               ),
             ],
@@ -303,7 +314,7 @@ class ViewPostView extends StatelessWidget {
             return Column(
               children: [
                 if (index == 0) const SizedBox(height: 15),
-                _commentItem(comment: comment, size: 35),
+                _commentItem(context, comment: comment, size: 35),
               ],
             );
           },
@@ -313,74 +324,73 @@ class ViewPostView extends StatelessWidget {
     );
   }
 
-  Widget _commentItem({required CommentEntity comment, double size = 50}) {
-    return BlocBuilder<ViewPostBloc, ViewPostState>(
-      buildWhen: (previous, current) =>
-          current is FavouriteCommentSuccess && current.id == comment.id,
-      builder: (context, state) {
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onLongPress: () {},
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              InkWell(
-                onTap: () {},
-                child: ClipOval(
-                  child: CachedNetworkImage(
-                      imageUrl: comment.user.avatar,
-                      height: size,
+  Widget _commentItem(
+    BuildContext context, {
+    required CommentEntity comment,
+    double size = 50,
+  }) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onLongPress: () {},
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          GestureDetector(
+            onTap: () {},
+            child: ClipOval(
+              child: CachedNetworkImage(
+                  imageUrl: comment.user.avatar,
+                  height: size,
+                  width: size,
+                  placeholder: (context, url) =>
+                      ItemLoading(width: size, height: size, radius: 90),
+                  errorWidget: (context, url, error) => SvgPicture.asset(
+                      AppImages.logo,
                       width: size,
-                      placeholder: (context, url) => const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                      errorWidget: (context, url, error) =>
-                          SvgPicture.asset(AppImages.google)),
+                      height: size)),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () {},
+                  child: Text(
+                    comment.user.name,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                const SizedBox(height: 5),
+                Text(comment.content),
+                const SizedBox(height: 5),
+                Row(
                   children: [
-                    InkWell(
-                      onTap: () {},
-                      child: Text(
-                        comment.user.name,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
+                    Text(
+                      timeago.format(comment.createAt),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 5),
-                    Text(comment.content),
-                    const SizedBox(height: 5),
-                    Row(
-                      children: [
-                        Text(
-                          timeago.format(comment.createAt),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(width: 10),
-                        InkWell(
-                          onTap: () {
-                            // commentFocusNode.requestFocus();
-                            // replyComment = comment;
-                            // context.read<ViewPostBloc>().add(ChangeCommentEvent());
-                          },
-                          child: const Text("reply"),
-                        ),
-                        const Spacer(),
-                        _buildFavouriteComment(comment),
-                        const SizedBox(width: 25),
-                      ],
+                    const SizedBox(width: 10),
+                    GestureDetector(
+                      onTap: () {
+                        context
+                            .read<ViewPostBloc>()
+                            .add(ReplyCommentClickEvent(comment));
+                      },
+                      child: const Text("reply"),
                     ),
+                    const Spacer(),
+                    _buildFavouriteComment(comment),
+                    const SizedBox(width: 25),
                   ],
                 ),
-              )
-            ],
-          ),
-        );
-      },
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 
