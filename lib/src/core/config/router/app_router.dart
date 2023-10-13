@@ -42,6 +42,12 @@ class AppRouter extends $AppRouter {
           path: '/main',
           page: MainRoute.page,
           transitionsBuilder: TransitionsBuilders.fadeIn,
+          children: [
+            AutoRoute(path: 'home', page: HomeRoute.page),
+            AutoRoute(path: 'connection', page: ConnectionRoute.page),
+            AutoRoute(path: 'notification', page: NotificationRoute.page),
+            AutoRoute(path: 'saveJob', page: SaveJobRoute.page),
+          ],
         ),
         CustomRoute(
           path: '/addPost',

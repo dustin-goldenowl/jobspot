@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/notification/widgets/notification_item.dart';
 
+@RoutePage()
 class NotificationPage extends StatelessWidget {
   const NotificationPage({super.key});
 

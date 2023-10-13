@@ -4,8 +4,7 @@
 // InjectableConfigGenerator
 // **************************************************************************
 
-// ignore_for_file: unnecessary_lambdas
-// ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: type=lint
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
@@ -55,7 +54,7 @@ import 'package:jobspot/src/presentations/home/data/repositories/home_repository
 import 'package:jobspot/src/presentations/home/domain/repositories/home_repository.dart'
     as _i16;
 import 'package:jobspot/src/presentations/home/domain/use_cases/fetch_job_use_case.dart'
-    as _i41;
+    as _i40;
 import 'package:jobspot/src/presentations/job_position/cubit/job_position_cubit.dart'
     as _i44;
 import 'package:jobspot/src/presentations/job_position/data/repositories/job_position_repository_impl.dart'
@@ -93,7 +92,7 @@ import 'package:jobspot/src/presentations/view_job/data/repositories/view_job_re
 import 'package:jobspot/src/presentations/view_job/domain/repositories/view_job_repository.dart'
     as _i28;
 import 'package:jobspot/src/presentations/view_job/domain/use_cases/fetch_job_use_case.dart'
-    as _i40;
+    as _i41;
 import 'package:jobspot/src/presentations/view_post/bloc/view_post_bloc.dart'
     as _i55;
 import 'package:jobspot/src/presentations/view_post/data/repositories/view_post_repository_impl.dart'
@@ -185,13 +184,13 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i39.FetchDataCommentFirstLevelUseCase>(() =>
         _i39.FetchDataCommentFirstLevelUseCase(gh<_i30.ViewPostRepository>()));
     gh.lazySingleton<_i40.FetchJobUseCase>(
-        () => _i40.FetchJobUseCase(gh<_i28.ViewJobRepository>()));
+        () => _i40.FetchJobUseCase(gh<_i16.HomeRepository>()));
     gh.lazySingleton<_i41.FetchJobUseCase>(
-        () => _i41.FetchJobUseCase(gh<_i16.HomeRepository>()));
+        () => _i41.FetchJobUseCase(gh<_i28.ViewJobRepository>()));
     gh.lazySingleton<_i42.GetReplyCommentUseCase>(
         () => _i42.GetReplyCommentUseCase(gh<_i30.ViewPostRepository>()));
     gh.factory<_i43.HomeCubit>(
-        () => _i43.HomeCubit(gh<_i41.FetchJobUseCase>()));
+        () => _i43.HomeCubit(gh<_i40.FetchJobUseCase>()));
     gh.factory<_i44.JobPositionCubit>(
         () => _i44.JobPositionCubit(gh<_i20.SearchJobPositionUseCase>()));
     gh.lazySingleton<_i45.RegisterApplicantUseCase>(
@@ -216,7 +215,7 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i53.SyncPostDataUseCase>(
         () => _i53.SyncPostDataUseCase(gh<_i30.ViewPostRepository>()));
     gh.factory<_i54.ViewJobCubit>(
-        () => _i54.ViewJobCubit(gh<_i40.FetchJobUseCase>()));
+        () => _i54.ViewJobCubit(gh<_i41.FetchJobUseCase>()));
     gh.factory<_i55.ViewPostBloc>(() => _i55.ViewPostBloc(
           gh<_i39.FetchDataCommentFirstLevelUseCase>(),
           gh<_i37.FavouriteCommentUseCase>(),
