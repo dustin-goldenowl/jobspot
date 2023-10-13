@@ -56,7 +56,7 @@ class ImageWidgetView extends StatelessWidget {
     );
   }
 
-  Stack _buildImageItem(
+  Widget _buildImageItem(
     BuildContext context, {
     required List<String> images,
     required int index,
@@ -109,7 +109,7 @@ class ImageWidgetView extends StatelessWidget {
     );
   }
 
-  GestureDetector _buildDeleteButton({required VoidCallback onDelete}) {
+  Widget _buildDeleteButton({required VoidCallback onDelete}) {
     return GestureDetector(
       onTap: onDelete,
       child: Material(
@@ -128,7 +128,7 @@ class ImageWidgetView extends StatelessWidget {
     );
   }
 
-  SizedBox _buildIncaditor(BuildContext context, List<String> list) {
+  Widget _buildIncaditor(BuildContext context, List<String> list) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Center(

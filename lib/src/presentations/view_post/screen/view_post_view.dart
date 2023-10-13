@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_input.dart';
-import 'package:jobspot/src/presentations/view_post/cubit/view_post_cubit.dart';
+import 'package:jobspot/src/presentations/view_post/bloc/view_post_bloc.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/comment_entity.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/common/widgets/image_widget/widget/image_widget.dart';
@@ -32,7 +32,8 @@ class ViewPostView extends StatelessWidget {
         ),
       ),
       body: RefreshIndicator(
-        onRefresh: () async {},
+        onRefresh: () async =>
+            context.read<ViewPostBloc>().add(SyncPostDataEvent()),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(
             parent: AlwaysScrollableScrollPhysics(),
@@ -53,10 +54,13 @@ class ViewPostView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 30),
-              BlocBuilder<ViewPostCubit, ViewPostState>(
+              BlocBuilder<ViewPostBloc, ViewPostState>(
+                buildWhen: (previous, current) =>
+                    current is SyncPostDataSuccess,
                 builder: (context, state) {
-                  if (state.post!.images.isNotEmpty) {
-                    return ImageWidget(images: state.post!.images);
+                  if (state is SyncPostDataSuccess &&
+                      state.post.images.isNotEmpty) {
+                    return ImageWidget(images: state.post.images);
                   }
                   return const SizedBox();
                 },
@@ -73,123 +77,131 @@ class ViewPostView extends StatelessWidget {
   }
 
   Widget _buildContentPost() {
-    return BlocBuilder<ViewPostCubit, ViewPostState>(
-      buildWhen: (previous, current) => previous.post != current.post,
+    return BlocBuilder<ViewPostBloc, ViewPostState>(
+      buildWhen: (previous, current) => current is SyncPostDataSuccess,
       builder: (context, state) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(state.post!.title, style: AppStyles.boldTextHaiti),
-            const SizedBox(height: 15),
-            Text(
-              state.post!.description,
-              style: AppStyles.normalTextMulledWine,
-            ),
-          ],
-        );
+        if (state is SyncPostDataSuccess) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(state.post.title, style: AppStyles.boldTextHaiti),
+              const SizedBox(height: 15),
+              Text(
+                state.post.description,
+                style: AppStyles.normalTextMulledWine,
+              ),
+            ],
+          );
+        }
+        return const SizedBox();
       },
     );
   }
 
   Widget _buildHeaderPost(BuildContext context) {
-    return BlocBuilder<ViewPostCubit, ViewPostState>(
-      buildWhen: (previous, current) =>
-          previous.post != null &&
-          current.post != null &&
-          previous.post!.user != current.post!.user,
+    return BlocBuilder<ViewPostBloc, ViewPostState>(
+      buildWhen: (previous, current) => current is SyncPostDataSuccess,
       builder: (context, state) {
-        PostEntity post = state.post!;
-        return Row(
-          children: [
-            GestureDetector(
-              onTap: () {
-                // TODO: open page profile of post
-              },
-              child: ClipOval(
-                child: post.user.avatar.isEmpty
-                    ? SvgPicture.asset(AppImages.logo, height: 50, width: 50)
-                    : CachedNetworkImage(
-                        imageUrl: post.user.avatar,
-                        width: 50,
-                        height: 50,
-                        placeholder: (context, url) =>
-                            const ItemLoading(width: 50, height: 50, radius: 0),
-                      ),
+        if (state is SyncPostDataSuccess) {
+          PostEntity post = state.post;
+          return Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  // TODO: open page profile of post
+                },
+                child: ClipOval(
+                  child: post.user.avatar.isEmpty
+                      ? SvgPicture.asset(AppImages.logo, height: 50, width: 50)
+                      : CachedNetworkImage(
+                          imageUrl: post.user.avatar,
+                          width: 50,
+                          height: 50,
+                          placeholder: (context, url) => const ItemLoading(
+                              width: 50, height: 50, radius: 0),
+                        ),
+                ),
               ),
-            ),
-            const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(post.user.name, style: AppStyles.boldTextHaiti),
-                const SizedBox(height: 5),
-                Row(
-                  children: [
-                    SvgPicture.asset(AppImages.clock, height: 16),
-                    const SizedBox(width: 8),
-                    Text(
-                      timeago.format(post.createAt),
-                      style:
-                          AppStyles.normalTextSpunPearl.copyWith(fontSize: 12),
-                    )
-                  ],
-                )
-              ],
-            )
-          ],
-        );
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(post.user.name, style: AppStyles.boldTextHaiti),
+                  const SizedBox(height: 5),
+                  Row(
+                    children: [
+                      SvgPicture.asset(AppImages.clock, height: 16),
+                      const SizedBox(width: 8),
+                      Text(
+                        timeago.format(post.createAt),
+                        style: AppStyles.normalTextSpunPearl
+                            .copyWith(fontSize: 12),
+                      )
+                    ],
+                  )
+                ],
+              )
+            ],
+          );
+        }
+        return const SizedBox();
       },
     );
   }
 
   Widget _buildBottomPost() {
-    return BlocBuilder<ViewPostCubit, ViewPostState>(
-      buildWhen: (previous, current) => previous.post != current.post,
+    return BlocBuilder<ViewPostBloc, ViewPostState>(
+      buildWhen: (previous, current) => current is SyncPostDataSuccess,
       builder: (context, state) {
-        PostEntity post = state.post!;
-        return Container(
-          decoration: BoxDecoration(
-              color: AppColors.interdimensionalBlue.withOpacity(0.1)),
-          height: 64,
-          padding:
-              const EdgeInsets.symmetric(horizontal: AppDimens.mediumPadding),
-          child: Row(
-            children: [
-              _buildItemReaction(
-                onTap: () {
-                  // TODO: tap to favourist
-                },
-                icon: Icon(
-                  post.like.contains(FirebaseAuth.instance.currentUser!.uid)
-                      ? FontAwesomeIcons.solidHeart
-                      : FontAwesomeIcons.heart,
-                  color:
-                      post.like.contains(FirebaseAuth.instance.currentUser!.uid)
-                          ? AppColors.tartOrange
-                          : AppColors.oldLavender,
-                  size: 24,
+        if (state is SyncPostDataSuccess) {
+          PostEntity post = state.post;
+          return Container(
+            decoration: BoxDecoration(
+                color: AppColors.interdimensionalBlue.withOpacity(0.1)),
+            height: 64,
+            padding:
+                const EdgeInsets.symmetric(horizontal: AppDimens.mediumPadding),
+            child: Row(
+              children: [
+                _buildItemReaction(
+                  onTap: () {
+                    context
+                        .read<ViewPostBloc>()
+                        .add(FavouritePostEvent(post.like));
+                  },
+                  icon: Icon(
+                    post.like.contains(FirebaseAuth.instance.currentUser!.uid)
+                        ? FontAwesomeIcons.solidHeart
+                        : FontAwesomeIcons.heart,
+                    color: post.like
+                            .contains(FirebaseAuth.instance.currentUser!.uid)
+                        ? AppColors.tartOrange
+                        : AppColors.oldLavender,
+                    size: 24,
+                  ),
+                  quantity: post.like.length,
                 ),
-                quantity: post.like.length,
-              ),
-              const SizedBox(width: 28),
-              _buildItemReaction(
-                onTap: () {
-                  // TODO: tap to open comment
-                },
-                icon: SvgPicture.asset(AppImages.comment),
-                quantity: post.comment.length,
-              ),
-              const Spacer(),
-              _buildItemReaction(
-                onTap: () {
-                  // TODO: tap to share post
-                },
-                icon: SvgPicture.asset(AppImages.share),
-                quantity: post.share.length,
-              )
-            ],
-          ),
-        );
+                const SizedBox(width: 28),
+                _buildItemReaction(
+                  onTap: () {
+                    // TODO: tap to open comment
+                  },
+                  icon: SvgPicture.asset(AppImages.comment),
+                  quantity: post.comment.length,
+                ),
+                const Spacer(),
+                _buildItemReaction(
+                  onTap: () {
+                    // TODO: tap to share post
+                  },
+                  icon: SvgPicture.asset(AppImages.share),
+                  quantity: post.share.length,
+                )
+              ],
+            ),
+          );
+        }
+        return const SizedBox();
       },
     );
   }
@@ -215,15 +227,15 @@ class ViewPostView extends StatelessWidget {
   }
 
   Widget _writeCommentWidget() {
-    return BlocBuilder<ViewPostCubit, ViewPostState>(
+    return BlocBuilder<ViewPostBloc, ViewPostState>(
       builder: (context, state) {
         return CustomTitleTextInput(
-          controller: context.read<ViewPostCubit>().commentController,
+          controller: context.read<ViewPostBloc>().commentController,
           hintText: false ? "reply ngoctienTNT" : "Add a comment",
           suffixIcon: true
               ? InkWell(
                   onTap: () {
-                    context.read<ViewPostCubit>().sendComment();
+                    context.read<ViewPostBloc>().add(SendCommentEvent());
                   },
                   child: const Icon(FontAwesomeIcons.paperPlane,
                       color: Colors.black),
@@ -235,17 +247,21 @@ class ViewPostView extends StatelessWidget {
   }
 
   Widget _buildListComment() {
-    return BlocBuilder<ViewPostCubit, ViewPostState>(
+    return BlocBuilder<ViewPostBloc, ViewPostState>(
+      buildWhen: (previous, current) => current is GetCommentDataSuccess,
       builder: (context, state) {
-        return ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: state.litsComment?.length ?? 0,
-          padding: const EdgeInsets.all(10),
-          itemBuilder: (context, index) {
-            return _buildComment(state.litsComment![index]);
-          },
-        );
+        if (state is GetCommentDataSuccess) {
+          return ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: state.listComment.length,
+            padding: const EdgeInsets.all(10),
+            itemBuilder: (context, index) {
+              return _buildComment(state.listComment[index]);
+            },
+          );
+        }
+        return const SizedBox();
       },
     );
   }
@@ -256,7 +272,7 @@ class ViewPostView extends StatelessWidget {
         _commentItem(comment: comment),
         const SizedBox(height: 10),
         Visibility(
-          visible: true,
+          visible: false,
           child: Row(
             children: [
               SizedBox(
@@ -298,83 +314,120 @@ class ViewPostView extends StatelessWidget {
   }
 
   Widget _commentItem({required CommentEntity comment, double size = 50}) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onLongPress: () {},
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          InkWell(
-            onTap: () {},
-            child: ClipOval(
-              child: CachedNetworkImage(
-                  imageUrl: comment.user.avatar,
-                  height: size,
-                  width: size,
-                  placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                  errorWidget: (context, url, error) =>
-                      SvgPicture.asset(AppImages.google)),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                InkWell(
-                  onTap: () {},
-                  child: Text(
-                    comment.user.name,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
+    return BlocBuilder<ViewPostBloc, ViewPostState>(
+      buildWhen: (previous, current) =>
+          current is FavouriteCommentSuccess && current.id == comment.id,
+      builder: (context, state) {
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onLongPress: () {},
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              InkWell(
+                onTap: () {},
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                      imageUrl: comment.user.avatar,
+                      height: size,
+                      width: size,
+                      placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                      errorWidget: (context, url, error) =>
+                          SvgPicture.asset(AppImages.google)),
                 ),
-                const SizedBox(height: 5),
-                Text(comment.content),
-                const SizedBox(height: 5),
-                Row(
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      timeago.format(comment.createAt),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(width: 10),
                     InkWell(
-                      onTap: () {
-                        // commentFocusNode.requestFocus();
-                        // replyComment = comment;
-                        // context.read<ViewPostBloc>().add(ChangeCommentEvent());
-                      },
-                      child: const Text("reply"),
+                      onTap: () {},
+                      child: Text(
+                        comment.user.name,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
-                    const Spacer(),
-                    _buildFavoriteWidget(),
-                    const SizedBox(width: 25),
+                    const SizedBox(height: 5),
+                    Text(comment.content),
+                    const SizedBox(height: 5),
+                    Row(
+                      children: [
+                        Text(
+                          timeago.format(comment.createAt),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(width: 10),
+                        InkWell(
+                          onTap: () {
+                            // commentFocusNode.requestFocus();
+                            // replyComment = comment;
+                            // context.read<ViewPostBloc>().add(ChangeCommentEvent());
+                          },
+                          child: const Text("reply"),
+                        ),
+                        const Spacer(),
+                        _buildFavouriteComment(comment),
+                        const SizedBox(width: 25),
+                      ],
+                    ),
                   ],
                 ),
-              ],
-            ),
-          )
-        ],
-      ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 
-  Widget _buildFavoriteWidget() {
-    return Row(
-      children: [
-        InkWell(
-          onTap: () {},
-          child: const Icon(
-            true ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-            color: true ? Colors.red : Colors.black,
+  Widget _buildFavouriteComment(CommentEntity comment) {
+    return BlocBuilder<ViewPostBloc, ViewPostState>(
+      buildWhen: (previous, current) =>
+          (current is FavouriteCommentSuccess && current.id == comment.id) ||
+          (current is FavouriteCommentLoading && current.id == comment.id) ||
+          current is GetCommentDataSuccess ||
+          current is ViewPostInitial,
+      builder: (context, state) {
+        String uid = FirebaseAuth.instance.currentUser!.uid;
+        List<String> listFavourite = [];
+
+        if (state is! FavouriteCommentLoading &&
+            state is! FavouriteCommentSuccess) {
+          listFavourite.addAll(comment.like);
+        }
+
+        if (state is FavouriteCommentLoading) {
+          listFavourite.addAll(state.listFavoutite);
+        }
+
+        if (state is FavouriteCommentSuccess) {
+          listFavourite.addAll(state.listFavoutite);
+          listFavourite.contains(uid)
+              ? comment.like.add(uid)
+              : comment.like.remove(uid);
+        }
+
+        return _buildItemReaction(
+          onTap: () {
+            context.read<ViewPostBloc>().add(FavouriteCommentEvent(
+                id: comment.id, listFavourite: comment.like));
+          },
+          icon: Icon(
+            listFavourite.contains(uid)
+                ? FontAwesomeIcons.solidHeart
+                : FontAwesomeIcons.heart,
+            color: listFavourite.contains(uid)
+                ? AppColors.tartOrange
+                : AppColors.oldLavender,
+            size: 18,
           ),
-        ),
-        const SizedBox(width: 3),
-        const Text("10"),
-      ],
+          quantity: listFavourite.length,
+        );
+      },
     );
   }
 }

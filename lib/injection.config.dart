@@ -11,7 +11,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
-import 'package:jobspot/injection.dart' as _i52;
+import 'package:jobspot/injection.dart' as _i54;
 import 'package:jobspot/src/core/config/router/app_router.dart' as _i9;
 import 'package:jobspot/src/presentations/add_job/cubit/add_job_cubit.dart'
     as _i32;
@@ -49,15 +49,15 @@ import 'package:jobspot/src/presentations/connection/domain/repositories/connect
     as _i13;
 import 'package:jobspot/src/presentations/connection/domain/use_cases/fetch_post_use_case.dart'
     as _i15;
-import 'package:jobspot/src/presentations/home/cubit/home_cubit.dart' as _i39;
+import 'package:jobspot/src/presentations/home/cubit/home_cubit.dart' as _i41;
 import 'package:jobspot/src/presentations/home/data/repositories/home_repository_impl.dart'
     as _i17;
 import 'package:jobspot/src/presentations/home/domain/repositories/home_repository.dart'
     as _i16;
 import 'package:jobspot/src/presentations/home/domain/use_cases/fetch_job_use_case.dart'
-    as _i38;
+    as _i39;
 import 'package:jobspot/src/presentations/job_position/cubit/job_position_cubit.dart'
-    as _i40;
+    as _i42;
 import 'package:jobspot/src/presentations/job_position/data/repositories/job_position_repository_impl.dart'
     as _i19;
 import 'package:jobspot/src/presentations/job_position/domain/repositories/job_position_repository.dart'
@@ -65,47 +65,51 @@ import 'package:jobspot/src/presentations/job_position/domain/repositories/job_p
 import 'package:jobspot/src/presentations/job_position/domain/use_cases/search_job_position_use_case.dart'
     as _i20;
 import 'package:jobspot/src/presentations/sign_in/cubit/sign_in_cubit.dart'
-    as _i51;
+    as _i53;
 import 'package:jobspot/src/presentations/sign_in/data/repositories/sign_in_repository_impl.dart'
     as _i23;
 import 'package:jobspot/src/presentations/sign_in/domain/repositories/sign_in_repository.dart'
     as _i22;
 import 'package:jobspot/src/presentations/sign_in/domain/use_cases/sign_in_email_password_use_case.dart'
-    as _i45;
-import 'package:jobspot/src/presentations/sign_in/domain/use_cases/sign_in_google_use_case.dart'
-    as _i46;
-import 'package:jobspot/src/presentations/sign_up/cubit/sign_up_cubit.dart'
     as _i47;
+import 'package:jobspot/src/presentations/sign_in/domain/use_cases/sign_in_google_use_case.dart'
+    as _i48;
+import 'package:jobspot/src/presentations/sign_up/cubit/sign_up_cubit.dart'
+    as _i49;
 import 'package:jobspot/src/presentations/sign_up/data/repositories/sign_up_repository_impl.dart'
     as _i25;
 import 'package:jobspot/src/presentations/sign_up/domain/repositories/sign_up_repository.dart'
     as _i24;
 import 'package:jobspot/src/presentations/sign_up/domain/use_cases/register_applicant_use_case.dart'
-    as _i41;
-import 'package:jobspot/src/presentations/sign_up/domain/use_cases/register_business_use_case.dart'
-    as _i42;
-import 'package:jobspot/src/presentations/sign_up/domain/use_cases/register_google_use_case.dart'
     as _i43;
+import 'package:jobspot/src/presentations/sign_up/domain/use_cases/register_business_use_case.dart'
+    as _i44;
+import 'package:jobspot/src/presentations/sign_up/domain/use_cases/register_google_use_case.dart'
+    as _i45;
 import 'package:jobspot/src/presentations/view_job/cubit/view_job_cubit.dart'
-    as _i49;
+    as _i51;
 import 'package:jobspot/src/presentations/view_job/data/repositories/view_job_repository_impl.dart'
     as _i29;
 import 'package:jobspot/src/presentations/view_job/domain/repositories/view_job_repository.dart'
     as _i28;
 import 'package:jobspot/src/presentations/view_job/domain/use_cases/fetch_job_use_case.dart'
-    as _i37;
-import 'package:jobspot/src/presentations/view_post/cubit/view_post_cubit.dart'
-    as _i50;
+    as _i40;
+import 'package:jobspot/src/presentations/view_post/bloc/view_post_bloc.dart'
+    as _i52;
 import 'package:jobspot/src/presentations/view_post/data/repositories/view_post_repository_impl.dart'
     as _i31;
 import 'package:jobspot/src/presentations/view_post/domain/repositories/view_post_repository.dart'
     as _i30;
-import 'package:jobspot/src/presentations/view_post/domain/use_cases/fetch_data_comment_first_level_use_case.dart'
+import 'package:jobspot/src/presentations/view_post/domain/use_cases/favourite_comment_use_case.dart'
     as _i36;
+import 'package:jobspot/src/presentations/view_post/domain/use_cases/favourite_post_use_case.dart'
+    as _i37;
+import 'package:jobspot/src/presentations/view_post/domain/use_cases/fetch_data_comment_first_level_use_case.dart'
+    as _i38;
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/send_comment_use_case.dart'
-    as _i44;
+    as _i46;
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/sync_post_data_use_case.dart'
-    as _i48;
+    as _i50;
 import 'package:shared_preferences/shared_preferences.dart' as _i21;
 
 extension GetItInjectableX on _i1.GetIt {
@@ -166,48 +170,54 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i34.ApplyJobCubit(gh<_i12.ApplyJobUseCase>()));
     gh.factory<_i35.ConnectionCubit>(
         () => _i35.ConnectionCubit(gh<_i15.FetchPostUseCase>()));
-    gh.lazySingleton<_i36.FetchDataCommentFirstLevelUseCase>(() =>
-        _i36.FetchDataCommentFirstLevelUseCase(gh<_i30.ViewPostRepository>()));
-    gh.lazySingleton<_i37.FetchJobUseCase>(
-        () => _i37.FetchJobUseCase(gh<_i28.ViewJobRepository>()));
-    gh.lazySingleton<_i38.FetchJobUseCase>(
-        () => _i38.FetchJobUseCase(gh<_i16.HomeRepository>()));
-    gh.factory<_i39.HomeCubit>(
-        () => _i39.HomeCubit(gh<_i38.FetchJobUseCase>()));
-    gh.factory<_i40.JobPositionCubit>(
-        () => _i40.JobPositionCubit(gh<_i20.SearchJobPositionUseCase>()));
-    gh.lazySingleton<_i41.RegisterApplicantUseCase>(
-        () => _i41.RegisterApplicantUseCase(gh<_i24.SignUpRepository>()));
-    gh.lazySingleton<_i42.RegisterBusinessUseCase>(
-        () => _i42.RegisterBusinessUseCase(gh<_i24.SignUpRepository>()));
-    gh.lazySingleton<_i43.RegisterGoogleUseCase>(
-        () => _i43.RegisterGoogleUseCase(gh<_i24.SignUpRepository>()));
-    gh.lazySingleton<_i44.SendCommentUseCase>(
-        () => _i44.SendCommentUseCase(gh<_i30.ViewPostRepository>()));
-    gh.lazySingleton<_i45.SignInEmailPasswordUseCase>(
-        () => _i45.SignInEmailPasswordUseCase(gh<_i22.SignInRepository>()));
-    gh.lazySingleton<_i46.SignInGoogleUseCase>(
-        () => _i46.SignInGoogleUseCase(gh<_i22.SignInRepository>()));
-    gh.factory<_i47.SignUpCubit>(() => _i47.SignUpCubit(
-          gh<_i41.RegisterApplicantUseCase>(),
-          gh<_i42.RegisterBusinessUseCase>(),
-          gh<_i43.RegisterGoogleUseCase>(),
+    gh.lazySingleton<_i36.FavouriteCommentUseCase>(
+        () => _i36.FavouriteCommentUseCase(gh<_i30.ViewPostRepository>()));
+    gh.lazySingleton<_i37.FavouritePostUseCase>(
+        () => _i37.FavouritePostUseCase(gh<_i30.ViewPostRepository>()));
+    gh.lazySingleton<_i38.FetchDataCommentFirstLevelUseCase>(() =>
+        _i38.FetchDataCommentFirstLevelUseCase(gh<_i30.ViewPostRepository>()));
+    gh.lazySingleton<_i39.FetchJobUseCase>(
+        () => _i39.FetchJobUseCase(gh<_i16.HomeRepository>()));
+    gh.lazySingleton<_i40.FetchJobUseCase>(
+        () => _i40.FetchJobUseCase(gh<_i28.ViewJobRepository>()));
+    gh.factory<_i41.HomeCubit>(
+        () => _i41.HomeCubit(gh<_i39.FetchJobUseCase>()));
+    gh.factory<_i42.JobPositionCubit>(
+        () => _i42.JobPositionCubit(gh<_i20.SearchJobPositionUseCase>()));
+    gh.lazySingleton<_i43.RegisterApplicantUseCase>(
+        () => _i43.RegisterApplicantUseCase(gh<_i24.SignUpRepository>()));
+    gh.lazySingleton<_i44.RegisterBusinessUseCase>(
+        () => _i44.RegisterBusinessUseCase(gh<_i24.SignUpRepository>()));
+    gh.lazySingleton<_i45.RegisterGoogleUseCase>(
+        () => _i45.RegisterGoogleUseCase(gh<_i24.SignUpRepository>()));
+    gh.lazySingleton<_i46.SendCommentUseCase>(
+        () => _i46.SendCommentUseCase(gh<_i30.ViewPostRepository>()));
+    gh.lazySingleton<_i47.SignInEmailPasswordUseCase>(
+        () => _i47.SignInEmailPasswordUseCase(gh<_i22.SignInRepository>()));
+    gh.lazySingleton<_i48.SignInGoogleUseCase>(
+        () => _i48.SignInGoogleUseCase(gh<_i22.SignInRepository>()));
+    gh.factory<_i49.SignUpCubit>(() => _i49.SignUpCubit(
+          gh<_i43.RegisterApplicantUseCase>(),
+          gh<_i44.RegisterBusinessUseCase>(),
+          gh<_i45.RegisterGoogleUseCase>(),
         ));
-    gh.lazySingleton<_i48.SyncPostDataUseCase>(
-        () => _i48.SyncPostDataUseCase(gh<_i30.ViewPostRepository>()));
-    gh.factory<_i49.ViewJobCubit>(
-        () => _i49.ViewJobCubit(gh<_i37.FetchJobUseCase>()));
-    gh.factory<_i50.ViewPostCubit>(() => _i50.ViewPostCubit(
-          gh<_i36.FetchDataCommentFirstLevelUseCase>(),
-          gh<_i48.SyncPostDataUseCase>(),
-          gh<_i44.SendCommentUseCase>(),
+    gh.lazySingleton<_i50.SyncPostDataUseCase>(
+        () => _i50.SyncPostDataUseCase(gh<_i30.ViewPostRepository>()));
+    gh.factory<_i51.ViewJobCubit>(
+        () => _i51.ViewJobCubit(gh<_i40.FetchJobUseCase>()));
+    gh.factory<_i52.ViewPostBloc>(() => _i52.ViewPostBloc(
+          gh<_i38.FetchDataCommentFirstLevelUseCase>(),
+          gh<_i36.FavouriteCommentUseCase>(),
+          gh<_i37.FavouritePostUseCase>(),
+          gh<_i46.SendCommentUseCase>(),
+          gh<_i50.SyncPostDataUseCase>(),
         ));
-    gh.factory<_i51.SignInCubit>(() => _i51.SignInCubit(
-          gh<_i45.SignInEmailPasswordUseCase>(),
-          gh<_i46.SignInGoogleUseCase>(),
+    gh.factory<_i53.SignInCubit>(() => _i53.SignInCubit(
+          gh<_i47.SignInEmailPasswordUseCase>(),
+          gh<_i48.SignInGoogleUseCase>(),
         ));
     return this;
   }
 }
 
-class _$InjectionModule extends _i52.InjectionModule {}
+class _$InjectionModule extends _i54.InjectionModule {}

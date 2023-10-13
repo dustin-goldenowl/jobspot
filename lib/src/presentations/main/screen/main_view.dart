@@ -14,10 +14,12 @@ class MainView extends StatelessWidget {
         buildWhen: (previous, current) =>
             previous.currentIndex != current.currentIndex,
         builder: (context, state) {
-          return CustomBottomBar(
-            changeTab: cubit.toPage,
-            onTap: () => cubit.showBottomSheet(context),
-            currentIndex: state.currentIndex,
+          return SafeArea(
+            child: CustomBottomBar(
+              changeTab: cubit.toPage,
+              onTap: () => cubit.showBottomSheet(context),
+              currentIndex: state.currentIndex,
+            ),
           );
         },
       ),

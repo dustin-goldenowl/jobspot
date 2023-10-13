@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
@@ -7,6 +8,7 @@ import 'package:jobspot/src/presentations/connection/domain/entities/post_entity
 import 'package:jobspot/src/presentations/view_post/data/models/comment_model.dart';
 import 'package:jobspot/src/presentations/view_post/data/models/send_comment_model.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/comment_entity.dart';
+import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/send_comment_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/repositories/view_post_repository.dart';
 
@@ -89,6 +91,39 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
       await postStore.update({
         "comment": [...comments, commentStore.id]
       });
+      return DataSuccess(true);
+    } catch (e) {
+      return DataFailed(e.toString());
+    }
+  }
+
+  @override
+  Future<DataState<bool>> favouritePost(FavouriteEntity favourite) async {
+    try {
+      List<String> listFavourite = [...favourite.listFavourite];
+      if (favourite.listFavourite
+          .contains(FirebaseAuth.instance.currentUser!.uid)) {
+        listFavourite.remove(FirebaseAuth.instance.currentUser!.uid);
+      } else {
+        listFavourite.add(FirebaseAuth.instance.currentUser!.uid);
+      }
+      await FirebaseFirestore.instance
+          .collection("posts")
+          .doc(favourite.id)
+          .update({"like": listFavourite});
+      return DataSuccess(true);
+    } catch (e) {
+      return DataFailed(e.toString());
+    }
+  }
+
+  @override
+  Future<DataState<bool>> favouriteComment(FavouriteEntity favourite) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("comments")
+          .doc(favourite.id)
+          .update({"like": favourite.listFavourite});
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
