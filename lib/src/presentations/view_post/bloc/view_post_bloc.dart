@@ -14,6 +14,7 @@ import 'package:jobspot/src/presentations/view_post/domain/entities/send_comment
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/favourite_comment_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/favourite_post_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/fetch_data_comment_first_level_use_case.dart';
+import 'package:jobspot/src/presentations/view_post/domain/use_cases/get_reply_comment_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/reply_comment_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/send_comment_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/sync_post_data_use_case.dart';
@@ -29,6 +30,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
   final FavouritePostUseCase _favouritePostUseCase;
   final FavouriteCommentUseCase _favouriteCommentUseCase;
   final ReplyCommentUseCase _replyCommentUseCase;
+  final GetReplyCommentUseCase _getReplyCommentUseCase;
 
   final TextEditingController commentController = TextEditingController();
 
@@ -45,8 +47,14 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     this._sendCommentUseCase,
     this._syncPostDataUseCase,
     this._replyCommentUseCase,
+    this._getReplyCommentUseCase,
   ) : super(ViewPostInitial()) {
     commentController.addListener(() => add(ChangeTextCommentEvent()));
+    commentFocusNode.addListener(() {
+      if (replyComment != null && !commentFocusNode.hasFocus) {
+        add(ReplyCommentClickEvent());
+      }
+    });
 
     on<ChangeTextCommentEvent>((event, emit) => emit(ChangeTextCommentState()));
 
@@ -58,7 +66,9 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
 
     on<ReplyCommentEvent>(_replyComment);
 
-    on<GetListCommentFirstLevelEvent>(_getListCommentFirstLevel);
+    on<ViewReplyCommentEvent>(_getReplyComment);
+
+    on<GetListCommentEvent>(_getListCommentFirstLevel);
 
     on<SendCommentEvent>(_sendComment);
 
@@ -67,22 +77,23 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     on<FavouriteCommentEvent>(_favouriteComment);
   }
 
-  void _replyCommentClick(ReplyCommentClickEvent event, _) {
-    commentFocusNode.requestFocus();
+  void _replyCommentClick(ReplyCommentClickEvent event, Emitter emit) {
+    if (event.comment != null) commentFocusNode.requestFocus();
     replyComment = event.comment;
+    emit(ReplyCommentClickState());
   }
 
   void _syncPostData(SyncPostDataEvent event, Emitter emitter) {
     if (_postID == null && event.post != null) {
       _postID = event.post!.id;
       add(SendPostDataEvent(event.post!));
-      add(GetListCommentFirstLevelEvent(event.post!.comment));
+      add(GetListCommentEvent(event.post!.comment));
     }
     if (_postStream != null) _postStream!.cancel();
     _postStream = _syncPostDataUseCase.call(params: _postID!).listen((event) {
       if (event is DataSuccess) {
         add(SendPostDataEvent(event.data!));
-        add(GetListCommentFirstLevelEvent(event.data!.comment));
+        add(GetListCommentEvent(event.data!.comment));
       }
     });
   }
@@ -91,7 +102,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
       emit(SyncPostDataSuccess(event.post));
 
   Future _getListCommentFirstLevel(
-      GetListCommentFirstLevelEvent event, Emitter emit) async {
+      GetListCommentEvent event, Emitter emit) async {
     final response =
         await _commentFirstLevelUseCase.call(params: event.listComment);
     if (response is DataSuccess) {
@@ -126,6 +137,14 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     ));
     if (response is DataSuccess) {
       add(SyncPostDataEvent());
+    }
+  }
+
+  Future _getReplyComment(ViewReplyCommentEvent event, Emitter emit) async {
+    final reponse = await _getReplyCommentUseCase.call(params: event.commentID);
+    if (reponse is DataSuccess) {
+      emit(ViewReplyCommentState(
+          listComment: reponse.data!, commentID: event.commentID));
     }
   }
 

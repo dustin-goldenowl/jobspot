@@ -20,13 +20,22 @@ class SendPostDataEvent extends ViewPostEvent {
   List<Object?> get props => [post];
 }
 
-class GetListCommentFirstLevelEvent extends ViewPostEvent {
+class GetListCommentEvent extends ViewPostEvent {
   final List<String> listComment;
 
-  GetListCommentFirstLevelEvent(this.listComment);
+  GetListCommentEvent(this.listComment);
 
   @override
   List<Object?> get props => [listComment];
+}
+
+class GetReplyCommentEvent extends ViewPostEvent {
+  final String commentID;
+
+  GetReplyCommentEvent(this.commentID);
+
+  @override
+  List<Object?> get props => [commentID];
 }
 
 class SendCommentEvent extends ViewPostEvent {
@@ -59,9 +68,9 @@ class ChangeTextCommentEvent extends ViewPostEvent {
 }
 
 class ReplyCommentClickEvent extends ViewPostEvent {
-  final CommentEntity comment;
+  final CommentEntity? comment;
 
-  ReplyCommentClickEvent(this.comment);
+  ReplyCommentClickEvent([this.comment]);
 
   @override
   List<Object?> get props => [comment];
@@ -70,4 +79,13 @@ class ReplyCommentClickEvent extends ViewPostEvent {
 class ReplyCommentEvent extends ViewPostEvent {
   @override
   List<Object?> get props => [identityHashCode(this)];
+}
+
+class ViewReplyCommentEvent extends ViewPostEvent {
+  final String commentID;
+
+  ViewReplyCommentEvent(this.commentID);
+
+  @override
+  List<Object?> get props => [commentID];
 }

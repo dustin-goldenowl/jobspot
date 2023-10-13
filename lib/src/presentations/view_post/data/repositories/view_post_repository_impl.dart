@@ -62,12 +62,23 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
           .snapshots()
           .asyncMap((event) async {
         PostModel postModel = PostModel.fromDocumentSnapshot(event);
-        final user = await FirebaseFirestore.instance
-            .collection("users")
-            .doc(postModel.owner)
-            .get();
-        postModel =
-            postModel.copyWith(user: UserModel.fromDocumentSnapshot(user));
+        final response = await Future.wait([
+          FirebaseFirestore.instance
+              .collection("users")
+              .doc(postModel.owner)
+              .get(),
+          FirebaseFirestore.instance
+              .collection("comments")
+              .where("post", isEqualTo: id)
+              .count()
+              .get()
+        ]);
+        final user = response.first as DocumentSnapshot<Map<String, dynamic>>;
+        final numberOfComments = response.last as AggregateQuerySnapshot;
+        postModel = postModel.copyWith(
+          user: UserModel.fromDocumentSnapshot(user),
+          numberOfComments: numberOfComments.count,
+        );
         return DataSuccess(postModel.toPostEntity());
       });
     } catch (e) {
@@ -148,11 +159,63 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
       final snapshot = response.last as DocumentSnapshot<Map<String, dynamic>>;
       List<String> listReply =
           List<String>.from(snapshot.data()!["reply"].map((x) => x));
-      await commentStore.update({
-        "reply": [...listReply, replyCommentStore.id]
-      });
+      String? highLevel = snapshot.data()!["highLevel"];
+      await Future.wait([
+        replyCommentStore.update({"highLevel": highLevel ?? comment.commentID}),
+        updateReplyCommentHighLevel(
+            highLevel: highLevel, id: replyCommentStore.id),
+        commentStore.update({
+          "reply": [...listReply, replyCommentStore.id]
+        }),
+      ]);
+
       return DataSuccess(true);
     } catch (e) {
+      return DataFailed(e.toString());
+    }
+  }
+
+  Future updateReplyCommentHighLevel({
+    required String? highLevel,
+    required String id,
+  }) async {
+    if (highLevel != null) {
+      final highLevelStore =
+          FirebaseFirestore.instance.collection("comments").doc(highLevel);
+      final response = await highLevelStore.get();
+      List<String> listReply =
+          List<String>.from(response.data()!["reply"].map((x) => x));
+      await highLevelStore.update({
+        "reply": [...listReply, id]
+      });
+    }
+  }
+
+  @override
+  Future<DataState<List<CommentEntity>>> getReplyComment(String id) async {
+    try {
+      final snapshot =
+          await FirebaseFirestore.instance.collection("comments").doc(id).get();
+      List<String> listReply =
+          List<String>.from(snapshot.data()!["reply"].map((x) => x));
+      final response = await Future.wait(listReply
+          .map((e) =>
+              FirebaseFirestore.instance.collection("comments").doc(e).get())
+          .toList());
+
+      List<CommentModel> listComment =
+          response.map((e) => CommentModel.fromSnapshot(e)).toList();
+      final listUser = await getListUser(listComment);
+      listComment = listComment
+          .map(
+            (e) => e.copyWith(
+              user: listUser.firstWhere((element) => element.id == e.owner),
+            ),
+          )
+          .toList();
+      return DataSuccess(listComment.map((e) => e.toCommentEntity()).toList());
+    } catch (e) {
+      print(e);
       return DataFailed(e.toString());
     }
   }

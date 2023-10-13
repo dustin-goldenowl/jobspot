@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_input.dart';
 import 'package:jobspot/src/presentations/view_post/bloc/view_post_bloc.dart';
@@ -25,7 +26,17 @@ class ViewPostView extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: Row(
           children: [
-            ClipOval(child: SvgPicture.asset(AppImages.google, height: 50)),
+            ClipOval(
+              child: CachedNetworkImage(
+                imageUrl: PrefsUtils.getUserInfo()!.avatar,
+                width: 50,
+                height: 50,
+                placeholder: (context, url) =>
+                    const ItemLoading(width: 50, height: 50, radius: 0),
+                errorWidget: (context, url, error) =>
+                    SvgPicture.asset(AppImages.logo, height: 50, width: 50),
+              ),
+            ),
             const SizedBox(width: 10),
             Expanded(child: _writeCommentWidget()),
           ],
@@ -111,15 +122,15 @@ class ViewPostView extends StatelessWidget {
                   // TODO: open page profile of post
                 },
                 child: ClipOval(
-                  child: post.user.avatar.isEmpty
-                      ? SvgPicture.asset(AppImages.logo, height: 50, width: 50)
-                      : CachedNetworkImage(
-                          imageUrl: post.user.avatar,
-                          width: 50,
-                          height: 50,
-                          placeholder: (context, url) => const ItemLoading(
-                              width: 50, height: 50, radius: 0),
-                        ),
+                  child: CachedNetworkImage(
+                    imageUrl: post.user.avatar,
+                    width: 50,
+                    height: 50,
+                    placeholder: (context, url) =>
+                        const ItemLoading(width: 50, height: 50, radius: 0),
+                    errorWidget: (context, url, error) =>
+                        SvgPicture.asset(AppImages.logo, height: 50, width: 50),
+                  ),
                 ),
               ),
               const SizedBox(width: 10),
@@ -183,11 +194,12 @@ class ViewPostView extends StatelessWidget {
                 ),
                 const SizedBox(width: 28),
                 _buildItemReaction(
-                  onTap: () {
-                    // TODO: tap to open comment
-                  },
+                  onTap: context
+                      .read<ViewPostBloc>()
+                      .commentFocusNode
+                      .requestFocus,
                   icon: SvgPicture.asset(AppImages.comment),
-                  quantity: post.comment.length,
+                  quantity: post.numberOfComments,
                 ),
                 const Spacer(),
                 _buildItemReaction(
@@ -278,49 +290,63 @@ class ViewPostView extends StatelessWidget {
   }
 
   Widget _buildComment(BuildContext context, {required CommentEntity comment}) {
-    return Column(
-      children: [
-        _commentItem(context, comment: comment),
-        const SizedBox(height: 10),
-        Visibility(
-          visible: comment.reply.isNotEmpty,
-          child: Row(
-            children: [
-              SizedBox(
-                width: 60,
-                child: Divider(
-                  indent: 15,
-                  endIndent: 10,
-                  thickness: 1,
-                  color: Colors.black.withOpacity(0.5),
-                ),
+    return BlocBuilder<ViewPostBloc, ViewPostState>(
+      buildWhen: (previous, current) =>
+          current is ViewReplyCommentState && current.commentID == comment.id,
+      builder: (context, state) {
+        bool isShowReply = comment.reply.isNotEmpty &&
+            !(state is ViewReplyCommentState && state.commentID == comment.id);
+        return Column(
+          children: [
+            _commentItem(context, comment: comment),
+            const SizedBox(height: 10),
+            Visibility(
+              visible: isShowReply,
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 60,
+                    child: Divider(
+                      indent: 15,
+                      endIndent: 10,
+                      thickness: 1,
+                      color: Colors.black.withOpacity(0.5),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      context
+                          .read<ViewPostBloc>()
+                          .add(ViewReplyCommentEvent(comment.id));
+                    },
+                    child: Text(
+                      "xem ${comment.reply.length} comment",
+                      style: AppStyles.boldText,
+                    ),
+                  ),
+                ],
               ),
-              GestureDetector(
-                onTap: () {},
-                child: Text(
-                  "xem ${comment.reply.length} comment",
-                  style: AppStyles.boldText,
-                ),
+            ),
+            if (state is ViewReplyCommentState && state.commentID == comment.id)
+              ListView.separated(
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 15),
+                padding: const EdgeInsets.only(left: 50),
+                itemCount: state.listComment.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return _commentItem(
+                    context,
+                    comment: state.listComment[index],
+                    size: 35,
+                  );
+                },
               ),
-            ],
-          ),
-        ),
-        ListView.builder(
-          padding: const EdgeInsets.only(left: 50),
-          itemCount: 0,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return Column(
-              children: [
-                if (index == 0) const SizedBox(height: 15),
-                _commentItem(context, comment: comment, size: 35),
-              ],
-            );
-          },
-        ),
-        const SizedBox(height: 15),
-      ],
+            const SizedBox(height: 15),
+          ],
+        );
+      },
     );
   }
 

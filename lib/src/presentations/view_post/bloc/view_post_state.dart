@@ -25,6 +25,19 @@ class GetCommentDataSuccess extends ViewPostState {
   List<Object?> get props => [listComment];
 }
 
+class GetReplyCommentDataSuccess extends ViewPostState {
+  final List<CommentEntity> listComment;
+  final String commentID;
+
+  GetReplyCommentDataSuccess({
+    required this.listComment,
+    required this.commentID,
+  });
+
+  @override
+  List<Object?> get props => [listComment, commentID];
+}
+
 class FavouriteCommentLoading extends ViewPostState {
   final String id;
   final List<String> listFavoutite;
@@ -51,10 +64,16 @@ class ChangeTextCommentState extends ViewPostState {
 }
 
 class ReplyCommentClickState extends ViewPostState {
-  final CommentEntity comment;
+  @override
+  List<Object?> get props => [identityHashCode(this)];
+}
 
-  ReplyCommentClickState(this.comment);
+class ViewReplyCommentState extends ViewPostState {
+  final List<CommentEntity> listComment;
+  final String commentID;
+
+  ViewReplyCommentState({required this.listComment, required this.commentID});
 
   @override
-  List<Object?> get props => [comment];
+  List<Object?> get props => [listComment, commentID];
 }

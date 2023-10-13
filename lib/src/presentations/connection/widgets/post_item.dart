@@ -61,15 +61,15 @@ class PostItem extends StatelessWidget {
               // TODO: open page profile of post
             },
             child: ClipOval(
-              child: post.user.avatar.isEmpty
-                  ? SvgPicture.asset(AppImages.logo, height: 50, width: 50)
-                  : CachedNetworkImage(
-                      imageUrl: post.user.avatar,
-                      width: 50,
-                      height: 50,
-                      placeholder: (context, url) =>
-                          const ItemLoading(width: 50, height: 50, radius: 0),
-                    ),
+              child: CachedNetworkImage(
+                imageUrl: post.user.avatar,
+                width: 50,
+                height: 50,
+                placeholder: (context, url) =>
+                    const ItemLoading(width: 50, height: 50, radius: 0),
+                errorWidget: (context, url, error) =>
+                    SvgPicture.asset(AppImages.logo, height: 50, width: 50),
+              ),
             ),
           ),
           const SizedBox(width: 10),
@@ -122,11 +122,9 @@ class PostItem extends StatelessWidget {
           ),
           const SizedBox(width: 28),
           _buildItemReaction(
-            onTap: () {
-              // TODO: tap to open comment
-            },
+            onTap: () => ConnectionCoordinator.showFullPost(post: post),
             icon: SvgPicture.asset(AppImages.comment),
-            quantity: post.comment.length,
+            quantity: post.numberOfComments,
           ),
           const Spacer(),
           _buildItemReaction(

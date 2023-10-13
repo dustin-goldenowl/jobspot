@@ -8,6 +8,7 @@ class PostModel {
   String title;
   String description;
   String owner;
+  int? numberOfComments;
   UserModel? user;
   List<String> images;
   List<String> like;
@@ -28,6 +29,7 @@ class PostModel {
     required this.owner,
     required this.createAt,
     required this.updateAt,
+    this.numberOfComments,
   });
 
   factory PostModel.fromQueryDocumentSnapshot(
@@ -68,6 +70,7 @@ class PostModel {
     String? title,
     String? description,
     UserModel? user,
+    int? numberOfComments,
     List<String>? images,
     List<String>? like,
     List<String>? comment,
@@ -83,6 +86,7 @@ class PostModel {
       share: share ?? this.share,
       user: user ?? this.user,
       owner: owner,
+      numberOfComments: numberOfComments,
       createAt: createAt,
       updateAt: updateAt,
     );
@@ -108,6 +112,7 @@ class PostModel {
       id: id,
       title: title,
       description: description,
+      numberOfComments: numberOfComments!,
       images: images,
       like: like,
       comment: comment,

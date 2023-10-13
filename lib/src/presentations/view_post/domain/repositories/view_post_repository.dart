@@ -9,6 +9,8 @@ abstract class ViewPostRepository {
   Future<DataState<List<CommentEntity>>> getCommentFirstLevel(
       List<String> listComment);
 
+  Future<DataState<List<CommentEntity>>> getReplyComment(String id);
+
   Stream<DataState<PostEntity>> syncPostData(String id);
 
   Future<DataState<bool>> sendComment(SendCommentEntity comment);

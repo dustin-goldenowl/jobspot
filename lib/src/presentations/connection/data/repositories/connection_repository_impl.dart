@@ -32,16 +32,20 @@ class ConnectionRepositoryImpl extends ConnectionRepository {
               //TODO This command is to filter posts that are not from the current account.
               .count()
               .get(),
+          ...getListCommentPost(posts.map((e) => e.id).toList()),
         ]);
         final listUser = data.first as List<UserModel>;
-        final documents = data.last as AggregateQuerySnapshot;
-        posts = posts
-            .map(
-              (e) => e.copyWith(
-                user: listUser.firstWhere((element) => element.id == e.owner),
-              ),
-            )
-            .toList();
+        final documents = data[1] as AggregateQuerySnapshot;
+        int index = 1;
+        posts = posts.map(
+          (e) {
+            index++;
+            return e.copyWith(
+              user: listUser.firstWhere((element) => element.id == e.owner),
+              numberOfComments: (data[index] as AggregateQuerySnapshot).count,
+            );
+          },
+        ).toList();
         return DataSuccess(FetchPostData(
           isMore: limit < documents.count,
           posts: posts.map((e) => e.toPostEntity()).toList(),
@@ -63,5 +67,15 @@ class ConnectionRepositoryImpl extends ConnectionRepository {
             FirebaseFirestore.instance.collection("users").doc(id).get())
         .toList());
     return userData.map((e) => UserModel.fromDocumentSnapshot(e)).toList();
+  }
+
+  List<Future<AggregateQuerySnapshot>> getListCommentPost(List<String> listID) {
+    return listID
+        .map((e) => FirebaseFirestore.instance
+            .collection("comments")
+            .where("post", isEqualTo: e)
+            .count()
+            .get())
+        .toList();
   }
 }

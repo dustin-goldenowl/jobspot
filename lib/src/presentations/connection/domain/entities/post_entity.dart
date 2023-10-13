@@ -5,6 +5,7 @@ class PostEntity {
   final String title;
   final String description;
   final String owner;
+  final int numberOfComments;
   final UserEntity user;
   final List<String> images;
   final List<String> like;
@@ -23,5 +24,6 @@ class PostEntity {
     required this.share,
     required this.owner,
     required this.createAt,
+    required this.numberOfComments,
   });
 }
