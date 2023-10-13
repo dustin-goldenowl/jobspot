@@ -7,6 +7,15 @@ class ViewPostInitial extends ViewPostState {
   List<Object?> get props => [identityHashCode(this)];
 }
 
+class ViewPostError extends ViewPostState {
+  final String error;
+
+  ViewPostError(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}
+
 class SyncPostDataSuccess extends ViewPostState {
   final PostEntity post;
 
@@ -14,6 +23,11 @@ class SyncPostDataSuccess extends ViewPostState {
 
   @override
   List<Object?> get props => [post];
+}
+
+class GetCommentDataLoading extends ViewPostState {
+  @override
+  List<Object?> get props => [identityHashCode(this)];
 }
 
 class GetCommentDataSuccess extends ViewPostState {
@@ -68,11 +82,20 @@ class ReplyCommentClickState extends ViewPostState {
   List<Object?> get props => [identityHashCode(this)];
 }
 
-class ViewReplyCommentState extends ViewPostState {
+class ViewReplyCommentLoading extends ViewPostState {
+  final String commentID;
+
+  ViewReplyCommentLoading(this.commentID);
+
+  @override
+  List<Object?> get props => [commentID];
+}
+
+class ViewReplyCommentSuccess extends ViewPostState {
   final List<CommentEntity> listComment;
   final String commentID;
 
-  ViewReplyCommentState({required this.listComment, required this.commentID});
+  ViewReplyCommentSuccess({required this.listComment, required this.commentID});
 
   @override
   List<Object?> get props => [listComment, commentID];

@@ -1,16 +1,23 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jobspot/src/core/common/custom_toast.dart';
+import 'package:jobspot/src/core/common/widgets/custom_alert_dialog.dart';
+import 'package:jobspot/src/core/config/localization/app_local.dart';
+import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/comment_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/reply_comment_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/send_comment_entity.dart';
+import 'package:jobspot/src/presentations/view_post/domain/use_cases/delete_comment_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/favourite_comment_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/favourite_post_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/fetch_data_comment_first_level_use_case.dart';
@@ -31,13 +38,13 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
   final FavouriteCommentUseCase _favouriteCommentUseCase;
   final ReplyCommentUseCase _replyCommentUseCase;
   final GetReplyCommentUseCase _getReplyCommentUseCase;
+  final DeleteCommentUseCase _deleteCommentUseCase;
 
   final TextEditingController commentController = TextEditingController();
+  final FocusNode commentFocusNode = FocusNode();
 
   StreamSubscription? _postStream;
   String? _postID;
-  FocusNode commentFocusNode = FocusNode();
-  bool isKeyboardVisible = false;
   CommentEntity? replyComment;
 
   ViewPostBloc(
@@ -48,17 +55,21 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     this._syncPostDataUseCase,
     this._replyCommentUseCase,
     this._getReplyCommentUseCase,
+    this._deleteCommentUseCase,
   ) : super(ViewPostInitial()) {
     commentController.addListener(() => add(ChangeTextCommentEvent()));
+
     commentFocusNode.addListener(() {
       if (replyComment != null && !commentFocusNode.hasFocus) {
         add(ReplyCommentClickEvent());
       }
     });
 
-    on<ChangeTextCommentEvent>((event, emit) => emit(ChangeTextCommentState()));
+    on<ChangeTextCommentEvent>((_, emit) => emit(ChangeTextCommentState()));
 
     on<ReplyCommentClickEvent>(_replyCommentClick);
+
+    on<RequestCommentEvent>(_requestComment);
 
     on<SyncPostDataEvent>(_syncPostData);
 
@@ -68,13 +79,19 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
 
     on<ViewReplyCommentEvent>(_getReplyComment);
 
-    on<GetListCommentEvent>(_getListCommentFirstLevel);
+    on<GetListCommentEvent>(_getListComment);
 
     on<SendCommentEvent>(_sendComment);
 
     on<FavouritePostEvent>(_favouritePost);
 
     on<FavouriteCommentEvent>(_favouriteComment);
+
+    on<DeleteCommentEvent>(_deleteComment);
+  }
+
+  void _requestComment(RequestCommentEvent event, _) {
+    if (event.isComment) commentFocusNode.requestFocus();
   }
 
   void _replyCommentClick(ReplyCommentClickEvent event, Emitter emit) {
@@ -101,12 +118,14 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
   void _sendPostData(SendPostDataEvent event, Emitter emit) =>
       emit(SyncPostDataSuccess(event.post));
 
-  Future _getListCommentFirstLevel(
-      GetListCommentEvent event, Emitter emit) async {
+  Future _getListComment(GetListCommentEvent event, Emitter emit) async {
+    emit(GetCommentDataLoading());
     final response =
         await _commentFirstLevelUseCase.call(params: event.listComment);
     if (response is DataSuccess) {
       emit(GetCommentDataSuccess(response.data!));
+    } else {
+      emit(ViewPostError(response.error ?? ""));
     }
   }
 
@@ -119,7 +138,9 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
       content: comment,
       post: _postID!,
     ));
-    if (response is DataSuccess) {}
+    if (response is DataFailed) {
+      emit(ViewPostError(response.error ?? ""));
+    }
   }
 
   Future _replyComment(ReplyCommentEvent event, Emitter emit) async {
@@ -137,14 +158,22 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     ));
     if (response is DataSuccess) {
       add(SyncPostDataEvent());
+    } else {
+      emit(ViewPostError(response.error ?? ""));
     }
   }
 
   Future _getReplyComment(ViewReplyCommentEvent event, Emitter emit) async {
-    final reponse = await _getReplyCommentUseCase.call(params: event.commentID);
-    if (reponse is DataSuccess) {
-      emit(ViewReplyCommentState(
-          listComment: reponse.data!, commentID: event.commentID));
+    emit(ViewReplyCommentLoading(event.commentID));
+    final response =
+        await _getReplyCommentUseCase.call(params: event.commentID);
+    if (response is DataSuccess) {
+      emit(ViewReplyCommentSuccess(
+        listComment: response.data!,
+        commentID: event.commentID,
+      ));
+    } else {
+      emit(ViewPostError(response.error ?? ""));
     }
   }
 
@@ -152,7 +181,9 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     final response = await _favouritePostUseCase.call(
       params: FavouriteEntity(id: _postID!, listFavourite: event.listFavourist),
     );
-    if (response is DataSuccess) {}
+    if (response is DataFailed) {
+      emit(ViewPostError(response.error ?? ""));
+    }
   }
 
   Future _favouriteComment(FavouriteCommentEvent event, Emitter emit) async {
@@ -166,7 +197,85 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
         params: FavouriteEntity(id: event.id, listFavourite: listFavourite));
     if (response is DataSuccess) {
       emit(FavouriteCommentSuccess(id: event.id, listFavoutite: listFavourite));
+    } else {
+      emit(ViewPostError(response.error ?? ""));
     }
+  }
+
+  Future _deleteComment(DeleteCommentEvent event, Emitter emit) async {
+    final response = await _deleteCommentUseCase.call(params: event.commentID);
+    if (response is DataSuccess) {}
+  }
+
+  Future showSimpleDialog(BuildContext context, CommentEntity comment) async {
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return SimpleDialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            children: [
+              SimpleDialogOption(
+                onPressed: () {
+                  customToast(
+                    context,
+                    text: AppLocal.text.save_job_page_feature_not_yet_released,
+                  );
+                  context.router.pop();
+                },
+                child: Text(
+                  AppLocal.text.view_post_page_send_to_friends,
+                  style: AppStyles.boldTextHaiti,
+                ),
+              ),
+              SimpleDialogOption(
+                onPressed: () async {
+                  await Clipboard.setData(ClipboardData(
+                      text: "@${comment.user.name}: ${comment.content}"));
+                  if (context.mounted) context.router.pop();
+                },
+                child: Text(
+                  AppLocal.text.view_post_page_copy,
+                  style: AppStyles.boldTextHaiti,
+                ),
+              ),
+              if (FirebaseAuth.instance.currentUser!.uid == comment.user.id)
+                SimpleDialogOption(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    _showAlertDialog(
+                      context,
+                      onOK: () {
+                        add(DeleteCommentEvent(comment.id));
+                        context.router.pop();
+                      },
+                    );
+                  },
+                  child: Text(
+                    AppLocal.text.view_post_page_delete,
+                    style: AppStyles.boldTextHaiti,
+                  ),
+                ),
+            ],
+          );
+        });
+  }
+
+  Future _showAlertDialog(BuildContext context,
+      {required VoidCallback onOK}) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return customAlertDialog(
+          context,
+          title: AppLocal.text.view_post_page_delete_comment,
+          content: AppLocal.text.view_post_page_delete_comment_content,
+          onOK: onOK,
+        );
+      },
+    );
   }
 
   @override

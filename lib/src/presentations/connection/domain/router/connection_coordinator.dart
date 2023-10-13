@@ -8,6 +8,9 @@ class ConnectionCoordinator {
 
   static AppRouter get rootRouter => getIt<AppRouter>();
 
-  static void showFullPost({required PostEntity post}) =>
-      rootRouter.push(ViewPostRoute(post: post));
+  static void showFullPost({
+    required PostEntity post,
+    bool isComment = false,
+  }) =>
+      rootRouter.push(ViewPostRoute(post: post, isComment: isComment));
 }

@@ -219,4 +219,15 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
       return DataFailed(e.toString());
     }
   }
+
+  @override
+  Future<DataState<bool>> deleteComment(String id) async {
+    try {
+      FirebaseFirestore.instance.collection("comments").doc(id).delete();
+      //TODO còn phải xóa id của nó ra khỏi các mục khác @@
+      return DataSuccess(true);
+    } catch (e) {
+      return DataFailed(e.toString());
+    }
+  }
 }

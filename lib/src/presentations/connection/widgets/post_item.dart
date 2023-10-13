@@ -43,7 +43,8 @@ class PostItem extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 30),
-          if (post.images.isNotEmpty) ImageWidget(images: post.images),
+          if (post.images.isNotEmpty)
+            ImageWidget(images: post.images, padding: AppDimens.smallPadding),
           _buildBottomPost(),
         ],
       ),
@@ -122,7 +123,8 @@ class PostItem extends StatelessWidget {
           ),
           const SizedBox(width: 28),
           _buildItemReaction(
-            onTap: () => ConnectionCoordinator.showFullPost(post: post),
+            onTap: () =>
+                ConnectionCoordinator.showFullPost(post: post, isComment: true),
             icon: SvgPicture.asset(AppImages.comment),
             quantity: post.numberOfComments,
           ),

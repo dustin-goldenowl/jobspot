@@ -101,6 +101,8 @@
     "add_post_page_description_hint": "What do you want to talk about?",
     "add_post_page_update": "Update",
     "add_post_page_post": "Post",
+    "add_post_page_please_enter_title": "Please enter a title",
+    "add_post_page_please_enter_article_content": "Please enter article content",
     "add_post_created_successful_post": "Created a successful post",
 
     "add_job_page_choose_job_type": "Choose Job Type",
@@ -189,5 +191,16 @@
     "apply_job_page_back_to_home": "Back to home",
     "apply_job_page_find_similar_job": "Find a similar job",
     "apply_job_page_successful": "Successful",
-    "apply_job_page_successful_content": "Congratulations, your application has been sent"
+    "apply_job_page_successful_content": "Congratulations, your application has been sent",
+
+    "view_post_page_reply_to": "Reply @{name}",
+    "view_post_page_see_more_comment": "See {number} more comments",
+    "view_post_page_no_comment": "There are no comments here",
+    "view_post_page_reply": "Reply",
+    "view_post_page_delete_comment": "Delete comment",
+    "view_post_page_delete_comment_content": "Do you want to delete this comment?",
+    "view_post_page_delete": "Delete",
+    "view_post_page_copy": "Copy",
+    "view_post_page_send_to_friends": "Send to friends",
+    "view_post_page_add_comment": "Add a comment"
 }

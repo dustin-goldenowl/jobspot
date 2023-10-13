@@ -15,12 +15,14 @@ class ImageWidgetView extends StatelessWidget {
   final List<String> networkImages;
   final bool showDelete;
   final Function(int index)? onDelete;
+  final double padding;
 
   const ImageWidgetView({
     super.key,
     required this.images,
     required this.networkImages,
     required this.showDelete,
+    required this.padding,
     this.onDelete,
   });
 
@@ -48,7 +50,7 @@ class ImageWidgetView extends StatelessWidget {
             },
           ),
           if (list.length > 1)
-            Positioned(bottom: 10, child: _buildIncaditor(context, list)),
+            Positioned(bottom: 10, child: _buildIndicator(context, list)),
           if (list.length > 1)
             Positioned(top: 10, right: 20, child: _showIndex(list.length)),
         ],
@@ -128,9 +130,9 @@ class ImageWidgetView extends StatelessWidget {
     );
   }
 
-  Widget _buildIncaditor(BuildContext context, List<String> list) {
+  Widget _buildIndicator(BuildContext context, List<String> list) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery.of(context).size.width - padding * 2,
       child: Center(
         child: SmoothPageIndicator(
           controller: context.read<ImageWidgetCubit>().controller,
@@ -156,7 +158,7 @@ class ImageWidgetView extends StatelessWidget {
         return Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.75),
+            color: AppColors.primary.withOpacity(0.75),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(

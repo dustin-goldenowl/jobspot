@@ -101,6 +101,8 @@
     "add_post_page_description_hint": "Bạn muốn nói về điều gì?",
     "add_post_page_update": "Cập nhật",
     "add_post_page_post": "Đăng",
+    "add_post_page_please_enter_title": "Vui lòng nhập vào tiêu đề",
+    "add_post_page_please_enter_article_content": "Vui lòng nhập nội dung bài viết",
     "add_post_created_successful_post": "Tạo bài viết thành công",
 
     "add_job_page_choose_job_type": "Chọn Loại Công Việc",
@@ -189,5 +191,16 @@
     "apply_job_page_back_to_home": "Trở về trang chủ",
     "apply_job_page_find_similar_job": "Tìm công việc tương tự",
     "apply_job_page_successful": "Thành công",
-    "apply_job_page_successful_content": "Xin chúc mừng, đơn đăng ký của bạn đã được gửi"
+    "apply_job_page_successful_content": "Xin chúc mừng, đơn đăng ký của bạn đã được gửi",
+
+    "view_post_page_reply_to": "Trả lời @{name}",
+    "view_post_page_see_more_comment": "Xem {number} câu trả lời",
+    "view_post_page_no_comment": "Không có comment nào ở đây",
+    "view_post_page_reply": "Trả lời",
+    "view_post_page_delete_comment": "Xóa bình luận",
+    "view_post_page_delete_comment_content": "Bạn có muốn xóa bình luận này?",
+    "view_post_page_delete": "Xóa",
+    "view_post_page_copy": "Sao chép",
+    "view_post_page_send_to_friends": "Gửi cho bạn bè",
+    "view_post_page_add_comment": "Thêm một bình luận"
 }

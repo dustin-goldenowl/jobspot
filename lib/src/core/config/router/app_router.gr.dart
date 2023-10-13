@@ -188,6 +188,7 @@ abstract class $AppRouter extends _i17.RootStackRouter {
         child: _i16.ViewPostPage(
           key: args.key,
           post: args.post,
+          isComment: args.isComment,
         ),
       );
     },
@@ -612,12 +613,14 @@ class ViewPostRoute extends _i17.PageRouteInfo<ViewPostRouteArgs> {
   ViewPostRoute({
     _i18.Key? key,
     required _i22.PostEntity post,
+    bool isComment = false,
     List<_i17.PageRouteInfo>? children,
   }) : super(
           ViewPostRoute.name,
           args: ViewPostRouteArgs(
             key: key,
             post: post,
+            isComment: isComment,
           ),
           initialChildren: children,
         );
@@ -632,14 +635,17 @@ class ViewPostRouteArgs {
   const ViewPostRouteArgs({
     this.key,
     required this.post,
+    this.isComment = false,
   });
 
   final _i18.Key? key;
 
   final _i22.PostEntity post;
 
+  final bool isComment;
+
   @override
   String toString() {
-    return 'ViewPostRouteArgs{key: $key, post: $post}';
+    return 'ViewPostRouteArgs{key: $key, post: $post, isComment: $isComment}';
   }
 }

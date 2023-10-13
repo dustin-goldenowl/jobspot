@@ -67,6 +67,15 @@ class ChangeTextCommentEvent extends ViewPostEvent {
   List<Object?> get props => [identityHashCode(this)];
 }
 
+class RequestCommentEvent extends ViewPostEvent {
+  final bool isComment;
+
+  RequestCommentEvent(this.isComment);
+
+  @override
+  List<Object?> get props => [isComment];
+}
+
 class ReplyCommentClickEvent extends ViewPostEvent {
   final CommentEntity? comment;
 
@@ -85,6 +94,15 @@ class ViewReplyCommentEvent extends ViewPostEvent {
   final String commentID;
 
   ViewReplyCommentEvent(this.commentID);
+
+  @override
+  List<Object?> get props => [commentID];
+}
+
+class DeleteCommentEvent extends ViewPostEvent {
+  final String commentID;
+
+  DeleteCommentEvent(this.commentID);
 
   @override
   List<Object?> get props => [commentID];

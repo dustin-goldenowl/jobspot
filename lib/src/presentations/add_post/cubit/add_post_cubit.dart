@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/permission_service.dart';
@@ -41,13 +42,27 @@ class AddPostCubit extends Cubit<AddPostState> {
 
   Future addPost() async {
     emit(state.copyWith(isLoading: true));
-    final response = await _addPostUseCase.call(
-        params: PostEntity(
-      title: titleController.text,
-      description: descriptionController.text,
-      images: state.images,
-    ));
-    emit(state.copyWith(dataState: response));
+    if (_validate() == null) {
+      final response = await _addPostUseCase.call(
+          params: PostEntity(
+        title: titleController.text,
+        description: descriptionController.text,
+        images: state.images,
+      ));
+      emit(state.copyWith(dataState: response));
+    } else {
+      emit(state.copyWith(dataState: DataFailed(_validate()!)));
+    }
+  }
+
+  String? _validate() {
+    if (titleController.text.isEmpty) {
+      return AppLocal.text.add_post_page_please_enter_title;
+    }
+    if (descriptionController.text.isEmpty) {
+      return AppLocal.text.add_post_page_please_enter_article_content;
+    }
+    return null;
   }
 
   Future updatePost() async {

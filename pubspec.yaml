@@ -50,7 +50,7 @@ dependencies:
   firebase_auth: ^4.10.0
   google_sign_in: ^6.1.5
   firebase_storage: ^11.2.8
-  firebase_crashlytics: ^3.3.6
+  firebase_crashlytics: ^3.3.7
   cloud_firestore: ^4.9.2
   open_mail_app: ^0.4.5
   shared_preferences: ^2.2.1

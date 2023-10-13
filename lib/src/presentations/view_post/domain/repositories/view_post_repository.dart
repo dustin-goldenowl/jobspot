@@ -20,4 +20,6 @@ abstract class ViewPostRepository {
   Future<DataState<bool>> favouritePost(FavouriteEntity favourite);
 
   Future<DataState<bool>> favouriteComment(FavouriteEntity favourite);
+
+  Future<DataState<bool>> deleteComment(String id);
 }
