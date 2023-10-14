@@ -177,6 +177,10 @@
     "view_job_page_job_type": "Job Type",
     "view_job_page_no_requirement": "No requirement",
     "view_job_page_job_description": "Job Description",
+    "view_job_page_days_left": "{days} days left",
+    "view_job_page_hours_left": "{hours} hours left",
+    "view_job_page_minutes_left": "{minutes} minutes left",
+    "view_job_page_seconds_left": "{seconds} seconds left",
 
     "apply_job_page_apply_job": "Apply job",
     "apply_job_page_select_cv": "Please select one for your CV",

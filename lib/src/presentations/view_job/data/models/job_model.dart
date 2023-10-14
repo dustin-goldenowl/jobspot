@@ -55,6 +55,25 @@ class JobModel {
     );
   }
 
+  JobModel copyWith({CompanyModel? company}) {
+    return JobModel(
+      id: id,
+      jobType: jobType,
+      location: location,
+      owner: owner,
+      position: position,
+      salary: salary,
+      typeWorkplace: typeWorkplace,
+      level: level,
+      description: description,
+      endDate: endDate,
+      jobPosition: jobPosition,
+      requirements: requirements,
+      startDate: startDate,
+      company: company,
+    );
+  }
+
   JobEntity toJobEntity() {
     return JobEntity(
       id: id,

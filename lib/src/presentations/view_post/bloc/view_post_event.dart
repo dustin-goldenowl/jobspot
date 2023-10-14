@@ -22,8 +22,9 @@ class SendPostDataEvent extends ViewPostEvent {
 
 class GetListCommentEvent extends ViewPostEvent {
   final List<String> listComment;
+  final bool isLoading;
 
-  GetListCommentEvent(this.listComment);
+  GetListCommentEvent({required this.listComment, this.isLoading = false});
 
   @override
   List<Object?> get props => [listComment];

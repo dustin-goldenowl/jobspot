@@ -70,16 +70,13 @@ class HomeView extends StatelessWidget {
                 final job = state.data?.jobs[index];
                 return state.data != null
                     ? RecentJobCard(
-                        jobModel: job!,
-                        onTap: () {
-                          HomeCoordinator.showviewJobDescription(job.id);
-                        },
+                        job: job!,
+                        onTap: () =>
+                            HomeCoordinator.showviewJobDescription(job.id),
                         onSave: () {
                           // TODO tap to save job
                         },
-                        onApply: () {
-                          // TODO tap to apply job
-                        },
+                        onApply: () => HomeCoordinator.showApplyJob(job: job),
                       )
                     : const JobCardLoading();
               },

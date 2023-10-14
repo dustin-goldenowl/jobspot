@@ -104,13 +104,16 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     if (_postID == null && event.post != null) {
       _postID = event.post!.id;
       add(SendPostDataEvent(event.post!));
-      add(GetListCommentEvent(event.post!.comment));
+      add(GetListCommentEvent(
+        listComment: event.post!.comment,
+        isLoading: true,
+      ));
     }
     if (_postStream != null) _postStream!.cancel();
     _postStream = _syncPostDataUseCase.call(params: _postID!).listen((event) {
       if (event is DataSuccess) {
         add(SendPostDataEvent(event.data!));
-        add(GetListCommentEvent(event.data!.comment));
+        add(GetListCommentEvent(listComment: event.data!.comment));
       }
     });
   }
@@ -119,7 +122,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
       emit(SyncPostDataSuccess(event.post));
 
   Future _getListComment(GetListCommentEvent event, Emitter emit) async {
-    emit(GetCommentDataLoading());
+    if (event.isLoading) emit(GetCommentDataLoading());
     final response =
         await _commentFirstLevelUseCase.call(params: event.listComment);
     if (response is DataSuccess) {
