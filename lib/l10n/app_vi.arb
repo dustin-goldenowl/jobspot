@@ -209,5 +209,19 @@
     "view_post_page_add_comment": "Thêm một bình luận",
 
     "custom_alert_dialog_cancel": "Hủy",
-    "custom_alert_dialog_ok": "OK"
+    "custom_alert_dialog_ok": "OK",
+
+    "applicant_profile_page_follow": "Theo dõi",
+    "applicant_profile_page_following": "Đang theo dõi",
+    "applicant_profile_page_about": "Giới thiệu",
+    "applicant_profile_page_post": "Bài viết",
+    "applicant_profile_page_about_me": "Về tôi",
+    "applicant_profile_page_work_experience": "Kinh nghiệm làm việc",
+    "applicant_profile_page_education": "Học vấn",
+    "applicant_profile_page_skill": "Kỹ năng",
+    "applicant_profile_page_see_more": "Xem thêm",
+    "applicant_profile_page_language": "Ngôn ngữ",
+    "applicant_profile_page_appreciation": "Đánh giá",
+    "applicant_profile_page_resume": "Sơ yếu lý lịch",
+    "applicant_profile_page_edit_profile": "Chỉnh sửa hồ sơ"
 }

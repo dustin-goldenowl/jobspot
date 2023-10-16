@@ -92,7 +92,7 @@ class AppRouter extends $AppRouter {
         CustomRoute(
           path: '/applicantProfile',
           page: ApplicantProfileRoute.page,
-          transitionsBuilder: TransitionsBuilders.slideTop,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
           children: [
             AutoRoute(path: "about", page: AboutTab.page),
             AutoRoute(path: "post", page: PostTab.page)

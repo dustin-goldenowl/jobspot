@@ -13,12 +13,13 @@ part 'applicant_profile_state.dart';
 @injectable
 class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
   late TabController tabController;
+  final ScrollController scrollController = ScrollController();
   StreamSubscription? _subscription;
 
   final GetListPostUseCase _getListPostUseCase;
 
   ApplicantProfileCubit(this._getListPostUseCase)
-      : super(const ApplicantProfileState());
+      : super(const ApplicantProfileState(isTop: false));
 
   void getListPost() {
     if (_subscription != null) _subscription!.cancel();
@@ -28,6 +29,9 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
       }
     });
   }
+
+  void changeIsTop(bool isTop) =>
+      emit(state.copyWith(listPost: state.listPost, isTop: isTop));
 
   @override
   Future<void> close() {
