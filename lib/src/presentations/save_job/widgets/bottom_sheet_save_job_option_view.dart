@@ -4,9 +4,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/presentations/save_job/domain/router/save_job_coordinator.dart';
+import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart';
 
 class BottomSheetSaveJobOptionView extends StatelessWidget {
-  const BottomSheetSaveJobOptionView({super.key});
+  const BottomSheetSaveJobOptionView({
+    super.key,
+    required this.job,
+    required this.onDelete,
+  });
+
+  final JobEntity job;
+  final Function(String jobID) onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -39,19 +48,31 @@ class BottomSheetSaveJobOptionView extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           _buildOption(
-            onTap: () {},
+            onTap: () {
+              context.router.pop();
+              customToast(
+                context,
+                text: AppLocal.text.save_job_page_feature_not_yet_released,
+              );
+            },
             title: AppLocal.text.save_job_page_share,
             icon: AppImages.share,
           ),
           const SizedBox(height: 30),
           _buildOption(
-            onTap: () {},
+            onTap: () {
+              context.router.pop();
+              onDelete(job.id);
+            },
             title: AppLocal.text.save_job_page_delete,
             icon: AppImages.trash,
           ),
           const SizedBox(height: 30),
           _buildOption(
-            onTap: () {},
+            onTap: () {
+              context.router.pop();
+              SaveJobCoordinator.showApplyJob(job);
+            },
             title: AppLocal.text.save_job_page_apply,
             icon: AppImages.checkCircle,
           ),

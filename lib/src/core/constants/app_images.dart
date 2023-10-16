@@ -11,7 +11,9 @@ class AppImages {
   static String comment = "assets/images/comment.svg";
   static String share = "assets/images/share.svg";
   static String save = "assets/images/save.svg";
+  static String saved = "assets/images/saved.svg";
   static String saveJob = "assets/images/save_job.svg";
+  static String noSave = "assets/images/no_save.svg";
   static String findJob = "assets/images/find_job.svg";
   static String home = "assets/images/home.svg";
   static String connection = "assets/images/connection.svg";

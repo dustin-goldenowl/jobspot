@@ -3,4 +3,6 @@ import 'package:jobspot/src/presentations/home/domain/entities/fetch_job_data.da
 
 abstract class HomeRepository {
   Stream<DataState<FetchJobData>> fetchJobData();
+
+  Future<DataState<bool>> saveJob(String jobID);
 }

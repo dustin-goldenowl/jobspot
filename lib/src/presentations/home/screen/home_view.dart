@@ -10,6 +10,8 @@ import 'package:jobspot/src/presentations/home/domain/router/home_coordinator.da
 import 'package:jobspot/src/presentations/home/widgets/job_card_loading.dart';
 import 'package:jobspot/src/presentations/home/widgets/recent_job_card.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:jobspot/src/presentations/main/cubit/main_cubit.dart';
+import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -61,6 +63,8 @@ class HomeView extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         BlocBuilder<HomeCubit, HomeState>(
+          buildWhen: (previous, current) =>
+              current.jobID == null && current.error == null,
           builder: (context, state) {
             return ListView.separated(
               padding: const EdgeInsets.only(bottom: 10),
@@ -69,15 +73,7 @@ class HomeView extends StatelessWidget {
               itemBuilder: (context, index) {
                 final job = state.data?.jobs[index];
                 return state.data != null
-                    ? RecentJobCard(
-                        job: job!,
-                        onTap: () =>
-                            HomeCoordinator.showviewJobDescription(job.id),
-                        onSave: () {
-                          // TODO tap to save job
-                        },
-                        onApply: () => HomeCoordinator.showApplyJob(job: job),
-                      )
+                    ? _buildJobItem(job!)
                     : const JobCardLoading();
               },
               separatorBuilder: (context, index) => const SizedBox(height: 10),
@@ -86,6 +82,26 @@ class HomeView extends StatelessWidget {
           },
         )
       ],
+    );
+  }
+
+  Widget _buildJobItem(JobEntity job) {
+    return BlocBuilder<MainCubit, MainState>(
+      buildWhen: (previous, current) => current.jobID == job.id,
+      builder: (context, state) {
+        return BlocBuilder<HomeCubit, HomeState>(
+          buildWhen: (previous, current) => current.jobID == job.id,
+          builder: (context, state) {
+            return RecentJobCard(
+              job: job,
+              onTap: () => HomeCoordinator.showViewJobDescription(job.id),
+              onSave: () => context.read<HomeCubit>().saveJob(job.id),
+              onApply: () => HomeCoordinator.showApplyJob(job: job),
+              isSave: PrefsUtils.getUserInfo()!.saveJob!.contains(job.id),
+            );
+          },
+        );
+      },
     );
   }
 
@@ -134,6 +150,8 @@ class HomeView extends StatelessWidget {
 
   Widget _buildFindYourJob({required double width}) {
     return BlocBuilder<HomeCubit, HomeState>(
+      buildWhen: (previous, current) =>
+          current.jobID == null && current.error == null,
       builder: (context, state) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,

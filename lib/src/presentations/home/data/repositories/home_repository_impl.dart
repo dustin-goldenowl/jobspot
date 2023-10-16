@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/extension/date_time_extension.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/utils/prefs_utils.dart';
+import 'package:jobspot/src/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/home/domain/entities/fetch_job_data.dart';
 import 'package:jobspot/src/presentations/home/domain/repositories/home_repository.dart';
 import 'package:jobspot/src/presentations/view_job/data/models/company_model.dart';
@@ -90,5 +93,29 @@ class HomeRepositoryImpl extends HomeRepository {
     return companyData
         .map((e) => CompanyModel.fromDocumentSnapshot(e))
         .toList();
+  }
+
+  @override
+  Future<DataState<bool>> saveJob(String jobID) async {
+    try {
+      UserModel user = PrefsUtils.getUserInfo()!;
+      if (user.saveJob!.contains(jobID)) {
+        user.saveJob!.remove(jobID);
+      } else {
+        user.saveJob!.add(jobID);
+      }
+      await Future.wait([
+        FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update({
+          "saveJob": user.saveJob!,
+        }),
+        PrefsUtils.saveUserInfo(user.toJson()),
+      ]);
+      return DataSuccess(!user.saveJob!.contains(jobID));
+    } catch (e) {
+      return DataFailed(e.toString());
+    }
   }
 }
