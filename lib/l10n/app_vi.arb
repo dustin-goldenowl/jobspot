@@ -206,5 +206,8 @@
     "view_post_page_delete": "Xóa",
     "view_post_page_copy": "Sao chép",
     "view_post_page_send_to_friends": "Gửi cho bạn bè",
-    "view_post_page_add_comment": "Thêm một bình luận"
+    "view_post_page_add_comment": "Thêm một bình luận",
+
+    "custom_alert_dialog_cancel": "Hủy",
+    "custom_alert_dialog_ok": "OK"
 }

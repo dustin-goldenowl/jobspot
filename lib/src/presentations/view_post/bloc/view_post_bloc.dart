@@ -275,7 +275,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
           context,
           title: AppLocal.text.view_post_page_delete_comment,
           content: AppLocal.text.view_post_page_delete_comment_content,
-          onOK: onOK,
+          onAccept: onOK,
         );
       },
     );
