@@ -12,6 +12,10 @@ class MainCubit extends Cubit<MainState> {
     emit(state.copyWith(jobID: jobID));
   }
 
+  void deleteAllSaveJob() {
+    emit(state.copyWith(isDeleteAllSaveJob: true));
+  }
+
   void showBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,

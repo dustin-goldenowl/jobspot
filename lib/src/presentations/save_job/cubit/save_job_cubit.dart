@@ -40,7 +40,9 @@ class SaveJobCubit extends Cubit<SaveJobState> {
 
   Future deleteAllSaveJob() async {
     final response = await _deleteAllSaveJobUseCase.call();
-    if (response is DataFailed) {
+    if (response is DataSuccess) {
+      emit(state.copyWith(isDeleteAllSaveJob: true));
+    } else {
       emit(state.copyWith(error: response.error));
     }
   }

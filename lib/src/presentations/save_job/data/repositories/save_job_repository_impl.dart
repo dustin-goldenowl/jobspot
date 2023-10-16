@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/save_job/domain/repositories/save_job_repository.dart';
 import 'package:jobspot/src/presentations/view_job/data/models/company_model.dart';
 import 'package:jobspot/src/presentations/view_job/data/models/job_model.dart';
@@ -56,10 +57,15 @@ class SaveJobRepositoryImpl extends SaveJobRepository {
   @override
   Future<DataState<bool>> deleteAllSaveJob() async {
     try {
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(FirebaseAuth.instance.currentUser!.uid)
-          .update({"saveJob": []});
+      final user = PrefsUtils.getUserInfo()!;
+      user.saveJob!.clear();
+      await Future.wait([
+        FirebaseFirestore.instance
+            .collection("users")
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update({"saveJob": []}),
+        PrefsUtils.saveUserInfo(user.toJson()),
+      ]);
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());

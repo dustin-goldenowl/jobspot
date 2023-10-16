@@ -87,7 +87,8 @@ class HomeView extends StatelessWidget {
 
   Widget _buildJobItem(JobEntity job) {
     return BlocBuilder<MainCubit, MainState>(
-      buildWhen: (previous, current) => current.jobID == job.id,
+      buildWhen: (previous, current) =>
+          current.jobID == job.id || (current.isDeleteAllSaveJob ?? false),
       builder: (context, state) {
         return BlocBuilder<HomeCubit, HomeState>(
           buildWhen: (previous, current) => current.jobID == job.id,

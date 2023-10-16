@@ -26,9 +26,14 @@ class SaveJobView extends StatelessWidget {
         if (state.deleteJobID != null) {
           context.read<MainCubit>().deleteSaveJob(state.deleteJobID!);
         }
+        if (state.isDeleteAllSaveJob != null) {
+          context.read<MainCubit>().deleteAllSaveJob();
+        }
       },
       buildWhen: (previous, current) =>
-          current.listJob != previous.listJob && current.deleteJobID == null,
+          current.listJob != previous.listJob &&
+          current.deleteJobID == null &&
+          current.isDeleteAllSaveJob == null,
       builder: (context, state) {
         if (state.listJob != null && state.listJob!.isEmpty) {
           return _buildNoSaveJob();
