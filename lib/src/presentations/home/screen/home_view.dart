@@ -21,7 +21,7 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppBar(
         width: width,
-        onTap: () {},
+        onTap: HomeCoordinator.showApplicantProfile,
       ),
       body: RefreshIndicator(
         onRefresh: () async {

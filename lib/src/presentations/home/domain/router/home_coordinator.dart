@@ -13,4 +13,7 @@ class HomeCoordinator {
 
   static void showApplyJob({required JobEntity job}) =>
       rootRouter.push(ApplyJobRoute(job: job));
+
+  static void showApplicantProfile() =>
+      rootRouter.push(const ApplicantProfileRoute());
 }
