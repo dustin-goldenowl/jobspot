@@ -1,7 +1,7 @@
-import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 
 class FetchPostData {
-  final List<PostModel> posts;
+  final List<PostEntity> posts;
   final bool isMore;
   final int limit;
 

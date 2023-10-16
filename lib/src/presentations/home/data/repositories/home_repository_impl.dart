@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/extension/date_time_extension.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
-import 'package:jobspot/src/presentations/home/data/models/company_model.dart';
-import 'package:jobspot/src/presentations/home/data/models/job_model.dart';
 import 'package:jobspot/src/presentations/home/domain/entities/fetch_job_data.dart';
 import 'package:jobspot/src/presentations/home/domain/repositories/home_repository.dart';
+import 'package:jobspot/src/presentations/view_job/data/models/company_model.dart';
+import 'package:jobspot/src/presentations/view_job/data/models/job_model.dart';
 
 @LazySingleton(as: HomeRepository)
 class HomeRepositoryImpl extends HomeRepository {
@@ -43,7 +43,7 @@ class HomeRepositoryImpl extends HomeRepository {
             )
             .toList();
         return DataSuccess(FetchJobData(
-          jobs: jobs,
+          jobs: jobs.map((e) => e.toJobEntity()).toList(),
           fulltime: (response[1] as AggregateQuerySnapshot).count,
           parttime: (response[2] as AggregateQuerySnapshot).count,
           remote: (response[3] as AggregateQuerySnapshot).count,

@@ -1,8 +1,7 @@
-import 'package:jobspot/src/presentations/home/data/models/job_model.dart';
+import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart';
 
 class FetchJobData {
-  //TODO finish project => JobModel to JobEntity
-  List<JobModel> jobs;
+  List<JobEntity> jobs;
   int remote;
   int fulltime;
   int parttime;

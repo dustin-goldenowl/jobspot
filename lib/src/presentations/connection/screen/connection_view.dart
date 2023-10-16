@@ -5,8 +5,10 @@ import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/connection/cubit/connection_cubit.dart'
     as cubit;
+import 'package:jobspot/src/presentations/connection/domain/router/connection_coordinator.dart';
 import 'package:jobspot/src/presentations/connection/widgets/post_item.dart';
 import 'package:jobspot/src/presentations/connection/widgets/post_loading.dart';
+import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 
 class ConnectionView extends StatelessWidget {
   const ConnectionView({super.key});
@@ -36,9 +38,8 @@ class ConnectionView extends StatelessWidget {
   Widget _buildBody(BuildContext context) {
     return SafeArea(
       child: RefreshIndicator(
-        onRefresh: () async {
-          context.read<cubit.ConnectionCubit>().fetchPostData();
-        },
+        onRefresh: () async =>
+            context.read<cubit.ConnectionCubit>().fetchPostData(),
         child: BlocBuilder<cubit.ConnectionCubit, cubit.ConnectionState>(
           builder: (context, state) {
             return ListView.separated(
@@ -52,20 +53,42 @@ class ConnectionView extends StatelessWidget {
               separatorBuilder: (context, index) => const SizedBox(height: 20),
               itemBuilder: (context, index) {
                 return state.posts != null && index < state.posts!.length
-                    ? PostItem(post: state.posts![index])
+                    ? PostItem(
+                        post: state.posts![index],
+                        onComment: () => ConnectionCoordinator.showFullPost(
+                            post: state.posts![index], isComment: true),
+                        onFavourite: () => context
+                            .read<cubit.ConnectionCubit>()
+                            .favouritePost(FavouriteEntity(
+                              id: state.posts![index].id,
+                              listFavourite: state.posts![index].like,
+                            )),
+                        onShare: () {
+                          //TODO tap to share post
+                        },
+                        onViewFullPost: () =>
+                            ConnectionCoordinator.showFullPost(
+                                post: state.posts![index]),
+                        onViewProfile: () {
+                          //TODO tab to view profile
+                        },
+                      )
                     : state.isMore
                         ? const PostLoading()
-                        : Center(
-                            child: Text(
-                              AppLocal.text.connection_page_no_new_posts,
-                              style: AppStyles.boldTextHaiti
-                                  .copyWith(fontSize: 16),
-                            ),
-                          );
+                        : _buildNoPost();
               },
             );
           },
         ),
+      ),
+    );
+  }
+
+  Widget _buildNoPost() {
+    return Center(
+      child: Text(
+        AppLocal.text.connection_page_no_new_posts,
+        style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
       ),
     );
   }

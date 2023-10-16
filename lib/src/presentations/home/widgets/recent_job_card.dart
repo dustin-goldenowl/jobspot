@@ -5,8 +5,8 @@ import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/function/get_location.dart';
-import 'package:jobspot/src/presentations/home/data/models/job_model.dart';
 import 'package:jobspot/src/presentations/save_job/widgets/tag_item.dart';
+import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart';
 
 class RecentJobCard extends StatelessWidget {
   const RecentJobCard({
@@ -14,17 +14,17 @@ class RecentJobCard extends StatelessWidget {
     required this.onTap,
     required this.onSave,
     required this.onApply,
-    required this.jobModel,
+    required this.job,
   });
 
   final VoidCallback onTap;
   final VoidCallback onSave;
   final VoidCallback onApply;
-  final JobModel jobModel;
+  final JobEntity job;
 
   @override
   Widget build(BuildContext context) {
-    final location = getLocation(jobModel.location);
+    final location = getLocation(job.location);
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -50,7 +50,7 @@ class RecentJobCard extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: "\$${jobModel.salary}",
+                    text: "\$${job.salary}",
                     style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w700,
@@ -68,10 +68,10 @@ class RecentJobCard extends StatelessWidget {
             Row(
               children: [
                 TagItem(
-                    title: AppLists.listTypeWorkplace[jobModel.typeWorkplace]
+                    title: AppLists.listTypeWorkplace[job.typeWorkplace]
                         ["title"]!),
                 const SizedBox(width: 8),
-                TagItem(title: AppLists.listLevel[jobModel.level]),
+                TagItem(title: AppLists.listLevel[job.level]),
                 const Spacer(),
                 GestureDetector(
                   onTap: onApply,
@@ -93,10 +93,10 @@ class RecentJobCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         ClipOval(
-          child: jobModel.company!.avatar.isEmpty
+          child: job.company.avatar.isEmpty
               ? SvgPicture.asset(AppImages.logo, height: 40, width: 40)
               : CachedNetworkImage(
-                  imageUrl: jobModel.company!.avatar,
+                  imageUrl: job.company.avatar,
                   width: 40,
                   height: 40,
                   placeholder: (context, url) =>
@@ -109,12 +109,12 @@ class RecentJobCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                jobModel.position,
+                job.position,
                 style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
               ),
               const SizedBox(height: 5),
               Text(
-                "${jobModel.company!.name} • $location",
+                "${job.company.name} • $location",
                 overflow: TextOverflow.ellipsis,
               ),
             ],

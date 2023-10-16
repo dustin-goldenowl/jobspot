@@ -3,9 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
-import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
-import 'package:jobspot/src/presentations/save_job/widgets/tag_item.dart';
 
 class JobCardLoading extends StatelessWidget {
   const JobCardLoading({super.key});
@@ -42,10 +40,7 @@ class JobCardLoading extends StatelessWidget {
               ItemLoading(
                   width: random.nextInt(30) + 80, height: 25, radius: 8),
               const Spacer(),
-              TagItem(
-                title: AppLocal.text.home_page_apply,
-                backgroundColor: AppColors.orangeRed.withOpacity(0.2),
-              ),
+              const ItemLoading(width: 77, height: 25, radius: 8),
             ],
           ),
         ],

@@ -19,8 +19,7 @@ class ViewJobRepositoryImpl extends ViewJobRepository {
           .doc(job.owner)
           .get();
       CompanyModel company = CompanyModel.fromDocumentSnapshot(companySnapshot);
-      job.company = company;
-      return DataSuccess(job.toJobEntity());
+      return DataSuccess(job.copyWith(company: company).toJobEntity());
     } catch (e) {
       print(e);
       return DataFailed(e.toString());

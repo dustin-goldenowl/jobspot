@@ -8,6 +8,7 @@ class ImageWidget extends StatelessWidget {
   final List<String> networkImages;
   final bool showDelete;
   final Function(int index)? onDelete;
+  final double padding;
 
   const ImageWidget({
     super.key,
@@ -15,6 +16,7 @@ class ImageWidget extends StatelessWidget {
     this.networkImages = const [],
     this.showDelete = false,
     this.onDelete,
+    this.padding = 0,
   });
 
   @override
@@ -26,6 +28,7 @@ class ImageWidget extends StatelessWidget {
         networkImages: networkImages,
         onDelete: onDelete,
         showDelete: showDelete,
+        padding: padding,
       ),
     );
   }
