@@ -226,5 +226,21 @@
     "applicant_profile_page_language": "Language",
     "applicant_profile_page_appreciation": "Appreciation",
     "applicant_profile_page_resume": "Resume",
-    "applicant_profile_page_edit_profile": "Edit profile"
+    "applicant_profile_page_edit_profile": "Edit profile",
+
+    "add_work_experience_page_add_work_experience": "Add work experience",
+    "add_work_experience_page_job_title_hint": "Mobile Developer",
+    "add_work_experience_page_job_title": "Job title",
+    "add_work_experience_page_description": "Description",
+    "add_work_experience_page_description_content": "Write additional information here",
+    "add_work_experience_page_remove": "Remove",
+    "add_work_experience_page_save": "Save",
+    "add_work_experience_page_start_date": "Start Date",
+    "add_work_experience_page_end_date": "End Date",
+    "add_work_experience_page_position_now": "This is my position now",
+    "add_work_experience_page_save_title": "Save Changes?",
+    "add_work_experience_page_save_content": "Are you sure you want to change what you entered?",
+    "add_work_experience_page_delete_title": "Remove Work Experience?",
+    "add_work_experience_page_delete_content": "Are you sure you want to delete this work experience?",
+    "add_work_experience_page_company": "Company"
 }

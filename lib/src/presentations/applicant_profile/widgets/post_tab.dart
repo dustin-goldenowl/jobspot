@@ -48,7 +48,7 @@ class PostTab extends StatelessWidget {
                         icon: AppImages.edit,
                         title: "Edit",
                       ),
-                      onTap: () => ApplicantProfileCoordinator.editPost(
+                      onTap: () => ApplicantProfileCoordinator.showEditPost(
                           post: state.listPost![index]),
                     ),
                     PopupMenuItem<int>(

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/utils/prefs_utils.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/router/applicant_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/applicant_profile/widgets/profile_item.dart';
 import 'package:jobspot/src/presentations/applicant_profile/widgets/profile_subitem.dart';
 
@@ -56,7 +58,6 @@ class AboutTab extends StatelessWidget {
       icon: AppImages.resume,
       title: AppLocal.text.applicant_profile_page_resume,
       onAdd: () {},
-      onEdit: () {},
       child: ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -74,7 +75,6 @@ class AboutTab extends StatelessWidget {
       icon: AppImages.archive,
       title: AppLocal.text.applicant_profile_page_appreciation,
       onAdd: () {},
-      onEdit: () {},
       child: ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -150,7 +150,6 @@ class AboutTab extends StatelessWidget {
       icon: AppImages.graduationCap,
       title: AppLocal.text.applicant_profile_page_education,
       onAdd: () {},
-      onEdit: () {},
       child: ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -173,8 +172,9 @@ class AboutTab extends StatelessWidget {
     return ProfileItem(
       icon: AppImages.bag,
       title: AppLocal.text.applicant_profile_page_work_experience,
-      onAdd: () {},
-      onEdit: () {},
+      onAdd: () => ApplicantProfileCoordinator.showAddWorkExperience(
+        onSave: (experience) {},
+      ),
       child: ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -197,10 +197,18 @@ class AboutTab extends StatelessWidget {
     return ProfileItem(
       icon: AppImages.circleProfile,
       title: AppLocal.text.applicant_profile_page_about_me,
-      onAdd: () {},
-      onEdit: () {},
+      onAdd: () => ApplicantProfileCoordinator.showAddAboutMe(
+        title: AppLocal.text.applicant_profile_page_about_me,
+        description: "",
+        onBack: (value) {},
+      ),
+      onEdit: () => ApplicantProfileCoordinator.showAddAboutMe(
+        title: AppLocal.text.applicant_profile_page_about_me,
+        description: PrefsUtils.getUserInfo()?.description ?? "",
+        onBack: (value) {},
+      ),
       child: Text(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus id commodo egestas metus interdum dolor.", //TODO hard code to test
+        PrefsUtils.getUserInfo()?.description ?? "Không có",
         style: AppStyles.normalTextMulledWine,
       ),
     );

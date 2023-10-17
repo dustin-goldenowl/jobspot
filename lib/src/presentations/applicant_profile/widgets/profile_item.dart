@@ -8,18 +8,16 @@ class ProfileItem extends StatelessWidget {
     super.key,
     required this.icon,
     required this.title,
-    this.isShowEdit = false,
-    this.onAdd,
+    required this.onAdd,
     this.onEdit,
     this.child,
   });
 
-  final VoidCallback? onAdd;
+  final VoidCallback onAdd;
   final VoidCallback? onEdit;
   final Widget? child;
   final String icon;
   final String title;
-  final bool isShowEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +39,8 @@ class ProfileItem extends StatelessWidget {
               ),
               const Spacer(),
               AddButton(
-                isShowEdit: isShowEdit,
-                onTap: isShowEdit ? onEdit! : onAdd!,
+                isShowEdit: onEdit != null,
+                onTap: onEdit ?? onAdd,
               )
             ],
           ),

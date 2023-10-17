@@ -10,6 +10,9 @@ class DateTimeUtils {
   static String formatCVTime(DateTime date) =>
       DateFormat("dd MMM yyyy 'at' hh:mm a").format(date);
 
+  static String formatMonthYear(DateTime date) =>
+      DateFormat("MMM yyyy").format(date);
+
   static String daysLeft(DateTime date) {
     final duration = date.difference(DateTime.now());
     if (duration.inDays > 0) {

@@ -226,5 +226,21 @@
     "applicant_profile_page_language": "Ngôn ngữ",
     "applicant_profile_page_appreciation": "Đánh giá",
     "applicant_profile_page_resume": "Sơ yếu lý lịch",
-    "applicant_profile_page_edit_profile": "Chỉnh sửa hồ sơ"
+    "applicant_profile_page_edit_profile": "Chỉnh sửa hồ sơ",
+
+    "add_work_experience_page_add_work_experience": "Thêm kinh nghiệm làm việc",
+    "add_work_experience_page_job_title_hint": "Mobile Developer",
+    "add_work_experience_page_job_title": "Chức danh",
+    "add_work_experience_page_description": "Mô tả",
+    "add_work_experience_page_description_content": "Viết thêm thông tin ở đây",
+    "add_work_experience_page_remove": "Loại bỏ",
+    "add_work_experience_page_save": "Lưu",
+    "add_work_experience_page_start_date": "Ngày bắt đầu",
+    "add_work_experience_page_end_date": "Ngày kết thúc",
+    "add_work_experience_page_position_now": "Đây là vị trí của tôi bây giờ",
+    "add_work_experience_page_save_title": "Lưu thay đổi?",
+    "add_work_experience_page_save_content": "Bạn có chắc chắn muốn thay đổi những gì bạn đã nhập không?",
+    "add_work_experience_page_delete_title": "Xóa Kinh nghiệm làm việc?",
+    "add_work_experience_page_delete_content": "Bạn có chắc chắn muốn xóa trải nghiệm làm việc này không?",
+    "add_work_experience_page_company": "Công ty"
 }

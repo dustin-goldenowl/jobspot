@@ -98,5 +98,10 @@ class AppRouter extends $AppRouter {
             AutoRoute(path: "post", page: PostTab.page)
           ],
         ),
+        CustomRoute(
+          path: '/addExperience',
+          page: AddWorkExperienceRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
+        ),
       ];
 }
