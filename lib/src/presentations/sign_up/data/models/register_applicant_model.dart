@@ -40,6 +40,7 @@ class RegisterApplicantModel {
       "resume": [],
       "skill": [],
       "workExperience": [],
+      "saveJob": [],
       "createAt": DateTime.now(),
       "updateAt": DateTime.now(),
     };

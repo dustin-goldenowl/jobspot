@@ -8,6 +8,14 @@ part 'main_state.dart';
 class MainCubit extends Cubit<MainState> {
   MainCubit() : super(const MainState());
 
+  void deleteSaveJob(String jobID) {
+    emit(state.copyWith(jobID: jobID));
+  }
+
+  void deleteAllSaveJob() {
+    emit(state.copyWith(isDeleteAllSaveJob: true));
+  }
+
   void showBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,

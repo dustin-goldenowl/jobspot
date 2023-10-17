@@ -15,12 +15,14 @@ class RecentJobCard extends StatelessWidget {
     required this.onSave,
     required this.onApply,
     required this.job,
+    required this.isSave,
   });
 
   final VoidCallback onTap;
   final VoidCallback onSave;
   final VoidCallback onApply;
   final JobEntity job;
+  final bool isSave;
 
   @override
   Widget build(BuildContext context) {
@@ -122,11 +124,13 @@ class RecentJobCard extends StatelessWidget {
         ),
         IconButton(
           icon: SvgPicture.asset(
-            AppImages.saveJob,
+            isSave ? AppImages.saved : AppImages.saveJob,
             width: 30,
             height: 30,
-            colorFilter:
-                ColorFilter.mode(AppColors.mulledWine, BlendMode.srcIn),
+            colorFilter: ColorFilter.mode(
+              isSave ? AppColors.deepSaffron : AppColors.mulledWine,
+              BlendMode.srcIn,
+            ),
           ),
           onPressed: onSave,
         ),

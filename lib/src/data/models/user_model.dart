@@ -22,6 +22,7 @@ class UserModel {
   List<String>? appreciation;
   List<String>? language;
   List<String>? skill;
+  List<String>? saveJob;
 
   //business
   bool? isAccept;
@@ -39,23 +40,24 @@ class UserModel {
     required this.birthday,
     required this.description,
     required this.follower,
+    required this.following,
     required this.updateAt,
     required this.createAt,
-    required this.resume,
+    this.resume,
     required this.role,
-    required this.education,
-    required this.gender,
-    required this.workExperience,
-    required this.appreciation,
-    required this.language,
-    required this.following,
-    required this.skill,
-    required this.employeeSize,
-    required this.images,
-    required this.industry,
-    required this.isAccept,
-    required this.specialization,
-    required this.website,
+    this.education,
+    this.gender,
+    this.workExperience,
+    this.appreciation,
+    this.language,
+    this.skill,
+    this.saveJob,
+    this.employeeSize,
+    this.images,
+    this.industry,
+    this.isAccept,
+    this.specialization,
+    this.website,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -84,6 +86,7 @@ class UserModel {
         avatar: json["avatar"],
         createAt: DateTime.parse(json["createAt"]),
         following: List<String>.from(json["following"].map((x) => x)),
+        saveJob: List<String>.from(json["saveJob"].map((x) => x)),
         skill: json["skill"] != null
             ? List<String>.from(json["skill"].map((x) => x))
             : null,
@@ -127,6 +130,7 @@ class UserModel {
         avatar: json["avatar"],
         createAt: (json["createAt"] as Timestamp).toDate(),
         following: List<String>.from(json["following"].map((x) => x)),
+        saveJob: List<String>.from(json["saveJob"].map((x) => x)),
         skill: json["skill"] != null
             ? List<String>.from(json["skill"].map((x) => x))
             : null,
@@ -184,6 +188,7 @@ class UserModel {
             "skill": skill,
             "name": name,
             "email": email,
+            "saveJob": saveJob,
           };
   }
 }

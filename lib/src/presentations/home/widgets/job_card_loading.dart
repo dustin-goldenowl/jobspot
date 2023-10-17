@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 
@@ -66,12 +65,6 @@ class JobCardLoading extends StatelessWidget {
                   width: random.nextInt(100) + 100, height: 18, radius: 5),
             ],
           ),
-        ),
-        SvgPicture.asset(
-          AppImages.saveJob,
-          width: 30,
-          height: 30,
-          colorFilter: ColorFilter.mode(AppColors.mulledWine, BlendMode.srcIn),
         ),
       ],
     );
