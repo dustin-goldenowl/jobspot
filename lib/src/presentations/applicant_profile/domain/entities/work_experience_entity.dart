@@ -1,10 +1,10 @@
 class WorkExperienceEntity {
-  String jobTitle;
-  String companyName;
-  String description;
-  DateTime startDate;
-  DateTime endDate;
-  bool isWorkNow;
+  final String jobTitle;
+  final String companyName;
+  final String description;
+  final DateTime startDate;
+  final DateTime endDate;
+  final bool isWorkNow;
 
   WorkExperienceEntity({
     required this.jobTitle,

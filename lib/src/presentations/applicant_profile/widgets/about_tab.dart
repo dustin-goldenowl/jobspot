@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
+import 'package:jobspot/src/presentations/applicant_profile/cubit/applicant_profile_cubit.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/router/applicant_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/applicant_profile/widgets/profile_item.dart';
 import 'package:jobspot/src/presentations/applicant_profile/widgets/profile_subitem.dart';
@@ -36,7 +38,7 @@ class AboutTab extends StatelessWidget {
           children: [
             _buildAbout(),
             const SizedBox(height: 10),
-            _buildWorkExperience(),
+            _buildWorkExperience(context),
             const SizedBox(height: 10),
             _buildEducation(),
             const SizedBox(height: 10),
@@ -168,12 +170,12 @@ class AboutTab extends StatelessWidget {
     );
   }
 
-  Widget _buildWorkExperience() {
+  Widget _buildWorkExperience(BuildContext context) {
     return ProfileItem(
       icon: AppImages.bag,
       title: AppLocal.text.applicant_profile_page_work_experience,
       onAdd: () => ApplicantProfileCoordinator.showAddWorkExperience(
-        onSave: (experience) {},
+        onSave: context.read<ApplicantProfileCubit>().addWorkExperience,
       ),
       child: ListView.separated(
         physics: const NeverScrollableScrollPhysics(),

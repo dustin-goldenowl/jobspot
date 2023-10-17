@@ -1,11 +1,11 @@
 class UpdateWorkExperienceEntity {
-  String? id;
-  String jobTitle;
-  String companyName;
-  String description;
-  DateTime startDate;
-  DateTime endDate;
-  bool isWorkNow;
+  final String? id;
+  final String jobTitle;
+  final String companyName;
+  final String description;
+  final DateTime startDate;
+  final DateTime endDate;
+  final bool isWorkNow;
 
   UpdateWorkExperienceEntity({
     this.id,

@@ -31,8 +31,7 @@ class AddWorkExperienceCubit extends Cubit<AddWorkExperienceState> {
       backgroundColor: Colors.white,
       builder: (context) => BottomSheetWorkExperience(
         isRemove: isRemove,
-        onAccept: () {},
-        onCancel: () {},
+        onAccept: saveExperience,
       ),
     );
   }

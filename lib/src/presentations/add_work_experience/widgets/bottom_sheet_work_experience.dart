@@ -1,7 +1,7 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/presentations/add_work_experience/domain/router/add_work_experience_coordinator.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
 
 class BottomSheetWorkExperience extends StatelessWidget {
@@ -9,12 +9,10 @@ class BottomSheetWorkExperience extends StatelessWidget {
     super.key,
     required this.isRemove,
     required this.onAccept,
-    required this.onCancel,
   });
 
   final bool isRemove;
   final VoidCallback onAccept;
-  final VoidCallback onCancel;
 
   @override
   Widget build(BuildContext context) {
@@ -54,19 +52,16 @@ class BottomSheetWorkExperience extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           CustomButton(
-            onPressed: () {
-              context.router.pop();
+            onPressed: () async {
               onAccept();
+              AddWorkExperienceCoordinator.closeScreen();
             },
             title:
                 AppLocal.text.job_description_page_continue_fill.toUpperCase(),
           ),
           const SizedBox(height: 10),
           CustomButton(
-            onPressed: () {
-              context.router.pop();
-              onCancel();
-            },
+            onPressed: AddWorkExperienceCoordinator.closeScreen,
             title:
                 AppLocal.text.job_description_page_undo_changes.toUpperCase(),
             isElevated: false,
