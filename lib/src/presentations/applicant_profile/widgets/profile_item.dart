@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/add_job/widgets/add_button.dart';
-
-import '../../../core/constants/constants.dart';
 
 class ProfileItem extends StatelessWidget {
   const ProfileItem({
@@ -38,11 +37,7 @@ class ProfileItem extends StatelessWidget {
               const SizedBox(width: 10),
               Text(
                 title,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.haiti,
-                ),
+                style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
               ),
               const Spacer(),
               AddButton(

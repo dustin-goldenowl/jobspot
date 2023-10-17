@@ -90,10 +90,8 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
             duration: const Duration(milliseconds: 300),
             child: Text(
               PrefsUtils.getUserInfo()?.name ?? "",
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-              ),
+              style: AppStyles.normalTextWhite
+                  .copyWith(fontWeight: FontWeight.w500),
             ),
           ),
           flexibleSpace: FlexibleSpaceBar(
@@ -148,17 +146,13 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
                   const SizedBox(height: 7),
                   Text(
                     PrefsUtils.getUserInfo()?.name ?? "",
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
+                    style: AppStyles.boldTextWhite.copyWith(fontSize: 16),
                   ),
                   Text(
                     PrefsUtils.getUserInfo()!.address.isEmpty
                         ? "-----"
                         : PrefsUtils.getUserInfo()!.address,
-                    style: const TextStyle(color: Colors.white, fontSize: 14),
+                    style: AppStyles.normalTextWhite.copyWith(fontSize: 14),
                   ),
                   const Spacer(),
                   _buildBottomAppBar(),
@@ -199,7 +193,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
               children: [
                 Text(
                   AppLocal.text.applicant_profile_page_edit_profile,
-                  style: const TextStyle(color: Colors.white, fontSize: 14),
+                  style: AppStyles.normalTextWhite.copyWith(fontSize: 14),
                 ),
                 const SizedBox(width: 10),
                 SvgPicture.asset(
@@ -223,15 +217,11 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
         children: [
           TextSpan(
             text: number,
-            style: const TextStyle(
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-              fontSize: 16,
-            ),
+            style: AppStyles.boldTextWhite.copyWith(fontSize: 16),
           ),
           TextSpan(
             text: " $title",
-            style: const TextStyle(color: Colors.white, fontSize: 14),
+            style: AppStyles.normalTextWhite.copyWith(fontSize: 14),
           )
         ],
       ),

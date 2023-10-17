@@ -201,9 +201,7 @@ class AboutTab extends StatelessWidget {
       onEdit: () {},
       child: Text(
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus id commodo egestas metus interdum dolor.", //TODO hard code to test
-        style: TextStyle(
-          color: AppColors.mulledWine,
-        ),
+        style: AppStyles.normalTextMulledWine,
       ),
     );
   }
@@ -215,7 +213,7 @@ class AboutTab extends StatelessWidget {
         color: AppColors.ghost.withOpacity(0.2),
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Text(text, style: TextStyle(color: AppColors.mulledWine)),
+      child: Text(text, style: AppStyles.normalTextMulledWine),
     );
   }
 
@@ -230,14 +228,14 @@ class AboutTab extends StatelessWidget {
             children: [
               Text(
                 "Jamet kudasi - CV - UI/UX Designer", //TODO hard code to test
-                style: TextStyle(color: AppColors.haiti),
+                style: AppStyles.normalTextHaiti,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 5),
-              const Text(
+              Text(
                 "867 Kb . 14 Feb 2022 at 11:30 am", //TODO hard code to test
-                style: TextStyle(color: Color(0xFF8983A3)),
+                style: TextStyle(color: AppColors.romanSilver),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
