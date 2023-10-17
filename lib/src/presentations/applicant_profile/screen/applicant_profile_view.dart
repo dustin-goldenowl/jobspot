@@ -8,6 +8,7 @@ import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
+import 'package:jobspot/src/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/cubit/applicant_profile_cubit.dart';
 
 class ApplicantProfileView extends StatefulWidget {
@@ -70,7 +71,9 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
         return SliverAppBar(
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                //TODO tab to view setting screen
+              },
               icon: SvgPicture.asset(AppImages.setting),
             ),
             const SizedBox(width: 5),
@@ -89,7 +92,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
             opacity: !state.isTop ? 0.0 : 1.0,
             duration: const Duration(milliseconds: 300),
             child: Text(
-              PrefsUtils.getUserInfo()?.name ?? "",
+              PrefsUtils.getUserInfo()?.name ?? "---",
               style: AppStyles.normalTextWhite
                   .copyWith(fontWeight: FontWeight.w500),
             ),
@@ -108,6 +111,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
 
   Widget _buildBackgroundAppbar() {
     double width = MediaQuery.sizeOf(context).width;
+    UserModel? user = PrefsUtils.getUserInfo();
     return SizedBox(
       width: width,
       height: 0.6 * width,
@@ -134,7 +138,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
                   const SizedBox(height: 40),
                   ClipOval(
                     child: CachedNetworkImage(
-                      imageUrl: PrefsUtils.getUserInfo()!.avatar,
+                      imageUrl: user?.avatar ?? "",
                       height: 50,
                       width: 50,
                       placeholder: (context, url) =>
@@ -145,13 +149,11 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
                   ),
                   const SizedBox(height: 7),
                   Text(
-                    PrefsUtils.getUserInfo()?.name ?? "",
+                    user?.name ?? "---",
                     style: AppStyles.boldTextWhite.copyWith(fontSize: 16),
                   ),
                   Text(
-                    PrefsUtils.getUserInfo()!.address.isEmpty
-                        ? "-----"
-                        : PrefsUtils.getUserInfo()!.address,
+                    (user?.address ?? "").isEmpty ? "-----" : user!.address,
                     style: AppStyles.normalTextWhite.copyWith(fontSize: 14),
                   ),
                   const Spacer(),
@@ -166,16 +168,17 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
   }
 
   Widget _buildBottomAppBar() {
+    UserModel? user = PrefsUtils.getUserInfo();
     return Row(
       children: [
         _itemFollow(
           title: AppLocal.text.applicant_profile_page_follow,
-          number: "${PrefsUtils.getUserInfo()!.follower.length}",
+          number: "${user?.follower.length ?? 0}",
         ),
         const SizedBox(width: 20),
         _itemFollow(
           title: AppLocal.text.applicant_profile_page_following,
-          number: "${PrefsUtils.getUserInfo()!.following.length}",
+          number: "${user?.following.length ?? 0}",
         ),
         const Spacer(),
         GestureDetector(
