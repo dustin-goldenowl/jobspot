@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/core/utils/date_time_utils.dart';
 import 'package:jobspot/src/presentations/add_work_experience/cubit/add_work_experience_cubit.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
@@ -27,7 +28,19 @@ class AddWorkExperienceView extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(AppDimens.smallPadding),
-          child: _buildBody(context),
+          child: BlocListener<AddWorkExperienceCubit, AddWorkExperienceState>(
+            listenWhen: (previous, current) {
+              if (previous.isLoading && current.error == null) {
+                Navigator.of(context).pop();
+                context.router.pop();
+              }
+              return true;
+            },
+            listener: (context, state) {
+              if (state.isLoading) loadingAnimation(context);
+            },
+            child: _buildBody(context),
+          ),
         ),
       ),
     );

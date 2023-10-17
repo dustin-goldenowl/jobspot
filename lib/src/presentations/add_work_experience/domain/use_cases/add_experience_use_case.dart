@@ -2,7 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/resources/use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/work_experience_entity.dart';
-import 'package:jobspot/src/presentations/applicant_profile/domain/repositories/experience_repository.dart';
+import 'package:jobspot/src/presentations/add_work_experience/domain/repositories/experience_repository.dart';
 
 @lazySingleton
 class AddExperienceUseCase

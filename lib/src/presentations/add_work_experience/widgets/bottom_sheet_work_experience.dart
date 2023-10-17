@@ -52,9 +52,9 @@ class BottomSheetWorkExperience extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           CustomButton(
-            onPressed: () async {
+            onPressed: () {
               onAccept();
-              AddWorkExperienceCoordinator.closeScreen();
+              Navigator.of(context).pop();
             },
             title:
                 AppLocal.text.job_description_page_continue_fill.toUpperCase(),

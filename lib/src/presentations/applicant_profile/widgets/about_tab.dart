@@ -1,11 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
-import 'package:jobspot/src/presentations/applicant_profile/cubit/applicant_profile_cubit.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/router/applicant_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/applicant_profile/widgets/profile_item.dart';
 import 'package:jobspot/src/presentations/applicant_profile/widgets/profile_subitem.dart';
@@ -174,9 +172,7 @@ class AboutTab extends StatelessWidget {
     return ProfileItem(
       icon: AppImages.bag,
       title: AppLocal.text.applicant_profile_page_work_experience,
-      onAdd: () => ApplicantProfileCoordinator.showAddWorkExperience(
-        onSave: context.read<ApplicantProfileCubit>().addWorkExperience,
-      ),
+      onAdd: () => ApplicantProfileCoordinator.showAddWorkExperience(),
       child: ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,

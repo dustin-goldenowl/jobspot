@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:jobspot/injection.dart';
 import 'package:jobspot/src/core/config/router/app_router.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
-import 'package:jobspot/src/presentations/applicant_profile/domain/entities/work_experience_entity.dart';
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 
@@ -28,12 +26,6 @@ class ApplicantProfileCoordinator {
       rootRouter.push(JobDescriptionRoute(
           title: title, description: description, onBack: onBack));
 
-  static void showAddWorkExperience({
-    required Function(WorkExperienceEntity experience) onSave,
-    VoidCallback? onRemove,
-  }) =>
-      rootRouter.push(AddWorkExperienceRoute(
-        onRemove: onRemove,
-        onSave: onSave,
-      ));
+  static void showAddWorkExperience() =>
+      rootRouter.push(const AddWorkExperienceRoute());
 }

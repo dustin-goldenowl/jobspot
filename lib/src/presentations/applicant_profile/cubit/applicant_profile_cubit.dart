@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
-import 'package:jobspot/src/presentations/applicant_profile/domain/entities/work_experience_entity.dart';
-import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/add_experience_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/delete_post_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_list_post_use_case.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
@@ -21,13 +19,9 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
 
   final GetListPostUseCase _getListPostUseCase;
   final DeletePostUseCase _deletePostUseCase;
-  final AddExperienceUseCase _addExperienceUseCase;
 
-  ApplicantProfileCubit(
-    this._getListPostUseCase,
-    this._deletePostUseCase,
-    this._addExperienceUseCase,
-  ) : super(const ApplicantProfileState(isTop: false, isLoading: false));
+  ApplicantProfileCubit(this._getListPostUseCase, this._deletePostUseCase)
+      : super(const ApplicantProfileState(isTop: false, isLoading: false));
 
   void getListPost() {
     if (_subscription != null) _subscription!.cancel();
@@ -48,11 +42,6 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
     } else {
       emit(state.copyWith(listPost: state.listPost, error: response.error));
     }
-  }
-
-  Future addWorkExperience(WorkExperienceEntity experience) async {
-    final response = await _addExperienceUseCase.call(params: experience);
-    if (response is DataSuccess) {}
   }
 
   void changeIsTop(bool isTop) =>
