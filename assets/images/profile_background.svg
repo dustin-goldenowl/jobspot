@@ -1,0 +1,50 @@
+<svg viewBox="0 0 375 219.975" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="a" x1="379" y1="220" x2="0" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7551FF"/>
+      <stop offset="1" stop-color="#A993FF"/>
+    </linearGradient>
+    <linearGradient id="d" x1="379" y1="220" x2="0" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#130160"/>
+      <stop offset="1" stop-color="#36353C"/>
+    </linearGradient>
+    <linearGradient id="e" x1="-4.463" y1="329.824" x2="408.339" y2="-104.264" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="f" x1="45.872" y1="424.932" x2="322.064" y2="-106.627" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="g" x1="124.698" y1="491.856" x2="271.736" y2="-88.848" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="h" x1="200.333" y1="538.261" x2="221.819" y2="-60.384" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="c" x="-62" y="-58" width="499" height="344" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="4"/>
+      <feGaussianBlur stdDeviation="31"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix values="0 0 0 0 0.600625 0 0 0 0 0.670375 0 0 0 0 0.775 0 0 0 0.18 0"/>
+      <feBlend in2="BackgroundImageFix" result="effect1_dropShadow_1_3823"/>
+      <feBlend in="SourceGraphic" in2="effect1_dropShadow_1_3823" result="shape"/>
+    </filter>
+  </defs>
+  <mask id="b" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="375" height="220">
+    <path d="M375 30c0-16.569-13.431-30-30-30H30C13.431 0 0 13.431 0 30v160c0 16.569 13.431 30 30 30h315c16.569 0 30-13.431 30-30V30Z" fill="url(#a)"/>
+  </mask>
+  <g mask="url(#b)">
+    <g filter="url(#c)">
+      <path d="M375 30c0-16.569-13.431-30-30-30H30C13.431 0 0 13.431 0 30v160c0 16.569 13.431 30 30 30h315c16.569 0 30-13.431 30-30V30Z" fill="url(#d)"/>
+    </g>
+    <path d="M44.753-53.585C-80.176-87.425-2.902 218.387-68.06-42.209L63.401-237.314l422.657 102.421 107.508 153.58-71.043 210.464-161.145 107.417c30.448-53.002 138.056-251.543-55.407-230.378C64.141 132.647 241.845-.198 44.753-53.585Z" fill="url(#e)" fill-opacity=".12"/>
+    <path d="M-13.197 42.917C-142.61 45.06 16.46 317.436-118.428 85.14l72.183-223.915 434.481-18.838 145.89 117.731-9.874 221.912L423.51 319.801c14.551-59.368 38.58-269.837-141.421-195.837-225 92.499-91.12-84.426-295.286-81.047Z" fill="url(#f)" fill-opacity=".12"/>
+    <path d="M-20.336 133.541c-125.479 31.739 91.773 260.418-92.755 65.212l18.953-234.497L324.466-153.64l168.986 81.168 41.238 218.27-87.808 172.616c.561-61.123-2.963-286.923-161.217-173.647-197.818 141.596-108.041-61.3-306-11.226Z" fill="url(#g)" fill-opacity=".12"/>
+    <path d="M-16.887 218.511c-115.985 57.445 144.542 235.26-76.947 83.278l-30.841-233.231 384.401-203.384 182.287 43.773 86.266 204.695-49.498 187.233c-12.32-59.87-63.303-279.868-194.162-135.812-163.573 180.069-118.525-37.18-301.506 53.448Z" fill="url(#h)" fill-opacity=".12"/>
+  </g>
+</svg>
