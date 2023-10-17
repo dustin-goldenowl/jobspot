@@ -1,7 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jobspot/src/presentations/add_work_experience/domain/entities/update_work_experience_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/work_experience_entity.dart';
 
 class WorkExperienceModel {
+  String id;
   String jobTitle;
   String companyName;
   String description;
@@ -10,6 +12,7 @@ class WorkExperienceModel {
   bool isWorkNow;
 
   WorkExperienceModel({
+    required this.id,
     required this.jobTitle,
     required this.companyName,
     required this.description,
@@ -18,28 +21,53 @@ class WorkExperienceModel {
     required this.isWorkNow,
   });
 
-  factory WorkExperienceModel.fromEntity(WorkExperienceEntity experience) {
+  factory WorkExperienceModel.fromDocumentSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    final data = snapshot.data()!;
     return WorkExperienceModel(
-      jobTitle: experience.jobTitle,
-      companyName: experience.companyName,
-      description: experience.description,
-      startDate: experience.startDate,
-      endDate: experience.endDate,
-      isWorkNow: experience.isWorkNow,
+      id: snapshot.id,
+      jobTitle: data["jobTitle"],
+      companyName: data["companyName"],
+      description: data["description"],
+      startDate: (data["startDate"] as Timestamp).toDate(),
+      endDate: (data["endDate"] as Timestamp).toDate(),
+      isWorkNow: data["isWorkNow"],
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      "owner": FirebaseAuth.instance.currentUser!.uid,
-      "jobTitle": jobTitle,
-      "companyName": companyName,
-      "description": description,
-      "startDate": startDate,
-      "endDate": endDate,
-      "isWorkNow": isWorkNow,
-      "createAt": DateTime.now(),
-      "updateAt": DateTime.now(),
-    };
+  factory WorkExperienceModel.fromEntity(WorkExperienceEntity entity) {
+    return WorkExperienceModel(
+      id: entity.id,
+      jobTitle: entity.jobTitle,
+      companyName: entity.companyName,
+      description: entity.description,
+      startDate: entity.startDate,
+      endDate: entity.endDate,
+      isWorkNow: entity.isWorkNow,
+    );
+  }
+
+  UpdateWorkExperienceEntity toUpdateWorkExperienceEntity() {
+    return UpdateWorkExperienceEntity(
+      id: id,
+      jobTitle: jobTitle,
+      companyName: companyName,
+      description: description,
+      startDate: startDate,
+      endDate: endDate,
+      isWorkNow: isWorkNow,
+    );
+  }
+
+  WorkExperienceEntity toWorkExperienceEntity() {
+    return WorkExperienceEntity(
+      id: id,
+      jobTitle: jobTitle,
+      companyName: companyName,
+      description: description,
+      startDate: startDate,
+      endDate: endDate,
+      isWorkNow: isWorkNow,
+    );
   }
 }

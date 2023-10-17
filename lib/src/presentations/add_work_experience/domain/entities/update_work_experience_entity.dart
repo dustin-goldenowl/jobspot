@@ -1,5 +1,5 @@
 class UpdateWorkExperienceEntity {
-  final String? id;
+  final String id;
   final String jobTitle;
   final String companyName;
   final String description;
@@ -8,7 +8,7 @@ class UpdateWorkExperienceEntity {
   final bool isWorkNow;
 
   UpdateWorkExperienceEntity({
-    this.id,
+    required this.id,
     required this.jobTitle,
     required this.companyName,
     required this.description,

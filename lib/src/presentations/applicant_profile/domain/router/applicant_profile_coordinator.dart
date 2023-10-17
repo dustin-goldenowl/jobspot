@@ -1,6 +1,7 @@
 import 'package:jobspot/injection.dart';
 import 'package:jobspot/src/core/config/router/app_router.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
+import 'package:jobspot/src/presentations/add_work_experience/domain/entities/update_work_experience_entity.dart';
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 
@@ -26,6 +27,6 @@ class ApplicantProfileCoordinator {
       rootRouter.push(JobDescriptionRoute(
           title: title, description: description, onBack: onBack));
 
-  static void showAddWorkExperience() =>
-      rootRouter.push(const AddWorkExperienceRoute());
+  static void showAddWorkExperience({UpdateWorkExperienceEntity? experience}) =>
+      rootRouter.push(AddWorkExperienceRoute(experience: experience));
 }

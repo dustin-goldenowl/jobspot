@@ -44,6 +44,8 @@
     "gender": "Giới tính",
     "male": "Nam",
     "female": "Nữ",
+    "year": "năm",
+    "month": "tháng",
 
     "forgot_password_page_forgot_password": "Quên mật khẩu?",
     "forgot_password_page_reset_password": "Đặt lại mật khẩu",
@@ -229,6 +231,7 @@
     "applicant_profile_page_edit_profile": "Chỉnh sửa hồ sơ",
 
     "add_work_experience_page_add_work_experience": "Thêm kinh nghiệm làm việc",
+    "add_work_experience_page_update_work_experience": "Cập nhật kinh nghiệm làm việc",
     "add_work_experience_page_job_title_hint": "Mobile Developer",
     "add_work_experience_page_job_title": "Chức danh",
     "add_work_experience_page_description": "Mô tả",
@@ -242,5 +245,9 @@
     "add_work_experience_page_save_content": "Bạn có chắc chắn muốn thay đổi những gì bạn đã nhập không?",
     "add_work_experience_page_delete_title": "Xóa Kinh nghiệm làm việc?",
     "add_work_experience_page_delete_content": "Bạn có chắc chắn muốn xóa trải nghiệm làm việc này không?",
+    "add_work_experience_page_job_title_validate": "Vui lòng nhập vào chức danh",
+    "add_work_experience_page_company_validate": "Vui lòng nhập vào tên công ty",
+    "add_work_experience_page_start_date_validate": "Vui lòng chọn ngày bắt đầu công việc",
+    "add_work_experience_page_end_date_validate": "Vui lòng chọn ngày kết thúc công việc",
     "add_work_experience_page_company": "Công ty"
 }

@@ -39,7 +39,6 @@ class RegisterApplicantModel {
       "language": [],
       "resume": [],
       "skill": [],
-      "workExperience": [],
       "saveJob": [],
       "createAt": DateTime.now(),
       "updateAt": DateTime.now(),

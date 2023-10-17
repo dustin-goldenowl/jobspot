@@ -1,5 +1,4 @@
-class WorkExperienceEntity {
-  final String id;
+class AddWorkExperienceEntity {
   final String jobTitle;
   final String companyName;
   final String description;
@@ -7,8 +6,7 @@ class WorkExperienceEntity {
   final DateTime endDate;
   final bool isWorkNow;
 
-  WorkExperienceEntity({
-    required this.id,
+  AddWorkExperienceEntity({
     required this.jobTitle,
     required this.companyName,
     required this.description,

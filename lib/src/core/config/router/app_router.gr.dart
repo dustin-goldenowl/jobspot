@@ -18,6 +18,8 @@ import 'package:jobspot/src/presentations/add_post/domain/entities/update_post_e
     as _i28;
 import 'package:jobspot/src/presentations/add_post/screen/add_post_page.dart'
     as _i3;
+import 'package:jobspot/src/presentations/add_work_experience/domain/entities/update_work_experience_entity.dart'
+    as _i29;
 import 'package:jobspot/src/presentations/add_work_experience/screen/add_work_experience_page.dart'
     as _i4;
 import 'package:jobspot/src/presentations/applicant_profile/screen/applicant_profile_page.dart'
@@ -31,7 +33,7 @@ import 'package:jobspot/src/presentations/apply_job/screen/apply_job_page.dart'
 import 'package:jobspot/src/presentations/check_email/screen/check_email_page.dart'
     as _i7;
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart'
-    as _i30;
+    as _i31;
 import 'package:jobspot/src/presentations/connection/screen/connection_page.dart'
     as _i8;
 import 'package:jobspot/src/presentations/forgot_password/screen/forgot_password_page.dart'
@@ -59,7 +61,7 @@ import 'package:jobspot/src/presentations/verify_email/screen/verify_email_page.
 import 'package:jobspot/src/presentations/verify_success/screen/verify_success_page.dart'
     as _i22;
 import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart'
-    as _i29;
+    as _i30;
 import 'package:jobspot/src/presentations/view_job/screen/view_job_page.dart'
     as _i23;
 import 'package:jobspot/src/presentations/view_post/screen/view_post_page.dart'
@@ -99,9 +101,14 @@ abstract class $AppRouter extends _i25.RootStackRouter {
       );
     },
     AddWorkExperienceRoute.name: (routeData) {
+      final args = routeData.argsAs<AddWorkExperienceRouteArgs>(
+          orElse: () => const AddWorkExperienceRouteArgs());
       return _i25.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i4.AddWorkExperiencePage(),
+        child: _i4.AddWorkExperiencePage(
+          key: args.key,
+          experience: args.experience,
+        ),
       );
     },
     ApplicantProfileRoute.name: (routeData) {
@@ -350,16 +357,41 @@ class AddPostRouteArgs {
 
 /// generated route for
 /// [_i4.AddWorkExperiencePage]
-class AddWorkExperienceRoute extends _i25.PageRouteInfo<void> {
-  const AddWorkExperienceRoute({List<_i25.PageRouteInfo>? children})
-      : super(
+class AddWorkExperienceRoute
+    extends _i25.PageRouteInfo<AddWorkExperienceRouteArgs> {
+  AddWorkExperienceRoute({
+    _i26.Key? key,
+    _i29.UpdateWorkExperienceEntity? experience,
+    List<_i25.PageRouteInfo>? children,
+  }) : super(
           AddWorkExperienceRoute.name,
+          args: AddWorkExperienceRouteArgs(
+            key: key,
+            experience: experience,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'AddWorkExperienceRoute';
 
-  static const _i25.PageInfo<void> page = _i25.PageInfo<void>(name);
+  static const _i25.PageInfo<AddWorkExperienceRouteArgs> page =
+      _i25.PageInfo<AddWorkExperienceRouteArgs>(name);
+}
+
+class AddWorkExperienceRouteArgs {
+  const AddWorkExperienceRouteArgs({
+    this.key,
+    this.experience,
+  });
+
+  final _i26.Key? key;
+
+  final _i29.UpdateWorkExperienceEntity? experience;
+
+  @override
+  String toString() {
+    return 'AddWorkExperienceRouteArgs{key: $key, experience: $experience}';
+  }
 }
 
 /// generated route for
@@ -381,7 +413,7 @@ class ApplicantProfileRoute extends _i25.PageRouteInfo<void> {
 class ApplyJobRoute extends _i25.PageRouteInfo<ApplyJobRouteArgs> {
   ApplyJobRoute({
     _i26.Key? key,
-    required _i29.JobEntity job,
+    required _i30.JobEntity job,
     List<_i25.PageRouteInfo>? children,
   }) : super(
           ApplyJobRoute.name,
@@ -406,7 +438,7 @@ class ApplyJobRouteArgs {
 
   final _i26.Key? key;
 
-  final _i29.JobEntity job;
+  final _i30.JobEntity job;
 
   @override
   String toString() {
@@ -787,7 +819,7 @@ class ViewJobRouteArgs {
 class ViewPostRoute extends _i25.PageRouteInfo<ViewPostRouteArgs> {
   ViewPostRoute({
     _i26.Key? key,
-    required _i30.PostEntity post,
+    required _i31.PostEntity post,
     bool isComment = false,
     List<_i25.PageRouteInfo>? children,
   }) : super(
@@ -815,7 +847,7 @@ class ViewPostRouteArgs {
 
   final _i26.Key? key;
 
-  final _i30.PostEntity post;
+  final _i31.PostEntity post;
 
   final bool isComment;
 

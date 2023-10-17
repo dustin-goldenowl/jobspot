@@ -29,4 +29,15 @@ class DateTimeUtils {
     }
     return "";
   }
+
+  static String fromDateToDate(DateTime date1, DateTime date2) {
+    final formater = DateFormat("MMM yyyy");
+    Duration time = date2.difference(date1);
+    String date = "${formater.format(date1)} - ${formater.format(date2)} •";
+    if (time.inDays ~/ 365 > 0) {
+      return "$date ${time.inDays ~/ 365} ${AppLocal.text.year}";
+    } else {
+      return "$date ${time.inDays ~/ 30} ${AppLocal.text.month}";
+    }
+  }
 }

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/function/loading_animation.dart';
@@ -38,6 +39,10 @@ class AddWorkExperienceView extends StatelessWidget {
             },
             listener: (context, state) {
               if (state.isLoading) loadingAnimation(context);
+
+              if (state.error != null) {
+                customToast(context, text: state.error ?? "");
+              }
             },
             child: _buildBody(context),
           ),
@@ -51,7 +56,9 @@ class AddWorkExperienceView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          AppLocal.text.add_work_experience_page_add_work_experience,
+          context.read<AddWorkExperienceCubit>().isUpdate
+              ? AppLocal.text.add_work_experience_page_update_work_experience
+              : AppLocal.text.add_work_experience_page_add_work_experience,
           style: AppStyles.boldTextHaiti.copyWith(fontSize: 18),
         ),
         const SizedBox(height: 30),
@@ -86,28 +93,31 @@ class AddWorkExperienceView extends StatelessWidget {
   }
 
   Widget _buildButton(BuildContext context) {
+    final cubit = context.read<AddWorkExperienceCubit>();
     return Row(
       children: [
-        Expanded(
-          child: CustomButton(
-            onPressed: () {
-              context
-                  .read<AddWorkExperienceCubit>()
-                  .showNotiChangeExperience(context, isRemove: true);
-            },
-            title: AppLocal.text.add_work_experience_page_remove.toUpperCase(),
-            isElevated: false,
+        if (cubit.isUpdate)
+          Expanded(
+            child: CustomButton(
+              onPressed: () =>
+                  cubit.showNotiChangeExperience(context, isRemove: true),
+              title:
+                  AppLocal.text.add_work_experience_page_remove.toUpperCase(),
+              isElevated: false,
+            ),
           ),
-        ),
-        const SizedBox(width: 15),
+        if (cubit.isUpdate) const SizedBox(width: 15),
         Expanded(
-          child: CustomButton(
-            onPressed: () {
-              context
-                  .read<AddWorkExperienceCubit>()
-                  .showNotiChangeExperience(context);
-            },
-            title: AppLocal.text.add_work_experience_page_save,
+          child: Padding(
+            padding: cubit.isUpdate
+                ? EdgeInsets.zero
+                : const EdgeInsets.symmetric(horizontal: 60),
+            child: CustomButton(
+              onPressed: () {
+                cubit.showNotiChangeExperience(context);
+              },
+              title: AppLocal.text.add_work_experience_page_save,
+            ),
           ),
         ),
       ],
