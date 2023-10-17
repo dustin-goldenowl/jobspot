@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/utils/firebase_utils.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/repositories/applicant_profile_repository.dart';
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
@@ -49,5 +50,33 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
             .count()
             .get())
         .toList();
+  }
+
+  @override
+  Future<DataState<bool>> deletePost(PostEntity post) async {
+    try {
+      FirebaseFirestore.instance
+          .collection("comments")
+          .where("post", isEqualTo: post.id)
+          .get()
+          .then((value) {
+        for (var doc in value.docs) {
+          FirebaseFirestore.instance
+              .collection("comments")
+              .doc(doc.id)
+              .delete();
+        }
+      });
+      for (var element in post.images) {
+        FirebaseUtils.deleteImage(element);
+      }
+      await FirebaseFirestore.instance
+          .collection("posts")
+          .doc(post.id)
+          .delete();
+      return DataSuccess(true);
+    } catch (e) {
+      return DataFailed(e.toString());
+    }
   }
 }

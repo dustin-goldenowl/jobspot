@@ -3,12 +3,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
-import 'package:jobspot/src/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/cubit/applicant_profile_cubit.dart';
 
 class ApplicantProfileView extends StatefulWidget {
@@ -56,7 +57,23 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
                   title: _buildTabBar(onTap: tabsRouter.setActiveIndex),
                 ),
               ],
-              body: child,
+              body: BlocListener<ApplicantProfileCubit, ApplicantProfileState>(
+                listenWhen: (previous, current) {
+                  if (previous.isLoading) {
+                    Navigator.of(context).pop();
+                  }
+                  return true;
+                },
+                listener: (context, state) {
+                  if (state.isLoading) {
+                    loadingAnimation(context);
+                  }
+                  if (state.error != null) {
+                    customToast(context, text: state.error ?? "");
+                  }
+                },
+                child: child,
+              ),
             ),
           ),
         );
@@ -71,9 +88,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
         return SliverAppBar(
           actions: [
             IconButton(
-              onPressed: () {
-                //TODO tab to view setting screen
-              },
+              onPressed: () {},
               icon: SvgPicture.asset(AppImages.setting),
             ),
             const SizedBox(width: 5),
@@ -92,7 +107,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
             opacity: !state.isTop ? 0.0 : 1.0,
             duration: const Duration(milliseconds: 300),
             child: Text(
-              PrefsUtils.getUserInfo()?.name ?? "---",
+              PrefsUtils.getUserInfo()?.name ?? "",
               style: AppStyles.normalTextWhite
                   .copyWith(fontWeight: FontWeight.w500),
             ),
@@ -111,7 +126,6 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
 
   Widget _buildBackgroundAppbar() {
     double width = MediaQuery.sizeOf(context).width;
-    UserModel? user = PrefsUtils.getUserInfo();
     return SizedBox(
       width: width,
       height: 0.6 * width,
@@ -138,7 +152,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
                   const SizedBox(height: 40),
                   ClipOval(
                     child: CachedNetworkImage(
-                      imageUrl: user?.avatar ?? "",
+                      imageUrl: PrefsUtils.getUserInfo()!.avatar,
                       height: 50,
                       width: 50,
                       placeholder: (context, url) =>
@@ -149,11 +163,13 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
                   ),
                   const SizedBox(height: 7),
                   Text(
-                    user?.name ?? "---",
+                    PrefsUtils.getUserInfo()?.name ?? "",
                     style: AppStyles.boldTextWhite.copyWith(fontSize: 16),
                   ),
                   Text(
-                    (user?.address ?? "").isEmpty ? "-----" : user!.address,
+                    PrefsUtils.getUserInfo()!.address.isEmpty
+                        ? "-----"
+                        : PrefsUtils.getUserInfo()!.address,
                     style: AppStyles.normalTextWhite.copyWith(fontSize: 14),
                   ),
                   const Spacer(),
@@ -168,17 +184,16 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
   }
 
   Widget _buildBottomAppBar() {
-    UserModel? user = PrefsUtils.getUserInfo();
     return Row(
       children: [
         _itemFollow(
           title: AppLocal.text.applicant_profile_page_follow,
-          number: "${user?.follower.length ?? 0}",
+          number: "${PrefsUtils.getUserInfo()!.follower.length}",
         ),
         const SizedBox(width: 20),
         _itemFollow(
           title: AppLocal.text.applicant_profile_page_following,
-          number: "${user?.following.length ?? 0}",
+          number: "${PrefsUtils.getUserInfo()!.following.length}",
         ),
         const Spacer(),
         GestureDetector(
