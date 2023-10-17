@@ -31,4 +31,5 @@ class AppColors {
   static Color venetianRed = const Color(0xFFFC4646);
   static Color interdimensionalBlue = const Color(0xFF3F13E4);
   static Color jacarta = const Color(0xFF3A3452);
+  static Color romanSilver = const Color(0xFF8983A3);
 }

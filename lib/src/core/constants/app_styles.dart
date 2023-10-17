@@ -15,6 +15,8 @@ class AppStyles {
 
   static TextStyle normalTextSpunPearl = TextStyle(color: AppColors.spunPearl);
 
+  static TextStyle normalTextWhite = const TextStyle(color: Colors.white);
+
   static TextStyle boldTextHaiti =
       TextStyle(color: AppColors.haiti, fontWeight: FontWeight.w700);
 
@@ -28,4 +30,7 @@ class AppStyles {
 
   static TextStyle boldTextJacarta =
       TextStyle(color: AppColors.jacarta, fontWeight: FontWeight.w700);
+
+  static TextStyle boldTextWhite =
+      const TextStyle(color: Colors.white, fontWeight: FontWeight.w700);
 }

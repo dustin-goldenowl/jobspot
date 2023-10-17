@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/function/get_location.dart';
+import 'package:jobspot/src/core/utils/date_time_utils.dart';
 import 'package:jobspot/src/presentations/view_job/domain/router/view_job_coordinator.dart';
 import 'package:jobspot/src/presentations/view_job/widgets/app_bar_company_loading.dart';
 import 'package:jobspot/src/presentations/view_job/widgets/job_description_loading.dart';
@@ -78,6 +79,32 @@ class ViewJobView extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "\$${data.salary}",
+                          style: AppStyles.boldTextHaiti.copyWith(fontSize: 25),
+                        ),
+                        TextSpan(
+                          text: "/Mo",
+                          style: AppStyles.normalTextSpunPearl
+                              .copyWith(fontSize: 20),
+                        )
+                      ],
+                    ),
+                  ),
+                  const Spacer(),
+                  Text(
+                    DateTimeUtils.daysLeft(data.endDate),
+                    style: AppStyles.normalTextNightBlue.copyWith(fontSize: 16),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 30),
               _buildDescription(),
               const SizedBox(height: 20),
               _buildRequirements(data.requirements),

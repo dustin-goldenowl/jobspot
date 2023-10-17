@@ -50,7 +50,7 @@ dependencies:
   firebase_auth: ^4.10.0
   google_sign_in: ^6.1.5
   firebase_storage: ^11.2.8
-  firebase_crashlytics: ^3.3.6
+  firebase_crashlytics: ^3.3.7
   cloud_firestore: ^4.9.2
   open_mail_app: ^0.4.5
   shared_preferences: ^2.2.1
@@ -63,15 +63,15 @@ dependencies:
   easy_image_viewer: ^1.2.1
   shimmer: ^3.0.0
   dotted_border: ^2.1.0
-  file_picker: ^5.5.0
+  file_picker: ^6.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  auto_route_generator: 7.3.1
+  auto_route_generator: ^7.3.2
   build_runner: 2.4.6
-  injectable_generator: ^2.4.0
+  injectable_generator: ^2.4.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

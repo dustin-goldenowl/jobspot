@@ -5,20 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
-import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 import 'package:jobspot/src/presentations/connection/domain/use_cases/fetch_post_use_case.dart';
+import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
+import 'package:jobspot/src/presentations/view_post/domain/use_cases/favourite_post_use_case.dart';
 
 part 'connection_state.dart';
 
 @injectable
 class ConnectionCubit extends Cubit<ConnectionState> {
-  final FetchPostUseCase _useCase;
+  final FetchPostUseCase _fetchPostUseCase;
+  final FavouritePostUseCase _favouritePostUseCase;
 
   StreamSubscription? _postStream;
   ScrollController scrollController = ScrollController();
   int _limit = 15;
 
-  ConnectionCubit(this._useCase) : super(const ConnectionState(isMore: true)) {
+  ConnectionCubit(this._fetchPostUseCase, this._favouritePostUseCase)
+      : super(const ConnectionState(isMore: true)) {
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {
@@ -30,7 +34,7 @@ class ConnectionCubit extends Cubit<ConnectionState> {
   void fetchPostData({int limit = 15, bool isLoading = true}) {
     emit(state.copyWith(posts: isLoading ? null : state.posts, isMore: true));
     if (_postStream != null) _postStream!.cancel();
-    _postStream = _useCase.call(params: limit).listen((event) {
+    _postStream = _fetchPostUseCase.call(params: limit).listen((event) {
       if (event is DataSuccess) {
         _limit = event.data!.limit;
         emit(state.copyWith(
@@ -43,9 +47,17 @@ class ConnectionCubit extends Cubit<ConnectionState> {
     });
   }
 
+  Future favouritePost(FavouriteEntity entity) async {
+    final response = await _favouritePostUseCase.call(params: entity);
+    if (response is DataFailed) {
+      print(response.error);
+    }
+  }
+
   @override
   Future<void> close() {
     if (_postStream != null) _postStream!.cancel();
+    scrollController.dispose();
     return super.close();
   }
 }
