@@ -297,42 +297,46 @@ class AboutTab extends StatelessWidget {
     required ResumeEntity resume,
     required VoidCallback onRemove,
   }) {
-    return Row(
-      children: [
-        SvgPicture.asset(AppImages.pdf),
-        const SizedBox(width: 20),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                resume.fileName,
-                style: AppStyles.normalTextHaiti,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 5),
-              Text(
-                "${resume.size.getFileSizeString()} . ${DateTimeUtils.formatCVTime(resume.createAt)}",
-                style: TextStyle(color: AppColors.romanSilver),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(width: 20),
-        GestureDetector(
-          onTap: onRemove,
-          child: SvgPicture.asset(
-            AppImages.trash,
-            colorFilter: const ColorFilter.mode(
-              Color(0xFFFC4646),
-              BlendMode.srcIn,
+    return GestureDetector(
+      onTap: () => ApplicantProfileCoordinator.viewPDF(
+          url: resume.file, title: resume.fileName),
+      child: Row(
+        children: [
+          SvgPicture.asset(AppImages.pdf),
+          const SizedBox(width: 20),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  resume.fileName,
+                  style: AppStyles.normalTextHaiti,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  "${resume.size.getFileSizeString()} . ${DateTimeUtils.formatCVTime(resume.createAt)}",
+                  style: TextStyle(color: AppColors.romanSilver),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
           ),
-        )
-      ],
+          const SizedBox(width: 20),
+          GestureDetector(
+            onTap: onRemove,
+            child: SvgPicture.asset(
+              AppImages.trash,
+              colorFilter: const ColorFilter.mode(
+                Color(0xFFFC4646),
+                BlendMode.srcIn,
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

@@ -118,7 +118,7 @@ import 'package:jobspot/src/presentations/home/data/repositories/home_repository
 import 'package:jobspot/src/presentations/home/domain/repositories/home_repository.dart'
     as _i31;
 import 'package:jobspot/src/presentations/home/domain/use_cases/fetch_job_use_case.dart'
-    as _i71;
+    as _i70;
 import 'package:jobspot/src/presentations/home/domain/use_cases/save_job_use_case.dart'
     as _i39;
 import 'package:jobspot/src/presentations/job_position/cubit/job_position_cubit.dart'
@@ -168,7 +168,7 @@ import 'package:jobspot/src/presentations/view_job/data/repositories/view_job_re
 import 'package:jobspot/src/presentations/view_job/domain/repositories/view_job_repository.dart'
     as _i51;
 import 'package:jobspot/src/presentations/view_job/domain/use_cases/fetch_job_use_case.dart'
-    as _i70;
+    as _i71;
 import 'package:jobspot/src/presentations/view_post/bloc/view_post_bloc.dart'
     as _i87;
 import 'package:jobspot/src/presentations/view_post/data/repositories/view_post_repository_impl.dart'
@@ -307,13 +307,13 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i69.FetchDataCommentFirstLevelUseCase>(() =>
         _i69.FetchDataCommentFirstLevelUseCase(gh<_i53.ViewPostRepository>()));
     gh.lazySingleton<_i70.FetchJobUseCase>(
-        () => _i70.FetchJobUseCase(gh<_i51.ViewJobRepository>()));
+        () => _i70.FetchJobUseCase(gh<_i31.HomeRepository>()));
     gh.lazySingleton<_i71.FetchJobUseCase>(
-        () => _i71.FetchJobUseCase(gh<_i31.HomeRepository>()));
+        () => _i71.FetchJobUseCase(gh<_i51.ViewJobRepository>()));
     gh.lazySingleton<_i72.GetReplyCommentUseCase>(
         () => _i72.GetReplyCommentUseCase(gh<_i53.ViewPostRepository>()));
     gh.factory<_i73.HomeCubit>(() => _i73.HomeCubit(
-          gh<_i71.FetchJobUseCase>(),
+          gh<_i70.FetchJobUseCase>(),
           gh<_i39.SaveJobUseCase>(),
         ));
     gh.factory<_i74.JobPositionCubit>(
@@ -347,7 +347,7 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i85.SyncPostDataUseCase>(
         () => _i85.SyncPostDataUseCase(gh<_i53.ViewPostRepository>()));
     gh.factory<_i86.ViewJobCubit>(
-        () => _i86.ViewJobCubit(gh<_i70.FetchJobUseCase>()));
+        () => _i86.ViewJobCubit(gh<_i71.FetchJobUseCase>()));
     gh.factory<_i87.ViewPostBloc>(() => _i87.ViewPostBloc(
           gh<_i69.FetchDataCommentFirstLevelUseCase>(),
           gh<_i67.FavouriteCommentUseCase>(),

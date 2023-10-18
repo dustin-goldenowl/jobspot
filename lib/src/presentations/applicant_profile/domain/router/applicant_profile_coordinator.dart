@@ -56,4 +56,7 @@ class ApplicantProfileCoordinator {
       ));
 
   static void showAddResume() => rootRouter.push(const AddResumeRoute());
+
+  static void viewPDF({required String url, String? title}) =>
+      rootRouter.push(ViewPDFRoute(url: url, title: title));
 }
