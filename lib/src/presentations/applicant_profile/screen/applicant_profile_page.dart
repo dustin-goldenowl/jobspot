@@ -12,7 +12,7 @@ class ApplicantProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<ApplicantProfileCubit>()..getListPost(),
+      create: (context) => getIt<ApplicantProfileCubit>(),
       child: const ApplicantProfileView(),
     );
   }

@@ -18,7 +18,6 @@ class UserModel {
   bool? gender;
   List<String>? resume;
   List<String>? education;
-  List<String>? workExperience;
   List<String>? appreciation;
   List<String>? language;
   List<String>? skill;
@@ -47,7 +46,6 @@ class UserModel {
     required this.role,
     this.education,
     this.gender,
-    this.workExperience,
     this.appreciation,
     this.language,
     this.skill,
@@ -72,9 +70,6 @@ class UserModel {
             : null,
         follower: List<String>.from(json["follower"].map((x) => x)),
         gender: json["gender"],
-        workExperience: json["workExperience"] != null
-            ? List<String>.from(json["workExperience"].map((x) => x))
-            : null,
         appreciation: json["appreciation"] != null
             ? List<String>.from(json["appreciation"].map((x) => x))
             : null,
@@ -116,9 +111,6 @@ class UserModel {
             : null,
         follower: List<String>.from(json["follower"].map((x) => x)),
         gender: json["gender"],
-        workExperience: json["workExperience"] != null
-            ? List<String>.from(json["workExperience"].map((x) => x))
-            : null,
         appreciation: json["appreciation"] != null
             ? List<String>.from(json["appreciation"].map((x) => x))
             : null,
@@ -177,7 +169,6 @@ class UserModel {
             "education": education,
             "follower": follower,
             "gender": gender,
-            "workExperience": workExperience,
             "appreciation": appreciation,
             "description": description,
             "updateAt": updateAt.toIso8601String(),

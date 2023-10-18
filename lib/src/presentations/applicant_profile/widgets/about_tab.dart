@@ -1,8 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/utils/date_time_utils.dart';
+import 'package:jobspot/src/core/utils/prefs_utils.dart';
+import 'package:jobspot/src/data/models/user_model.dart';
+import 'package:jobspot/src/presentations/applicant_profile/cubit/applicant_profile_cubit.dart';
+import 'package:jobspot/src/presentations/applicant_profile/data/models/work_experience_model.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/router/applicant_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/applicant_profile/widgets/profile_item.dart';
 import 'package:jobspot/src/presentations/applicant_profile/widgets/profile_subitem.dart';
 
@@ -32,9 +39,9 @@ class AboutTab extends StatelessWidget {
         padding: const EdgeInsets.all(AppDimens.smallPadding),
         child: Column(
           children: [
-            _buildAbout(),
+            _buildAboutMe(),
             const SizedBox(height: 10),
-            _buildWorkExperience(),
+            _buildWorkExperience(context),
             const SizedBox(height: 10),
             _buildEducation(),
             const SizedBox(height: 10),
@@ -56,7 +63,6 @@ class AboutTab extends StatelessWidget {
       icon: AppImages.resume,
       title: AppLocal.text.applicant_profile_page_resume,
       onAdd: () {},
-      onEdit: () {},
       child: ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -74,7 +80,6 @@ class AboutTab extends StatelessWidget {
       icon: AppImages.archive,
       title: AppLocal.text.applicant_profile_page_appreciation,
       onAdd: () {},
-      onEdit: () {},
       child: ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -150,7 +155,6 @@ class AboutTab extends StatelessWidget {
       icon: AppImages.graduationCap,
       title: AppLocal.text.applicant_profile_page_education,
       onAdd: () {},
-      onEdit: () {},
       child: ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -169,40 +173,66 @@ class AboutTab extends StatelessWidget {
     );
   }
 
-  Widget _buildWorkExperience() {
-    return ProfileItem(
-      icon: AppImages.bag,
-      title: AppLocal.text.applicant_profile_page_work_experience,
-      onAdd: () {},
-      onEdit: () {},
-      child: ListView.separated(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          //TODO hard code to test
-          return ProfileSubItem(
-            title: "Manager",
-            subtitle: "Amazon Inc",
-            time: "Jan 2015 - Feb 2022",
-            onEdit: () {},
-          );
-        },
-        separatorBuilder: (_, __) => const SizedBox(height: 15),
-        itemCount: 2,
-      ),
+  Widget _buildWorkExperience(BuildContext context) {
+    return BlocBuilder<ApplicantProfileCubit, ApplicantProfileState>(
+      buildWhen: (previous, current) =>
+          previous.listExperience != current.listExperience,
+      builder: (context, state) {
+        return ProfileItem(
+          icon: AppImages.bag,
+          title: AppLocal.text.applicant_profile_page_work_experience,
+          onAdd: ApplicantProfileCoordinator.showAddWorkExperience,
+          child: state.listExperience != null && state.listExperience!.isEmpty
+              ? null
+              : ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    if (state.listExperience != null) {
+                      final item = state.listExperience![index];
+                      return ProfileSubItem(
+                        title: item.jobTitle,
+                        subtitle: item.companyName,
+                        time: DateTimeUtils.fromDateToDate(
+                            item.startDate, item.endDate),
+                        onEdit: () {
+                          ApplicantProfileCoordinator.showAddWorkExperience(
+                            experience: WorkExperienceModel.fromEntity(item)
+                                .toUpdateWorkExperienceEntity(),
+                          );
+                        },
+                      );
+                    }
+                    return const CircularProgressIndicator();
+                  },
+                  separatorBuilder: (_, __) => const SizedBox(height: 15),
+                  itemCount: state.listExperience?.length ?? 10,
+                ),
+        );
+      },
     );
   }
 
-  Widget _buildAbout() {
+  Widget _buildAboutMe() {
+    UserModel? user = PrefsUtils.getUserInfo();
     return ProfileItem(
       icon: AppImages.circleProfile,
       title: AppLocal.text.applicant_profile_page_about_me,
-      onAdd: () {},
-      onEdit: () {},
-      child: Text(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus id commodo egestas metus interdum dolor.", //TODO hard code to test
-        style: AppStyles.normalTextMulledWine,
+      onAdd: () => ApplicantProfileCoordinator.showAddAboutMe(
+        title: AppLocal.text.applicant_profile_page_about_me,
+        description: "",
+        onBack: (value) {},
       ),
+      onEdit: user == null || user.description.isEmpty
+          ? null
+          : () => ApplicantProfileCoordinator.showAddAboutMe(
+                title: AppLocal.text.applicant_profile_page_about_me,
+                description: user.description,
+                onBack: (value) {},
+              ),
+      child: user == null || user.description.isEmpty
+          ? null
+          : Text(user.description, style: AppStyles.normalTextMulledWine),
     );
   }
 

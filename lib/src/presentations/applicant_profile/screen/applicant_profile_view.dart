@@ -3,10 +3,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/cubit/applicant_profile_cubit.dart';
@@ -56,7 +58,23 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
                   title: _buildTabBar(onTap: tabsRouter.setActiveIndex),
                 ),
               ],
-              body: child,
+              body: BlocListener<ApplicantProfileCubit, ApplicantProfileState>(
+                listenWhen: (previous, current) {
+                  if (previous.isLoading) {
+                    Navigator.of(context).pop();
+                  }
+                  return true;
+                },
+                listener: (context, state) {
+                  if (state.isLoading) {
+                    loadingAnimation(context);
+                  }
+                  if (state.error != null) {
+                    customToast(context, text: state.error ?? "");
+                  }
+                },
+                child: child,
+              ),
             ),
           ),
         );
@@ -71,9 +89,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
         return SliverAppBar(
           actions: [
             IconButton(
-              onPressed: () {
-                //TODO tab to view setting screen
-              },
+              onPressed: () {},
               icon: SvgPicture.asset(AppImages.setting),
             ),
             const SizedBox(width: 5),
@@ -92,7 +108,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
             opacity: !state.isTop ? 0.0 : 1.0,
             duration: const Duration(milliseconds: 300),
             child: Text(
-              PrefsUtils.getUserInfo()?.name ?? "---",
+              PrefsUtils.getUserInfo()?.name ?? "",
               style: AppStyles.normalTextWhite
                   .copyWith(fontWeight: FontWeight.w500),
             ),
@@ -149,7 +165,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
                   ),
                   const SizedBox(height: 7),
                   Text(
-                    user?.name ?? "---",
+                    user?.name ?? "----",
                     style: AppStyles.boldTextWhite.copyWith(fontSize: 16),
                   ),
                   Text(

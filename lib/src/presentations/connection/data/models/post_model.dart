@@ -66,6 +66,21 @@ class PostModel {
     );
   }
 
+  factory PostModel.fromEntity(PostEntity entity) {
+    return PostModel(
+      id: entity.id,
+      title: entity.title,
+      description: entity.description,
+      images: entity.images,
+      like: entity.like,
+      comment: entity.comment,
+      share: entity.share,
+      owner: entity.owner,
+      createAt: entity.createAt,
+      updateAt: DateTime.now(),
+    );
+  }
+
   PostModel copyWith({
     String? title,
     String? description,

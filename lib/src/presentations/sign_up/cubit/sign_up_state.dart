@@ -25,6 +25,24 @@ class SignUpState extends Equatable {
     this.dataState,
   });
 
+  factory SignUpState.ds() {
+    return SignUpState(
+      isMale: true,
+      isHideApplicant: true,
+      isHideRepassApplicant: true,
+      isHideBusiness: true,
+      isHideRepassBusiness: true,
+      isLoading: false,
+      founding: DateTime.now(),
+      currentTab: 0,
+      birthday: DateTime(
+        DateTime.now().year - 18,
+        DateTime.now().month,
+        DateTime.now().day,
+      ),
+    );
+  }
+
   SignUpState copyWith({
     int? currentTab,
     bool? isHideApplicant,
