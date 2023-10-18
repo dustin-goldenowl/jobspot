@@ -8,7 +8,6 @@ import 'package:jobspot/src/core/utils/date_time_utils.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/cubit/applicant_profile_cubit.dart';
-import 'package:jobspot/src/presentations/applicant_profile/data/models/work_experience_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/router/applicant_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/applicant_profile/widgets/profile_item.dart';
 import 'package:jobspot/src/presentations/applicant_profile/widgets/profile_subitem.dart';
@@ -41,7 +40,7 @@ class AboutTab extends StatelessWidget {
           children: [
             _buildAboutMe(),
             const SizedBox(height: 10),
-            _buildWorkExperience(context),
+            _buildWorkExperience(),
             const SizedBox(height: 10),
             _buildEducation(),
             const SizedBox(height: 10),
@@ -151,29 +150,45 @@ class AboutTab extends StatelessWidget {
   }
 
   Widget _buildEducation() {
-    return ProfileItem(
-      icon: AppImages.graduationCap,
-      title: AppLocal.text.applicant_profile_page_education,
-      onAdd: () {},
-      child: ListView.separated(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          //TODO hard code to test
-          return ProfileSubItem(
-            title: "Information Technology",
-            subtitle: "University of Oxford",
-            time: "Sep 2010 - Aug 2013",
-            onEdit: () {},
-          );
-        },
-        separatorBuilder: (_, __) => const SizedBox(height: 15),
-        itemCount: 2,
-      ),
+    return BlocBuilder<ApplicantProfileCubit, ApplicantProfileState>(
+      buildWhen: (previous, current) =>
+          previous.listEducation != current.listEducation,
+      builder: (context, state) {
+        return ProfileItem(
+          icon: AppImages.graduationCap,
+          title: AppLocal.text.applicant_profile_page_education,
+          onAdd: ApplicantProfileCoordinator.showAddEducation,
+          child: state.listEducation != null && state.listEducation!.isEmpty
+              ? null
+              : ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    if (state.listEducation != null) {
+                      final item = state.listEducation![index];
+                      return ProfileSubItem(
+                        title: item.fieldStudy,
+                        subtitle: item.institutionName,
+                        time: DateTimeUtils.fromDateToDate(
+                          item.startDate,
+                          item.isEduNow ? null : item.endDate,
+                        ),
+                        onEdit: () =>
+                            ApplicantProfileCoordinator.showAddEducation(
+                                education: item),
+                      );
+                    }
+                    return const CircularProgressIndicator();
+                  },
+                  separatorBuilder: (_, __) => const SizedBox(height: 15),
+                  itemCount: state.listEducation?.length ?? 10,
+                ),
+        );
+      },
     );
   }
 
-  Widget _buildWorkExperience(BuildContext context) {
+  Widget _buildWorkExperience() {
     return BlocBuilder<ApplicantProfileCubit, ApplicantProfileState>(
       buildWhen: (previous, current) =>
           previous.listExperience != current.listExperience,
@@ -194,13 +209,12 @@ class AboutTab extends StatelessWidget {
                         title: item.jobTitle,
                         subtitle: item.companyName,
                         time: DateTimeUtils.fromDateToDate(
-                            item.startDate, item.endDate),
-                        onEdit: () {
-                          ApplicantProfileCoordinator.showAddWorkExperience(
-                            experience: WorkExperienceModel.fromEntity(item)
-                                .toUpdateWorkExperienceEntity(),
-                          );
-                        },
+                          item.startDate,
+                          item.isWorkNow ? null : item.endDate,
+                        ),
+                        onEdit: () =>
+                            ApplicantProfileCoordinator.showAddWorkExperience(
+                                experience: item),
                       );
                     }
                     return const CircularProgressIndicator();

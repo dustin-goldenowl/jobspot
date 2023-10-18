@@ -30,10 +30,11 @@ class DateTimeUtils {
     return "";
   }
 
-  static String fromDateToDate(DateTime date1, DateTime date2) {
+  static String fromDateToDate(DateTime date1, DateTime? date2) {
     final formater = DateFormat("MMM yyyy");
-    Duration time = date2.difference(date1);
-    String date = "${formater.format(date1)} - ${formater.format(date2)} •";
+    Duration time = (date2 ?? DateTime.now()).difference(date1);
+    String date =
+        "${formater.format(date1)} - ${date2 != null ? formater.format(date2) : AppLocal.text.now} •";
     if (time.inDays ~/ 365 > 0) {
       return "$date ${time.inDays ~/ 365} ${AppLocal.text.year}";
     } else {

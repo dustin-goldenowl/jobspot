@@ -1,7 +1,10 @@
 import 'package:jobspot/injection.dart';
 import 'package:jobspot/src/core/config/router/app_router.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
-import 'package:jobspot/src/presentations/add_work_experience/domain/entities/update_work_experience_entity.dart';
+import 'package:jobspot/src/presentations/applicant_profile/data/models/education_model.dart';
+import 'package:jobspot/src/presentations/applicant_profile/data/models/work_experience_model.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/entities/education_entity.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/entities/work_experience_entity.dart';
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 
@@ -27,6 +30,18 @@ class ApplicantProfileCoordinator {
       rootRouter.push(JobDescriptionRoute(
           title: title, description: description, onBack: onBack));
 
-  static void showAddWorkExperience({UpdateWorkExperienceEntity? experience}) =>
-      rootRouter.push(AddWorkExperienceRoute(experience: experience));
+  static void showAddWorkExperience({WorkExperienceEntity? experience}) =>
+      rootRouter.push(AddWorkExperienceRoute(
+        experience: experience == null
+            ? null
+            : WorkExperienceModel.fromEntity(experience)
+                .toUpdateWorkExperienceEntity(),
+      ));
+
+  static void showAddEducation({EducationEntity? education}) =>
+      rootRouter.push(AddEducationRoute(
+        education: education == null
+            ? null
+            : EducationModel.fromEntity(education).toUpdateEducationEntity(),
+      ));
 }

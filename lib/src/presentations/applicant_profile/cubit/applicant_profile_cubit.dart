@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/entities/education_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/work_experience_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/delete_post_use_case.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_education_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_list_post_use_case.dart';
-import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_work_experience.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_work_experience_use_case.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 
 part 'applicant_profile_state.dart';
@@ -19,25 +21,29 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
   final ScrollController scrollController = ScrollController();
   StreamSubscription? _postSubscription;
   StreamSubscription? _experienceSubscription;
+  StreamSubscription? _educationSubscription;
 
   final GetListPostUseCase _getListPostUseCase;
   final DeletePostUseCase _deletePostUseCase;
-  final GetWorkExperience _getWorkExperience;
+  final GetWorkExperienceUseCase _getWorkExperienceUseCase;
+  final GetEducationUseCase _getEducationUseCase;
 
   ApplicantProfileCubit(
     this._getListPostUseCase,
     this._deletePostUseCase,
-    this._getWorkExperience,
+    this._getWorkExperienceUseCase,
+    this._getEducationUseCase,
   ) : super(const ApplicantProfileState(isTop: false, isLoading: false)) {
-    init();
+    _init();
   }
 
-  void init() {
-    getListPost();
-    getWorkExperience();
+  void _init() {
+    _getListPost();
+    _getWorkExperience();
+    _getEducation();
   }
 
-  void getListPost() {
+  void _getListPost() {
     if (_postSubscription != null) _postSubscription!.cancel();
     _postSubscription = _getListPostUseCase.call(params: 15).listen((event) {
       if (event is DataSuccess) {
@@ -46,11 +52,20 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
     });
   }
 
-  void getWorkExperience() {
+  void _getWorkExperience() {
     if (_experienceSubscription != null) _experienceSubscription!.cancel();
-    _experienceSubscription = _getWorkExperience.call().listen((event) {
+    _experienceSubscription = _getWorkExperienceUseCase.call().listen((event) {
       if (event is DataSuccess) {
         emit(state.copyWith(listExperience: event.data));
+      }
+    });
+  }
+
+  void _getEducation() {
+    if (_educationSubscription != null) _educationSubscription!.cancel();
+    _educationSubscription = _getEducationUseCase.call().listen((event) {
+      if (event is DataSuccess) {
+        emit(state.copyWith(listEducation: event.data));
       }
     });
   }
@@ -73,6 +88,7 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
   Future<void> close() {
     if (_postSubscription != null) _postSubscription!.cancel();
     if (_experienceSubscription != null) _experienceSubscription!.cancel();
+    if (_educationSubscription != null) _educationSubscription!.cancel();
     scrollController.dispose();
     tabController.dispose();
     return super.close();

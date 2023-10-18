@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/extension/date_time_extension.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/utils/date_time_utils.dart';
@@ -23,6 +22,7 @@ class AddWorkExperienceCubit extends Cubit<AddWorkExperienceState> {
   final descriptionController = TextEditingController();
   final startDateController = TextEditingController();
   final endDateController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   String? _experienceID;
 
@@ -57,41 +57,21 @@ class AddWorkExperienceCubit extends Cubit<AddWorkExperienceState> {
   bool get isUpdate => _experienceID != null;
 
   void showNotiChangeExperience(BuildContext context, {bool isRemove = false}) {
-    if (!isRemove && validate() == null || isRemove) {
-      showModalBottomSheet(
-        context: context,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        backgroundColor: Colors.white,
-        builder: (context) => BottomSheetWorkExperience(
-          isRemove: isRemove,
-          onAccept: isRemove
-              ? deleteWorkExperience
-              : _experienceID == null
-                  ? addWorkExperience
-                  : updateWorkExperience,
-        ),
-      );
-    } else {
-      emit(state.copyWith(error: validate()));
-    }
-  }
-
-  String? validate() {
-    if (jobTitleController.text.isEmpty) {
-      return AppLocal.text.add_work_experience_page_job_title_validate;
-    }
-    if (companyNameController.text.isEmpty) {
-      return AppLocal.text.add_work_experience_page_company_validate;
-    }
-    if (startDateController.text.isEmpty) {
-      return AppLocal.text.add_work_experience_page_start_date_validate;
-    }
-    if (!state.isWorkNow && endDateController.text.isEmpty) {
-      return AppLocal.text.add_work_experience_page_end_date_validate;
-    }
-    return null;
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      backgroundColor: Colors.white,
+      builder: (context) => BottomSheetWorkExperience(
+        isRemove: isRemove,
+        onAccept: isRemove
+            ? deleteWorkExperience
+            : _experienceID == null
+                ? addWorkExperience
+                : updateWorkExperience,
+      ),
+    );
   }
 
   void changeIsWorkNow(bool value) => emit(state.copyWith(isWorkNow: value));
@@ -164,5 +144,15 @@ class AddWorkExperienceCubit extends Cubit<AddWorkExperienceState> {
     } else {
       emit(state.copyWith(error: response.error));
     }
+  }
+
+  @override
+  Future<void> close() {
+    jobTitleController.dispose();
+    companyNameController.dispose();
+    descriptionController.dispose();
+    startDateController.dispose();
+    endDateController.dispose();
+    return super.close();
   }
 }
