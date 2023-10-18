@@ -291,5 +291,10 @@
     "add_appreciation_page_category_validate": "Vui lòng nhập vào Hạng mục/Thành tích đạt được",
     "add_appreciation_page_award_validate": "Vui lòng nhập vào tên giải thưởng",
     "add_appreciation_page_remove": "Loại bỏ",
-    "add_appreciation_page_save": "Lưu"
+    "add_appreciation_page_save": "Lưu",
+
+    "add_resume_page_add_resume": "Thêm sơ yếu lý lịch",
+    "add_resume_page_save": "Lưu",
+    "add_resume_page_resume_validate": "Vui lòng chọn một sơ yếu lý lịch",
+    "add_resume_page_add_max_size_resume": "Tải lên tệp ở định dạng PDF tối đa 3 MB. Chỉ cần tải nó lên một lần và bạn có thể sử dụng nó trong ứng dụng tiếp theo của mình."
 }

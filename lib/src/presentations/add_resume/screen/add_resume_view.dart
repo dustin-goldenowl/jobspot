@@ -31,9 +31,8 @@ class AddResumeView extends StatelessWidget {
         padding: const EdgeInsets.all(AppDimens.smallPadding),
         child: BlocListener<AddResumeCubit, AddResumeState>(
           listenWhen: (previous, current) {
-            if (previous.isLoading) {
-              Navigator.of(context).pop();
-            }
+            if (previous.isLoading) Navigator.of(context).pop();
+
             if (previous.isLoading && current.dataState is DataSuccess) {
               context.router.pop();
             }
@@ -58,21 +57,21 @@ class AddResumeView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Add Resume",
+          AppLocal.text.add_resume_page_add_resume,
           style: AppStyles.boldTextHaiti.copyWith(fontSize: 18),
         ),
         const SizedBox(height: 30),
         _buildShowResume(),
         const SizedBox(height: 15),
         Text(
-          "Upload files in PDF format up to 5 MB. Just upload it once and you can use it in your next application.",
+          AppLocal.text.add_resume_page_add_max_size_resume,
           style: AppStyles.normalTextMulledWine.copyWith(fontSize: 12),
         ),
         const Spacer(),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 60),
           child: CustomButton(
-            title: "SAVE",
+            title: AppLocal.text.add_resume_page_save,
             onPressed: context.read<AddResumeCubit>().addResume,
           ),
         ),
@@ -93,12 +92,12 @@ class AddResumeView extends StatelessWidget {
             onRemove: context.read<AddResumeCubit>().removeCV,
           );
         }
-        return _buildPickCVFile(context);
+        return _buildPickResumeFile(context);
       },
     );
   }
 
-  Widget _buildPickCVFile(BuildContext context) {
+  Widget _buildPickResumeFile(BuildContext context) {
     return GestureDetector(
       onTap: () => context.read<AddResumeCubit>().pickCVFile(context),
       child: DottedBorder(

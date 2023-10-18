@@ -291,5 +291,10 @@
     "add_appreciation_page_category_validate": "Please enter Category/Achievements",
     "add_appreciation_page_award_validate": "Please enter the award name",
     "add_appreciation_page_remove": "Remove",
-    "add_appreciation_page_save": "Save"
+    "add_appreciation_page_save": "Save",
+
+    "add_resume_page_add_resume": "Add Resume",
+    "add_resume_page_save": "Save",
+    "add_resume_page_resume_validate": "Please select a resume",
+    "add_resume_page_add_max_size_resume": "Upload files in PDF format up to 3MB. Just upload it once and you can use it in your next application."
 }

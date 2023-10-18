@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/presentations/add_resume/domain/use_cases/delete_resume_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/education_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/appreciation_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/resume_entity.dart';
@@ -29,16 +30,18 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
   StreamSubscription? _appreciationSubscription;
   StreamSubscription? _resumeSubscription;
 
-  final GetListPostUseCase _getListPostUseCase;
   final DeletePostUseCase _deletePostUseCase;
+  final DeleteResumeUseCase _deleteResumeUseCase;
+  final GetListPostUseCase _getListPostUseCase;
   final GetWorkExperienceUseCase _getWorkExperienceUseCase;
   final GetEducationUseCase _getEducationUseCase;
   final GetAppreciationUseCase _getAppreciationUseCase;
   final GetResumeUseCase _getResumeUseCase;
 
   ApplicantProfileCubit(
-    this._getListPostUseCase,
     this._deletePostUseCase,
+    this._deleteResumeUseCase,
+    this._getListPostUseCase,
     this._getWorkExperienceUseCase,
     this._getEducationUseCase,
     this._getAppreciationUseCase,
@@ -101,12 +104,22 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
   }
 
   Future deletePost(PostEntity post) async {
-    emit(state.copyWith(isLoading: true, listPost: state.listPost));
+    emit(state.copyWith(isLoading: true));
     final response = await _deletePostUseCase.call(params: post);
     if (response is DataSuccess) {
       final list = [...state.listPost!];
       list.removeWhere((element) => element.id == post.id);
-      emit(state.copyWith(isLoading: true, listPost: list));
+      emit(state.copyWith(listPost: list));
+    } else {
+      emit(state.copyWith(error: response.error));
+    }
+  }
+
+  Future deleteResume(ResumeEntity resume) async {
+    emit(state.copyWith(isLoading: true));
+    final response = await _deleteResumeUseCase.call(params: resume);
+    if (response is DataSuccess) {
+      emit(state.copyWith());
     } else {
       emit(state.copyWith(error: response.error));
     }

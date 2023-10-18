@@ -46,7 +46,9 @@ class AddResumeCubit extends Cubit<AddResumeState> {
       ));
       emit(state.copyWith(dataState: response));
     } else {
-      emit(state.copyWith(dataState: DataFailed("Vui lòng chọn file")));
+      emit(state.copyWith(
+        dataState: DataFailed(AppLocal.text.add_resume_page_resume_validate),
+      ));
     }
   }
 }

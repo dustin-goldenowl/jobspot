@@ -5,6 +5,7 @@ import 'package:jobspot/src/core/utils/firebase_utils.dart';
 import 'package:jobspot/src/presentations/add_resume/data/models/add_resume_model.dart';
 import 'package:jobspot/src/presentations/add_resume/domain/entities/add_resume_entity.dart';
 import 'package:jobspot/src/presentations/add_resume/domain/repositories/resume_repository.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/entities/resume_entity.dart';
 
 @LazySingleton(as: ResumeRepository)
 class ResumeRepositoryImpl extends ResumeRepository {
@@ -28,9 +29,15 @@ class ResumeRepositoryImpl extends ResumeRepository {
   }
 
   @override
-  Future<DataState<bool>> deleteResume(String id) async {
+  Future<DataState<bool>> deleteResume(ResumeEntity resume) async {
     try {
-      await FirebaseFirestore.instance.collection("resumes").doc(id).delete();
+      await Future.wait([
+        FirebaseUtils.deleteImage(resume.file),
+        FirebaseFirestore.instance
+            .collection("resumes")
+            .doc(resume.id)
+            .delete(),
+      ]);
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());

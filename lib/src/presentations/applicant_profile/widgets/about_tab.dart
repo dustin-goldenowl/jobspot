@@ -77,7 +77,9 @@ class AboutTab extends StatelessWidget {
                     if (state.listResume != null) {
                       return _buildItemResume(
                         resume: state.listResume![index],
-                        onRemove: () {},
+                        onRemove: () => context
+                            .read<ApplicantProfileCubit>()
+                            .deleteResume(state.listResume![index]),
                       );
                     }
                     return const CircularProgressIndicator();
