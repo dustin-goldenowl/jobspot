@@ -5,11 +5,11 @@ import 'package:jobspot/src/presentations/applicant_profile/domain/entities/work
 import 'package:jobspot/src/presentations/applicant_profile/domain/repositories/applicant_profile_repository.dart';
 
 @lazySingleton
-class GetWorkExperience
+class GetWorkExperienceUseCase
     extends StreamUseCase<DataState<List<WorkExperienceEntity>>, dynamic> {
   final ApplicantProfileRepository _repository;
 
-  GetWorkExperience(this._repository);
+  GetWorkExperienceUseCase(this._repository);
 
   @override
   Stream<DataState<List<WorkExperienceEntity>>> call({params}) {

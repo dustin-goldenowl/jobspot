@@ -2,8 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/function/loading_animation.dart';
+import 'package:jobspot/src/core/utils/date_time_utils.dart';
 import 'package:jobspot/src/presentations/add_education/cubit/add_education_cubit.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_input.dart';
@@ -26,7 +29,26 @@ class AddEducationView extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(AppDimens.smallPadding),
-          child: _bulidBody(context),
+          child: BlocListener<AddEducationCubit, AddEducationState>(
+            listenWhen: (previous, current) {
+              if (previous.isLoading && current.error == null) {
+                Navigator.of(context).pop();
+                context.router.pop();
+              }
+              return true;
+            },
+            listener: (context, state) {
+              if (state.isLoading) loadingAnimation(context);
+
+              if (state.error != null) {
+                customToast(context, text: state.error ?? "");
+              }
+            },
+            child: Form(
+              key: context.read<AddEducationCubit>().formKey,
+              child: _bulidBody(context),
+            ),
+          ),
         ),
       ),
     );
@@ -46,6 +68,12 @@ class AddEducationView extends StatelessWidget {
               context.read<AddEducationCubit>().levelEducationController,
           title: AppLocal.text.add_education_page_level_education,
           hintText: AppLocal.text.add_education_page_level_education_hint,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocal.text.add_education_page_level_education_validate;
+            }
+            return null;
+          },
         ),
         const SizedBox(height: 20),
         CustomTitleTextInput(
@@ -53,12 +81,24 @@ class AddEducationView extends StatelessWidget {
               context.read<AddEducationCubit>().institutionNameController,
           title: AppLocal.text.add_education_page_institution_name,
           hintText: AppLocal.text.add_education_page_institution_name_hint,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocal.text.add_education_page_institution_name_validate;
+            }
+            return null;
+          },
         ),
         const SizedBox(height: 20),
         CustomTitleTextInput(
           controller: context.read<AddEducationCubit>().fieldStudyController,
           title: AppLocal.text.add_education_page_field_study,
           hintText: AppLocal.text.add_education_page_field_study_hint,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocal.text.add_education_page_field_study_validate;
+            }
+            return null;
+          },
         ),
         const SizedBox(height: 20),
         _buildDate(),
@@ -72,7 +112,7 @@ class AddEducationView extends StatelessWidget {
           maxLines: 8,
         ),
         const SizedBox(height: 40),
-        _buildButton()
+        _buildButton(context),
       ],
     );
   }
@@ -98,9 +138,19 @@ class AddEducationView extends StatelessWidget {
       builder: (context, state) {
         return CustomTitleTextInput(
           controller: context.read<AddEducationCubit>().endDateController,
-          hintText: "08/2023",
+          hintText: DateTimeUtils.formatMonthYear(DateTime.now()),
           title: AppLocal.text.add_education_page_end_date,
-          onTap: () {},
+          onTap: () {
+            context
+                .read<AddEducationCubit>()
+                .selectDate(context, isStartDate: false);
+          },
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocal.text.add_education_page_end_date_validate;
+            }
+            return null;
+          },
         );
       },
     );
@@ -112,29 +162,53 @@ class AddEducationView extends StatelessWidget {
       builder: (context, state) {
         return CustomTitleTextInput(
           controller: context.read<AddEducationCubit>().startDateController,
-          hintText: "05/2023",
+          hintText: DateTimeUtils.formatMonthYear(DateTime.now()),
           title: AppLocal.text.add_education_page_start_date,
-          onTap: () {},
+          onTap: () {
+            context.read<AddEducationCubit>().selectDate(context);
+          },
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocal.text.add_education_page_start_date_validate;
+            }
+            return null;
+          },
         );
       },
     );
   }
 
-  Widget _buildButton() {
+  Widget _buildButton(BuildContext context) {
+    final cubit = context.read<AddEducationCubit>();
     return Row(
       children: [
-        Expanded(
-          child: CustomButton(
-            onPressed: () {},
-            title: AppLocal.text.add_education_page_remove,
-            isElevated: false,
+        if (cubit.isUpdate)
+          Expanded(
+            child: CustomButton(
+              onPressed: () =>
+                  cubit.showNotiChangeExperience(context, isRemove: true),
+              title: AppLocal.text.add_education_page_remove,
+              isElevated: false,
+            ),
           ),
-        ),
-        const SizedBox(width: 15),
+        if (cubit.isUpdate) const SizedBox(width: 15),
         Expanded(
-          child: CustomButton(
-            onPressed: () {},
-            title: AppLocal.text.add_education_page_save.toUpperCase(),
+          child: Padding(
+            padding: cubit.isUpdate
+                ? EdgeInsets.zero
+                : const EdgeInsets.symmetric(horizontal: 60),
+            child: CustomButton(
+              onPressed: () {
+                if (context
+                    .read<AddEducationCubit>()
+                    .formKey
+                    .currentState!
+                    .validate()) {
+                  cubit.showNotiChangeExperience(context);
+                }
+              },
+              title: AppLocal.text.add_education_page_save.toUpperCase(),
+            ),
           ),
         ),
       ],

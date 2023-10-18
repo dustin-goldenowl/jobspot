@@ -4,6 +4,7 @@ class ApplicantProfileState extends Equatable {
   const ApplicantProfileState({
     this.listPost,
     this.listExperience,
+    this.listEducation,
     this.error,
     required this.isTop,
     required this.isLoading,
@@ -11,6 +12,7 @@ class ApplicantProfileState extends Equatable {
 
   final List<PostEntity>? listPost;
   final List<WorkExperienceEntity>? listExperience;
+  final List<EducationEntity>? listEducation;
   final bool isTop;
   final bool isLoading;
   final String? error;
@@ -18,6 +20,7 @@ class ApplicantProfileState extends Equatable {
   ApplicantProfileState copyWith({
     List<PostEntity>? listPost,
     List<WorkExperienceEntity>? listExperience,
+    List<EducationEntity>? listEducation,
     String? error,
     bool? isTop,
     bool isLoading = false,
@@ -25,6 +28,7 @@ class ApplicantProfileState extends Equatable {
     return ApplicantProfileState(
       listPost: listPost ?? this.listPost,
       listExperience: listExperience ?? this.listExperience,
+      listEducation: listEducation ?? this.listEducation,
       error: error,
       isTop: isTop ?? this.isTop,
       isLoading: isLoading,
@@ -33,5 +37,5 @@ class ApplicantProfileState extends Equatable {
 
   @override
   List<Object?> get props =>
-      [listPost, isTop, isLoading, listExperience, error];
+      [listPost, isTop, isLoading, listExperience, listEducation, error];
 }

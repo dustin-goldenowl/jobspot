@@ -44,7 +44,10 @@ class AddWorkExperienceView extends StatelessWidget {
                 customToast(context, text: state.error ?? "");
               }
             },
-            child: _buildBody(context),
+            child: Form(
+              key: context.read<AddWorkExperienceCubit>().formKey,
+              child: _buildBody(context),
+            ),
           ),
         ),
       ),
@@ -66,6 +69,12 @@ class AddWorkExperienceView extends StatelessWidget {
           controller: context.read<AddWorkExperienceCubit>().jobTitleController,
           title: AppLocal.text.add_work_experience_page_job_title,
           hintText: AppLocal.text.add_work_experience_page_job_title_hint,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocal.text.add_work_experience_page_job_title_validate;
+            }
+            return null;
+          },
         ),
         const SizedBox(height: 20),
         CustomTitleTextInput(
@@ -73,6 +82,12 @@ class AddWorkExperienceView extends StatelessWidget {
               context.read<AddWorkExperienceCubit>().companyNameController,
           title: AppLocal.text.add_work_experience_page_company,
           hintText: AppLocal.text.add_work_experience_page_company,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocal.text.add_work_experience_page_company_validate;
+            }
+            return null;
+          },
         ),
         const SizedBox(height: 20),
         _buildDate(),
@@ -114,7 +129,13 @@ class AddWorkExperienceView extends StatelessWidget {
                 : const EdgeInsets.symmetric(horizontal: 60),
             child: CustomButton(
               onPressed: () {
-                cubit.showNotiChangeExperience(context);
+                if (context
+                    .read<AddWorkExperienceCubit>()
+                    .formKey
+                    .currentState!
+                    .validate()) {
+                  cubit.showNotiChangeExperience(context);
+                }
               },
               title: AppLocal.text.add_work_experience_page_save,
             ),
@@ -179,6 +200,12 @@ class AddWorkExperienceView extends StatelessWidget {
                 .read<AddWorkExperienceCubit>()
                 .selectDate(context, isStartDate: false);
           },
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocal.text.add_work_experience_page_end_date_validate;
+            }
+            return null;
+          },
         );
       },
     );
@@ -195,6 +222,12 @@ class AddWorkExperienceView extends StatelessWidget {
           hintText: DateTimeUtils.formatMonthYear(DateTime.now()),
           onTap: () {
             context.read<AddWorkExperienceCubit>().selectDate(context);
+          },
+          validator: (value) {
+            if (value!.isEmpty) {
+              return AppLocal.text.add_work_experience_page_start_date_validate;
+            }
+            return null;
           },
         );
       },
