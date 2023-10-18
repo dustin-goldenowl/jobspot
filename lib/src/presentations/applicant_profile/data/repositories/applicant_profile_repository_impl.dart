@@ -5,8 +5,10 @@ import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/utils/firebase_utils.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/education_model.dart';
+import 'package:jobspot/src/presentations/applicant_profile/data/models/appreciation_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/work_experience_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/education_entity.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/entities/appreciation_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/work_experience_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/repositories/applicant_profile_repository.dart';
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
@@ -116,6 +118,25 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
             .toList();
         return DataSuccess(
             listExperience.map((e) => e.toEducationEntity()).toList());
+      });
+    } catch (e) {
+      return Stream.value(DataFailed(e.toString()));
+    }
+  }
+
+  @override
+  Stream<DataState<List<AppreciationEntity>>> getAppreciation() {
+    try {
+      return FirebaseFirestore.instance
+          .collection("appreciations")
+          .where("owner", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .snapshots()
+          .asyncMap((event) async {
+        List<AppreciationModel> listExperience = event.docs
+            .map((e) => AppreciationModel.fromDocumentSnapshot(e))
+            .toList();
+        return DataSuccess(
+            listExperience.map((e) => e.toAppreciationEntity()).toList());
       });
     } catch (e) {
       return Stream.value(DataFailed(e.toString()));

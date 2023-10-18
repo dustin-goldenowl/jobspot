@@ -274,5 +274,22 @@
     "add_education_page_save_title": "Lưu thay đổi?",
     "add_education_page_save_content": "Bạn có chắc chắn muốn thay đổi những gì bạn đã nhập không?",
     "add_education_page_delete_title": "Loại bỏ học vấn",
-    "add_education_page_delete_content": "Bạn có chắc chắn muốn loại bỏ chương trình đào tạo này không?"
+    "add_education_page_delete_content": "Bạn có chắc chắn muốn loại bỏ chương trình đào tạo này không?",
+
+    "add_appreciation_page_save_title": "Lưu thay đổi?",
+    "add_appreciation_page_save_content": "Bạn có chắc chắn muốn thay đổi những gì bạn đã nhập không?",
+    "add_appreciation_page_remove_title": "Xóa đánh giá?",
+    "add_appreciation_page_remove_content": "Bạn có chắc chắn muốn xóa giải thưởng này không?",
+    "add_appreciation_page_add_appreciation": "Thêm đánh giá",
+    "add_appreciation_page_award_name": "Tên giải thưởng",
+    "add_appreciation_page_award_name_hint": "Wireless Symposium (RWS)",
+    "add_appreciation_page_category": "Hạng mục/Thành tích đạt được",
+    "add_appreciation_page_category_hint": "Young Scientist",
+    "add_appreciation_page_description": "Mô tả",
+    "add_appreciation_page_description_hint": "Viết thêm thông tin ở đây",
+    "add_appreciation_page_end_date_validate": "Vui lòng chọn ngày kết thúc",
+    "add_appreciation_page_category_validate": "Vui lòng nhập vào Hạng mục/Thành tích đạt được",
+    "add_appreciation_page_award_validate": "Vui lòng nhập vào tên giải thưởng",
+    "add_appreciation_page_remove": "Loại bỏ",
+    "add_appreciation_page_save": "Lưu"
 }

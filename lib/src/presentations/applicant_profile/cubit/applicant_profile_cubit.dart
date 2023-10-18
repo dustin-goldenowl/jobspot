@@ -6,9 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/education_entity.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/entities/appreciation_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/work_experience_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/delete_post_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_education_use_case.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_appreciation_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_list_post_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_work_experience_use_case.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
@@ -22,17 +24,20 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
   StreamSubscription? _postSubscription;
   StreamSubscription? _experienceSubscription;
   StreamSubscription? _educationSubscription;
+  StreamSubscription? _appreciationSubscription;
 
   final GetListPostUseCase _getListPostUseCase;
   final DeletePostUseCase _deletePostUseCase;
   final GetWorkExperienceUseCase _getWorkExperienceUseCase;
   final GetEducationUseCase _getEducationUseCase;
+  final GetAppreciationUseCase _getAppreciationUseCase;
 
   ApplicantProfileCubit(
     this._getListPostUseCase,
     this._deletePostUseCase,
     this._getWorkExperienceUseCase,
     this._getEducationUseCase,
+    this._getAppreciationUseCase,
   ) : super(const ApplicantProfileState(isTop: false, isLoading: false)) {
     _init();
   }
@@ -41,6 +46,7 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
     _getListPost();
     _getWorkExperience();
     _getEducation();
+    _getAppreciation();
   }
 
   void _getListPost() {
@@ -70,6 +76,15 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
     });
   }
 
+  void _getAppreciation() {
+    if (_appreciationSubscription != null) _appreciationSubscription!.cancel();
+    _appreciationSubscription = _getAppreciationUseCase.call().listen((event) {
+      if (event is DataSuccess) {
+        emit(state.copyWith(listAppreciation: event.data));
+      }
+    });
+  }
+
   Future deletePost(PostEntity post) async {
     emit(state.copyWith(isLoading: true, listPost: state.listPost));
     final response = await _deletePostUseCase.call(params: post);
@@ -89,6 +104,7 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
     if (_postSubscription != null) _postSubscription!.cancel();
     if (_experienceSubscription != null) _experienceSubscription!.cancel();
     if (_educationSubscription != null) _educationSubscription!.cancel();
+    if (_appreciationSubscription != null) _appreciationSubscription!.cancel();
     scrollController.dispose();
     tabController.dispose();
     return super.close();

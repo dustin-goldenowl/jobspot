@@ -75,25 +75,39 @@ class AboutTab extends StatelessWidget {
   }
 
   Widget _buildListAppreciation() {
-    return ProfileItem(
-      icon: AppImages.archive,
-      title: AppLocal.text.applicant_profile_page_appreciation,
-      onAdd: () {},
-      child: ListView.separated(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          //TODO hard code to test
-          return ProfileSubItem(
-            title: "Wireless Symposium (RWS)",
-            subtitle: "Young Scientist",
-            time: "2014",
-            onEdit: () {},
-          );
-        },
-        separatorBuilder: (_, __) => const SizedBox(height: 15),
-        itemCount: 2,
-      ),
+    return BlocBuilder<ApplicantProfileCubit, ApplicantProfileState>(
+      buildWhen: (previous, current) =>
+          previous.listAppreciation != current.listAppreciation,
+      builder: (context, state) {
+        return ProfileItem(
+          icon: AppImages.archive,
+          title: AppLocal.text.applicant_profile_page_appreciation,
+          onAdd: ApplicantProfileCoordinator.showAddAppreciation,
+          child:
+              state.listAppreciation != null && state.listAppreciation!.isEmpty
+                  ? null
+                  : ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        if (state.listAppreciation != null) {
+                          final item = state.listAppreciation![index];
+                          return ProfileSubItem(
+                            title: item.awardName,
+                            subtitle: item.achievement,
+                            time: DateTimeUtils.formatMonthYear(item.endDate),
+                            onEdit: () =>
+                                ApplicantProfileCoordinator.showAddAppreciation(
+                                    appreciation: item),
+                          );
+                        }
+                        return const CircularProgressIndicator();
+                      },
+                      separatorBuilder: (_, __) => const SizedBox(height: 15),
+                      itemCount: state.listAppreciation?.length ?? 10,
+                    ),
+        );
+      },
     );
   }
 
