@@ -5,6 +5,8 @@ import 'package:jobspot/src/presentations/applicant_profile/data/models/educatio
 import 'package:jobspot/src/presentations/applicant_profile/data/models/work_experience_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/education_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/work_experience_entity.dart';
+import 'package:jobspot/src/presentations/applicant_profile/data/models/appreciation_model.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/entities/appreciation_entity.dart';
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 
@@ -43,5 +45,13 @@ class ApplicantProfileCoordinator {
         education: education == null
             ? null
             : EducationModel.fromEntity(education).toUpdateEducationEntity(),
+      ));
+
+  static void showAddAppreciation({AppreciationEntity? appreciation}) =>
+      rootRouter.push(AddAppreciationRoute(
+        appreciation: appreciation != null
+            ? AppreciationModel.fromEntity(appreciation)
+                .toUpdateAppreciationEntity()
+            : null,
       ));
 }

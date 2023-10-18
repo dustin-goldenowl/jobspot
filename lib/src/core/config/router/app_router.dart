@@ -108,5 +108,10 @@ class AppRouter extends $AppRouter {
           page: AddEducationRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
+        CustomRoute(
+          path: '/addAppreciation',
+          page: AddAppreciationRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+        ),
       ];
 }
