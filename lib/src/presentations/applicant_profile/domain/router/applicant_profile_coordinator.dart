@@ -54,4 +54,6 @@ class ApplicantProfileCoordinator {
                 .toUpdateAppreciationEntity()
             : null,
       ));
+
+  static void showAddResume() => rootRouter.push(const AddResumeRoute());
 }

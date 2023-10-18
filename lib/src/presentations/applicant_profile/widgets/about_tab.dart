@@ -61,7 +61,7 @@ class AboutTab extends StatelessWidget {
     return ProfileItem(
       icon: AppImages.resume,
       title: AppLocal.text.applicant_profile_page_resume,
-      onAdd: () {},
+      onAdd: ApplicantProfileCoordinator.showAddResume,
       child: ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,

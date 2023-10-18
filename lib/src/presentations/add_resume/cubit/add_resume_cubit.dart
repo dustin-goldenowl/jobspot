@@ -6,18 +6,16 @@ import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
-import 'package:jobspot/src/presentations/apply_job/domain/entities/resume_entity.dart';
-import 'package:jobspot/src/presentations/apply_job/domain/use_cases/apply_job_use_case.dart';
+import 'package:jobspot/src/presentations/add_resume/domain/entities/add_resume_entity.dart';
+import 'package:jobspot/src/presentations/add_resume/domain/use_cases/add_resume_use_case.dart';
 
-part 'apply_job_state.dart';
+part 'add_resume_state.dart';
 
 @injectable
-class ApplyJobCubit extends Cubit<ApplyJobState> {
-  final ApplyJobUseCase _useCase;
+class AddResumeCubit extends Cubit<AddResumeState> {
+  final AddResumeUseCase _useCase;
 
-  TextEditingController controller = TextEditingController();
-
-  ApplyJobCubit(this._useCase) : super(const ApplyJobState());
+  AddResumeCubit(this._useCase) : super(AddResumeState.ds());
 
   Future pickCVFile(BuildContext context) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -35,19 +33,20 @@ class ApplyJobCubit extends Cubit<ApplyJobState> {
     }
   }
 
-  void removeCV() => emit(state.copyWith());
+  void removeCV() => emit(AddResumeState.ds());
 
-  Future applyJob(String jobID) async {
-    emit(state.copyWith(file: state.file, time: state.time, isLoading: true));
-    final response = await _useCase.call(
-        params: ResumeEntity(
-      fileName: state.file!.name,
-      path: state.file!.path!,
-      description: controller.text,
-      jobID: jobID,
-      size: state.file!.size,
-    ));
-    emit(state.copyWith(
-        file: state.file, time: state.time, dataState: response));
+  Future addResume() async {
+    if (state.file != null) {
+      emit(state.copyWith(isLoading: true));
+      final response = await _useCase.call(
+          params: AddResumeEntity(
+        fileName: state.file!.name,
+        path: state.file!.path!,
+        size: state.file!.size,
+      ));
+      emit(state.copyWith(dataState: response));
+    } else {
+      emit(state.copyWith(dataState: DataFailed("Vui lòng chọn file")));
+    }
   }
 }
