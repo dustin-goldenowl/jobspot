@@ -59,7 +59,7 @@ class AddEducationCubit extends Cubit<AddEducationState> {
 
   bool get isUpdate => _educationID != null;
 
-  void showNotiChangeExperience(BuildContext context, {bool isRemove = false}) {
+  void showNotiChangeEducation(BuildContext context, {bool isRemove = false}) {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
@@ -69,10 +69,10 @@ class AddEducationCubit extends Cubit<AddEducationState> {
       builder: (context) => BottomSheetEducation(
         isRemove: isRemove,
         onAccept: isRemove
-            ? deleteWorkExperience
+            ? deleteEducation
             : _educationID == null
-                ? addWorkExperience
-                : updateWorkExperience,
+                ? addEducation
+                : updateEducation,
       ),
     );
   }
@@ -99,7 +99,7 @@ class AddEducationCubit extends Cubit<AddEducationState> {
     }
   }
 
-  Future addWorkExperience() async {
+  Future addEducation() async {
     emit(state.copyWith(isLoading: true));
     final response = await _addEducationUseCase.call(
         params: AddEducationEntity(
@@ -118,7 +118,7 @@ class AddEducationCubit extends Cubit<AddEducationState> {
     }
   }
 
-  Future updateWorkExperience() async {
+  Future updateEducation() async {
     emit(state.copyWith(isLoading: true));
     final response = await _updateEducationUseCase.call(
         params: UpdateEducationEntity(
@@ -138,7 +138,7 @@ class AddEducationCubit extends Cubit<AddEducationState> {
     }
   }
 
-  Future deleteWorkExperience() async {
+  Future deleteEducation() async {
     emit(state.copyWith(isLoading: true));
     final response = await _deleteEducationUseCase.call(params: _educationID!);
     if (response is DataSuccess) {

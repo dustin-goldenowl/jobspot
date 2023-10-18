@@ -186,7 +186,7 @@ class AddEducationView extends StatelessWidget {
           Expanded(
             child: CustomButton(
               onPressed: () =>
-                  cubit.showNotiChangeExperience(context, isRemove: true),
+                  cubit.showNotiChangeEducation(context, isRemove: true),
               title: AppLocal.text.add_education_page_remove,
               isElevated: false,
             ),
@@ -204,7 +204,7 @@ class AddEducationView extends StatelessWidget {
                     .formKey
                     .currentState!
                     .validate()) {
-                  cubit.showNotiChangeExperience(context);
+                  cubit.showNotiChangeEducation(context);
                 }
               },
               title: AppLocal.text.add_education_page_save.toUpperCase(),
