@@ -29,4 +29,6 @@ class ApplicantProfileCoordinator {
 
   static void showAddWorkExperience({UpdateWorkExperienceEntity? experience}) =>
       rootRouter.push(AddWorkExperienceRoute(experience: experience));
+
+  static void showAddEducation() => rootRouter.push(const AddEducationRoute());
 }

@@ -41,7 +41,7 @@ class AboutTab extends StatelessWidget {
           children: [
             _buildAboutMe(),
             const SizedBox(height: 10),
-            _buildWorkExperience(context),
+            _buildWorkExperience(),
             const SizedBox(height: 10),
             _buildEducation(),
             const SizedBox(height: 10),
@@ -154,7 +154,7 @@ class AboutTab extends StatelessWidget {
     return ProfileItem(
       icon: AppImages.graduationCap,
       title: AppLocal.text.applicant_profile_page_education,
-      onAdd: () {},
+      onAdd: ApplicantProfileCoordinator.showAddEducation,
       child: ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -173,7 +173,7 @@ class AboutTab extends StatelessWidget {
     );
   }
 
-  Widget _buildWorkExperience(BuildContext context) {
+  Widget _buildWorkExperience() {
     return BlocBuilder<ApplicantProfileCubit, ApplicantProfileState>(
       buildWhen: (previous, current) =>
           previous.listExperience != current.listExperience,

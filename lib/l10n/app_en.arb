@@ -249,5 +249,20 @@
     "add_work_experience_page_company_validate": "Please enter company name",
     "add_work_experience_page_start_date_validate": "Please select a work start date",
     "add_work_experience_page_end_date_validate": "Please select a job end date",
-    "add_work_experience_page_company": "Company"
+    "add_work_experience_page_company": "Company",
+
+    "add_education_page_add_education": "Add Education",
+    "add_education_page_end_date": "End date",
+    "add_education_page_start_date": "Start date",
+    "add_education_page_remove": "Remove",
+    "add_education_page_save": "Save",
+    "add_education_page_edu_now": "This is my study place now",
+    "add_education_page_institution_name": "Institution name",
+    "add_education_page_institution_name_hint": "University of Information Technology",
+    "add_education_page_field_study": "Field of study",
+    "add_education_page_field_study_hint": "Information Technology",
+    "add_education_page_description": "Description",
+    "add_education_page_description_hint": "Write additional information here",
+    "add_education_page_level_education": "Level of education",
+    "add_education_page_level_education_hint": "Bachelor of Information Technology"
 }

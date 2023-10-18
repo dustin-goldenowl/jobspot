@@ -249,5 +249,20 @@
     "add_work_experience_page_company_validate": "Vui lòng nhập vào tên công ty",
     "add_work_experience_page_start_date_validate": "Vui lòng chọn ngày bắt đầu công việc",
     "add_work_experience_page_end_date_validate": "Vui lòng chọn ngày kết thúc công việc",
-    "add_work_experience_page_company": "Công ty"
+    "add_work_experience_page_company": "Công ty",
+
+    "add_education_page_add_education": "Thêm Học Vấn",
+    "add_education_page_end_date": "Ngày kết thúc",
+    "add_education_page_start_date": "Ngày bắt đầu",
+    "add_education_page_remove": "Loại bỏ",
+    "add_education_page_save": "Lưu",
+    "add_education_page_edu_now": "Đây là nơi học tập của tôi bây giờ",
+    "add_education_page_institution_name": "Tên tổ chức",
+    "add_education_page_institution_name_hint": "Trường Đại học Công nghệ Thông tin",
+    "add_education_page_field_study": "Chuyên ngành",
+    "add_education_page_field_study_hint": "Công nghệ Thông tin",
+    "add_education_page_description": "Mô tả",
+    "add_education_page_description_hint": "Viết thêm thông tin ở đây",
+    "add_education_page_level_education": "Cấp bậc giáo dục",
+    "add_education_page_level_education_hint": "Cử Nhân Công Nghệ Thông Tin"
 }
