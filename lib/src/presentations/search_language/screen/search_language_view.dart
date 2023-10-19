@@ -103,7 +103,7 @@ class SearchLanguageView extends StatelessWidget {
               child: CachedNetworkImage(
                 imageUrl: country.code.flagLink,
                 height: 40,
-                fit: BoxFit.cover,
+                fit: BoxFit.none,
                 placeholder: (context, url) =>
                     const ItemLoading(width: 40, height: 40, radius: 90),
                 errorWidget: (context, url, error) =>

@@ -39,7 +39,7 @@ class ProfileItem extends StatelessWidget {
               ),
               const Spacer(),
               AddButton(
-                isShowEdit: onEdit != null,
+                isShowEdit: onEdit != null && child != null,
                 onTap: onEdit ?? onAdd,
               )
             ],

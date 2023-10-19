@@ -306,12 +306,17 @@
     "add_language_page_search_language": "Search Language",
     "add_language_page_done": "Done",
     "add_language_page_save": "Save",
+    "add_language_page_add": "Add",
     "add_language_page_written": "Written",
+    "add_language_page_written_level": "Written : Level {level}",
     "add_language_page_oral": "Oral",
+    "add_language_page_oral_level": "Oral : Level {level}",
     "add_language_page_language": "Language",
+    "add_language_page_language_first": "{language} (First language)",
     "add_language_page_choose_language": "Choose a language",
     "add_language_page_first_language": "First language",
     "add_language_page_level": "Level {level}",
     "add_language_page_language_validate": "Please select a language",
+    "add_language_page_no_language": "No language selected",
     "add_language_page_level_content": "Proficiency level : 0 - Poor, 10 - Very good"
 }

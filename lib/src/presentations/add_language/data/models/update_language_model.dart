@@ -1,14 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:jobspot/src/presentations/add_language/domain/entities/add_language_entity.dart';
+import 'package:jobspot/src/presentations/add_language/domain/entities/update_language_entity.dart';
 
-class AddLanguageModel {
+class UpdateLanguageModel {
+  String id;
   String name;
   String code;
   bool isFirst;
   int oralLevel;
   int writtenLevel;
 
-  AddLanguageModel({
+  UpdateLanguageModel({
+    required this.id,
     required this.name,
     required this.code,
     required this.isFirst,
@@ -16,8 +17,9 @@ class AddLanguageModel {
     required this.writtenLevel,
   });
 
-  factory AddLanguageModel.fromEntity(AddLanguageEntity entity) {
-    return AddLanguageModel(
+  factory UpdateLanguageModel.fromEntity(UpdateLanguageEntity entity) {
+    return UpdateLanguageModel(
+      id: entity.id,
       name: entity.name,
       code: entity.code,
       isFirst: entity.isFirst,
@@ -28,13 +30,11 @@ class AddLanguageModel {
 
   Map<String, dynamic> toJson() {
     return {
-      "owner": FirebaseAuth.instance.currentUser!.uid,
       "name": name,
       "code": code,
       "isFirst": isFirst,
       "oralLevel": oralLevel,
       "writtenLevel": writtenLevel,
-      "creatAt": DateTime.now(),
       "updateAt": DateTime.now(),
     };
   }

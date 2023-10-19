@@ -26,7 +26,7 @@ class AddLanguageView extends StatelessWidget {
           child: SizedBox(
             width: 200,
             child: CustomButton(
-              onPressed: context.read<AddLanguageCubit>().addLanguage,
+              onPressed: context.read<AddLanguageCubit>().save,
               title: AppLocal.text.add_language_page_save.toUpperCase(),
             ),
           ),
@@ -218,7 +218,7 @@ class AddLanguageView extends StatelessWidget {
                           child: CachedNetworkImage(
                             imageUrl: state.country!.code.flagLink,
                             height: 40,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.none,
                             placeholder: (context, url) => const ItemLoading(
                                 width: 40, height: 40, radius: 90),
                             errorWidget: (context, url, error) =>
