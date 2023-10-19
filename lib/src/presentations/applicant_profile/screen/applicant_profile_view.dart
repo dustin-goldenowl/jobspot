@@ -37,10 +37,14 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<ApplicantProfileCubit>();
     return AutoTabsRouter.pageView(
       routes: const [AboutTab(), PostTab()],
       builder: (context, child, pageController) {
         final tabsRouter = AutoTabsRouter.of(context);
+        if (tabsRouter.activeIndex != cubit.tabController.index) {
+          cubit.tabController.animateTo(tabsRouter.activeIndex);
+        }
         return Scaffold(
           body: SafeArea(
             child: NestedScrollView(

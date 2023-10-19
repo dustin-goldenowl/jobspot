@@ -6,6 +6,7 @@ class ApplicantProfileState extends Equatable {
     this.listExperience,
     this.listEducation,
     this.listAppreciation,
+    this.listResume,
     this.error,
     required this.isTop,
     required this.isLoading,
@@ -15,6 +16,7 @@ class ApplicantProfileState extends Equatable {
   final List<WorkExperienceEntity>? listExperience;
   final List<EducationEntity>? listEducation;
   final List<AppreciationEntity>? listAppreciation;
+  final List<ResumeEntity>? listResume;
   final bool isTop;
   final bool isLoading;
   final String? error;
@@ -24,6 +26,7 @@ class ApplicantProfileState extends Equatable {
     List<WorkExperienceEntity>? listExperience,
     List<EducationEntity>? listEducation,
     List<AppreciationEntity>? listAppreciation,
+    List<ResumeEntity>? listResume,
     String? error,
     bool? isTop,
     bool isLoading = false,
@@ -33,6 +36,7 @@ class ApplicantProfileState extends Equatable {
       listExperience: listExperience ?? this.listExperience,
       listEducation: listEducation ?? this.listEducation,
       listAppreciation: listAppreciation ?? this.listAppreciation,
+      listResume: listResume ?? this.listResume,
       error: error,
       isTop: isTop ?? this.isTop,
       isLoading: isLoading,
@@ -47,6 +51,7 @@ class ApplicantProfileState extends Equatable {
         listExperience,
         listEducation,
         error,
-        listAppreciation
+        listAppreciation,
+        listResume,
       ];
 }

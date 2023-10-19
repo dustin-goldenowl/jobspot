@@ -1,11 +1,11 @@
-class CVEntity {
+class ResumeEntity {
   String fileName;
   String path;
   String description;
   String jobID;
   int size;
 
-  CVEntity({
+  ResumeEntity({
     required this.fileName,
     required this.path,
     required this.description,

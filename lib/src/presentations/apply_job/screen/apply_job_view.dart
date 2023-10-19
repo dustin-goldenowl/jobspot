@@ -10,6 +10,7 @@ import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/utils/date_time_utils.dart';
 import 'package:jobspot/src/presentations/apply_job/cubit/apply_job_cubit.dart';
 import 'package:jobspot/src/presentations/apply_job/domain/router/apply_job_coordinator.dart';
+import 'package:jobspot/src/presentations/apply_job/widgets/uploaded_cv_file.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
@@ -205,80 +206,16 @@ class ApplyJobView extends StatelessWidget {
     return BlocBuilder<ApplyJobCubit, ApplyJobState>(
       builder: (context, state) {
         if (state.file != null) {
-          return _buildUploadedCVFile(context);
+          return UploadedCVFile(
+            fileName: state.file!.name,
+            size: state.file!.size,
+            time: state.time!,
+            onRemove: context.read<ApplyJobCubit>().removeCV,
+          );
         } else {
           return _buildPickCVFile(context);
         }
       },
-    );
-  }
-
-  Widget _buildUploadedCVFile(BuildContext context) {
-    final cubit = context.read<ApplyJobCubit>();
-    return DottedBorder(
-      borderType: BorderType.RRect,
-      radius: const Radius.circular(12),
-      color: AppColors.manatee,
-      strokeWidth: 0.5,
-      dashPattern: const [5],
-      child: ClipRRect(
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
-        child: Container(
-          decoration: BoxDecoration(
-              color: AppColors.interdimensionalBlue.withOpacity(0.1)),
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  SvgPicture.asset(AppImages.pdf, height: 45),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          cubit.state.file!.name,
-                          style: AppStyles.normalTextHaiti,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 5),
-                        Text(
-                          "${cubit.state.file!.size.getFileSizeString(decimals: 1)} - ${DateTimeUtils.formatCVTime(cubit.state.time!)}",
-                          style: AppStyles.normalTextSpunPearl,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(height: 20),
-              GestureDetector(
-                onTap: cubit.removeCV,
-                child: Row(
-                  children: [
-                    SvgPicture.asset(AppImages.trash,
-                        colorFilter: ColorFilter.mode(
-                          AppColors.venetianRed,
-                          BlendMode.srcIn,
-                        )),
-                    const SizedBox(width: 10),
-                    Text(
-                      AppLocal.text.apply_job_page_remove_file,
-                      style: TextStyle(color: AppColors.venetianRed),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
     );
   }
 

@@ -31,8 +31,9 @@ class AddWorkExperienceView extends StatelessWidget {
           padding: const EdgeInsets.all(AppDimens.smallPadding),
           child: BlocListener<AddWorkExperienceCubit, AddWorkExperienceState>(
             listenWhen: (previous, current) {
+              if (previous.isLoading) Navigator.of(context).pop();
+
               if (previous.isLoading && current.error == null) {
-                Navigator.of(context).pop();
                 context.router.pop();
               }
               return true;

@@ -4,10 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/extension/int_extension.dart';
 import 'package:jobspot/src/core/utils/date_time_utils.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/cubit/applicant_profile_cubit.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/entities/resume_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/router/applicant_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/applicant_profile/widgets/profile_item.dart';
 import 'package:jobspot/src/presentations/applicant_profile/widgets/profile_subitem.dart';
@@ -58,19 +60,35 @@ class AboutTab extends StatelessWidget {
   }
 
   Widget _buildListResume() {
-    return ProfileItem(
-      icon: AppImages.resume,
-      title: AppLocal.text.applicant_profile_page_resume,
-      onAdd: () {},
-      child: ListView.separated(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-          return _buildItemResume();
-        },
-        separatorBuilder: (_, __) => const SizedBox(height: 15),
-        itemCount: 2,
-      ),
+    return BlocBuilder<ApplicantProfileCubit, ApplicantProfileState>(
+      buildWhen: (previous, current) =>
+          previous.listResume != current.listResume,
+      builder: (context, state) {
+        return ProfileItem(
+          icon: AppImages.resume,
+          title: AppLocal.text.applicant_profile_page_resume,
+          onAdd: ApplicantProfileCoordinator.showAddResume,
+          child: state.listResume != null && state.listResume!.isEmpty
+              ? null
+              : ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    if (state.listResume != null) {
+                      return _buildItemResume(
+                        resume: state.listResume![index],
+                        onRemove: () => context
+                            .read<ApplicantProfileCubit>()
+                            .deleteResume(state.listResume![index]),
+                      );
+                    }
+                    return const CircularProgressIndicator();
+                  },
+                  separatorBuilder: (_, __) => const SizedBox(height: 15),
+                  itemCount: state.listResume?.length ?? 0,
+                ),
+        );
+      },
     );
   }
 
@@ -275,43 +293,50 @@ class AboutTab extends StatelessWidget {
     );
   }
 
-  Widget _buildItemResume() {
-    return Row(
-      children: [
-        SvgPicture.asset(AppImages.pdf),
-        const SizedBox(width: 20),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Jamet kudasi - CV - UI/UX Designer", //TODO hard code to test
-                style: AppStyles.normalTextHaiti,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: 5),
-              Text(
-                "867 Kb . 14 Feb 2022 at 11:30 am", //TODO hard code to test
-                style: TextStyle(color: AppColors.romanSilver),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(width: 20),
-        GestureDetector(
-          onTap: () {},
-          child: SvgPicture.asset(
-            AppImages.trash,
-            colorFilter: const ColorFilter.mode(
-              Color(0xFFFC4646),
-              BlendMode.srcIn,
+  Widget _buildItemResume({
+    required ResumeEntity resume,
+    required VoidCallback onRemove,
+  }) {
+    return GestureDetector(
+      onTap: () => ApplicantProfileCoordinator.viewPDF(
+          url: resume.file, title: resume.fileName),
+      child: Row(
+        children: [
+          SvgPicture.asset(AppImages.pdf),
+          const SizedBox(width: 20),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  resume.fileName,
+                  style: AppStyles.normalTextHaiti,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  "${resume.size.getFileSizeString()} . ${DateTimeUtils.formatCVTime(resume.createAt)}",
+                  style: TextStyle(color: AppColors.romanSilver),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
             ),
           ),
-        )
-      ],
+          const SizedBox(width: 20),
+          GestureDetector(
+            onTap: onRemove,
+            child: SvgPicture.asset(
+              AppImages.trash,
+              colorFilter: const ColorFilter.mode(
+                Color(0xFFFC4646),
+                BlendMode.srcIn,
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
