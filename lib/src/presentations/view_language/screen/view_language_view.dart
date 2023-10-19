@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
@@ -28,12 +29,19 @@ class ViewLanguageView extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(AppDimens.smallPadding),
-        child: Column(
-          children: [
-            _buildTitle(),
-            const SizedBox(height: 30),
-            Expanded(child: _buildListLanguage()),
-          ],
+        child: BlocListener<ViewLanguageCubit, ViewLanguageState>(
+          listener: (context, state) {
+            if (state.error != null) {
+              customToast(context, text: state.error ?? "");
+            }
+          },
+          child: Column(
+            children: [
+              _buildTitle(),
+              const SizedBox(height: 30),
+              Expanded(child: _buildListLanguage()),
+            ],
+          ),
         ),
       ),
     );

@@ -10,6 +10,7 @@ import 'package:jobspot/src/presentations/applicant_profile/data/models/apprecia
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/appreciation_entity.dart';
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
+import 'package:jobspot/src/presentations/view_language/domain/entities/language_entity.dart';
 
 class ApplicantProfileCoordinator {
   ApplicantProfileCoordinator._();
@@ -65,4 +66,6 @@ class ApplicantProfileCoordinator {
       rootRouter.push(AddSkillRoute(listSkill: listSkill));
 
   static void showViewLanguage() => rootRouter.push(const ViewLanguageRoute());
+  static void showViewLanguage(List<LanguageEntity> languages) =>
+      rootRouter.push(ViewLanguageRoute(languages: languages));
 }

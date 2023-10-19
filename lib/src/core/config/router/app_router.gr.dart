@@ -52,7 +52,7 @@ import 'package:jobspot/src/presentations/apply_job/screen/apply_job_page.dart'
 import 'package:jobspot/src/presentations/check_email/screen/check_email_page.dart'
     as _i12;
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart'
-    as _i45;
+    as _i46;
 import 'package:jobspot/src/presentations/connection/screen/connection_page.dart'
     as _i13;
 import 'package:jobspot/src/presentations/forgot_password/screen/forgot_password_page.dart'
@@ -87,6 +87,8 @@ import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.da
     as _i42;
 import 'package:jobspot/src/presentations/view_job/screen/view_job_page.dart'
     as _i29;
+import 'package:jobspot/src/presentations/view_language/domain/entities/language_entity.dart'
+    as _i45;
 import 'package:jobspot/src/presentations/view_language/screen/view_language_page.dart'
     as _i30;
 import 'package:jobspot/src/presentations/view_pdf/screen/view_pdf_page.dart'
@@ -338,9 +340,13 @@ abstract class $AppRouter extends _i33.RootStackRouter {
       );
     },
     ViewLanguageRoute.name: (routeData) {
+      final args = routeData.argsAs<ViewLanguageRouteArgs>();
       return _i33.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i30.ViewLanguagePage(),
+        child: _i30.ViewLanguagePage(
+          key: args.key,
+          languages: args.languages,
+        ),
       );
     },
     ViewPDFRoute.name: (routeData) {
@@ -1124,16 +1130,40 @@ class ViewJobRouteArgs {
 
 /// generated route for
 /// [_i30.ViewLanguagePage]
-class ViewLanguageRoute extends _i33.PageRouteInfo<void> {
-  const ViewLanguageRoute({List<_i33.PageRouteInfo>? children})
-      : super(
+class ViewLanguageRoute extends _i33.PageRouteInfo<ViewLanguageRouteArgs> {
+  ViewLanguageRoute({
+    _i34.Key? key,
+    required List<_i45.LanguageEntity> languages,
+    List<_i33.PageRouteInfo>? children,
+  }) : super(
           ViewLanguageRoute.name,
+          args: ViewLanguageRouteArgs(
+            key: key,
+            languages: languages,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'ViewLanguageRoute';
 
-  static const _i33.PageInfo<void> page = _i33.PageInfo<void>(name);
+  static const _i33.PageInfo<ViewLanguageRouteArgs> page =
+      _i33.PageInfo<ViewLanguageRouteArgs>(name);
+}
+
+class ViewLanguageRouteArgs {
+  const ViewLanguageRouteArgs({
+    this.key,
+    required this.languages,
+  });
+
+  final _i34.Key? key;
+
+  final List<_i45.LanguageEntity> languages;
+
+  @override
+  String toString() {
+    return 'ViewLanguageRouteArgs{key: $key, languages: $languages}';
+  }
 }
 
 /// generated route for
@@ -1184,7 +1214,7 @@ class ViewPDFRouteArgs {
 class ViewPostRoute extends _i33.PageRouteInfo<ViewPostRouteArgs> {
   ViewPostRoute({
     _i34.Key? key,
-    required _i45.PostEntity post,
+    required _i46.PostEntity post,
     bool isComment = false,
     List<_i33.PageRouteInfo>? children,
   }) : super(
@@ -1212,7 +1242,7 @@ class ViewPostRouteArgs {
 
   final _i34.Key? key;
 
-  final _i45.PostEntity post;
+  final _i46.PostEntity post;
 
   final bool isComment;
 

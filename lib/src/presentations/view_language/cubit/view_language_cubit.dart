@@ -31,9 +31,14 @@ class ViewLanguageCubit extends Cubit<ViewLanguageState> {
     });
   }
 
+  void initLanguage(List<LanguageEntity> languages) =>
+      emit(state.copy(listLanguage: languages));
+
   Future deleteLanguage(String id) async {
     final response = await _deleteLanguageUseCase.call(params: id);
-    if (response is DataSuccess) {}
+    if (response is DataFailed) {
+      emit(state.copy(error: response.error));
+    }
   }
 
   @override

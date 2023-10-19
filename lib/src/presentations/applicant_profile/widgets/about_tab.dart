@@ -137,12 +137,10 @@ class AboutTab extends StatelessWidget {
         return ProfileItem(
           icon: AppImages.language,
           title: AppLocal.text.applicant_profile_page_language,
-          onAdd: () {
-            ApplicantProfileCoordinator.showViewLanguage();
-          },
-          onEdit: () {
-            ApplicantProfileCoordinator.showViewLanguage();
-          },
+          onAdd: () => ApplicantProfileCoordinator.showViewLanguage(
+              state.listLanguage ?? []),
+          onEdit: () => ApplicantProfileCoordinator.showViewLanguage(
+              state.listLanguage ?? []),
           child: state.listLanguage != null && state.listLanguage!.isNotEmpty
               ? Wrap(
                   runSpacing: 10,
