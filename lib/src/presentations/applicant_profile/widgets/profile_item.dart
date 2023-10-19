@@ -48,7 +48,7 @@ class ProfileItem extends StatelessWidget {
             Column(
               children: [
                 const SizedBox(height: 20),
-                const Divider(color: Color(0xFFDEE1E7), thickness: 0.5),
+                Divider(color: AppColors.platinum, thickness: 0.5),
                 const SizedBox(height: 20),
                 child!,
               ],

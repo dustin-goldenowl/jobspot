@@ -300,5 +300,18 @@
 
     "add_skill_page_add_skill": "Thêm kỹ năng",
     "add_skill_page_save": "Lưu",
-    "add_skill_page_search_skill": "Tìm kiếm kỹ năng"
+    "add_skill_page_search_skill": "Tìm kiếm kỹ năng",
+
+    "add_language_page_add_language": "Thêm Ngôn Ngữ",
+    "add_language_page_search_language": "Tìm Kiếm Ngôn Ngữ",
+    "add_language_page_done": "Xong",
+    "add_language_page_save": "Lưu",
+    "add_language_page_written": "Viết",
+    "add_language_page_oral": "Nói",
+    "add_language_page_language": "Ngôn ngữ",
+    "add_language_page_choose_language": "Chọn một ngôn ngữ",
+    "add_language_page_first_language": "Ngôn ngữ chính",
+    "add_language_page_level": "Mức {level}",
+    "add_language_page_language_validate": "Vui lòng chọn một ngôn ngữ",
+    "add_language_page_level_content": "Mức độ thành thạo: 0 - Kém, 10 - Rất tốt"
 }

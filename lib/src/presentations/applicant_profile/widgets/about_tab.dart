@@ -133,8 +133,12 @@ class AboutTab extends StatelessWidget {
     return ProfileItem(
       icon: AppImages.language,
       title: AppLocal.text.applicant_profile_page_language,
-      onAdd: () {},
-      onEdit: () {},
+      onAdd: () {
+        ApplicantProfileCoordinator.showViewLanguage();
+      },
+      onEdit: () {
+        ApplicantProfileCoordinator.showViewLanguage();
+      },
       child: Column(
         children: [
           Wrap(

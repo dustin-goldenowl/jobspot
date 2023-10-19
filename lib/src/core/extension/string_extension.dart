@@ -10,4 +10,6 @@ extension StringExtension on String {
 
   String get capitalizedString => replaceAllMapped(
       RegExp(r'\b\w'), (match) => match.group(0)!.toUpperCase());
+
+  String get flagLink => "https://flagsapi.com/$this/flat/64.png";
 }
