@@ -123,5 +123,10 @@ class AppRouter extends $AppRouter {
           page: ViewPDFRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
+        CustomRoute(
+          path: '/addSkill',
+          page: AddSkillRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+        ),
       ];
 }

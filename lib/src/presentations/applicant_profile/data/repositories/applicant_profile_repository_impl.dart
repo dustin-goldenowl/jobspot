@@ -4,6 +4,9 @@ import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/utils/firebase_utils.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
+import 'package:jobspot/src/data/entities/user_entity.dart';
+import 'package:jobspot/src/presentations/add_skill/data/models/skill_model.dart';
+import 'package:jobspot/src/presentations/add_skill/domain/entities/skill_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/education_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/appreciation_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/resume_entity.dart';
@@ -16,6 +19,7 @@ import 'package:jobspot/src/presentations/applicant_profile/domain/repositories/
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
+import 'package:jobspot/src/data/models/user_model.dart' as user_model;
 
 @LazySingleton(as: ApplicantProfileRepository)
 class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
@@ -160,6 +164,37 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
       });
     } catch (e) {
       return Stream.value(DataFailed(e.toString()));
+    }
+  }
+
+  @override
+  Stream<DataState<UserEntity>> getUserInfo() {
+    try {
+      return FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .snapshots()
+          .asyncMap((event) async {
+        final user = user_model.UserModel.fromJsonFirebase(event.data()!);
+        await PrefsUtils.saveUserInfo(user.toJson());
+        return DataSuccess(user.toUserEntity());
+      });
+    } catch (e) {
+      return Stream.value(DataFailed(e.toString()));
+    }
+  }
+
+  @override
+  Future<DataState<List<SkillEntity>>> getSkill(List<String> listSkill) async {
+    try {
+      final response = await Future.wait(listSkill.map(
+        (e) => FirebaseFirestore.instance.collection("skills").doc(e).get(),
+      ));
+      return DataSuccess(response
+          .map((e) => SkillModel.fromDocumentSnapshot(e).toSkillEntity())
+          .toList());
+    } catch (e) {
+      return DataFailed(e.toString());
     }
   }
 }

@@ -8,84 +8,88 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i29;
-import 'package:flutter/material.dart' as _i30;
+import 'package:auto_route/auto_route.dart' as _i30;
+import 'package:flutter/material.dart' as _i31;
 import 'package:jobspot/src/presentations/add_appreciation/domain/entities/update_appreciation_entity.dart'
-    as _i31;
+    as _i32;
 import 'package:jobspot/src/presentations/add_appreciation/screen/add_appreciation_page.dart'
     as _i2;
 import 'package:jobspot/src/presentations/add_education/domain/entities/update_education_entity.dart'
-    as _i32;
+    as _i33;
 import 'package:jobspot/src/presentations/add_education/screen/add_education_page.dart'
     as _i3;
 import 'package:jobspot/src/presentations/add_job/domain/entities/update_job_entity.dart'
-    as _i33;
+    as _i34;
 import 'package:jobspot/src/presentations/add_job/screen/add_job_page.dart'
     as _i4;
 import 'package:jobspot/src/presentations/add_post/domain/entities/update_post_entity.dart'
-    as _i34;
+    as _i35;
 import 'package:jobspot/src/presentations/add_post/screen/add_post_page.dart'
     as _i5;
 import 'package:jobspot/src/presentations/add_resume/screen/add_resume_page.dart'
     as _i6;
-import 'package:jobspot/src/presentations/add_work_experience/domain/entities/update_work_experience_entity.dart'
-    as _i35;
-import 'package:jobspot/src/presentations/add_work_experience/screen/add_work_experience_page.dart'
+import 'package:jobspot/src/presentations/add_skill/domain/entities/skill_entity.dart'
+    as _i36;
+import 'package:jobspot/src/presentations/add_skill/screen/add_skill_page.dart'
     as _i7;
-import 'package:jobspot/src/presentations/applicant_profile/screen/applicant_profile_page.dart'
+import 'package:jobspot/src/presentations/add_work_experience/domain/entities/update_work_experience_entity.dart'
+    as _i37;
+import 'package:jobspot/src/presentations/add_work_experience/screen/add_work_experience_page.dart'
     as _i8;
+import 'package:jobspot/src/presentations/applicant_profile/screen/applicant_profile_page.dart'
+    as _i9;
 import 'package:jobspot/src/presentations/applicant_profile/widgets/about_tab.dart'
     as _i1;
 import 'package:jobspot/src/presentations/applicant_profile/widgets/post_tab.dart'
-    as _i20;
-import 'package:jobspot/src/presentations/apply_job/screen/apply_job_page.dart'
-    as _i9;
-import 'package:jobspot/src/presentations/check_email/screen/check_email_page.dart'
-    as _i10;
-import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart'
-    as _i37;
-import 'package:jobspot/src/presentations/connection/screen/connection_page.dart'
-    as _i11;
-import 'package:jobspot/src/presentations/forgot_password/screen/forgot_password_page.dart'
-    as _i12;
-import 'package:jobspot/src/presentations/home/screen/home_page.dart' as _i13;
-import 'package:jobspot/src/presentations/job_description/screen/job_description_page.dart'
-    as _i14;
-import 'package:jobspot/src/presentations/job_position/screen/job_position_page.dart'
-    as _i15;
-import 'package:jobspot/src/presentations/location/screen/location_page.dart'
-    as _i16;
-import 'package:jobspot/src/presentations/main/screen/main_page.dart' as _i17;
-import 'package:jobspot/src/presentations/notification/screen/notification_page.dart'
-    as _i18;
-import 'package:jobspot/src/presentations/on_boarding/screen/on_boarding_page.dart'
-    as _i19;
-import 'package:jobspot/src/presentations/save_job/screen/save_job_page.dart'
     as _i21;
-import 'package:jobspot/src/presentations/sign_in/screen/sign_in_page.dart'
+import 'package:jobspot/src/presentations/apply_job/screen/apply_job_page.dart'
+    as _i10;
+import 'package:jobspot/src/presentations/check_email/screen/check_email_page.dart'
+    as _i11;
+import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart'
+    as _i39;
+import 'package:jobspot/src/presentations/connection/screen/connection_page.dart'
+    as _i12;
+import 'package:jobspot/src/presentations/forgot_password/screen/forgot_password_page.dart'
+    as _i13;
+import 'package:jobspot/src/presentations/home/screen/home_page.dart' as _i14;
+import 'package:jobspot/src/presentations/job_description/screen/job_description_page.dart'
+    as _i15;
+import 'package:jobspot/src/presentations/job_position/screen/job_position_page.dart'
+    as _i16;
+import 'package:jobspot/src/presentations/location/screen/location_page.dart'
+    as _i17;
+import 'package:jobspot/src/presentations/main/screen/main_page.dart' as _i18;
+import 'package:jobspot/src/presentations/notification/screen/notification_page.dart'
+    as _i19;
+import 'package:jobspot/src/presentations/on_boarding/screen/on_boarding_page.dart'
+    as _i20;
+import 'package:jobspot/src/presentations/save_job/screen/save_job_page.dart'
     as _i22;
-import 'package:jobspot/src/presentations/sign_up/screen/sign_up_page.dart'
+import 'package:jobspot/src/presentations/sign_in/screen/sign_in_page.dart'
     as _i23;
-import 'package:jobspot/src/presentations/verify_email/screen/verify_email_page.dart'
+import 'package:jobspot/src/presentations/sign_up/screen/sign_up_page.dart'
     as _i24;
-import 'package:jobspot/src/presentations/verify_success/screen/verify_success_page.dart'
+import 'package:jobspot/src/presentations/verify_email/screen/verify_email_page.dart'
     as _i25;
-import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart'
-    as _i36;
-import 'package:jobspot/src/presentations/view_job/screen/view_job_page.dart'
+import 'package:jobspot/src/presentations/verify_success/screen/verify_success_page.dart'
     as _i26;
-import 'package:jobspot/src/presentations/view_pdf/screen/view_pdf_page.dart'
+import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart'
+    as _i38;
+import 'package:jobspot/src/presentations/view_job/screen/view_job_page.dart'
     as _i27;
-import 'package:jobspot/src/presentations/view_post/screen/view_post_page.dart'
+import 'package:jobspot/src/presentations/view_pdf/screen/view_pdf_page.dart'
     as _i28;
+import 'package:jobspot/src/presentations/view_post/screen/view_post_page.dart'
+    as _i29;
 
-abstract class $AppRouter extends _i29.RootStackRouter {
+abstract class $AppRouter extends _i30.RootStackRouter {
   $AppRouter({super.navigatorKey});
 
   @override
-  final Map<String, _i29.PageFactory> pagesMap = {
+  final Map<String, _i30.PageFactory> pagesMap = {
     AboutTab.name: (routeData) {
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i1.AboutTab(),
       );
@@ -93,7 +97,7 @@ abstract class $AppRouter extends _i29.RootStackRouter {
     AddAppreciationRoute.name: (routeData) {
       final args = routeData.argsAs<AddAppreciationRouteArgs>(
           orElse: () => const AddAppreciationRouteArgs());
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i2.AddAppreciationPage(
           key: args.key,
@@ -104,7 +108,7 @@ abstract class $AppRouter extends _i29.RootStackRouter {
     AddEducationRoute.name: (routeData) {
       final args = routeData.argsAs<AddEducationRouteArgs>(
           orElse: () => const AddEducationRouteArgs());
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i3.AddEducationPage(
           key: args.key,
@@ -115,7 +119,7 @@ abstract class $AppRouter extends _i29.RootStackRouter {
     AddJobRoute.name: (routeData) {
       final args = routeData.argsAs<AddJobRouteArgs>(
           orElse: () => const AddJobRouteArgs());
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i4.AddJobPage(
           key: args.key,
@@ -126,7 +130,7 @@ abstract class $AppRouter extends _i29.RootStackRouter {
     AddPostRoute.name: (routeData) {
       final args = routeData.argsAs<AddPostRouteArgs>(
           orElse: () => const AddPostRouteArgs());
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i5.AddPostPage(
           key: args.key,
@@ -135,33 +139,43 @@ abstract class $AppRouter extends _i29.RootStackRouter {
       );
     },
     AddResumeRoute.name: (routeData) {
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const _i6.AddResumePage(),
+      );
+    },
+    AddSkillRoute.name: (routeData) {
+      final args = routeData.argsAs<AddSkillRouteArgs>();
+      return _i30.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: _i7.AddSkillPage(
+          key: args.key,
+          listSkill: args.listSkill,
+        ),
       );
     },
     AddWorkExperienceRoute.name: (routeData) {
       final args = routeData.argsAs<AddWorkExperienceRouteArgs>(
           orElse: () => const AddWorkExperienceRouteArgs());
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i7.AddWorkExperiencePage(
+        child: _i8.AddWorkExperiencePage(
           key: args.key,
           experience: args.experience,
         ),
       );
     },
     ApplicantProfileRoute.name: (routeData) {
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i8.ApplicantProfilePage(),
+        child: const _i9.ApplicantProfilePage(),
       );
     },
     ApplyJobRoute.name: (routeData) {
       final args = routeData.argsAs<ApplyJobRouteArgs>();
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i9.ApplyJobPage(
+        child: _i10.ApplyJobPage(
           key: args.key,
           job: args.job,
         ),
@@ -169,37 +183,37 @@ abstract class $AppRouter extends _i29.RootStackRouter {
     },
     CheckEmailRoute.name: (routeData) {
       final args = routeData.argsAs<CheckEmailRouteArgs>();
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i10.CheckEmailPage(
+        child: _i11.CheckEmailPage(
           key: args.key,
           email: args.email,
         ),
       );
     },
     ConnectionRoute.name: (routeData) {
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i11.ConnectionPage(),
+        child: const _i12.ConnectionPage(),
       );
     },
     ForgotPasswordRoute.name: (routeData) {
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i12.ForgotPasswordPage(),
+        child: const _i13.ForgotPasswordPage(),
       );
     },
     HomeRoute.name: (routeData) {
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i13.HomePage(),
+        child: const _i14.HomePage(),
       );
     },
     JobDescriptionRoute.name: (routeData) {
       final args = routeData.argsAs<JobDescriptionRouteArgs>();
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i14.JobDescriptionPage(
+        child: _i15.JobDescriptionPage(
           key: args.key,
           title: args.title,
           description: args.description,
@@ -209,9 +223,9 @@ abstract class $AppRouter extends _i29.RootStackRouter {
     },
     JobPositionRoute.name: (routeData) {
       final args = routeData.argsAs<JobPositionRouteArgs>();
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i15.JobPositionPage(
+        child: _i16.JobPositionPage(
           key: args.key,
           onBack: args.onBack,
         ),
@@ -219,73 +233,73 @@ abstract class $AppRouter extends _i29.RootStackRouter {
     },
     LocationRoute.name: (routeData) {
       final args = routeData.argsAs<LocationRouteArgs>();
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i16.LocationPage(
+        child: _i17.LocationPage(
           key: args.key,
           onBack: args.onBack,
         ),
       );
     },
     MainRoute.name: (routeData) {
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i17.MainPage(),
+        child: const _i18.MainPage(),
       );
     },
     NotificationRoute.name: (routeData) {
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i18.NotificationPage(),
+        child: const _i19.NotificationPage(),
       );
     },
     OnBoardingRoute.name: (routeData) {
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i19.OnBoardingPage(),
+        child: const _i20.OnBoardingPage(),
       );
     },
     PostTab.name: (routeData) {
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i20.PostTab(),
+        child: const _i21.PostTab(),
       );
     },
     SaveJobRoute.name: (routeData) {
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i21.SaveJobPage(),
+        child: const _i22.SaveJobPage(),
       );
     },
     SignInRoute.name: (routeData) {
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i22.SignInPage(),
+        child: const _i23.SignInPage(),
       );
     },
     SignUpRoute.name: (routeData) {
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i23.SignUpPage(),
+        child: const _i24.SignUpPage(),
       );
     },
     VerifyEmailRoute.name: (routeData) {
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i24.VerifyEmailPage(),
+        child: const _i25.VerifyEmailPage(),
       );
     },
     VerifySuccessRoute.name: (routeData) {
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i25.VerifySuccessPage(),
+        child: const _i26.VerifySuccessPage(),
       );
     },
     ViewJobRoute.name: (routeData) {
       final args = routeData.argsAs<ViewJobRouteArgs>();
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i26.ViewJobPage(
+        child: _i27.ViewJobPage(
           key: args.key,
           postID: args.postID,
         ),
@@ -293,9 +307,9 @@ abstract class $AppRouter extends _i29.RootStackRouter {
     },
     ViewPDFRoute.name: (routeData) {
       final args = routeData.argsAs<ViewPDFRouteArgs>();
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i27.ViewPDFPage(
+        child: _i28.ViewPDFPage(
           key: args.key,
           title: args.title,
           url: args.url,
@@ -304,9 +318,9 @@ abstract class $AppRouter extends _i29.RootStackRouter {
     },
     ViewPostRoute.name: (routeData) {
       final args = routeData.argsAs<ViewPostRouteArgs>();
-      return _i29.AutoRoutePage<dynamic>(
+      return _i30.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i28.ViewPostPage(
+        child: _i29.ViewPostPage(
           key: args.key,
           post: args.post,
           isComment: args.isComment,
@@ -318,8 +332,8 @@ abstract class $AppRouter extends _i29.RootStackRouter {
 
 /// generated route for
 /// [_i1.AboutTab]
-class AboutTab extends _i29.PageRouteInfo<void> {
-  const AboutTab({List<_i29.PageRouteInfo>? children})
+class AboutTab extends _i30.PageRouteInfo<void> {
+  const AboutTab({List<_i30.PageRouteInfo>? children})
       : super(
           AboutTab.name,
           initialChildren: children,
@@ -327,17 +341,17 @@ class AboutTab extends _i29.PageRouteInfo<void> {
 
   static const String name = 'AboutTab';
 
-  static const _i29.PageInfo<void> page = _i29.PageInfo<void>(name);
+  static const _i30.PageInfo<void> page = _i30.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i2.AddAppreciationPage]
 class AddAppreciationRoute
-    extends _i29.PageRouteInfo<AddAppreciationRouteArgs> {
+    extends _i30.PageRouteInfo<AddAppreciationRouteArgs> {
   AddAppreciationRoute({
-    _i30.Key? key,
-    _i31.UpdateAppreciationEntity? appreciation,
-    List<_i29.PageRouteInfo>? children,
+    _i31.Key? key,
+    _i32.UpdateAppreciationEntity? appreciation,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           AddAppreciationRoute.name,
           args: AddAppreciationRouteArgs(
@@ -349,8 +363,8 @@ class AddAppreciationRoute
 
   static const String name = 'AddAppreciationRoute';
 
-  static const _i29.PageInfo<AddAppreciationRouteArgs> page =
-      _i29.PageInfo<AddAppreciationRouteArgs>(name);
+  static const _i30.PageInfo<AddAppreciationRouteArgs> page =
+      _i30.PageInfo<AddAppreciationRouteArgs>(name);
 }
 
 class AddAppreciationRouteArgs {
@@ -359,9 +373,9 @@ class AddAppreciationRouteArgs {
     this.appreciation,
   });
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
-  final _i31.UpdateAppreciationEntity? appreciation;
+  final _i32.UpdateAppreciationEntity? appreciation;
 
   @override
   String toString() {
@@ -371,11 +385,11 @@ class AddAppreciationRouteArgs {
 
 /// generated route for
 /// [_i3.AddEducationPage]
-class AddEducationRoute extends _i29.PageRouteInfo<AddEducationRouteArgs> {
+class AddEducationRoute extends _i30.PageRouteInfo<AddEducationRouteArgs> {
   AddEducationRoute({
-    _i30.Key? key,
-    _i32.UpdateEducationEntity? education,
-    List<_i29.PageRouteInfo>? children,
+    _i31.Key? key,
+    _i33.UpdateEducationEntity? education,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           AddEducationRoute.name,
           args: AddEducationRouteArgs(
@@ -387,8 +401,8 @@ class AddEducationRoute extends _i29.PageRouteInfo<AddEducationRouteArgs> {
 
   static const String name = 'AddEducationRoute';
 
-  static const _i29.PageInfo<AddEducationRouteArgs> page =
-      _i29.PageInfo<AddEducationRouteArgs>(name);
+  static const _i30.PageInfo<AddEducationRouteArgs> page =
+      _i30.PageInfo<AddEducationRouteArgs>(name);
 }
 
 class AddEducationRouteArgs {
@@ -397,9 +411,9 @@ class AddEducationRouteArgs {
     this.education,
   });
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
-  final _i32.UpdateEducationEntity? education;
+  final _i33.UpdateEducationEntity? education;
 
   @override
   String toString() {
@@ -409,11 +423,11 @@ class AddEducationRouteArgs {
 
 /// generated route for
 /// [_i4.AddJobPage]
-class AddJobRoute extends _i29.PageRouteInfo<AddJobRouteArgs> {
+class AddJobRoute extends _i30.PageRouteInfo<AddJobRouteArgs> {
   AddJobRoute({
-    _i30.Key? key,
-    _i33.UpdateJobEntity? job,
-    List<_i29.PageRouteInfo>? children,
+    _i31.Key? key,
+    _i34.UpdateJobEntity? job,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           AddJobRoute.name,
           args: AddJobRouteArgs(
@@ -425,8 +439,8 @@ class AddJobRoute extends _i29.PageRouteInfo<AddJobRouteArgs> {
 
   static const String name = 'AddJobRoute';
 
-  static const _i29.PageInfo<AddJobRouteArgs> page =
-      _i29.PageInfo<AddJobRouteArgs>(name);
+  static const _i30.PageInfo<AddJobRouteArgs> page =
+      _i30.PageInfo<AddJobRouteArgs>(name);
 }
 
 class AddJobRouteArgs {
@@ -435,9 +449,9 @@ class AddJobRouteArgs {
     this.job,
   });
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
-  final _i33.UpdateJobEntity? job;
+  final _i34.UpdateJobEntity? job;
 
   @override
   String toString() {
@@ -447,11 +461,11 @@ class AddJobRouteArgs {
 
 /// generated route for
 /// [_i5.AddPostPage]
-class AddPostRoute extends _i29.PageRouteInfo<AddPostRouteArgs> {
+class AddPostRoute extends _i30.PageRouteInfo<AddPostRouteArgs> {
   AddPostRoute({
-    _i30.Key? key,
-    _i34.UpdatePostEntity? post,
-    List<_i29.PageRouteInfo>? children,
+    _i31.Key? key,
+    _i35.UpdatePostEntity? post,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           AddPostRoute.name,
           args: AddPostRouteArgs(
@@ -463,8 +477,8 @@ class AddPostRoute extends _i29.PageRouteInfo<AddPostRouteArgs> {
 
   static const String name = 'AddPostRoute';
 
-  static const _i29.PageInfo<AddPostRouteArgs> page =
-      _i29.PageInfo<AddPostRouteArgs>(name);
+  static const _i30.PageInfo<AddPostRouteArgs> page =
+      _i30.PageInfo<AddPostRouteArgs>(name);
 }
 
 class AddPostRouteArgs {
@@ -473,9 +487,9 @@ class AddPostRouteArgs {
     this.post,
   });
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
-  final _i34.UpdatePostEntity? post;
+  final _i35.UpdatePostEntity? post;
 
   @override
   String toString() {
@@ -485,8 +499,8 @@ class AddPostRouteArgs {
 
 /// generated route for
 /// [_i6.AddResumePage]
-class AddResumeRoute extends _i29.PageRouteInfo<void> {
-  const AddResumeRoute({List<_i29.PageRouteInfo>? children})
+class AddResumeRoute extends _i30.PageRouteInfo<void> {
+  const AddResumeRoute({List<_i30.PageRouteInfo>? children})
       : super(
           AddResumeRoute.name,
           initialChildren: children,
@@ -494,17 +508,55 @@ class AddResumeRoute extends _i29.PageRouteInfo<void> {
 
   static const String name = 'AddResumeRoute';
 
-  static const _i29.PageInfo<void> page = _i29.PageInfo<void>(name);
+  static const _i30.PageInfo<void> page = _i30.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i7.AddWorkExperiencePage]
+/// [_i7.AddSkillPage]
+class AddSkillRoute extends _i30.PageRouteInfo<AddSkillRouteArgs> {
+  AddSkillRoute({
+    _i31.Key? key,
+    required List<_i36.SkillEntity> listSkill,
+    List<_i30.PageRouteInfo>? children,
+  }) : super(
+          AddSkillRoute.name,
+          args: AddSkillRouteArgs(
+            key: key,
+            listSkill: listSkill,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AddSkillRoute';
+
+  static const _i30.PageInfo<AddSkillRouteArgs> page =
+      _i30.PageInfo<AddSkillRouteArgs>(name);
+}
+
+class AddSkillRouteArgs {
+  const AddSkillRouteArgs({
+    this.key,
+    required this.listSkill,
+  });
+
+  final _i31.Key? key;
+
+  final List<_i36.SkillEntity> listSkill;
+
+  @override
+  String toString() {
+    return 'AddSkillRouteArgs{key: $key, listSkill: $listSkill}';
+  }
+}
+
+/// generated route for
+/// [_i8.AddWorkExperiencePage]
 class AddWorkExperienceRoute
-    extends _i29.PageRouteInfo<AddWorkExperienceRouteArgs> {
+    extends _i30.PageRouteInfo<AddWorkExperienceRouteArgs> {
   AddWorkExperienceRoute({
-    _i30.Key? key,
-    _i35.UpdateWorkExperienceEntity? experience,
-    List<_i29.PageRouteInfo>? children,
+    _i31.Key? key,
+    _i37.UpdateWorkExperienceEntity? experience,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           AddWorkExperienceRoute.name,
           args: AddWorkExperienceRouteArgs(
@@ -516,8 +568,8 @@ class AddWorkExperienceRoute
 
   static const String name = 'AddWorkExperienceRoute';
 
-  static const _i29.PageInfo<AddWorkExperienceRouteArgs> page =
-      _i29.PageInfo<AddWorkExperienceRouteArgs>(name);
+  static const _i30.PageInfo<AddWorkExperienceRouteArgs> page =
+      _i30.PageInfo<AddWorkExperienceRouteArgs>(name);
 }
 
 class AddWorkExperienceRouteArgs {
@@ -526,9 +578,9 @@ class AddWorkExperienceRouteArgs {
     this.experience,
   });
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
-  final _i35.UpdateWorkExperienceEntity? experience;
+  final _i37.UpdateWorkExperienceEntity? experience;
 
   @override
   String toString() {
@@ -537,9 +589,9 @@ class AddWorkExperienceRouteArgs {
 }
 
 /// generated route for
-/// [_i8.ApplicantProfilePage]
-class ApplicantProfileRoute extends _i29.PageRouteInfo<void> {
-  const ApplicantProfileRoute({List<_i29.PageRouteInfo>? children})
+/// [_i9.ApplicantProfilePage]
+class ApplicantProfileRoute extends _i30.PageRouteInfo<void> {
+  const ApplicantProfileRoute({List<_i30.PageRouteInfo>? children})
       : super(
           ApplicantProfileRoute.name,
           initialChildren: children,
@@ -547,16 +599,16 @@ class ApplicantProfileRoute extends _i29.PageRouteInfo<void> {
 
   static const String name = 'ApplicantProfileRoute';
 
-  static const _i29.PageInfo<void> page = _i29.PageInfo<void>(name);
+  static const _i30.PageInfo<void> page = _i30.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i9.ApplyJobPage]
-class ApplyJobRoute extends _i29.PageRouteInfo<ApplyJobRouteArgs> {
+/// [_i10.ApplyJobPage]
+class ApplyJobRoute extends _i30.PageRouteInfo<ApplyJobRouteArgs> {
   ApplyJobRoute({
-    _i30.Key? key,
-    required _i36.JobEntity job,
-    List<_i29.PageRouteInfo>? children,
+    _i31.Key? key,
+    required _i38.JobEntity job,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           ApplyJobRoute.name,
           args: ApplyJobRouteArgs(
@@ -568,8 +620,8 @@ class ApplyJobRoute extends _i29.PageRouteInfo<ApplyJobRouteArgs> {
 
   static const String name = 'ApplyJobRoute';
 
-  static const _i29.PageInfo<ApplyJobRouteArgs> page =
-      _i29.PageInfo<ApplyJobRouteArgs>(name);
+  static const _i30.PageInfo<ApplyJobRouteArgs> page =
+      _i30.PageInfo<ApplyJobRouteArgs>(name);
 }
 
 class ApplyJobRouteArgs {
@@ -578,9 +630,9 @@ class ApplyJobRouteArgs {
     required this.job,
   });
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
-  final _i36.JobEntity job;
+  final _i38.JobEntity job;
 
   @override
   String toString() {
@@ -589,12 +641,12 @@ class ApplyJobRouteArgs {
 }
 
 /// generated route for
-/// [_i10.CheckEmailPage]
-class CheckEmailRoute extends _i29.PageRouteInfo<CheckEmailRouteArgs> {
+/// [_i11.CheckEmailPage]
+class CheckEmailRoute extends _i30.PageRouteInfo<CheckEmailRouteArgs> {
   CheckEmailRoute({
-    _i30.Key? key,
+    _i31.Key? key,
     required String email,
-    List<_i29.PageRouteInfo>? children,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           CheckEmailRoute.name,
           args: CheckEmailRouteArgs(
@@ -606,8 +658,8 @@ class CheckEmailRoute extends _i29.PageRouteInfo<CheckEmailRouteArgs> {
 
   static const String name = 'CheckEmailRoute';
 
-  static const _i29.PageInfo<CheckEmailRouteArgs> page =
-      _i29.PageInfo<CheckEmailRouteArgs>(name);
+  static const _i30.PageInfo<CheckEmailRouteArgs> page =
+      _i30.PageInfo<CheckEmailRouteArgs>(name);
 }
 
 class CheckEmailRouteArgs {
@@ -616,7 +668,7 @@ class CheckEmailRouteArgs {
     required this.email,
   });
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   final String email;
 
@@ -627,9 +679,9 @@ class CheckEmailRouteArgs {
 }
 
 /// generated route for
-/// [_i11.ConnectionPage]
-class ConnectionRoute extends _i29.PageRouteInfo<void> {
-  const ConnectionRoute({List<_i29.PageRouteInfo>? children})
+/// [_i12.ConnectionPage]
+class ConnectionRoute extends _i30.PageRouteInfo<void> {
+  const ConnectionRoute({List<_i30.PageRouteInfo>? children})
       : super(
           ConnectionRoute.name,
           initialChildren: children,
@@ -637,13 +689,13 @@ class ConnectionRoute extends _i29.PageRouteInfo<void> {
 
   static const String name = 'ConnectionRoute';
 
-  static const _i29.PageInfo<void> page = _i29.PageInfo<void>(name);
+  static const _i30.PageInfo<void> page = _i30.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i12.ForgotPasswordPage]
-class ForgotPasswordRoute extends _i29.PageRouteInfo<void> {
-  const ForgotPasswordRoute({List<_i29.PageRouteInfo>? children})
+/// [_i13.ForgotPasswordPage]
+class ForgotPasswordRoute extends _i30.PageRouteInfo<void> {
+  const ForgotPasswordRoute({List<_i30.PageRouteInfo>? children})
       : super(
           ForgotPasswordRoute.name,
           initialChildren: children,
@@ -651,13 +703,13 @@ class ForgotPasswordRoute extends _i29.PageRouteInfo<void> {
 
   static const String name = 'ForgotPasswordRoute';
 
-  static const _i29.PageInfo<void> page = _i29.PageInfo<void>(name);
+  static const _i30.PageInfo<void> page = _i30.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i13.HomePage]
-class HomeRoute extends _i29.PageRouteInfo<void> {
-  const HomeRoute({List<_i29.PageRouteInfo>? children})
+/// [_i14.HomePage]
+class HomeRoute extends _i30.PageRouteInfo<void> {
+  const HomeRoute({List<_i30.PageRouteInfo>? children})
       : super(
           HomeRoute.name,
           initialChildren: children,
@@ -665,18 +717,18 @@ class HomeRoute extends _i29.PageRouteInfo<void> {
 
   static const String name = 'HomeRoute';
 
-  static const _i29.PageInfo<void> page = _i29.PageInfo<void>(name);
+  static const _i30.PageInfo<void> page = _i30.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i14.JobDescriptionPage]
-class JobDescriptionRoute extends _i29.PageRouteInfo<JobDescriptionRouteArgs> {
+/// [_i15.JobDescriptionPage]
+class JobDescriptionRoute extends _i30.PageRouteInfo<JobDescriptionRouteArgs> {
   JobDescriptionRoute({
-    _i30.Key? key,
+    _i31.Key? key,
     required String title,
     required String description,
     required dynamic Function(String) onBack,
-    List<_i29.PageRouteInfo>? children,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           JobDescriptionRoute.name,
           args: JobDescriptionRouteArgs(
@@ -690,8 +742,8 @@ class JobDescriptionRoute extends _i29.PageRouteInfo<JobDescriptionRouteArgs> {
 
   static const String name = 'JobDescriptionRoute';
 
-  static const _i29.PageInfo<JobDescriptionRouteArgs> page =
-      _i29.PageInfo<JobDescriptionRouteArgs>(name);
+  static const _i30.PageInfo<JobDescriptionRouteArgs> page =
+      _i30.PageInfo<JobDescriptionRouteArgs>(name);
 }
 
 class JobDescriptionRouteArgs {
@@ -702,7 +754,7 @@ class JobDescriptionRouteArgs {
     required this.onBack,
   });
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   final String title;
 
@@ -717,12 +769,12 @@ class JobDescriptionRouteArgs {
 }
 
 /// generated route for
-/// [_i15.JobPositionPage]
-class JobPositionRoute extends _i29.PageRouteInfo<JobPositionRouteArgs> {
+/// [_i16.JobPositionPage]
+class JobPositionRoute extends _i30.PageRouteInfo<JobPositionRouteArgs> {
   JobPositionRoute({
-    _i30.Key? key,
+    _i31.Key? key,
     required dynamic Function(String) onBack,
-    List<_i29.PageRouteInfo>? children,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           JobPositionRoute.name,
           args: JobPositionRouteArgs(
@@ -734,8 +786,8 @@ class JobPositionRoute extends _i29.PageRouteInfo<JobPositionRouteArgs> {
 
   static const String name = 'JobPositionRoute';
 
-  static const _i29.PageInfo<JobPositionRouteArgs> page =
-      _i29.PageInfo<JobPositionRouteArgs>(name);
+  static const _i30.PageInfo<JobPositionRouteArgs> page =
+      _i30.PageInfo<JobPositionRouteArgs>(name);
 }
 
 class JobPositionRouteArgs {
@@ -744,7 +796,7 @@ class JobPositionRouteArgs {
     required this.onBack,
   });
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   final dynamic Function(String) onBack;
 
@@ -755,12 +807,12 @@ class JobPositionRouteArgs {
 }
 
 /// generated route for
-/// [_i16.LocationPage]
-class LocationRoute extends _i29.PageRouteInfo<LocationRouteArgs> {
+/// [_i17.LocationPage]
+class LocationRoute extends _i30.PageRouteInfo<LocationRouteArgs> {
   LocationRoute({
-    _i30.Key? key,
+    _i31.Key? key,
     required dynamic Function(int) onBack,
-    List<_i29.PageRouteInfo>? children,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           LocationRoute.name,
           args: LocationRouteArgs(
@@ -772,8 +824,8 @@ class LocationRoute extends _i29.PageRouteInfo<LocationRouteArgs> {
 
   static const String name = 'LocationRoute';
 
-  static const _i29.PageInfo<LocationRouteArgs> page =
-      _i29.PageInfo<LocationRouteArgs>(name);
+  static const _i30.PageInfo<LocationRouteArgs> page =
+      _i30.PageInfo<LocationRouteArgs>(name);
 }
 
 class LocationRouteArgs {
@@ -782,7 +834,7 @@ class LocationRouteArgs {
     required this.onBack,
   });
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   final dynamic Function(int) onBack;
 
@@ -793,9 +845,9 @@ class LocationRouteArgs {
 }
 
 /// generated route for
-/// [_i17.MainPage]
-class MainRoute extends _i29.PageRouteInfo<void> {
-  const MainRoute({List<_i29.PageRouteInfo>? children})
+/// [_i18.MainPage]
+class MainRoute extends _i30.PageRouteInfo<void> {
+  const MainRoute({List<_i30.PageRouteInfo>? children})
       : super(
           MainRoute.name,
           initialChildren: children,
@@ -803,13 +855,13 @@ class MainRoute extends _i29.PageRouteInfo<void> {
 
   static const String name = 'MainRoute';
 
-  static const _i29.PageInfo<void> page = _i29.PageInfo<void>(name);
+  static const _i30.PageInfo<void> page = _i30.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i18.NotificationPage]
-class NotificationRoute extends _i29.PageRouteInfo<void> {
-  const NotificationRoute({List<_i29.PageRouteInfo>? children})
+/// [_i19.NotificationPage]
+class NotificationRoute extends _i30.PageRouteInfo<void> {
+  const NotificationRoute({List<_i30.PageRouteInfo>? children})
       : super(
           NotificationRoute.name,
           initialChildren: children,
@@ -817,13 +869,13 @@ class NotificationRoute extends _i29.PageRouteInfo<void> {
 
   static const String name = 'NotificationRoute';
 
-  static const _i29.PageInfo<void> page = _i29.PageInfo<void>(name);
+  static const _i30.PageInfo<void> page = _i30.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i19.OnBoardingPage]
-class OnBoardingRoute extends _i29.PageRouteInfo<void> {
-  const OnBoardingRoute({List<_i29.PageRouteInfo>? children})
+/// [_i20.OnBoardingPage]
+class OnBoardingRoute extends _i30.PageRouteInfo<void> {
+  const OnBoardingRoute({List<_i30.PageRouteInfo>? children})
       : super(
           OnBoardingRoute.name,
           initialChildren: children,
@@ -831,13 +883,13 @@ class OnBoardingRoute extends _i29.PageRouteInfo<void> {
 
   static const String name = 'OnBoardingRoute';
 
-  static const _i29.PageInfo<void> page = _i29.PageInfo<void>(name);
+  static const _i30.PageInfo<void> page = _i30.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i20.PostTab]
-class PostTab extends _i29.PageRouteInfo<void> {
-  const PostTab({List<_i29.PageRouteInfo>? children})
+/// [_i21.PostTab]
+class PostTab extends _i30.PageRouteInfo<void> {
+  const PostTab({List<_i30.PageRouteInfo>? children})
       : super(
           PostTab.name,
           initialChildren: children,
@@ -845,13 +897,13 @@ class PostTab extends _i29.PageRouteInfo<void> {
 
   static const String name = 'PostTab';
 
-  static const _i29.PageInfo<void> page = _i29.PageInfo<void>(name);
+  static const _i30.PageInfo<void> page = _i30.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i21.SaveJobPage]
-class SaveJobRoute extends _i29.PageRouteInfo<void> {
-  const SaveJobRoute({List<_i29.PageRouteInfo>? children})
+/// [_i22.SaveJobPage]
+class SaveJobRoute extends _i30.PageRouteInfo<void> {
+  const SaveJobRoute({List<_i30.PageRouteInfo>? children})
       : super(
           SaveJobRoute.name,
           initialChildren: children,
@@ -859,13 +911,13 @@ class SaveJobRoute extends _i29.PageRouteInfo<void> {
 
   static const String name = 'SaveJobRoute';
 
-  static const _i29.PageInfo<void> page = _i29.PageInfo<void>(name);
+  static const _i30.PageInfo<void> page = _i30.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i22.SignInPage]
-class SignInRoute extends _i29.PageRouteInfo<void> {
-  const SignInRoute({List<_i29.PageRouteInfo>? children})
+/// [_i23.SignInPage]
+class SignInRoute extends _i30.PageRouteInfo<void> {
+  const SignInRoute({List<_i30.PageRouteInfo>? children})
       : super(
           SignInRoute.name,
           initialChildren: children,
@@ -873,13 +925,13 @@ class SignInRoute extends _i29.PageRouteInfo<void> {
 
   static const String name = 'SignInRoute';
 
-  static const _i29.PageInfo<void> page = _i29.PageInfo<void>(name);
+  static const _i30.PageInfo<void> page = _i30.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i23.SignUpPage]
-class SignUpRoute extends _i29.PageRouteInfo<void> {
-  const SignUpRoute({List<_i29.PageRouteInfo>? children})
+/// [_i24.SignUpPage]
+class SignUpRoute extends _i30.PageRouteInfo<void> {
+  const SignUpRoute({List<_i30.PageRouteInfo>? children})
       : super(
           SignUpRoute.name,
           initialChildren: children,
@@ -887,13 +939,13 @@ class SignUpRoute extends _i29.PageRouteInfo<void> {
 
   static const String name = 'SignUpRoute';
 
-  static const _i29.PageInfo<void> page = _i29.PageInfo<void>(name);
+  static const _i30.PageInfo<void> page = _i30.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i24.VerifyEmailPage]
-class VerifyEmailRoute extends _i29.PageRouteInfo<void> {
-  const VerifyEmailRoute({List<_i29.PageRouteInfo>? children})
+/// [_i25.VerifyEmailPage]
+class VerifyEmailRoute extends _i30.PageRouteInfo<void> {
+  const VerifyEmailRoute({List<_i30.PageRouteInfo>? children})
       : super(
           VerifyEmailRoute.name,
           initialChildren: children,
@@ -901,13 +953,13 @@ class VerifyEmailRoute extends _i29.PageRouteInfo<void> {
 
   static const String name = 'VerifyEmailRoute';
 
-  static const _i29.PageInfo<void> page = _i29.PageInfo<void>(name);
+  static const _i30.PageInfo<void> page = _i30.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i25.VerifySuccessPage]
-class VerifySuccessRoute extends _i29.PageRouteInfo<void> {
-  const VerifySuccessRoute({List<_i29.PageRouteInfo>? children})
+/// [_i26.VerifySuccessPage]
+class VerifySuccessRoute extends _i30.PageRouteInfo<void> {
+  const VerifySuccessRoute({List<_i30.PageRouteInfo>? children})
       : super(
           VerifySuccessRoute.name,
           initialChildren: children,
@@ -915,16 +967,16 @@ class VerifySuccessRoute extends _i29.PageRouteInfo<void> {
 
   static const String name = 'VerifySuccessRoute';
 
-  static const _i29.PageInfo<void> page = _i29.PageInfo<void>(name);
+  static const _i30.PageInfo<void> page = _i30.PageInfo<void>(name);
 }
 
 /// generated route for
-/// [_i26.ViewJobPage]
-class ViewJobRoute extends _i29.PageRouteInfo<ViewJobRouteArgs> {
+/// [_i27.ViewJobPage]
+class ViewJobRoute extends _i30.PageRouteInfo<ViewJobRouteArgs> {
   ViewJobRoute({
-    _i30.Key? key,
+    _i31.Key? key,
     required String postID,
-    List<_i29.PageRouteInfo>? children,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           ViewJobRoute.name,
           args: ViewJobRouteArgs(
@@ -936,8 +988,8 @@ class ViewJobRoute extends _i29.PageRouteInfo<ViewJobRouteArgs> {
 
   static const String name = 'ViewJobRoute';
 
-  static const _i29.PageInfo<ViewJobRouteArgs> page =
-      _i29.PageInfo<ViewJobRouteArgs>(name);
+  static const _i30.PageInfo<ViewJobRouteArgs> page =
+      _i30.PageInfo<ViewJobRouteArgs>(name);
 }
 
 class ViewJobRouteArgs {
@@ -946,7 +998,7 @@ class ViewJobRouteArgs {
     required this.postID,
   });
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   final String postID;
 
@@ -957,13 +1009,13 @@ class ViewJobRouteArgs {
 }
 
 /// generated route for
-/// [_i27.ViewPDFPage]
-class ViewPDFRoute extends _i29.PageRouteInfo<ViewPDFRouteArgs> {
+/// [_i28.ViewPDFPage]
+class ViewPDFRoute extends _i30.PageRouteInfo<ViewPDFRouteArgs> {
   ViewPDFRoute({
-    _i30.Key? key,
+    _i31.Key? key,
     String? title,
     required String url,
-    List<_i29.PageRouteInfo>? children,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           ViewPDFRoute.name,
           args: ViewPDFRouteArgs(
@@ -976,8 +1028,8 @@ class ViewPDFRoute extends _i29.PageRouteInfo<ViewPDFRouteArgs> {
 
   static const String name = 'ViewPDFRoute';
 
-  static const _i29.PageInfo<ViewPDFRouteArgs> page =
-      _i29.PageInfo<ViewPDFRouteArgs>(name);
+  static const _i30.PageInfo<ViewPDFRouteArgs> page =
+      _i30.PageInfo<ViewPDFRouteArgs>(name);
 }
 
 class ViewPDFRouteArgs {
@@ -987,7 +1039,7 @@ class ViewPDFRouteArgs {
     required this.url,
   });
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
   final String? title;
 
@@ -1000,13 +1052,13 @@ class ViewPDFRouteArgs {
 }
 
 /// generated route for
-/// [_i28.ViewPostPage]
-class ViewPostRoute extends _i29.PageRouteInfo<ViewPostRouteArgs> {
+/// [_i29.ViewPostPage]
+class ViewPostRoute extends _i30.PageRouteInfo<ViewPostRouteArgs> {
   ViewPostRoute({
-    _i30.Key? key,
-    required _i37.PostEntity post,
+    _i31.Key? key,
+    required _i39.PostEntity post,
     bool isComment = false,
-    List<_i29.PageRouteInfo>? children,
+    List<_i30.PageRouteInfo>? children,
   }) : super(
           ViewPostRoute.name,
           args: ViewPostRouteArgs(
@@ -1019,8 +1071,8 @@ class ViewPostRoute extends _i29.PageRouteInfo<ViewPostRouteArgs> {
 
   static const String name = 'ViewPostRoute';
 
-  static const _i29.PageInfo<ViewPostRouteArgs> page =
-      _i29.PageInfo<ViewPostRouteArgs>(name);
+  static const _i30.PageInfo<ViewPostRouteArgs> page =
+      _i30.PageInfo<ViewPostRouteArgs>(name);
 }
 
 class ViewPostRouteArgs {
@@ -1030,9 +1082,9 @@ class ViewPostRouteArgs {
     this.isComment = false,
   });
 
-  final _i30.Key? key;
+  final _i31.Key? key;
 
-  final _i37.PostEntity post;
+  final _i39.PostEntity post;
 
   final bool isComment;
 

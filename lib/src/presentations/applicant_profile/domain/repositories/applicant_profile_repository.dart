@@ -1,4 +1,6 @@
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/data/entities/user_entity.dart';
+import 'package:jobspot/src/presentations/add_skill/domain/entities/skill_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/education_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/appreciation_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/resume_entity.dart';
@@ -15,6 +17,10 @@ abstract class ApplicantProfileRepository {
   Stream<DataState<List<AppreciationEntity>>> getAppreciation();
 
   Stream<DataState<List<ResumeEntity>>> getResume();
+
+  Stream<DataState<UserEntity>> getUserInfo();
+
+  Future<DataState<List<SkillEntity>>> getSkill(List<String> listSkill);
 
   Future<DataState<bool>> deletePost(PostEntity post);
 }
