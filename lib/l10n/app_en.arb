@@ -321,5 +321,30 @@
     "add_language_page_level_content": "Proficiency level : 0 - Poor, 10 - Very good",
 
     "view_applicant_profile_page_no_data": "No data",
-    "view_applicant_profile_page_no_description": "No description available"
+    "view_applicant_profile_page_no_description": "No description available",
+
+    "setting_page_setting": "Settings",
+    "setting_page_language": "Language",
+    "setting_page_log_out": "Log out",
+    "setting_page_log_out_content": "Are you sure you want to leave",
+    "setting_page_notification": "Notifications",
+    "setting_page_vietnamese": "Tiếng Việt",
+    "setting_page_english": "English",
+    "setting_page_ok": "OK",
+    "setting_page_yes": "YES",
+    "setting_page_cancel": "CANCEL",
+    "setting_page_password": "Password",
+
+    "update_password_page_update": "Update",
+    "update_password_page_update_password": "Update Password",
+    "update_password_page_confirm_password": "Confirm Password",
+    "update_password_page_confirm_not_match": "Confirmation password does not match",
+    "update_password_page_enter_confirm_password": "Please enter the confirmation password",
+    "update_password_page_new_password": "New Password",
+    "update_password_page_enter_password": "Please enter a new password",
+    "update_password_page_old_password": "Old Password",
+    "update_password_page_old_password_incorrect": "The old password is incorrect",
+    "update_password_page_enter_old_password": "Please enter your old password",
+    "update_password_page_min_character_password": "Password must have a minimum of 8 characters",
+    "update_password_page_update_success": "Password changed successfully"
 }

@@ -67,4 +67,6 @@ class ApplicantProfileCoordinator {
 
   static void showViewLanguage(List<LanguageEntity> languages) =>
       rootRouter.push(ViewLanguageRoute(languages: languages));
+
+  static void showSetting() => rootRouter.push(const SettingRoute());
 }

@@ -154,5 +154,15 @@ class AppRouter extends $AppRouter {
                 path: "postViewApplicant", page: ViewApplicantPostTab.page)
           ],
         ),
+        CustomRoute(
+          path: '/setting',
+          page: SettingRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
+        ),
+        CustomRoute(
+          path: '/updatePassword',
+          page: UpdatePasswordRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
+        ),
       ];
 }
