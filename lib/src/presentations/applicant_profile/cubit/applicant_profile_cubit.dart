@@ -21,6 +21,7 @@ import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_skill_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_user_info_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_work_experience_use_case.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/update_about_me_use_case.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 import 'package:jobspot/src/presentations/view_language/domain/entities/language_entity.dart';
 import 'package:jobspot/src/presentations/view_language/domain/use_cases/get_language_use_case.dart';
@@ -49,6 +50,7 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
   final GetSkillUseCase _getSkillUseCase;
   final GetUserInfoUseCase _getUserInfoUseCase;
   final GetLanguagesUseCase _getLanguagesUseCase;
+  final UpdateAboutMeUseCase _updateAboutMeUseCase;
 
   ApplicantProfileCubit(
     this._deletePostUseCase,
@@ -61,6 +63,7 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
     this._getSkillUseCase,
     this._getUserInfoUseCase,
     this._getLanguagesUseCase,
+    this._updateAboutMeUseCase,
   ) : super(ApplicantProfileState.ds()) {
     _init();
   }
@@ -126,7 +129,7 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
     _userInfoSubscription = _getUserInfoUseCase.call().listen((event) {
       if (event is DataSuccess) {
         _getListSkill(event.data!.skill ?? []);
-        emit(state.copyWith(user: event.data));
+        emit(state.copyWith(user: event.data, about: event.data?.description));
       }
     });
   }
@@ -168,6 +171,17 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
       emit(state.copyWith(listSkill: response.data));
     } else {
       emit(state.copyWith(error: response.error));
+    }
+  }
+
+  Future updateAboutMe(String description) async {
+    emit(state.copyWith(about: description));
+    final response = await _updateAboutMeUseCase.call(params: description);
+    if (response is DataFailed) {
+      emit(state.copyWith(
+        about: PrefsUtils.getUserInfo()?.description,
+        error: response.error,
+      ));
     }
   }
 

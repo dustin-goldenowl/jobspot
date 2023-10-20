@@ -10,6 +10,7 @@ class ApplicantProfileState extends Equatable {
     this.listSkill,
     this.listLanguage,
     this.error,
+    required this.about,
     required this.user,
     required this.isTop,
     required this.isLoading,
@@ -25,6 +26,7 @@ class ApplicantProfileState extends Equatable {
   final List<LanguageEntity>? listLanguage;
   final bool isTop;
   final bool isLoading;
+  final String about;
   final String? error;
 
   ApplicantProfileState copyWith({
@@ -37,6 +39,7 @@ class ApplicantProfileState extends Equatable {
     UserEntity? user,
     List<LanguageEntity>? listLanguage,
     String? error,
+    String? about,
     bool? isTop,
     bool isLoading = false,
   }) {
@@ -50,14 +53,17 @@ class ApplicantProfileState extends Equatable {
       listSkill: listSkill ?? this.listSkill,
       listLanguage: listLanguage ?? this.listLanguage,
       error: error,
+      about: about ?? this.about,
       isTop: isTop ?? this.isTop,
       isLoading: isLoading,
     );
   }
 
   factory ApplicantProfileState.ds() {
+    UserEntity user = PrefsUtils.getUserInfo()!.toUserEntity();
     return ApplicantProfileState(
-      user: PrefsUtils.getUserInfo()!.toUserEntity(),
+      user: user,
+      about: user.description,
       isTop: false,
       isLoading: false,
     );
@@ -76,5 +82,6 @@ class ApplicantProfileState extends Equatable {
         listSkill,
         error,
         listLanguage,
+        about,
       ];
 }

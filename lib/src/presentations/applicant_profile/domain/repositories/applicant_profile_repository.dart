@@ -23,4 +23,6 @@ abstract class ApplicantProfileRepository {
   Future<DataState<List<SkillEntity>>> getSkill(List<String> listSkill);
 
   Future<DataState<bool>> deletePost(PostEntity post);
+
+  Future<DataState<bool>> updateAboutMe(String description);
 }

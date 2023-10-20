@@ -6,27 +6,11 @@ import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/extension/int_extension.dart';
 import 'package:jobspot/src/core/utils/date_time_utils.dart';
-import 'package:jobspot/src/core/utils/prefs_utils.dart';
-import 'package:jobspot/src/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/cubit/applicant_profile_cubit.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/resume_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/router/applicant_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/applicant_profile/widgets/profile_item.dart';
 import 'package:jobspot/src/presentations/applicant_profile/widgets/profile_subitem.dart';
-
-//TODO hard code to test
-List<String> skill = [
-  "Leadership",
-  "Teamwork",
-  "Visioner",
-  "Target oriented",
-  "Consistent",
-  "Leadership",
-  "Teamwork",
-  "Visioner",
-  "Target oriented",
-  "Consistent",
-];
 
 @RoutePage()
 class AboutTab extends StatelessWidget {
@@ -257,25 +241,29 @@ class AboutTab extends StatelessWidget {
   }
 
   Widget _buildAboutMe() {
-    UserModel? user = PrefsUtils.getUserInfo();
-    return ProfileItem(
-      icon: AppImages.circleProfile,
-      title: AppLocal.text.applicant_profile_page_about_me,
-      onAdd: () => ApplicantProfileCoordinator.showAddAboutMe(
-        title: AppLocal.text.applicant_profile_page_about_me,
-        description: "",
-        onBack: (value) {},
-      ),
-      onEdit: user == null || user.description.isEmpty
-          ? null
-          : () => ApplicantProfileCoordinator.showAddAboutMe(
-                title: AppLocal.text.applicant_profile_page_about_me,
-                description: user.description,
-                onBack: (value) {},
-              ),
-      child: user == null || user.description.isEmpty
-          ? null
-          : Text(user.description, style: AppStyles.normalTextMulledWine),
+    return BlocBuilder<ApplicantProfileCubit, ApplicantProfileState>(
+      buildWhen: (previous, current) => previous.about != current.about,
+      builder: (context, state) {
+        return ProfileItem(
+          icon: AppImages.circleProfile,
+          title: AppLocal.text.applicant_profile_page_about_me,
+          onAdd: () => ApplicantProfileCoordinator.showAddAboutMe(
+            title: AppLocal.text.applicant_profile_page_about_me,
+            description: "",
+            onBack: context.read<ApplicantProfileCubit>().updateAboutMe,
+          ),
+          onEdit: state.about.isEmpty
+              ? null
+              : () => ApplicantProfileCoordinator.showAddAboutMe(
+                    title: AppLocal.text.applicant_profile_page_about_me,
+                    description: state.about,
+                    onBack: context.read<ApplicantProfileCubit>().updateAboutMe,
+                  ),
+          child: state.about.isEmpty
+              ? null
+              : Text(state.about, style: AppStyles.normalTextMulledWine),
+        );
+      },
     );
   }
 

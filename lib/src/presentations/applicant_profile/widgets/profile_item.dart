@@ -46,6 +46,7 @@ class ProfileItem extends StatelessWidget {
           ),
           if (child != null)
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
                 Divider(color: AppColors.platinum, thickness: 0.5),
