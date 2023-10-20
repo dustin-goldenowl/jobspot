@@ -1,0 +1,25 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon Skill">
+<circle id="Ellipse 69" cx="12" cy="4" r="1.25" stroke="#FF9228" stroke-width="1.5"/>
+<circle id="Ellipse 71" cx="20" cy="12" r="1.25" transform="rotate(90 20 12)" stroke="#FF9228" stroke-width="1.5"/>
+<circle id="Ellipse 73" cx="17.6569" cy="17.6572" r="1.25" transform="rotate(135 17.6569 17.6572)" stroke="#FF9228" stroke-width="1.5"/>
+<circle id="Ellipse 75" cx="6.34338" cy="17.6569" r="1.25" transform="rotate(-135 6.34338 17.6569)" stroke="#FF9228" stroke-width="1.5"/>
+<path id="Vector 77" d="M12 5.5V7.5" stroke="#FF9228" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector 79" d="M18.5 12L16.5 12" stroke="#FF9228" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector 81" d="M16.5962 16.5967L15.182 15.1825" stroke="#FF9228" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector 83" d="M7.40393 16.5957L8.81814 15.1815" stroke="#FF9228" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector 78" d="M12 17V18" stroke="#FF9228" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector 80" d="M7 12L6 12" stroke="#FF9228" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector 82" d="M8.46448 8.46484L7.75737 7.75774" stroke="#FF9228" stroke-width="1.5" stroke-linecap="round"/>
+<path id="Vector 84" d="M15.5358 8.46387L16.2429 7.75676" stroke="#FF9228" stroke-width="1.5" stroke-linecap="round"/>
+<circle id="Ellipse 70" cx="12" cy="20" r="1.25" stroke="#FF9228" stroke-width="1.5"/>
+<circle id="Ellipse 72" cx="4" cy="12" r="1.25" transform="rotate(90 4 12)" stroke="#FF9228" stroke-width="1.5"/>
+<circle id="Ellipse 74" cx="6.34314" cy="6.34277" r="1.25" transform="rotate(135 6.34314 6.34277)" stroke="#FF9228" stroke-width="1.5"/>
+<circle id="Ellipse 76" cx="17.6569" cy="6.34345" r="1.25" transform="rotate(-135 17.6569 6.34345)" stroke="#FF9228" stroke-width="1.5"/>
+<g id="Group 31">
+<circle id="Ellipse 65" cx="12" cy="12" r="4.25" stroke="#FF9228" stroke-width="1.5"/>
+<circle id="Ellipse 66" cx="12" cy="10.916" r="1.25" stroke="#FF9228" stroke-width="1.5"/>
+<path id="Ellipse 67" d="M14.5872 15.238C14.024 14.4117 13.0753 13.8691 11.9999 13.8691C10.9245 13.8691 9.97578 14.4117 9.4126 15.238" stroke="#FF9228" stroke-width="1.5"/>
+</g>
+</g>
+</svg>

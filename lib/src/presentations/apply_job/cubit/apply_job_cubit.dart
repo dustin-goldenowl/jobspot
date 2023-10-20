@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
-import 'package:jobspot/src/presentations/apply_job/domain/entities/cv_entity.dart';
+import 'package:jobspot/src/presentations/apply_job/domain/entities/resume_entity.dart';
 import 'package:jobspot/src/presentations/apply_job/domain/use_cases/apply_job_use_case.dart';
 
 part 'apply_job_state.dart';
@@ -40,7 +40,7 @@ class ApplyJobCubit extends Cubit<ApplyJobState> {
   Future applyJob(String jobID) async {
     emit(state.copyWith(file: state.file, time: state.time, isLoading: true));
     final response = await _useCase.call(
-        params: CVEntity(
+        params: ResumeEntity(
       fileName: state.file!.name,
       path: state.file!.path!,
       description: controller.text,

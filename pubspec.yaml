@@ -63,7 +63,10 @@ dependencies:
   easy_image_viewer: ^1.2.1
   shimmer: ^3.0.0
   dotted_border: ^2.1.0
-  file_picker: ^5.5.0
+  file_picker: ^6.0.0
+  month_picker_dialog: ^2.0.2
+  flutter_cached_pdfview: ^0.4.2
+  dio: ^5.3.3
 
 dev_dependencies:
   flutter_test:
@@ -71,7 +74,7 @@ dev_dependencies:
 
   auto_route_generator: ^7.3.2
   build_runner: 2.4.6
-  injectable_generator: ^2.4.0
+  injectable_generator: ^2.4.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

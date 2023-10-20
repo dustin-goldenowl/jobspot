@@ -27,4 +27,13 @@ class AppImages {
   static String upload = "assets/images/upload.svg";
   static String pdf = "assets/images/pdf.svg";
   static String applySuccess = "assets/images/apply_success.svg";
+  static String setting = "assets/images/setting.svg";
+  static String profileBackground = "assets/images/profile_background.svg";
+  static String language = "assets/images/language.svg";
+  static String circleProfile = "assets/images/circle_profile.svg";
+  static String bag = "assets/images/bag.svg";
+  static String graduationCap = "assets/images/graduation_cap.svg";
+  static String skill = "assets/images/skill.svg";
+  static String archive = "assets/images/archive.svg";
+  static String resume = "assets/images/resume.svg";
 }

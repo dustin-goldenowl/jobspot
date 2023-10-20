@@ -52,21 +52,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     this._applicantUseCase,
     this._businessUseCase,
     this._googleUseCase,
-  ) : super(SignUpState(
-          isMale: true,
-          isHideApplicant: true,
-          isHideRepassApplicant: true,
-          isHideBusiness: true,
-          isHideRepassBusiness: true,
-          isLoading: false,
-          founding: DateTime.now(),
-          currentTab: 0,
-          birthday: DateTime(
-            DateTime.now().year - 18,
-            DateTime.now().month,
-            DateTime.now().day,
-          ),
-        ));
+  ) : super(SignUpState.ds());
 
   void changeTab(int value) => emit(state.copyWith(currentTab: value));
 

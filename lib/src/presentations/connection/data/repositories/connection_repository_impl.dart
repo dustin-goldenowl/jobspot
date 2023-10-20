@@ -36,16 +36,14 @@ class ConnectionRepositoryImpl extends ConnectionRepository {
         ]);
         final listUser = data.first as List<UserModel>;
         final documents = data[1] as AggregateQuerySnapshot;
-        int index = 1;
-        posts = posts.map(
-          (e) {
-            index++;
-            return e.copyWith(
-              user: listUser.firstWhere((element) => element.id == e.owner),
-              numberOfComments: (data[index] as AggregateQuerySnapshot).count,
-            );
-          },
-        ).toList();
+        int index = 2;
+        posts = posts
+            .map((e) => e.copyWith(
+                  user: listUser.firstWhere((element) => element.id == e.owner),
+                  numberOfComments:
+                      (data[index++] as AggregateQuerySnapshot).count,
+                ))
+            .toList();
         return DataSuccess(FetchPostData(
           isMore: limit < documents.count,
           posts: posts.map((e) => e.toPostEntity()).toList(),

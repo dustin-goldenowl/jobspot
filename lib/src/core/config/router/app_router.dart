@@ -89,5 +89,59 @@ class AppRouter extends $AppRouter {
           page: ViewPostRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
+        CustomRoute(
+          path: '/applicantProfile',
+          page: ApplicantProfileRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
+          children: [
+            AutoRoute(path: "about", page: AboutTab.page),
+            AutoRoute(path: "post", page: PostTab.page)
+          ],
+        ),
+        CustomRoute(
+          path: '/addExperience',
+          page: AddWorkExperienceRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+        ),
+        CustomRoute(
+          path: '/addEducation',
+          page: AddEducationRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+        ),
+        CustomRoute(
+          path: '/addAppreciation',
+          page: AddAppreciationRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+        ),
+        CustomRoute(
+          path: '/addResume',
+          page: AddResumeRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+        ),
+        CustomRoute(
+          path: '/viewPDF',
+          page: ViewPDFRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+        ),
+        CustomRoute(
+          path: '/addSkill',
+          page: AddSkillRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+        ),
+        CustomRoute(
+          path: '/addLanguage',
+          page: AddLanguageRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+        ),
+        CustomRoute(
+          path: '/viewLanguage',
+          page: ViewLanguageRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+        ),
+        CustomRoute(
+          path: '/searchLanguage',
+          page: SearchLanguageRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+        ),
       ];
 }

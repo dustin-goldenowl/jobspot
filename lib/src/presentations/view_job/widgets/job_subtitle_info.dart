@@ -20,7 +20,7 @@ class JobSubtitleInfo extends StatelessWidget {
         const SizedBox(height: 5),
         Text(content, style: TextStyle(color: AppColors.mulledWine)),
         const SizedBox(height: 12),
-        const Divider(color: Color(0xFFDEE1E7), thickness: 0.5)
+        Divider(color: AppColors.platinum, thickness: 0.5)
       ],
     );
   }

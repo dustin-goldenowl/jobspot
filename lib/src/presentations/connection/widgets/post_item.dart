@@ -18,6 +18,7 @@ class PostItem extends StatelessWidget {
     required this.onShare,
     required this.onViewFullPost,
     required this.onViewProfile,
+    this.moreWidget,
   });
 
   final PostEntity post;
@@ -26,6 +27,7 @@ class PostItem extends StatelessWidget {
   final VoidCallback onShare;
   final VoidCallback onViewFullPost;
   final VoidCallback onViewProfile;
+  final Widget? moreWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -84,26 +86,31 @@ class PostItem extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              GestureDetector(
-                onTap: onViewProfile,
-                child: Text(post.user.name, style: AppStyles.boldTextHaiti),
-              ),
-              const SizedBox(height: 5),
-              Row(
-                children: [
-                  SvgPicture.asset(AppImages.clock, height: 16),
-                  const SizedBox(width: 8),
-                  Text(
-                    timeago.format(post.createAt),
-                    style: TextStyle(color: AppColors.spunPearl, fontSize: 12),
-                  )
-                ],
-              )
-            ],
-          )
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: onViewProfile,
+                  child: Text(post.user.name, style: AppStyles.boldTextHaiti),
+                ),
+                const SizedBox(height: 5),
+                Row(
+                  children: [
+                    SvgPicture.asset(AppImages.clock, height: 16),
+                    const SizedBox(width: 8),
+                    Text(
+                      timeago.format(post.createAt),
+                      style:
+                          TextStyle(color: AppColors.spunPearl, fontSize: 12),
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ),
+          if (moreWidget != null) const SizedBox(width: 10),
+          if (moreWidget != null) moreWidget!,
         ],
       ),
     );

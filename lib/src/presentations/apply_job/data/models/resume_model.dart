@@ -1,14 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:jobspot/src/presentations/apply_job/domain/entities/cv_entity.dart';
+import 'package:jobspot/src/presentations/apply_job/domain/entities/resume_entity.dart';
 
-class CVModel {
+class ResumeModel {
   String fileName;
   String description;
   String jobID;
   int size;
   String? file;
 
-  CVModel({
+  ResumeModel({
     required this.description,
     required this.jobID,
     required this.fileName,
@@ -16,8 +16,8 @@ class CVModel {
     this.file,
   });
 
-  factory CVModel.fromCVEntity(CVEntity entity) {
-    return CVModel(
+  factory ResumeModel.fromCVEntity(ResumeEntity entity) {
+    return ResumeModel(
       description: entity.description,
       jobID: entity.jobID,
       fileName: entity.fileName,

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jobspot/src/data/entities/user_entity.dart';
 
 class UserModel {
   //general
@@ -16,11 +17,6 @@ class UserModel {
 
   //applicant
   bool? gender;
-  List<String>? resume;
-  List<String>? education;
-  List<String>? workExperience;
-  List<String>? appreciation;
-  List<String>? language;
   List<String>? skill;
   List<String>? saveJob;
 
@@ -43,13 +39,8 @@ class UserModel {
     required this.following,
     required this.updateAt,
     required this.createAt,
-    this.resume,
     required this.role,
-    this.education,
     this.gender,
-    this.workExperience,
-    this.appreciation,
-    this.language,
     this.skill,
     this.saveJob,
     this.employeeSize,
@@ -62,27 +53,12 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         birthday: DateTime.parse(json["birthday"]),
-        resume: json["resume"] != null
-            ? List<String>.from(json["resume"].map((x) => x))
-            : null,
         address: json["address"],
         role: json["role"],
-        education: json["education"] != null
-            ? List<String>.from(json["education"].map((x) => x))
-            : null,
         follower: List<String>.from(json["follower"].map((x) => x)),
         gender: json["gender"],
-        workExperience: json["workExperience"] != null
-            ? List<String>.from(json["workExperience"].map((x) => x))
-            : null,
-        appreciation: json["appreciation"] != null
-            ? List<String>.from(json["appreciation"].map((x) => x))
-            : null,
         description: json["description"],
         updateAt: DateTime.parse(json["updateAt"]),
-        language: json["language"] != null
-            ? List<String>.from(json["language"].map((x) => x))
-            : null,
         avatar: json["avatar"],
         createAt: DateTime.parse(json["createAt"]),
         following: List<String>.from(json["following"].map((x) => x)),
@@ -106,27 +82,12 @@ class UserModel {
 
   factory UserModel.fromJsonFirebase(Map<String, dynamic> json) => UserModel(
         birthday: (json["birthday"] as Timestamp).toDate(),
-        resume: json["resume"] != null
-            ? List<String>.from(json["resume"].map((x) => x))
-            : null,
         address: json["address"],
         role: json["role"],
-        education: json["education"] != null
-            ? List<String>.from(json["education"].map((x) => x))
-            : null,
         follower: List<String>.from(json["follower"].map((x) => x)),
         gender: json["gender"],
-        workExperience: json["workExperience"] != null
-            ? List<String>.from(json["workExperience"].map((x) => x))
-            : null,
-        appreciation: json["appreciation"] != null
-            ? List<String>.from(json["appreciation"].map((x) => x))
-            : null,
         description: json["description"],
         updateAt: (json["updateAt"] as Timestamp).toDate(),
-        language: json["language"] != null
-            ? List<String>.from(json["language"].map((x) => x))
-            : null,
         avatar: json["avatar"],
         createAt: (json["createAt"] as Timestamp).toDate(),
         following: List<String>.from(json["following"].map((x) => x)),
@@ -171,17 +132,12 @@ class UserModel {
           }
         : {
             "birthday": birthday.toIso8601String(),
-            "resume": resume,
             "address": address,
             "role": role,
-            "education": education,
             "follower": follower,
             "gender": gender,
-            "workExperience": workExperience,
-            "appreciation": appreciation,
             "description": description,
             "updateAt": updateAt.toIso8601String(),
-            "language": language,
             "avatar": avatar,
             "createAt": createAt.toIso8601String(),
             "following": following,
@@ -190,5 +146,30 @@ class UserModel {
             "email": email,
             "saveJob": saveJob,
           };
+  }
+
+  UserEntity toUserEntity() {
+    return UserEntity(
+      name: name,
+      email: email,
+      avatar: avatar,
+      address: address,
+      birthday: birthday,
+      description: description,
+      follower: follower,
+      following: following,
+      updateAt: updateAt,
+      createAt: createAt,
+      role: role,
+      employeeSize: employeeSize,
+      gender: gender,
+      images: images,
+      industry: industry,
+      isAccept: isAccept,
+      saveJob: saveJob,
+      skill: skill,
+      specialization: specialization,
+      website: website,
+    );
   }
 }
