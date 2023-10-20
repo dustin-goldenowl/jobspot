@@ -65,7 +65,6 @@ class ApplicantProfileCoordinator {
   static void showAddSkill(List<SkillEntity> listSkill) =>
       rootRouter.push(AddSkillRoute(listSkill: listSkill));
 
-  static void showViewLanguage() => rootRouter.push(const ViewLanguageRoute());
   static void showViewLanguage(List<LanguageEntity> languages) =>
       rootRouter.push(ViewLanguageRoute(languages: languages));
 }
