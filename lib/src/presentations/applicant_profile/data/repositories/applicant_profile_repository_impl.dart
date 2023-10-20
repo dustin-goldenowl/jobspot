@@ -197,4 +197,17 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
       return DataFailed(e.toString());
     }
   }
+
+  @override
+  Future<DataState<bool>> updateAboutMe(String description) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .update({"description": description});
+      return DataSuccess(true);
+    } catch (e) {
+      return DataFailed(e.toString());
+    }
+  }
 }
