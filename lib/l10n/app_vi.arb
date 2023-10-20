@@ -296,5 +296,9 @@
     "add_resume_page_add_resume": "Thêm sơ yếu lý lịch",
     "add_resume_page_save": "Lưu",
     "add_resume_page_resume_validate": "Vui lòng chọn một sơ yếu lý lịch",
-    "add_resume_page_add_max_size_resume": "Tải lên tệp ở định dạng PDF tối đa 3 MB. Chỉ cần tải nó lên một lần và bạn có thể sử dụng nó trong ứng dụng tiếp theo của mình."
+    "add_resume_page_add_max_size_resume": "Tải lên tệp ở định dạng PDF tối đa 3 MB. Chỉ cần tải nó lên một lần và bạn có thể sử dụng nó trong ứng dụng tiếp theo của mình.",
+
+    "add_skill_page_add_skill": "Thêm kỹ năng",
+    "add_skill_page_save": "Lưu",
+    "add_skill_page_search_skill": "Tìm kiếm kỹ năng"
 }

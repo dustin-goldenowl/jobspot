@@ -156,28 +156,26 @@ class AboutTab extends StatelessWidget {
   }
 
   Widget _buildListSkill() {
-    return ProfileItem(
-      icon: AppImages.skill,
-      title: AppLocal.text.applicant_profile_page_skill,
-      onAdd: () {},
-      onEdit: () {},
-      child: Column(
-        children: [
-          Wrap(
-            runSpacing: 10,
-            spacing: 10,
-            children: List.generate(
-              skill.length,
-              (index) => _buildItem(skill[index]),
-            ),
-          ),
-          const SizedBox(height: 15),
-          TextButton(
-            onPressed: () {},
-            child: Text(AppLocal.text.applicant_profile_page_see_more),
-          ),
-        ],
-      ),
+    return BlocBuilder<ApplicantProfileCubit, ApplicantProfileState>(
+      buildWhen: (previous, current) => previous.listSkill != current.listSkill,
+      builder: (context, state) {
+        return ProfileItem(
+          icon: AppImages.skill,
+          title: AppLocal.text.applicant_profile_page_skill,
+          onAdd: () =>
+              ApplicantProfileCoordinator.showAddSkill(state.listSkill ?? []),
+          onEdit: () =>
+              ApplicantProfileCoordinator.showAddSkill(state.listSkill ?? []),
+          child: state.listSkill != null && state.listSkill!.isNotEmpty
+              ? Wrap(
+                  runSpacing: 10,
+                  spacing: 10,
+                  children:
+                      state.listSkill!.map((e) => _buildItem(e.title)).toList(),
+                )
+              : null,
+        );
+      },
     );
   }
 

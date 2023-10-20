@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/utils/prefs_utils.dart';
+import 'package:jobspot/src/data/entities/user_entity.dart';
 import 'package:jobspot/src/presentations/add_resume/domain/use_cases/delete_resume_use_case.dart';
+import 'package:jobspot/src/presentations/add_skill/domain/entities/skill_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/education_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/appreciation_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/resume_entity.dart';
@@ -15,6 +18,8 @@ import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_appreciation_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_list_post_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_resume_use_case.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_skill_use_case.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_user_info_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_work_experience_use_case.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 
@@ -29,6 +34,7 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
   StreamSubscription? _educationSubscription;
   StreamSubscription? _appreciationSubscription;
   StreamSubscription? _resumeSubscription;
+  StreamSubscription? _userInfoSubscription;
 
   final DeletePostUseCase _deletePostUseCase;
   final DeleteResumeUseCase _deleteResumeUseCase;
@@ -37,6 +43,8 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
   final GetEducationUseCase _getEducationUseCase;
   final GetAppreciationUseCase _getAppreciationUseCase;
   final GetResumeUseCase _getResumeUseCase;
+  final GetSkillUseCase _getSkillUseCase;
+  final GetUserInfoUseCase _getUserInfoUseCase;
 
   ApplicantProfileCubit(
     this._deletePostUseCase,
@@ -46,11 +54,15 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
     this._getEducationUseCase,
     this._getAppreciationUseCase,
     this._getResumeUseCase,
-  ) : super(const ApplicantProfileState(isTop: false, isLoading: false)) {
+    this._getSkillUseCase,
+    this._getUserInfoUseCase,
+  ) : super(ApplicantProfileState.ds()) {
+    getListSkill(state.user.skill ?? []);
     _init();
   }
 
   void _init() {
+    _getUserInfo();
     _getListPost();
     _getWorkExperience();
     _getEducation();
@@ -103,6 +115,16 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
     });
   }
 
+  void _getUserInfo() {
+    if (_userInfoSubscription != null) _userInfoSubscription!.cancel();
+    _userInfoSubscription = _getUserInfoUseCase.call().listen((event) {
+      if (event is DataSuccess) {
+        getListSkill(event.data!.skill ?? []);
+        emit(state.copyWith(user: event.data));
+      }
+    });
+  }
+
   Future deletePost(PostEntity post) async {
     emit(state.copyWith(isLoading: true));
     final response = await _deletePostUseCase.call(params: post);
@@ -125,10 +147,20 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
     }
   }
 
+  Future getListSkill(List<String> skills) async {
+    final response = await _getSkillUseCase.call(params: skills);
+    if (response is DataSuccess) {
+      emit(state.copyWith(listSkill: response.data));
+    } else {
+      emit(state.copyWith(error: response.error));
+    }
+  }
+
   void changeIsTop(bool isTop) => emit(state.copyWith(isTop: isTop));
 
   @override
   Future<void> close() {
+    if (_userInfoSubscription != null) _userInfoSubscription!.cancel();
     if (_postSubscription != null) _postSubscription!.cancel();
     if (_experienceSubscription != null) _experienceSubscription!.cancel();
     if (_educationSubscription != null) _educationSubscription!.cancel();

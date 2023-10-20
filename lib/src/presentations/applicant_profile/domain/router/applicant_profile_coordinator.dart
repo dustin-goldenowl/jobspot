@@ -1,6 +1,7 @@
 import 'package:jobspot/injection.dart';
 import 'package:jobspot/src/core/config/router/app_router.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
+import 'package:jobspot/src/presentations/add_skill/domain/entities/skill_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/education_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/work_experience_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/education_entity.dart';
@@ -59,4 +60,7 @@ class ApplicantProfileCoordinator {
 
   static void viewPDF({required String url, String? title}) =>
       rootRouter.push(ViewPDFRoute(url: url, title: title));
+
+  static void showAddSkill(List<SkillEntity> listSkill) =>
+      rootRouter.push(AddSkillRoute(listSkill: listSkill));
 }

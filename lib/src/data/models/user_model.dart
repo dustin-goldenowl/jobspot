@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jobspot/src/data/entities/user_entity.dart';
 
 class UserModel {
   //general
@@ -181,5 +182,30 @@ class UserModel {
             "email": email,
             "saveJob": saveJob,
           };
+  }
+
+  UserEntity toUserEntity() {
+    return UserEntity(
+      name: name,
+      email: email,
+      avatar: avatar,
+      address: address,
+      birthday: birthday,
+      description: description,
+      follower: follower,
+      following: following,
+      updateAt: updateAt,
+      createAt: createAt,
+      role: role,
+      employeeSize: employeeSize,
+      gender: gender,
+      images: images,
+      industry: industry,
+      isAccept: isAccept,
+      saveJob: saveJob,
+      skill: skill,
+      specialization: specialization,
+      website: website,
+    );
   }
 }
