@@ -130,28 +130,27 @@ class AboutTab extends StatelessWidget {
   }
 
   Widget _buildListLanguage() {
-    return ProfileItem(
-      icon: AppImages.language,
-      title: AppLocal.text.applicant_profile_page_language,
-      onAdd: () {},
-      onEdit: () {},
-      child: Column(
-        children: [
-          Wrap(
-            runSpacing: 10,
-            spacing: 10,
-            children: List.generate(
-              skill.length,
-              (index) => _buildItem(skill[index]),
-            ),
-          ),
-          const SizedBox(height: 15),
-          TextButton(
-            onPressed: () {},
-            child: Text(AppLocal.text.applicant_profile_page_see_more),
-          ),
-        ],
-      ),
+    return BlocBuilder<ApplicantProfileCubit, ApplicantProfileState>(
+      buildWhen: (previous, current) =>
+          previous.listLanguage != current.listLanguage,
+      builder: (context, state) {
+        return ProfileItem(
+          icon: AppImages.language,
+          title: AppLocal.text.applicant_profile_page_language,
+          onAdd: () => ApplicantProfileCoordinator.showViewLanguage(
+              state.listLanguage ?? []),
+          onEdit: () => ApplicantProfileCoordinator.showViewLanguage(
+              state.listLanguage ?? []),
+          child: state.listLanguage != null && state.listLanguage!.isNotEmpty
+              ? Wrap(
+                  runSpacing: 10,
+                  spacing: 10,
+                  children: state.listLanguage!
+                      .map((e) => _buildItem(e.name))
+                      .toList())
+              : null,
+        );
+      },
     );
   }
 

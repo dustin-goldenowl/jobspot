@@ -128,5 +128,20 @@ class AppRouter extends $AppRouter {
           page: AddSkillRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
+        CustomRoute(
+          path: '/addLanguage',
+          page: AddLanguageRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+        ),
+        CustomRoute(
+          path: '/viewLanguage',
+          page: ViewLanguageRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+        ),
+        CustomRoute(
+          path: '/searchLanguage',
+          page: SearchLanguageRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+        ),
       ];
 }
