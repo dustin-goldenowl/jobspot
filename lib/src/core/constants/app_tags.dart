@@ -9,4 +9,5 @@ class AppTags {
   static const String apply = "apply";
   static const String reject = "reject";
   static const String accept = "accept";
+  static String avatar = "Avatar";
 }

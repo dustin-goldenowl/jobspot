@@ -60,7 +60,7 @@ class ApplicantProfileState extends Equatable {
   }
 
   factory ApplicantProfileState.ds() {
-    UserEntity user = PrefsUtils.getUserInfo()!.toUserEntity();
+    UserEntity user = PrefsUtils.getUserInfo()!;
     return ApplicantProfileState(
       user: user,
       about: user.description,

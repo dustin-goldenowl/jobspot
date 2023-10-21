@@ -164,5 +164,10 @@ class AppRouter extends $AppRouter {
           page: UpdatePasswordRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
+        CustomRoute(
+          path: '/editApplicantProfile',
+          page: EditApplicantProfileRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
+        ),
       ];
 }

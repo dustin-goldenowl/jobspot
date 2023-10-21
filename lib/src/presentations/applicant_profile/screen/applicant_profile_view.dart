@@ -10,7 +10,7 @@ import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
-import 'package:jobspot/src/data/models/user_model.dart';
+import 'package:jobspot/src/data/entities/user_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/cubit/applicant_profile_cubit.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/router/applicant_profile_coordinator.dart';
 
@@ -132,7 +132,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
 
   Widget _buildBackgroundAppbar() {
     double width = MediaQuery.sizeOf(context).width;
-    UserModel? user = PrefsUtils.getUserInfo();
+    UserEntity? user = PrefsUtils.getUserInfo();
     return SizedBox(
       width: width,
       height: 0.6 * width,
@@ -157,15 +157,18 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 40),
-                  ClipOval(
-                    child: CachedNetworkImage(
-                      imageUrl: user?.avatar ?? "",
-                      height: 50,
-                      width: 50,
-                      placeholder: (context, url) =>
-                          const ItemLoading(width: 50, height: 50, radius: 90),
-                      errorWidget: (context, url, error) =>
-                          SvgPicture.asset(AppImages.logo),
+                  Hero(
+                    tag: AppTags.avatar,
+                    child: ClipOval(
+                      child: CachedNetworkImage(
+                        imageUrl: user?.avatar ?? "",
+                        height: 50,
+                        width: 50,
+                        placeholder: (context, url) => const ItemLoading(
+                            width: 50, height: 50, radius: 90),
+                        errorWidget: (context, url, error) =>
+                            SvgPicture.asset(AppImages.logo),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 7),
@@ -189,7 +192,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
   }
 
   Widget _buildBottomAppBar() {
-    UserModel? user = PrefsUtils.getUserInfo();
+    UserEntity? user = PrefsUtils.getUserInfo();
     return Row(
       children: [
         _itemFollow(
@@ -203,7 +206,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
         ),
         const Spacer(),
         GestureDetector(
-          onTap: () {},
+          onTap: ApplicantProfileCoordinator.showEditApplicantProfile,
           child: Container(
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.1),

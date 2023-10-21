@@ -366,5 +366,13 @@
     "notification_push_apply": "Has applied for your job",
     "notification_push_share": "Shared your post",
     "notification_push_reject": "Has rejected your application",
-    "notification_push_accept": "Has accepted your application"
+    "notification_push_accept": "Has accepted your application",
+
+    "edit_applicant_profile_page_fullname": "Fullname",
+    "edit_applicant_profile_page_email": "Email",
+    "edit_applicant_profile_page_address": "Address",
+    "edit_applicant_profile_page_change_image": "Change avatar",
+    "edit_applicant_profile_page_save": "Save",
+    "edit_applicant_profile_page_camera": "Camera",
+    "edit_applicant_profile_page_gallery": "Gallery"
 }

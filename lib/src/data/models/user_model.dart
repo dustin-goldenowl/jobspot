@@ -109,6 +109,31 @@ class UserModel {
             : null,
       );
 
+  factory UserModel.fromEntity(UserEntity user) {
+    return UserModel(
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+      address: user.address,
+      birthday: user.birthday,
+      description: user.description,
+      follower: user.follower,
+      following: user.following,
+      updateAt: user.updateAt,
+      createAt: user.createAt,
+      role: user.role,
+      employeeSize: user.employeeSize,
+      gender: user.gender,
+      images: user.images,
+      industry: user.industry,
+      isAccept: user.isAccept,
+      saveJob: user.saveJob,
+      skill: user.skill,
+      specialization: user.specialization,
+      website: user.website,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return role == "business"
         ? {
