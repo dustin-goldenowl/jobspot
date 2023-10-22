@@ -11,6 +11,7 @@ import 'package:jobspot/src/presentations/connection/domain/entities/post_entity
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_input.dart';
 import 'package:jobspot/src/presentations/view_post/bloc/view_post_bloc.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/comment_entity.dart';
+import 'package:jobspot/src/presentations/view_post/domain/router/view_post_coordinator.dart';
 import 'package:jobspot/src/presentations/view_post/widgets/comment_loading.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/common/widgets/image_widget/widget/image_widget.dart';
@@ -130,9 +131,8 @@ class ViewPostView extends StatelessWidget {
           return Row(
             children: [
               GestureDetector(
-                onTap: () {
-                  // TODO: open page profile of post
-                },
+                onTap: () => ViewPostCoordinator.showViewProfile(
+                    uid: state.post.user.id),
                 child: ClipOval(
                   child: CachedNetworkImage(
                     imageUrl: post.user.avatar,
@@ -413,9 +413,8 @@ class ViewPostView extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           GestureDetector(
-            onTap: () {
-              //TODO tap to view profile
-            },
+            onTap: () =>
+                ViewPostCoordinator.showViewProfile(uid: comment.user.id),
             child: ClipOval(
               child: CachedNetworkImage(
                   imageUrl: comment.user.avatar,
@@ -435,9 +434,8 @@ class ViewPostView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GestureDetector(
-                  onTap: () {
-                    //TODO tap to view profile
-                  },
+                  onTap: () =>
+                      ViewPostCoordinator.showViewProfile(uid: comment.user.id),
                   child:
                       Text(comment.user.name, style: AppStyles.boldTextHaiti),
                 ),

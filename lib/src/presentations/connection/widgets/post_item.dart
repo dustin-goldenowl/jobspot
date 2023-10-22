@@ -17,7 +17,7 @@ class PostItem extends StatelessWidget {
     required this.onComment,
     required this.onShare,
     required this.onViewFullPost,
-    required this.onViewProfile,
+    this.onViewProfile,
     this.moreWidget,
   });
 
@@ -26,7 +26,7 @@ class PostItem extends StatelessWidget {
   final VoidCallback onComment;
   final VoidCallback onShare;
   final VoidCallback onViewFullPost;
-  final VoidCallback onViewProfile;
+  final VoidCallback? onViewProfile;
   final Widget? moreWidget;
 
   @override

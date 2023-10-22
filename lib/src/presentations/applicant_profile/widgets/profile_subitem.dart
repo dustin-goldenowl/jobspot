@@ -8,13 +8,13 @@ class ProfileSubItem extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.time,
-    required this.onEdit,
+    this.onEdit,
   });
 
   final String title;
   final String subtitle;
   final String time;
-  final VoidCallback onEdit;
+  final VoidCallback? onEdit;
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +27,12 @@ class ProfileSubItem extends StatelessWidget {
               title,
               style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
             ),
-            const Spacer(),
-            GestureDetector(
-              onTap: onEdit,
-              child: SvgPicture.asset(AppImages.edit),
-            )
+            if (onEdit != null) const Spacer(),
+            if (onEdit != null)
+              GestureDetector(
+                onTap: onEdit,
+                child: SvgPicture.asset(AppImages.edit),
+              )
           ],
         ),
         const SizedBox(height: 10),

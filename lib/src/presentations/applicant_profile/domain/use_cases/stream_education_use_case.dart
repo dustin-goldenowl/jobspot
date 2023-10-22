@@ -5,10 +5,12 @@ import 'package:jobspot/src/presentations/applicant_profile/domain/entities/educ
 import 'package:jobspot/src/presentations/applicant_profile/domain/repositories/applicant_profile_repository.dart';
 
 @injectable
-class GetEducationUseCase
+class StreamEducationUseCase
     extends StreamUseCase<DataState<List<EducationEntity>>, dynamic> {
   final ApplicantProfileRepository _repository;
-  GetEducationUseCase(this._repository);
+
+  StreamEducationUseCase(this._repository);
+
   @override
   Stream<DataState<List<EducationEntity>>> call({params}) {
     return _repository.getEducation();

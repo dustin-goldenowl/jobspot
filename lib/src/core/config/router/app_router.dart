@@ -94,8 +94,8 @@ class AppRouter extends $AppRouter {
           page: ApplicantProfileRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
           children: [
-            AutoRoute(path: "about", page: AboutTab.page),
-            AutoRoute(path: "post", page: PostTab.page)
+            AutoRoute(path: "aboutApplicant", page: AboutApplicantTab.page),
+            AutoRoute(path: "postApplicant", page: PostApplicantTab.page)
           ],
         ),
         CustomRoute(
@@ -142,6 +142,17 @@ class AppRouter extends $AppRouter {
           path: '/searchLanguage',
           page: SearchLanguageRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
+        ),
+        CustomRoute(
+          path: '/viewApplicantProfile',
+          page: ViewApplicantProfileRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
+          children: [
+            AutoRoute(
+                path: "aboutViewApplicant", page: AboutViewApplicantTab.page),
+            AutoRoute(
+                path: "postViewApplicant", page: PostViewApplicantTab.page)
+          ],
         ),
       ];
 }

@@ -9,22 +9,22 @@ import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/function/loading_animation.dart';
-import 'package:jobspot/src/core/utils/prefs_utils.dart';
-import 'package:jobspot/src/data/models/user_model.dart';
-import 'package:jobspot/src/presentations/applicant_profile/cubit/applicant_profile_cubit.dart';
+import 'package:jobspot/src/data/entities/user_entity.dart';
+import 'package:jobspot/src/presentations/view_applicant_profile/cubit/view_applicant_profile_cubit.dart';
 
-class ApplicantProfileView extends StatefulWidget {
-  const ApplicantProfileView({super.key});
+class ViewApplicantProfileView extends StatefulWidget {
+  const ViewApplicantProfileView({super.key});
 
   @override
-  State<ApplicantProfileView> createState() => _ApplicantProfileViewState();
+  State<ViewApplicantProfileView> createState() =>
+      _ViewApplicantProfileViewState();
 }
 
-class _ApplicantProfileViewState extends State<ApplicantProfileView>
+class _ViewApplicantProfileViewState extends State<ViewApplicantProfileView>
     with SingleTickerProviderStateMixin {
   @override
   void initState() {
-    final cubit = context.read<ApplicantProfileCubit>();
+    final cubit = context.read<ViewApplicantProfileCubit>();
     cubit.tabController = TabController(length: 2, vsync: this);
     cubit.scrollController.addListener(() {
       bool isTop = cubit.scrollController.position.pixels >=
@@ -37,9 +37,9 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<ApplicantProfileCubit>();
+    final cubit = context.read<ViewApplicantProfileCubit>();
     return AutoTabsRouter.pageView(
-      routes: const [AboutApplicantTab(), PostApplicantTab()],
+      routes: const [AboutViewApplicantTab(), PostViewApplicantTab()],
       builder: (context, child, pageController) {
         final tabsRouter = AutoTabsRouter.of(context);
         if (tabsRouter.activeIndex != cubit.tabController.index) {
@@ -49,7 +49,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
           body: SafeArea(
             child: NestedScrollView(
               controller:
-                  context.read<ApplicantProfileCubit>().scrollController,
+                  context.read<ViewApplicantProfileCubit>().scrollController,
               physics: const BouncingScrollPhysics(),
               headerSliverBuilder: (_, __) => [
                 _buildAppBar(),
@@ -62,7 +62,8 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
                   title: _buildTabBar(onTap: tabsRouter.setActiveIndex),
                 ),
               ],
-              body: BlocListener<ApplicantProfileCubit, ApplicantProfileState>(
+              body: BlocListener<ViewApplicantProfileCubit,
+                  ViewApplicantProfileState>(
                 listenWhen: (previous, current) {
                   if (previous.isLoading) {
                     Navigator.of(context).pop();
@@ -88,16 +89,11 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
 
   Widget _buildAppBar() {
     double width = MediaQuery.sizeOf(context).width;
-    return BlocBuilder<ApplicantProfileCubit, ApplicantProfileState>(
+    return BlocBuilder<ViewApplicantProfileCubit, ViewApplicantProfileState>(
+      buildWhen: (previous, current) =>
+          previous.isTop != current.isTop || previous.user != current.user,
       builder: (context, state) {
         return SliverAppBar(
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: SvgPicture.asset(AppImages.setting),
-            ),
-            const SizedBox(width: 5),
-          ],
           leading: IconButton(
             onPressed: () => context.router.pop(),
             icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
@@ -112,7 +108,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
             opacity: !state.isTop ? 0.0 : 1.0,
             duration: const Duration(milliseconds: 300),
             child: Text(
-              PrefsUtils.getUserInfo()?.name ?? "",
+              state.user?.name ?? "",
               style: AppStyles.normalTextWhite
                   .copyWith(fontWeight: FontWeight.w500),
             ),
@@ -122,16 +118,15 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
             expandedTitleScale: 1.0,
             centerTitle: false,
             titlePadding: const EdgeInsets.all(16),
-            background: _buildBackgroundAppbar(),
+            background: _buildBackgroundAppbar(state.user),
           ),
         );
       },
     );
   }
 
-  Widget _buildBackgroundAppbar() {
+  Widget _buildBackgroundAppbar(UserEntity? user) {
     double width = MediaQuery.sizeOf(context).width;
-    UserModel? user = PrefsUtils.getUserInfo();
     return SizedBox(
       width: width,
       height: 0.6 * width,
@@ -153,16 +148,16 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
             Padding(
               padding: const EdgeInsets.all(AppDimens.smallPadding),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
                   ClipOval(
                     child: CachedNetworkImage(
                       imageUrl: user?.avatar ?? "",
-                      height: 50,
-                      width: 50,
+                      height: 80,
+                      width: 80,
                       placeholder: (context, url) =>
-                          const ItemLoading(width: 50, height: 50, radius: 90),
+                          const ItemLoading(width: 80, height: 80, radius: 90),
                       errorWidget: (context, url, error) =>
                           SvgPicture.asset(AppImages.logo),
                     ),
@@ -177,60 +172,27 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
                     style: AppStyles.normalTextWhite.copyWith(fontSize: 14),
                   ),
                   const Spacer(),
-                  _buildBottomAppBar(),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _itemFollow(
+                        title: AppLocal.text.applicant_profile_page_follow,
+                        number: "${user?.follower.length ?? 0}",
+                      ),
+                      const SizedBox(width: 30),
+                      _itemFollow(
+                        title: AppLocal.text.applicant_profile_page_following,
+                        number: "${user?.following.length ?? 0}",
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildBottomAppBar() {
-    UserModel? user = PrefsUtils.getUserInfo();
-    return Row(
-      children: [
-        _itemFollow(
-          title: AppLocal.text.applicant_profile_page_follow,
-          number: "${user?.follower.length ?? 0}",
-        ),
-        const SizedBox(width: 20),
-        _itemFollow(
-          title: AppLocal.text.applicant_profile_page_following,
-          number: "${user?.following.length ?? 0}",
-        ),
-        const Spacer(),
-        GestureDetector(
-          onTap: () {},
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            padding: const EdgeInsets.symmetric(
-              horizontal: 15,
-              vertical: 5,
-            ),
-            child: Row(
-              children: [
-                Text(
-                  AppLocal.text.applicant_profile_page_edit_profile,
-                  style: AppStyles.normalTextWhite.copyWith(fontSize: 14),
-                ),
-                const SizedBox(width: 10),
-                SvgPicture.asset(
-                  AppImages.edit,
-                  colorFilter: const ColorFilter.mode(
-                    Colors.white,
-                    BlendMode.srcIn,
-                  ),
-                )
-              ],
-            ),
-          ),
-        )
-      ],
     );
   }
 
@@ -269,7 +231,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
             color: AppColors.primary,
             borderRadius: BorderRadius.circular(10),
           ),
-          controller: context.read<ApplicantProfileCubit>().tabController,
+          controller: context.read<ViewApplicantProfileCubit>().tabController,
           tabAlignment: TabAlignment.fill,
           dividerColor: Colors.transparent,
           indicatorSize: TabBarIndicatorSize.tab,

@@ -1,18 +1,18 @@
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/resources/stream_use_case.dart';
-import 'package:jobspot/src/presentations/applicant_profile/domain/entities/resume_entity.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/entities/appreciation_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/repositories/applicant_profile_repository.dart';
 
 @lazySingleton
-class GetResumeUseCase
-    extends StreamUseCase<DataState<List<ResumeEntity>>, dynamic> {
+class StreamAppreciationUseCase
+    extends StreamUseCase<DataState<List<AppreciationEntity>>, dynamic> {
   final ApplicantProfileRepository _repository;
 
-  GetResumeUseCase(this._repository);
+  StreamAppreciationUseCase(this._repository);
 
   @override
-  Stream<DataState<List<ResumeEntity>>> call({params}) {
-    return _repository.getResume();
+  Stream<DataState<List<AppreciationEntity>>> call({params}) {
+    return _repository.getAppreciation();
   }
 }

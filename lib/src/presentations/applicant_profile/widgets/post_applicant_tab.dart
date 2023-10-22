@@ -10,8 +10,8 @@ import 'package:jobspot/src/presentations/connection/widgets/post_item.dart';
 import 'package:jobspot/src/presentations/connection/widgets/post_loading.dart';
 
 @RoutePage()
-class PostTab extends StatelessWidget {
-  const PostTab({super.key});
+class PostApplicantTab extends StatelessWidget {
+  const PostApplicantTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,6 @@ class PostTab extends StatelessWidget {
                 onShare: () {},
                 onViewFullPost: () => ApplicantProfileCoordinator.showFullPost(
                     post: state.listPost![index]),
-                onViewProfile: () {},
                 moreWidget: PopupMenuButton<int>(
                   color: Colors.white,
                   icon: Icon(

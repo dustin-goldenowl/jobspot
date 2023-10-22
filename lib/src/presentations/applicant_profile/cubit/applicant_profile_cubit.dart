@@ -11,20 +11,21 @@ import 'package:jobspot/src/presentations/add_resume/domain/use_cases/delete_res
 import 'package:jobspot/src/presentations/add_skill/domain/entities/skill_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/education_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/appreciation_entity.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/entities/get_post_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/resume_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/work_experience_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/delete_post_use_case.dart';
-import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_education_use_case.dart';
-import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_appreciation_use_case.dart';
-import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_list_post_use_case.dart';
-import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_resume_use_case.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/stream_education_use_case.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/stream_appreciation_use_case.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/stream_list_post_use_case.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/stream_resume_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_skill_use_case.dart';
-import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_user_info_use_case.dart';
-import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_work_experience_use_case.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/stream_user_info_use_case.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/stream_work_experience_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/update_about_me_use_case.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 import 'package:jobspot/src/presentations/view_language/domain/entities/language_entity.dart';
-import 'package:jobspot/src/presentations/view_language/domain/use_cases/get_language_use_case.dart';
+import 'package:jobspot/src/presentations/view_language/domain/use_cases/stream_language_use_case.dart';
 
 part 'applicant_profile_state.dart';
 
@@ -40,29 +41,29 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
   StreamSubscription? _userInfoSubscription;
   StreamSubscription? _languageSubscription;
 
+  final StreamListPostUseCase _streamListPostUseCase;
+  final StreamWorkExperienceUseCase _streamWorkExperienceUseCase;
+  final StreamEducationUseCase _streamEducationUseCase;
+  final StreamAppreciationUseCase _streamAppreciationUseCase;
+  final StreamResumeUseCase _streamResumeUseCase;
+  final StreamLanguagesUseCase _streamLanguagesUseCase;
+  final StreamUserInfoUseCase _streamUserInfoUseCase;
+  final GetSkillUseCase _getSkillUseCase;
+  final UpdateAboutMeUseCase _updateAboutMeUseCase;
   final DeletePostUseCase _deletePostUseCase;
   final DeleteResumeUseCase _deleteResumeUseCase;
-  final GetListPostUseCase _getListPostUseCase;
-  final GetWorkExperienceUseCase _getWorkExperienceUseCase;
-  final GetEducationUseCase _getEducationUseCase;
-  final GetAppreciationUseCase _getAppreciationUseCase;
-  final GetResumeUseCase _getResumeUseCase;
-  final GetSkillUseCase _getSkillUseCase;
-  final GetUserInfoUseCase _getUserInfoUseCase;
-  final GetLanguagesUseCase _getLanguagesUseCase;
-  final UpdateAboutMeUseCase _updateAboutMeUseCase;
 
   ApplicantProfileCubit(
     this._deletePostUseCase,
     this._deleteResumeUseCase,
-    this._getListPostUseCase,
-    this._getWorkExperienceUseCase,
-    this._getEducationUseCase,
-    this._getAppreciationUseCase,
-    this._getResumeUseCase,
+    this._streamListPostUseCase,
+    this._streamWorkExperienceUseCase,
+    this._streamEducationUseCase,
+    this._streamAppreciationUseCase,
+    this._streamResumeUseCase,
     this._getSkillUseCase,
-    this._getUserInfoUseCase,
-    this._getLanguagesUseCase,
+    this._streamUserInfoUseCase,
+    this._streamLanguagesUseCase,
     this._updateAboutMeUseCase,
   ) : super(ApplicantProfileState.ds()) {
     _init();
@@ -81,7 +82,9 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
 
   void _getListPost() {
     if (_postSubscription != null) _postSubscription!.cancel();
-    _postSubscription = _getListPostUseCase.call(params: 15).listen((event) {
+    _postSubscription = _streamListPostUseCase
+        .call(params: GetPostEntity(limit: 15))
+        .listen((event) {
       if (event is DataSuccess) {
         emit(state.copyWith(listPost: event.data));
       }
@@ -90,7 +93,8 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
 
   void _getWorkExperience() {
     if (_experienceSubscription != null) _experienceSubscription!.cancel();
-    _experienceSubscription = _getWorkExperienceUseCase.call().listen((event) {
+    _experienceSubscription =
+        _streamWorkExperienceUseCase.call().listen((event) {
       if (event is DataSuccess) {
         emit(state.copyWith(listExperience: event.data));
       }
@@ -99,7 +103,7 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
 
   void _getEducation() {
     if (_educationSubscription != null) _educationSubscription!.cancel();
-    _educationSubscription = _getEducationUseCase.call().listen((event) {
+    _educationSubscription = _streamEducationUseCase.call().listen((event) {
       if (event is DataSuccess) {
         emit(state.copyWith(listEducation: event.data));
       }
@@ -108,7 +112,8 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
 
   void _getAppreciation() {
     if (_appreciationSubscription != null) _appreciationSubscription!.cancel();
-    _appreciationSubscription = _getAppreciationUseCase.call().listen((event) {
+    _appreciationSubscription =
+        _streamAppreciationUseCase.call().listen((event) {
       if (event is DataSuccess) {
         emit(state.copyWith(listAppreciation: event.data));
       }
@@ -117,7 +122,7 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
 
   void _getResume() {
     if (_resumeSubscription != null) _resumeSubscription!.cancel();
-    _resumeSubscription = _getResumeUseCase.call().listen((event) {
+    _resumeSubscription = _streamResumeUseCase.call().listen((event) {
       if (event is DataSuccess) {
         emit(state.copyWith(listResume: event.data));
       }
@@ -126,7 +131,7 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
 
   void _getUserInfo() {
     if (_userInfoSubscription != null) _userInfoSubscription!.cancel();
-    _userInfoSubscription = _getUserInfoUseCase.call().listen((event) {
+    _userInfoSubscription = _streamUserInfoUseCase.call().listen((event) {
       if (event is DataSuccess) {
         _getListSkill(event.data!.skill ?? []);
         emit(state.copyWith(user: event.data, about: event.data?.description));
@@ -136,7 +141,7 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
 
   void _getLanguage() {
     if (_languageSubscription != null) _languageSubscription!.cancel();
-    _languageSubscription = _getLanguagesUseCase.call().listen((event) {
+    _languageSubscription = _streamLanguagesUseCase.call().listen((event) {
       if (event is DataSuccess) {
         emit(state.copyWith(listLanguage: event.data));
       }

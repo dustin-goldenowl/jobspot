@@ -8,12 +8,12 @@ class ProfileItem extends StatelessWidget {
     super.key,
     required this.icon,
     required this.title,
-    required this.onAdd,
+    this.onAdd,
     this.onEdit,
     this.child,
   });
 
-  final VoidCallback onAdd;
+  final VoidCallback? onAdd;
   final VoidCallback? onEdit;
   final Widget? child;
   final String icon;
@@ -37,11 +37,12 @@ class ProfileItem extends StatelessWidget {
                 title,
                 style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
               ),
-              const Spacer(),
-              AddButton(
-                isShowEdit: onEdit != null && child != null,
-                onTap: onEdit ?? onAdd,
-              )
+              if (onAdd != null) const Spacer(),
+              if (onAdd != null)
+                AddButton(
+                  isShowEdit: onEdit != null && child != null,
+                  onTap: onEdit ?? onAdd,
+                )
             ],
           ),
           if (child != null)

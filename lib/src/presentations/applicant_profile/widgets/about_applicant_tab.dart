@@ -13,8 +13,8 @@ import 'package:jobspot/src/presentations/applicant_profile/widgets/profile_item
 import 'package:jobspot/src/presentations/applicant_profile/widgets/profile_subitem.dart';
 
 @RoutePage()
-class AboutTab extends StatelessWidget {
-  const AboutTab({super.key});
+class AboutApplicantTab extends StatelessWidget {
+  const AboutApplicantTab({super.key});
 
   @override
   Widget build(BuildContext context) {
