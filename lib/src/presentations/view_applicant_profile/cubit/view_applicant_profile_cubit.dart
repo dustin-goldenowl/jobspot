@@ -22,6 +22,8 @@ import 'package:jobspot/src/presentations/view_applicant_profile/domain/use_case
 import 'package:jobspot/src/presentations/view_applicant_profile/domain/use_cases/get_user_info_use_case.dart';
 import 'package:jobspot/src/presentations/view_applicant_profile/domain/use_cases/get_work_experience_use_case.dart';
 import 'package:jobspot/src/presentations/view_language/domain/entities/language_entity.dart';
+import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
+import 'package:jobspot/src/presentations/view_post/domain/use_cases/favourite_post_use_case.dart';
 
 part 'view_applicant_profile_state.dart';
 
@@ -39,17 +41,19 @@ class ViewApplicantProfileCubit extends Cubit<ViewApplicantProfileState> {
   final GetLanguageUseCase _getLanguagesUseCase;
   final GetUserInfoUseCase _getUserInfoUseCase;
   final GetSkillUseCase _getSkillUseCase;
+  final FavouritePostUseCase _favouritePostUseCase;
 
   ViewApplicantProfileCubit(
-      this._getAppreciationUseCase,
-      this._getEducationUseCase,
-      this._getLanguagesUseCase,
-      this._getResumeUseCase,
-      this._getSkillUseCase,
-      this._getUserInfoUseCase,
-      this._getWorkExperienceUseCase,
-      this._streamListPostUseCase)
-      : super(const ViewApplicantProfileState(isTop: false, isLoading: false));
+    this._getAppreciationUseCase,
+    this._getEducationUseCase,
+    this._getLanguagesUseCase,
+    this._getResumeUseCase,
+    this._getSkillUseCase,
+    this._getUserInfoUseCase,
+    this._getWorkExperienceUseCase,
+    this._streamListPostUseCase,
+    this._favouritePostUseCase,
+  ) : super(const ViewApplicantProfileState(isTop: false, isLoading: false));
 
   void changeIsTop(bool isTop) => emit(state.copyWith(isTop: isTop));
 
@@ -123,6 +127,13 @@ class ViewApplicantProfileCubit extends Cubit<ViewApplicantProfileState> {
       emit(state.copyWith(listSkill: response.data));
     } else {
       emit(state.copyWith(error: response.error));
+    }
+  }
+
+  Future favouritePost(FavouriteEntity entity) async {
+    final response = await _favouritePostUseCase.call(params: entity);
+    if (response is DataFailed) {
+      print(response.error);
     }
   }
 

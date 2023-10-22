@@ -26,6 +26,8 @@ import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/upd
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 import 'package:jobspot/src/presentations/view_language/domain/entities/language_entity.dart';
 import 'package:jobspot/src/presentations/view_language/domain/use_cases/stream_language_use_case.dart';
+import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
+import 'package:jobspot/src/presentations/view_post/domain/use_cases/favourite_post_use_case.dart';
 
 part 'applicant_profile_state.dart';
 
@@ -52,6 +54,7 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
   final UpdateAboutMeUseCase _updateAboutMeUseCase;
   final DeletePostUseCase _deletePostUseCase;
   final DeleteResumeUseCase _deleteResumeUseCase;
+  final FavouritePostUseCase _favouritePostUseCase;
 
   ApplicantProfileCubit(
     this._deletePostUseCase,
@@ -65,6 +68,7 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
     this._streamUserInfoUseCase,
     this._streamLanguagesUseCase,
     this._updateAboutMeUseCase,
+    this._favouritePostUseCase,
   ) : super(ApplicantProfileState.ds()) {
     _init();
   }
@@ -187,6 +191,13 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
         about: PrefsUtils.getUserInfo()?.description,
         error: response.error,
       ));
+    }
+  }
+
+  Future favouritePost(FavouriteEntity entity) async {
+    final response = await _favouritePostUseCase.call(params: entity);
+    if (response is DataFailed) {
+      print(response.error);
     }
   }
 

@@ -318,5 +318,8 @@
     "add_language_page_level": "Level {level}",
     "add_language_page_language_validate": "Please select a language",
     "add_language_page_no_language": "No language selected",
-    "add_language_page_level_content": "Proficiency level : 0 - Poor, 10 - Very good"
+    "add_language_page_level_content": "Proficiency level : 0 - Poor, 10 - Very good",
+
+    "view_applicant_profile_page_no_data": "No data",
+    "view_applicant_profile_page_no_description": "No description available"
 }

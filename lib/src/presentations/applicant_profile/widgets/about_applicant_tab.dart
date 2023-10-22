@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/extension/int_extension.dart';
@@ -52,25 +53,27 @@ class AboutApplicantTab extends StatelessWidget {
           icon: AppImages.resume,
           title: AppLocal.text.applicant_profile_page_resume,
           onAdd: ApplicantProfileCoordinator.showAddResume,
-          child: state.listResume != null && state.listResume!.isEmpty
-              ? null
-              : ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    if (state.listResume != null) {
-                      return _buildItemResume(
-                        resume: state.listResume![index],
-                        onRemove: () => context
-                            .read<ApplicantProfileCubit>()
-                            .deleteResume(state.listResume![index]),
-                      );
-                    }
-                    return const CircularProgressIndicator();
-                  },
-                  separatorBuilder: (_, __) => const SizedBox(height: 15),
-                  itemCount: state.listResume?.length ?? 0,
-                ),
+          child: state.listResume == null
+              ? _buildListLoading()
+              : state.listResume != null && state.listResume!.isEmpty
+                  ? null
+                  : ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        if (state.listResume != null) {
+                          return _buildItemResume(
+                            resume: state.listResume![index],
+                            onRemove: () => context
+                                .read<ApplicantProfileCubit>()
+                                .deleteResume(state.listResume![index]),
+                          );
+                        }
+                        return _itemLoading;
+                      },
+                      separatorBuilder: (_, __) => const SizedBox(height: 15),
+                      itemCount: state.listResume?.length ?? 0,
+                    ),
         );
       },
     );
@@ -103,10 +106,10 @@ class AboutApplicantTab extends StatelessWidget {
                                     appreciation: item),
                           );
                         }
-                        return const CircularProgressIndicator();
+                        return _itemLoading;
                       },
                       separatorBuilder: (_, __) => const SizedBox(height: 15),
-                      itemCount: state.listAppreciation?.length ?? 10,
+                      itemCount: state.listAppreciation?.length ?? 5,
                     ),
         );
       },
@@ -125,14 +128,17 @@ class AboutApplicantTab extends StatelessWidget {
               state.listLanguage ?? []),
           onEdit: () => ApplicantProfileCoordinator.showViewLanguage(
               state.listLanguage ?? []),
-          child: state.listLanguage != null && state.listLanguage!.isNotEmpty
-              ? Wrap(
-                  runSpacing: 10,
-                  spacing: 10,
-                  children: state.listLanguage!
-                      .map((e) => _buildItem(e.name))
-                      .toList())
-              : null,
+          child: state.listResume == null
+              ? _buildListLoading()
+              : state.listLanguage != null && state.listLanguage!.isNotEmpty
+                  ? Wrap(
+                      runSpacing: 10,
+                      spacing: 10,
+                      children: state.listLanguage!
+                          .map((e) => _buildItem(e.name))
+                          .toList(),
+                    )
+                  : null,
         );
       },
     );
@@ -149,14 +155,17 @@ class AboutApplicantTab extends StatelessWidget {
               ApplicantProfileCoordinator.showAddSkill(state.listSkill ?? []),
           onEdit: () =>
               ApplicantProfileCoordinator.showAddSkill(state.listSkill ?? []),
-          child: state.listSkill != null && state.listSkill!.isNotEmpty
-              ? Wrap(
-                  runSpacing: 10,
-                  spacing: 10,
-                  children:
-                      state.listSkill!.map((e) => _buildItem(e.title)).toList(),
-                )
-              : null,
+          child: state.listResume == null
+              ? _buildListLoading()
+              : state.listSkill != null && state.listSkill!.isNotEmpty
+                  ? Wrap(
+                      runSpacing: 10,
+                      spacing: 10,
+                      children: state.listSkill!
+                          .map((e) => _buildItem(e.title))
+                          .toList(),
+                    )
+                  : null,
         );
       },
     );
@@ -191,10 +200,10 @@ class AboutApplicantTab extends StatelessWidget {
                                 education: item),
                       );
                     }
-                    return const CircularProgressIndicator();
+                    return _itemLoading;
                   },
                   separatorBuilder: (_, __) => const SizedBox(height: 15),
-                  itemCount: state.listEducation?.length ?? 10,
+                  itemCount: state.listEducation?.length ?? 5,
                 ),
         );
       },
@@ -230,10 +239,10 @@ class AboutApplicantTab extends StatelessWidget {
                                 experience: item),
                       );
                     }
-                    return const CircularProgressIndicator();
+                    return _itemLoading;
                   },
                   separatorBuilder: (_, __) => const SizedBox(height: 15),
-                  itemCount: state.listExperience?.length ?? 10,
+                  itemCount: state.listExperience?.length ?? 5,
                 ),
         );
       },
@@ -322,6 +331,19 @@ class AboutApplicantTab extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+
+  Widget get _itemLoading =>
+      const ItemLoading(width: double.infinity, height: 16, radius: 5);
+
+  Widget _buildListLoading() {
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) => _itemLoading,
+      separatorBuilder: (context, index) => const SizedBox(height: 15),
+      itemCount: 5,
     );
   }
 }

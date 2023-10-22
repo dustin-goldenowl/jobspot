@@ -7,6 +7,7 @@ import 'package:jobspot/src/presentations/connection/widgets/post_item.dart';
 import 'package:jobspot/src/presentations/connection/widgets/post_loading.dart';
 import 'package:jobspot/src/presentations/view_applicant_profile/cubit/view_applicant_profile_cubit.dart';
 import 'package:jobspot/src/presentations/view_applicant_profile/domain/router/view_applicant_profile_coordinator.dart';
+import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 
 @RoutePage()
 class PostViewApplicantTab extends StatelessWidget {
@@ -27,7 +28,12 @@ class PostViewApplicantTab extends StatelessWidget {
                   post: state.listPost![index],
                   isComment: true,
                 ),
-                onFavourite: () {},
+                onFavourite: () => context
+                    .read<ViewApplicantProfileCubit>()
+                    .favouritePost(FavouriteEntity(
+                      id: state.listPost![index].id,
+                      listFavourite: state.listPost![index].like,
+                    )),
                 onShare: () {},
                 onViewFullPost: () =>
                     ViewApplicantProfileCoordinator.showFullPost(

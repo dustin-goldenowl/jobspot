@@ -54,7 +54,7 @@ class AboutViewApplicantTab extends StatelessWidget {
           icon: AppImages.resume,
           title: AppLocal.text.applicant_profile_page_resume,
           child: state.listResume != null && state.listResume!.isEmpty
-              ? null
+              ? _noData
               : ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -62,10 +62,10 @@ class AboutViewApplicantTab extends StatelessWidget {
                     if (state.listResume != null) {
                       return _buildItemResume(resume: state.listResume![index]);
                     }
-                    return const CircularProgressIndicator();
+                    return _itemLoading;
                   },
                   separatorBuilder: (_, __) => const SizedBox(height: 15),
-                  itemCount: state.listResume?.length ?? 0,
+                  itemCount: state.listResume?.length ?? 5,
                 ),
         );
       },
@@ -82,7 +82,7 @@ class AboutViewApplicantTab extends StatelessWidget {
           title: AppLocal.text.applicant_profile_page_appreciation,
           child:
               state.listAppreciation != null && state.listAppreciation!.isEmpty
-                  ? null
+                  ? _noData
                   : ListView.separated(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
@@ -95,10 +95,10 @@ class AboutViewApplicantTab extends StatelessWidget {
                             time: DateTimeUtils.formatMonthYear(item.endDate),
                           );
                         }
-                        return const CircularProgressIndicator();
+                        return _itemLoading;
                       },
                       separatorBuilder: (_, __) => const SizedBox(height: 15),
-                      itemCount: state.listAppreciation?.length ?? 10,
+                      itemCount: state.listAppreciation?.length ?? 5,
                     ),
         );
       },
@@ -113,14 +113,17 @@ class AboutViewApplicantTab extends StatelessWidget {
         return ProfileItem(
           icon: AppImages.language,
           title: AppLocal.text.applicant_profile_page_language,
-          child: state.listLanguage != null && state.listLanguage!.isNotEmpty
-              ? Wrap(
-                  runSpacing: 10,
-                  spacing: 10,
-                  children: state.listLanguage!
-                      .map((e) => _buildItem(e.name))
-                      .toList())
-              : null,
+          child: state.listLanguage == null
+              ? _buildListLoading()
+              : state.listLanguage != null && state.listLanguage!.isNotEmpty
+                  ? Wrap(
+                      runSpacing: 10,
+                      spacing: 10,
+                      children: state.listLanguage!
+                          .map((e) => _buildItem(e.name))
+                          .toList(),
+                    )
+                  : _noData,
         );
       },
     );
@@ -133,14 +136,17 @@ class AboutViewApplicantTab extends StatelessWidget {
         return ProfileItem(
           icon: AppImages.skill,
           title: AppLocal.text.applicant_profile_page_skill,
-          child: state.listSkill != null && state.listSkill!.isNotEmpty
-              ? Wrap(
-                  runSpacing: 10,
-                  spacing: 10,
-                  children:
-                      state.listSkill!.map((e) => _buildItem(e.title)).toList(),
-                )
-              : null,
+          child: state.listSkill == null
+              ? _buildListLoading()
+              : state.listSkill != null && state.listSkill!.isNotEmpty
+                  ? Wrap(
+                      runSpacing: 10,
+                      spacing: 10,
+                      children: state.listSkill!
+                          .map((e) => _buildItem(e.title))
+                          .toList(),
+                    )
+                  : _noData,
         );
       },
     );
@@ -155,7 +161,7 @@ class AboutViewApplicantTab extends StatelessWidget {
           icon: AppImages.graduationCap,
           title: AppLocal.text.applicant_profile_page_education,
           child: state.listEducation != null && state.listEducation!.isEmpty
-              ? null
+              ? _noData
               : ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -174,10 +180,10 @@ class AboutViewApplicantTab extends StatelessWidget {
                                 education: item),
                       );
                     }
-                    return const CircularProgressIndicator();
+                    return _itemLoading;
                   },
                   separatorBuilder: (_, __) => const SizedBox(height: 15),
-                  itemCount: state.listEducation?.length ?? 10,
+                  itemCount: state.listEducation?.length ?? 5,
                 ),
         );
       },
@@ -193,7 +199,7 @@ class AboutViewApplicantTab extends StatelessWidget {
           icon: AppImages.bag,
           title: AppLocal.text.applicant_profile_page_work_experience,
           child: state.listExperience != null && state.listExperience!.isEmpty
-              ? null
+              ? _noData
               : ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -212,10 +218,10 @@ class AboutViewApplicantTab extends StatelessWidget {
                                 experience: item),
                       );
                     }
-                    return const CircularProgressIndicator();
+                    return _itemLoading;
                   },
                   separatorBuilder: (_, __) => const SizedBox(height: 15),
-                  itemCount: state.listExperience?.length ?? 10,
+                  itemCount: state.listExperience?.length ?? 5,
                 ),
         );
       },
@@ -230,10 +236,10 @@ class AboutViewApplicantTab extends StatelessWidget {
           icon: AppImages.circleProfile,
           title: AppLocal.text.applicant_profile_page_about_me,
           child: state.user == null
-              ? const ItemLoading(width: 200, height: 16, radius: 5)
+              ? _buildListLoading()
               : Text(
                   state.user!.description.isEmpty
-                      ? "Không có mô tả"
+                      ? AppLocal.text.view_applicant_profile_page_no_description
                       : state.user!.description,
                   style: AppStyles.normalTextMulledWine,
                 ),
@@ -267,15 +273,15 @@ class AboutViewApplicantTab extends StatelessWidget {
               children: [
                 Text(
                   resume.fileName,
-                  style: AppStyles.normalTextHaiti,
                   maxLines: 1,
+                  style: AppStyles.normalTextHaiti,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 5),
                 Text(
                   "${resume.size.getFileSizeString()} . ${DateTimeUtils.formatCVTime(resume.createAt)}",
-                  style: TextStyle(color: AppColors.romanSilver),
                   maxLines: 1,
+                  style: TextStyle(color: AppColors.romanSilver),
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
@@ -285,4 +291,22 @@ class AboutViewApplicantTab extends StatelessWidget {
       ),
     );
   }
+
+  Widget get _itemLoading =>
+      const ItemLoading(width: double.infinity, height: 16, radius: 5);
+
+  Widget _buildListLoading() {
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) => _itemLoading,
+      separatorBuilder: (context, index) => const SizedBox(height: 15),
+      itemCount: 5,
+    );
+  }
+
+  Widget get _noData => Text(
+        AppLocal.text.view_applicant_profile_page_no_data,
+        style: AppStyles.normalTextMulledWine,
+      );
 }
