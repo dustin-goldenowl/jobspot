@@ -10,8 +10,8 @@ import 'package:jobspot/src/presentations/view_applicant_profile/domain/router/v
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 
 @RoutePage()
-class PostViewApplicantTab extends StatelessWidget {
-  const PostViewApplicantTab({super.key});
+class ViewApplicantPostTab extends StatelessWidget {
+  const ViewApplicantPostTab({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -15,8 +15,8 @@ import 'package:jobspot/src/presentations/view_applicant_profile/cubit/view_appl
 import 'package:jobspot/src/presentations/view_applicant_profile/domain/router/view_applicant_profile_coordinator.dart';
 
 @RoutePage()
-class AboutViewApplicantTab extends StatelessWidget {
-  const AboutViewApplicantTab({super.key});
+class ViewApplicantAboutTab extends StatelessWidget {
+  const ViewApplicantAboutTab({super.key});
 
   @override
   Widget build(BuildContext context) {

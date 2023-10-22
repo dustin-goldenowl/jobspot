@@ -39,7 +39,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
   Widget build(BuildContext context) {
     final cubit = context.read<ApplicantProfileCubit>();
     return AutoTabsRouter.pageView(
-      routes: const [AboutApplicantTab(), PostApplicantTab()],
+      routes: const [ApplicantAboutTab(), ApplicantPostTab()],
       builder: (context, child, pageController) {
         final tabsRouter = AutoTabsRouter.of(context);
         if (tabsRouter.activeIndex != cubit.tabController.index) {

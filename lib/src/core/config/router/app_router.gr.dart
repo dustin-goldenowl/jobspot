@@ -14,39 +14,39 @@ import 'package:flutter/widgets.dart' as _i46;
 import 'package:jobspot/src/presentations/add_appreciation/domain/entities/update_appreciation_entity.dart'
     as _i38;
 import 'package:jobspot/src/presentations/add_appreciation/screen/add_appreciation_page.dart'
-    as _i3;
+    as _i1;
 import 'package:jobspot/src/presentations/add_education/domain/entities/update_education_entity.dart'
     as _i39;
 import 'package:jobspot/src/presentations/add_education/screen/add_education_page.dart'
-    as _i4;
+    as _i2;
 import 'package:jobspot/src/presentations/add_job/domain/entities/update_job_entity.dart'
     as _i40;
 import 'package:jobspot/src/presentations/add_job/screen/add_job_page.dart'
-    as _i5;
+    as _i3;
 import 'package:jobspot/src/presentations/add_language/domain/entities/update_language_entity.dart'
     as _i41;
 import 'package:jobspot/src/presentations/add_language/screen/add_language_page.dart'
-    as _i6;
+    as _i4;
 import 'package:jobspot/src/presentations/add_post/domain/entities/update_post_entity.dart'
     as _i42;
 import 'package:jobspot/src/presentations/add_post/screen/add_post_page.dart'
-    as _i7;
+    as _i5;
 import 'package:jobspot/src/presentations/add_resume/screen/add_resume_page.dart'
-    as _i8;
+    as _i6;
 import 'package:jobspot/src/presentations/add_skill/domain/entities/skill_entity.dart'
     as _i43;
 import 'package:jobspot/src/presentations/add_skill/screen/add_skill_page.dart'
-    as _i9;
+    as _i7;
 import 'package:jobspot/src/presentations/add_work_experience/domain/entities/update_work_experience_entity.dart'
     as _i44;
 import 'package:jobspot/src/presentations/add_work_experience/screen/add_work_experience_page.dart'
-    as _i10;
+    as _i8;
 import 'package:jobspot/src/presentations/applicant_profile/screen/applicant_profile_page.dart'
     as _i11;
-import 'package:jobspot/src/presentations/applicant_profile/widgets/about_applicant_tab.dart'
-    as _i1;
-import 'package:jobspot/src/presentations/applicant_profile/widgets/post_applicant_tab.dart'
-    as _i23;
+import 'package:jobspot/src/presentations/applicant_profile/widgets/applicant_about_tab.dart'
+    as _i9;
+import 'package:jobspot/src/presentations/applicant_profile/widgets/applicant_post_tab.dart'
+    as _i10;
 import 'package:jobspot/src/presentations/apply_job/screen/apply_job_page.dart'
     as _i12;
 import 'package:jobspot/src/presentations/check_email/screen/check_email_page.dart'
@@ -70,25 +70,25 @@ import 'package:jobspot/src/presentations/notification/screen/notification_page.
 import 'package:jobspot/src/presentations/on_boarding/screen/on_boarding_page.dart'
     as _i22;
 import 'package:jobspot/src/presentations/save_job/screen/save_job_page.dart'
-    as _i25;
+    as _i23;
 import 'package:jobspot/src/presentations/search_language/domain/entities/country_entity.dart'
     as _i47;
 import 'package:jobspot/src/presentations/search_language/screen/search_language_page.dart'
-    as _i26;
+    as _i24;
 import 'package:jobspot/src/presentations/sign_in/screen/sign_in_page.dart'
-    as _i27;
+    as _i25;
 import 'package:jobspot/src/presentations/sign_up/screen/sign_up_page.dart'
-    as _i28;
+    as _i26;
 import 'package:jobspot/src/presentations/verify_email/screen/verify_email_page.dart'
-    as _i29;
+    as _i27;
 import 'package:jobspot/src/presentations/verify_success/screen/verify_success_page.dart'
-    as _i30;
+    as _i28;
 import 'package:jobspot/src/presentations/view_applicant_profile/screen/view_applicant_profile_page.dart'
     as _i31;
-import 'package:jobspot/src/presentations/view_applicant_profile/widgets/about_view_applicant_tab.dart'
-    as _i2;
-import 'package:jobspot/src/presentations/view_applicant_profile/widgets/post_view_applicant_tab.dart'
-    as _i24;
+import 'package:jobspot/src/presentations/view_applicant_profile/widgets/view_applicant_about_tab.dart'
+    as _i29;
+import 'package:jobspot/src/presentations/view_applicant_profile/widgets/view_applicant_post_tab.dart'
+    as _i30;
 import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart'
     as _i45;
 import 'package:jobspot/src/presentations/view_job/screen/view_job_page.dart'
@@ -107,24 +107,12 @@ abstract class $AppRouter extends _i36.RootStackRouter {
 
   @override
   final Map<String, _i36.PageFactory> pagesMap = {
-    AboutApplicantTab.name: (routeData) {
-      return _i36.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i1.AboutApplicantTab(),
-      );
-    },
-    AboutViewApplicantTab.name: (routeData) {
-      return _i36.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i2.AboutViewApplicantTab(),
-      );
-    },
     AddAppreciationRoute.name: (routeData) {
       final args = routeData.argsAs<AddAppreciationRouteArgs>(
           orElse: () => const AddAppreciationRouteArgs());
       return _i36.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i3.AddAppreciationPage(
+        child: _i1.AddAppreciationPage(
           key: args.key,
           appreciation: args.appreciation,
         ),
@@ -135,7 +123,7 @@ abstract class $AppRouter extends _i36.RootStackRouter {
           orElse: () => const AddEducationRouteArgs());
       return _i36.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i4.AddEducationPage(
+        child: _i2.AddEducationPage(
           key: args.key,
           education: args.education,
         ),
@@ -146,7 +134,7 @@ abstract class $AppRouter extends _i36.RootStackRouter {
           orElse: () => const AddJobRouteArgs());
       return _i36.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i5.AddJobPage(
+        child: _i3.AddJobPage(
           key: args.key,
           job: args.job,
         ),
@@ -157,7 +145,7 @@ abstract class $AppRouter extends _i36.RootStackRouter {
           orElse: () => const AddLanguageRouteArgs());
       return _i36.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i6.AddLanguagePage(
+        child: _i4.AddLanguagePage(
           key: args.key,
           language: args.language,
         ),
@@ -168,7 +156,7 @@ abstract class $AppRouter extends _i36.RootStackRouter {
           orElse: () => const AddPostRouteArgs());
       return _i36.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i7.AddPostPage(
+        child: _i5.AddPostPage(
           key: args.key,
           post: args.post,
         ),
@@ -177,14 +165,14 @@ abstract class $AppRouter extends _i36.RootStackRouter {
     AddResumeRoute.name: (routeData) {
       return _i36.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i8.AddResumePage(),
+        child: const _i6.AddResumePage(),
       );
     },
     AddSkillRoute.name: (routeData) {
       final args = routeData.argsAs<AddSkillRouteArgs>();
       return _i36.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i9.AddSkillPage(
+        child: _i7.AddSkillPage(
           key: args.key,
           listSkill: args.listSkill,
         ),
@@ -195,10 +183,22 @@ abstract class $AppRouter extends _i36.RootStackRouter {
           orElse: () => const AddWorkExperienceRouteArgs());
       return _i36.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i10.AddWorkExperiencePage(
+        child: _i8.AddWorkExperiencePage(
           key: args.key,
           experience: args.experience,
         ),
+      );
+    },
+    ApplicantAboutTab.name: (routeData) {
+      return _i36.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i9.ApplicantAboutTab(),
+      );
+    },
+    ApplicantPostTab.name: (routeData) {
+      return _i36.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i10.ApplicantPostTab(),
       );
     },
     ApplicantProfileRoute.name: (routeData) {
@@ -295,29 +295,17 @@ abstract class $AppRouter extends _i36.RootStackRouter {
         child: const _i22.OnBoardingPage(),
       );
     },
-    PostApplicantTab.name: (routeData) {
-      return _i36.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i23.PostApplicantTab(),
-      );
-    },
-    PostViewApplicantTab.name: (routeData) {
-      return _i36.AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const _i24.PostViewApplicantTab(),
-      );
-    },
     SaveJobRoute.name: (routeData) {
       return _i36.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i25.SaveJobPage(),
+        child: const _i23.SaveJobPage(),
       );
     },
     SearchLanguageRoute.name: (routeData) {
       final args = routeData.argsAs<SearchLanguageRouteArgs>();
       return _i36.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i26.SearchLanguagePage(
+        child: _i24.SearchLanguagePage(
           key: args.key,
           onBack: args.onBack,
         ),
@@ -326,25 +314,37 @@ abstract class $AppRouter extends _i36.RootStackRouter {
     SignInRoute.name: (routeData) {
       return _i36.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i27.SignInPage(),
+        child: const _i25.SignInPage(),
       );
     },
     SignUpRoute.name: (routeData) {
       return _i36.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i28.SignUpPage(),
+        child: const _i26.SignUpPage(),
       );
     },
     VerifyEmailRoute.name: (routeData) {
       return _i36.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i29.VerifyEmailPage(),
+        child: const _i27.VerifyEmailPage(),
       );
     },
     VerifySuccessRoute.name: (routeData) {
       return _i36.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i30.VerifySuccessPage(),
+        child: const _i28.VerifySuccessPage(),
+      );
+    },
+    ViewApplicantAboutTab.name: (routeData) {
+      return _i36.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i29.ViewApplicantAboutTab(),
+      );
+    },
+    ViewApplicantPostTab.name: (routeData) {
+      return _i36.AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const _i30.ViewApplicantPostTab(),
       );
     },
     ViewApplicantProfileRoute.name: (routeData) {
@@ -403,35 +403,7 @@ abstract class $AppRouter extends _i36.RootStackRouter {
 }
 
 /// generated route for
-/// [_i1.AboutApplicantTab]
-class AboutApplicantTab extends _i36.PageRouteInfo<void> {
-  const AboutApplicantTab({List<_i36.PageRouteInfo>? children})
-      : super(
-          AboutApplicantTab.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'AboutApplicantTab';
-
-  static const _i36.PageInfo<void> page = _i36.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i2.AboutViewApplicantTab]
-class AboutViewApplicantTab extends _i36.PageRouteInfo<void> {
-  const AboutViewApplicantTab({List<_i36.PageRouteInfo>? children})
-      : super(
-          AboutViewApplicantTab.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'AboutViewApplicantTab';
-
-  static const _i36.PageInfo<void> page = _i36.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i3.AddAppreciationPage]
+/// [_i1.AddAppreciationPage]
 class AddAppreciationRoute
     extends _i36.PageRouteInfo<AddAppreciationRouteArgs> {
   AddAppreciationRoute({
@@ -470,7 +442,7 @@ class AddAppreciationRouteArgs {
 }
 
 /// generated route for
-/// [_i4.AddEducationPage]
+/// [_i2.AddEducationPage]
 class AddEducationRoute extends _i36.PageRouteInfo<AddEducationRouteArgs> {
   AddEducationRoute({
     _i37.Key? key,
@@ -508,7 +480,7 @@ class AddEducationRouteArgs {
 }
 
 /// generated route for
-/// [_i5.AddJobPage]
+/// [_i3.AddJobPage]
 class AddJobRoute extends _i36.PageRouteInfo<AddJobRouteArgs> {
   AddJobRoute({
     _i37.Key? key,
@@ -546,7 +518,7 @@ class AddJobRouteArgs {
 }
 
 /// generated route for
-/// [_i6.AddLanguagePage]
+/// [_i4.AddLanguagePage]
 class AddLanguageRoute extends _i36.PageRouteInfo<AddLanguageRouteArgs> {
   AddLanguageRoute({
     _i37.Key? key,
@@ -584,7 +556,7 @@ class AddLanguageRouteArgs {
 }
 
 /// generated route for
-/// [_i7.AddPostPage]
+/// [_i5.AddPostPage]
 class AddPostRoute extends _i36.PageRouteInfo<AddPostRouteArgs> {
   AddPostRoute({
     _i37.Key? key,
@@ -622,7 +594,7 @@ class AddPostRouteArgs {
 }
 
 /// generated route for
-/// [_i8.AddResumePage]
+/// [_i6.AddResumePage]
 class AddResumeRoute extends _i36.PageRouteInfo<void> {
   const AddResumeRoute({List<_i36.PageRouteInfo>? children})
       : super(
@@ -636,7 +608,7 @@ class AddResumeRoute extends _i36.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i9.AddSkillPage]
+/// [_i7.AddSkillPage]
 class AddSkillRoute extends _i36.PageRouteInfo<AddSkillRouteArgs> {
   AddSkillRoute({
     _i37.Key? key,
@@ -674,7 +646,7 @@ class AddSkillRouteArgs {
 }
 
 /// generated route for
-/// [_i10.AddWorkExperiencePage]
+/// [_i8.AddWorkExperiencePage]
 class AddWorkExperienceRoute
     extends _i36.PageRouteInfo<AddWorkExperienceRouteArgs> {
   AddWorkExperienceRoute({
@@ -710,6 +682,34 @@ class AddWorkExperienceRouteArgs {
   String toString() {
     return 'AddWorkExperienceRouteArgs{key: $key, experience: $experience}';
   }
+}
+
+/// generated route for
+/// [_i9.ApplicantAboutTab]
+class ApplicantAboutTab extends _i36.PageRouteInfo<void> {
+  const ApplicantAboutTab({List<_i36.PageRouteInfo>? children})
+      : super(
+          ApplicantAboutTab.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ApplicantAboutTab';
+
+  static const _i36.PageInfo<void> page = _i36.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i10.ApplicantPostTab]
+class ApplicantPostTab extends _i36.PageRouteInfo<void> {
+  const ApplicantPostTab({List<_i36.PageRouteInfo>? children})
+      : super(
+          ApplicantPostTab.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ApplicantPostTab';
+
+  static const _i36.PageInfo<void> page = _i36.PageInfo<void>(name);
 }
 
 /// generated route for
@@ -1011,35 +1011,7 @@ class OnBoardingRoute extends _i36.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i23.PostApplicantTab]
-class PostApplicantTab extends _i36.PageRouteInfo<void> {
-  const PostApplicantTab({List<_i36.PageRouteInfo>? children})
-      : super(
-          PostApplicantTab.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'PostApplicantTab';
-
-  static const _i36.PageInfo<void> page = _i36.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i24.PostViewApplicantTab]
-class PostViewApplicantTab extends _i36.PageRouteInfo<void> {
-  const PostViewApplicantTab({List<_i36.PageRouteInfo>? children})
-      : super(
-          PostViewApplicantTab.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'PostViewApplicantTab';
-
-  static const _i36.PageInfo<void> page = _i36.PageInfo<void>(name);
-}
-
-/// generated route for
-/// [_i25.SaveJobPage]
+/// [_i23.SaveJobPage]
 class SaveJobRoute extends _i36.PageRouteInfo<void> {
   const SaveJobRoute({List<_i36.PageRouteInfo>? children})
       : super(
@@ -1053,7 +1025,7 @@ class SaveJobRoute extends _i36.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i26.SearchLanguagePage]
+/// [_i24.SearchLanguagePage]
 class SearchLanguageRoute extends _i36.PageRouteInfo<SearchLanguageRouteArgs> {
   SearchLanguageRoute({
     _i46.Key? key,
@@ -1091,7 +1063,7 @@ class SearchLanguageRouteArgs {
 }
 
 /// generated route for
-/// [_i27.SignInPage]
+/// [_i25.SignInPage]
 class SignInRoute extends _i36.PageRouteInfo<void> {
   const SignInRoute({List<_i36.PageRouteInfo>? children})
       : super(
@@ -1105,7 +1077,7 @@ class SignInRoute extends _i36.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i28.SignUpPage]
+/// [_i26.SignUpPage]
 class SignUpRoute extends _i36.PageRouteInfo<void> {
   const SignUpRoute({List<_i36.PageRouteInfo>? children})
       : super(
@@ -1119,7 +1091,7 @@ class SignUpRoute extends _i36.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i29.VerifyEmailPage]
+/// [_i27.VerifyEmailPage]
 class VerifyEmailRoute extends _i36.PageRouteInfo<void> {
   const VerifyEmailRoute({List<_i36.PageRouteInfo>? children})
       : super(
@@ -1133,7 +1105,7 @@ class VerifyEmailRoute extends _i36.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i30.VerifySuccessPage]
+/// [_i28.VerifySuccessPage]
 class VerifySuccessRoute extends _i36.PageRouteInfo<void> {
   const VerifySuccessRoute({List<_i36.PageRouteInfo>? children})
       : super(
@@ -1142,6 +1114,34 @@ class VerifySuccessRoute extends _i36.PageRouteInfo<void> {
         );
 
   static const String name = 'VerifySuccessRoute';
+
+  static const _i36.PageInfo<void> page = _i36.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i29.ViewApplicantAboutTab]
+class ViewApplicantAboutTab extends _i36.PageRouteInfo<void> {
+  const ViewApplicantAboutTab({List<_i36.PageRouteInfo>? children})
+      : super(
+          ViewApplicantAboutTab.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ViewApplicantAboutTab';
+
+  static const _i36.PageInfo<void> page = _i36.PageInfo<void>(name);
+}
+
+/// generated route for
+/// [_i30.ViewApplicantPostTab]
+class ViewApplicantPostTab extends _i36.PageRouteInfo<void> {
+  const ViewApplicantPostTab({List<_i36.PageRouteInfo>? children})
+      : super(
+          ViewApplicantPostTab.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ViewApplicantPostTab';
 
   static const _i36.PageInfo<void> page = _i36.PageInfo<void>(name);
 }

@@ -11,8 +11,8 @@ import 'package:jobspot/src/presentations/connection/widgets/post_loading.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 
 @RoutePage()
-class PostApplicantTab extends StatelessWidget {
-  const PostApplicantTab({super.key});
+class ApplicantPostTab extends StatelessWidget {
+  const ApplicantPostTab({super.key});
 
   @override
   Widget build(BuildContext context) {
