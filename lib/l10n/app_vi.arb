@@ -334,6 +334,8 @@
     "setting_page_yes": "ĐỒNG Ý",
     "setting_page_cancel": "HỦY",
     "setting_page_password": "Mật khẩu",
+    "setting_page_delete_account": "Xóa tài khoản",
+    "setting_page_delete_account_content": "Bạn có chắc chắn muốn xóa tài khoản này không?",
 
     "update_password_page_update": "Cập nhật",
     "update_password_page_update_password": "Cập nhật mật khẩu",

@@ -4,9 +4,16 @@ import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
 
-class BottomSheetLogOut extends StatelessWidget {
-  const BottomSheetLogOut({super.key, required this.onAccept});
+class BottomSheetSetting extends StatelessWidget {
+  const BottomSheetSetting({
+    super.key,
+    required this.content,
+    required this.title,
+    required this.onAccept,
+  });
 
+  final String title;
+  final String content;
   final VoidCallback onAccept;
 
   @override
@@ -28,12 +35,12 @@ class BottomSheetLogOut extends StatelessWidget {
           ),
           const SizedBox(height: 50),
           Text(
-            AppLocal.text.setting_page_log_out,
+            title,
             style: AppStyles.boldTextHaiti.copyWith(fontSize: 18),
           ),
           const SizedBox(height: 10),
           Text(
-            AppLocal.text.setting_page_log_out_content,
+            content,
             style: AppStyles.normalTextMulledWine,
             textAlign: TextAlign.center,
           ),

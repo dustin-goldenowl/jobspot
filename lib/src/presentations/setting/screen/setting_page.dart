@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jobspot/injection.dart';
 import 'package:jobspot/src/presentations/setting/cubit/setting_cubit.dart';
 import 'package:jobspot/src/presentations/setting/screen/setting_view.dart';
 
@@ -11,7 +12,7 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SettingCubit(),
+      create: (context) => getIt<SettingCubit>(),
       child: const SettingView(),
     );
   }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
+import 'package:jobspot/src/core/config/localization/cubit/localization_cubit.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/presentations/setting/cubit/setting_cubit.dart';
 import 'package:jobspot/src/presentations/setting/domain/router/setting_coordinator.dart';
 
@@ -15,33 +18,59 @@ class SettingView extends StatelessWidget {
       appBar: AppBar(elevation: 0, scrolledUnderElevation: 0),
       body: Padding(
         padding: const EdgeInsets.all(AppDimens.smallPadding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              AppLocal.text.setting_page_setting,
-              style: AppStyles.boldTextHaiti.copyWith(fontSize: 18),
-            ),
-            const SizedBox(height: 25),
-            _buildLanguage(context),
-            const SizedBox(height: 10),
-            _buildNotification(),
-            const SizedBox(height: 10),
-            _itemSetting(
-              icon: AppImages.lock,
-              title: AppLocal.text.setting_page_password,
-              onTap: SettingCoordinator.showUpdatePassword,
-            ),
-            const SizedBox(height: 10),
-            _itemSetting(
-              icon: AppImages.logOut,
-              title: AppLocal.text.setting_page_log_out,
-              onTap: () =>
-                  context.read<SettingCubit>().showBottomSheetLogOut(context),
-            ),
-          ],
+        child: BlocListener<SettingCubit, SettingState>(
+          listenWhen: (previous, current) {
+            if (previous.isLoading) Navigator.of(context).pop();
+
+            return true;
+          },
+          listener: (context, state) {
+            if (state.isLoading) loadingAnimation(context);
+
+            if (state.error != null) {
+              customToast(context, text: state.error ?? "");
+            }
+          },
+          child: _buildBody(context),
         ),
       ),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppLocal.text.setting_page_setting,
+          style: AppStyles.boldTextHaiti.copyWith(fontSize: 18),
+        ),
+        const SizedBox(height: 25),
+        _buildLanguage(context),
+        const SizedBox(height: 10),
+        _buildNotification(),
+        const SizedBox(height: 10),
+        _itemSetting(
+          icon: AppImages.trash,
+          title: AppLocal.text.setting_page_delete_account,
+          onTap: () => context
+              .read<SettingCubit>()
+              .showBottomSheetDeleteAccount(context),
+        ),
+        const SizedBox(height: 10),
+        _itemSetting(
+          icon: AppImages.lock,
+          title: AppLocal.text.setting_page_password,
+          onTap: SettingCoordinator.showUpdatePassword,
+        ),
+        const SizedBox(height: 10),
+        _itemSetting(
+          icon: AppImages.logOut,
+          title: AppLocal.text.setting_page_log_out,
+          onTap: () =>
+              context.read<SettingCubit>().showBottomSheetLogOut(context),
+        ),
+      ],
     );
   }
 
@@ -49,6 +78,7 @@ class SettingView extends StatelessWidget {
     return BlocBuilder<SettingCubit, SettingState>(
       buildWhen: (previous, current) => previous.isVietNam != current.isVietNam,
       builder: (context, state) {
+        context.read<LocalizationCubit>().changeLanguage(state.isVietNam);
         return _itemSetting(
           icon: AppImages.language,
           title: AppLocal.text.setting_page_language,
@@ -137,7 +167,7 @@ class SettingView extends StatelessWidget {
               colorFilter: ColorFilter.mode(AppColors.haiti, BlendMode.srcIn),
             ),
             const SizedBox(width: 10),
-            Text(title, style: TextStyle(color: AppColors.haiti)),
+            Text(title, style: AppStyles.normalTextHaiti),
             const Spacer(),
             if (content != null)
               Text(content, style: AppStyles.normalTextMulledWine),

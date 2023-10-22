@@ -13,6 +13,11 @@ class PrefsUtils {
 
   static Future openedApp() async => await prefs.setBool("first_open", true);
 
+  static bool? get isVietnamese => prefs.getBool("language");
+
+  static Future setLanguage(bool value) async =>
+      await prefs.setBool("language", value);
+
   static Future saveUserInfo(Map<String, dynamic> data) async =>
       await prefs.setString("user", jsonEncode(data));
 
