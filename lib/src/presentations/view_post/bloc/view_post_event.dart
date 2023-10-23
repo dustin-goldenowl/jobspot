@@ -4,11 +4,12 @@ abstract class ViewPostEvent extends Equatable {}
 
 class SyncPostDataEvent extends ViewPostEvent {
   final PostEntity? post;
+  final String? postID;
 
-  SyncPostDataEvent([this.post]);
+  SyncPostDataEvent({this.post, this.postID});
 
   @override
-  List<Object?> get props => [post];
+  List<Object?> get props => [post, postID];
 }
 
 class SendPostDataEvent extends ViewPostEvent {

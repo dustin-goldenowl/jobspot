@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/common/widgets/image_widget/cubit/image_widget_cubit.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
@@ -95,7 +96,8 @@ class ImageWidgetView extends StatelessWidget {
                           placeholder: (context, url) => const ItemLoading(
                               width: 150, height: 150, radius: 0),
                           errorWidget: (context, url, error) =>
-                              Image.asset(AppImages.logo, fit: BoxFit.cover),
+                              SvgPicture.asset(AppImages.logo,
+                                  fit: BoxFit.cover),
                         )
                       : Image.file(File(image), fit: BoxFit.cover)),
             ),

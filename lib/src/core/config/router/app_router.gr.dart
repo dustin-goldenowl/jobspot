@@ -405,12 +405,14 @@ abstract class $AppRouter extends _i38.RootStackRouter {
       );
     },
     ViewPostRoute.name: (routeData) {
-      final args = routeData.argsAs<ViewPostRouteArgs>();
+      final args = routeData.argsAs<ViewPostRouteArgs>(
+          orElse: () => const ViewPostRouteArgs());
       return _i38.AutoRoutePage<dynamic>(
         routeData: routeData,
         child: _i37.ViewPostPage(
           key: args.key,
           post: args.post,
+          postID: args.postID,
           isComment: args.isComment,
         ),
       );
@@ -1353,7 +1355,8 @@ class ViewPDFRouteArgs {
 class ViewPostRoute extends _i38.PageRouteInfo<ViewPostRouteArgs> {
   ViewPostRoute({
     _i39.Key? key,
-    required _i51.PostEntity post,
+    _i51.PostEntity? post,
+    String? postID,
     bool isComment = false,
     List<_i38.PageRouteInfo>? children,
   }) : super(
@@ -1361,6 +1364,7 @@ class ViewPostRoute extends _i38.PageRouteInfo<ViewPostRouteArgs> {
           args: ViewPostRouteArgs(
             key: key,
             post: post,
+            postID: postID,
             isComment: isComment,
           ),
           initialChildren: children,
@@ -1375,18 +1379,21 @@ class ViewPostRoute extends _i38.PageRouteInfo<ViewPostRouteArgs> {
 class ViewPostRouteArgs {
   const ViewPostRouteArgs({
     this.key,
-    required this.post,
+    this.post,
+    this.postID,
     this.isComment = false,
   });
 
   final _i39.Key? key;
 
-  final _i51.PostEntity post;
+  final _i51.PostEntity? post;
+
+  final String? postID;
 
   final bool isComment;
 
   @override
   String toString() {
-    return 'ViewPostRouteArgs{key: $key, post: $post, isComment: $isComment}';
+    return 'ViewPostRouteArgs{key: $key, post: $post, postID: $postID, isComment: $isComment}';
   }
 }

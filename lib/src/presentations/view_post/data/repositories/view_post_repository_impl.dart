@@ -6,6 +6,8 @@ import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
+import 'package:jobspot/src/presentations/notification/domain/entities/send_notification_entity.dart';
+import 'package:jobspot/src/presentations/notification/domain/use_cases/send_notification_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/data/models/comment_model.dart';
 import 'package:jobspot/src/presentations/view_post/data/models/reply_comment_model.dart';
 import 'package:jobspot/src/presentations/view_post/data/models/send_comment_model.dart';
@@ -17,6 +19,10 @@ import 'package:jobspot/src/presentations/view_post/domain/repositories/view_pos
 
 @LazySingleton(as: ViewPostRepository)
 class ViewPostRepositoryImpl extends ViewPostRepository {
+  final SendNotificationUseCase _useCase;
+
+  ViewPostRepositoryImpl(this._useCase);
+
   @override
   Future<DataState<List<CommentEntity>>> getCommentFirstLevel(
       List<String> listComment) async {
@@ -85,6 +91,12 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
       final snapshot = response.last as DocumentSnapshot<Map<String, dynamic>>;
       List<String> comments =
           List<String>.from(snapshot.data()!["comment"].map((x) => x));
+      _useCase.call(
+          params: SendNotificationEntity(
+        action: comment.post,
+        to: comment.owner,
+        type: "comment",
+      ));
       await postStore.update({
         "comment": [...comments, commentStore.id]
       });
@@ -105,6 +117,16 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
         listFavourite.add(FirebaseAuth.instance.currentUser!.uid);
       }
       await XCollection.post.doc(favourite.id).update({"like": listFavourite});
+      _useCase.call(
+          params: SendNotificationEntity(
+        action: favourite.id,
+        to: favourite.owner,
+        type: "favourite",
+      ));
+      await FirebaseFirestore.instance
+          .collection("posts")
+          .doc(favourite.id)
+          .update({"like": listFavourite});
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());

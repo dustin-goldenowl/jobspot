@@ -45,6 +45,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
 
   StreamSubscription? _postStream;
   String? _postID;
+  String? _owner;
   CommentEntity? replyComment;
 
   ViewPostBloc(
@@ -102,16 +103,19 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
 
   void _syncPostData(SyncPostDataEvent event, Emitter emitter) {
     if (_postID == null && event.post != null) {
-      _postID = event.post!.id;
+      _postID ??= event.post!.id;
+      _owner ??= event.post!.owner;
       add(SendPostDataEvent(event.post!));
       add(GetListCommentEvent(
         listComment: event.post!.comment,
         isLoading: true,
       ));
     }
+    _postID ??= event.postID;
     if (_postStream != null) _postStream!.cancel();
     _postStream = _syncPostDataUseCase.call(params: _postID!).listen((event) {
       if (event is DataSuccess) {
+        _owner ??= event.data!.owner;
         add(SendPostDataEvent(event.data!));
         add(GetListCommentEvent(listComment: event.data!.comment));
       }
@@ -138,6 +142,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     commentFocusNode.unfocus();
     final response = await _sendCommentUseCase.call(
         params: SendCommentEntity(
+      owner: _owner ?? "",
       content: comment,
       post: _postID!,
     ));
@@ -182,7 +187,11 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
 
   Future _favouritePost(FavouritePostEvent event, Emitter emit) async {
     final response = await _favouritePostUseCase.call(
-      params: FavouriteEntity(id: _postID!, listFavourite: event.listFavourist),
+      params: FavouriteEntity(
+        id: _postID!,
+        listFavourite: event.listFavourist,
+        owner: _owner ?? "",
+      ),
     );
     if (response is DataFailed) {
       emit(ViewPostError(response.error ?? ""));
@@ -197,7 +206,11 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
         : listFavourite.add(uid);
     emit(FavouriteCommentLoading(id: event.id, listFavoutite: listFavourite));
     final response = await _favouriteCommentUseCase.call(
-        params: FavouriteEntity(id: event.id, listFavourite: listFavourite));
+        params: FavouriteEntity(
+      id: event.id,
+      listFavourite: listFavourite,
+      owner: _owner ?? "",
+    ));
     if (response is DataSuccess) {
       emit(FavouriteCommentSuccess(id: event.id, listFavoutite: listFavourite));
     } else {

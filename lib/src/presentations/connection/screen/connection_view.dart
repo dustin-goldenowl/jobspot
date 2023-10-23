@@ -60,6 +60,7 @@ class ConnectionView extends StatelessWidget {
                         onFavourite: () => context
                             .read<cubit.ConnectionCubit>()
                             .favouritePost(FavouriteEntity(
+                              owner: state.posts![index].owner,
                               id: state.posts![index].id,
                               listFavourite: state.posts![index].like,
                             )),

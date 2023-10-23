@@ -8,6 +8,7 @@ import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
+import 'package:jobspot/src/presentations/connection/widgets/post_loading.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_input.dart';
 import 'package:jobspot/src/presentations/view_post/bloc/view_post_bloc.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/comment_entity.dart';
@@ -117,7 +118,7 @@ class ViewPostView extends StatelessWidget {
             ],
           );
         }
-        return const SizedBox();
+        return const PostLoading();
       },
     );
   }
