@@ -12,6 +12,7 @@ import 'package:jobspot/src/presentations/applicant_profile/data/models/apprecia
 import 'package:jobspot/src/presentations/applicant_profile/data/models/resume_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/work_experience_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/education_entity.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/entities/get_post_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/resume_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/appreciation_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/work_experience_entity.dart';
@@ -24,12 +25,13 @@ import 'package:jobspot/src/data/models/user_model.dart' as user_model;
 @LazySingleton(as: ApplicantProfileRepository)
 class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
   @override
-  Stream<DataState<List<PostEntity>>> getListPost(int limit) {
+  Stream<DataState<List<PostEntity>>> getListPost(GetPostEntity entity) {
     try {
       return FirebaseFirestore.instance
           .collection("posts")
-          .where("owner", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-          .limit(limit)
+          .where("owner",
+              isEqualTo: entity.uid ?? FirebaseAuth.instance.currentUser!.uid)
+          .limit(entity.limit)
           .snapshots()
           .asyncMap((event) async {
         List<PostModel> listPost =

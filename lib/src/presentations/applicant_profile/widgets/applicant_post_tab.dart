@@ -8,10 +8,11 @@ import 'package:jobspot/src/presentations/applicant_profile/cubit/applicant_prof
 import 'package:jobspot/src/presentations/applicant_profile/domain/router/applicant_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/connection/widgets/post_item.dart';
 import 'package:jobspot/src/presentations/connection/widgets/post_loading.dart';
+import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 
 @RoutePage()
-class PostTab extends StatelessWidget {
-  const PostTab({super.key});
+class ApplicantPostTab extends StatelessWidget {
+  const ApplicantPostTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +29,15 @@ class PostTab extends StatelessWidget {
                   post: state.listPost![index],
                   isComment: true,
                 ),
-                onFavourite: () {},
+                onFavourite: () => context
+                    .read<ApplicantProfileCubit>()
+                    .favouritePost(FavouriteEntity(
+                      id: state.listPost![index].id,
+                      listFavourite: state.listPost![index].like,
+                    )),
                 onShare: () {},
                 onViewFullPost: () => ApplicantProfileCoordinator.showFullPost(
                     post: state.listPost![index]),
-                onViewProfile: () {},
                 moreWidget: PopupMenuButton<int>(
                   color: Colors.white,
                   icon: Icon(

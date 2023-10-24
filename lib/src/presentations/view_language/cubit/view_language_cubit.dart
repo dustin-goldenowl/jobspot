@@ -6,25 +6,25 @@ import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/add_language/domain/use_cases/delete_language_use_case.dart';
 import 'package:jobspot/src/presentations/view_language/domain/entities/language_entity.dart';
-import 'package:jobspot/src/presentations/view_language/domain/use_cases/get_language_use_case.dart';
+import 'package:jobspot/src/presentations/view_language/domain/use_cases/stream_language_use_case.dart';
 
 part 'view_language_state.dart';
 
 @injectable
 class ViewLanguageCubit extends Cubit<ViewLanguageState> {
-  final GetLanguagesUseCase _getLanguagesUseCase;
+  final StreamLanguagesUseCase _streamLanguagesUseCase;
   final DeleteLanguageUseCase _deleteLanguageUseCase;
 
   StreamSubscription? _subscription;
 
-  ViewLanguageCubit(this._getLanguagesUseCase, this._deleteLanguageUseCase)
+  ViewLanguageCubit(this._streamLanguagesUseCase, this._deleteLanguageUseCase)
       : super(const ViewLanguageState()) {
     getLanguage();
   }
 
   void getLanguage() {
     if (_subscription != null) _subscription!.cancel();
-    _subscription = _getLanguagesUseCase.call().listen((event) {
+    _subscription = _streamLanguagesUseCase.call().listen((event) {
       if (event is DataSuccess) {
         emit(state.copy(listLanguage: event.data));
       }

@@ -4,10 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 
 class AddButton extends StatelessWidget {
-  const AddButton({super.key, required this.isShowEdit, required this.onTap});
+  const AddButton({super.key, required this.isShowEdit, this.onTap});
 
   final bool isShowEdit;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {

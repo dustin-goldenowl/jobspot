@@ -70,7 +70,8 @@ class ConnectionView extends StatelessWidget {
                             ConnectionCoordinator.showFullPost(
                                 post: state.posts![index]),
                         onViewProfile: () {
-                          //TODO tab to view profile
+                          ConnectionCoordinator.showViewProfile(
+                              uid: state.posts![index].user.id);
                         },
                       )
                     : state.isMore
