@@ -5,7 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
@@ -29,14 +28,12 @@ class EditApplicantProfileView extends StatelessWidget {
           controller:
               context.read<EditApplicantProfileCubit>().scrollController,
           physics: const BouncingScrollPhysics(),
-          headerSliverBuilder: (context, innerBoxIsScrolled) =>
-              [_buildAppBar(context)],
+          headerSliverBuilder: (_, __) => [_buildAppBar()],
           body: BlocListener<EditApplicantProfileCubit,
               EditApplicantProfileState>(
             listenWhen: (previous, current) {
-              if (previous.isLoading) {
-                Navigator.of(context).pop();
-              }
+              if (previous.isLoading) Navigator.of(context).pop();
+
               if (previous.isLoading && current.error == null) {
                 context.router.pop();
               }
@@ -64,8 +61,7 @@ class EditApplicantProfileView extends StatelessWidget {
         child: Column(
           children: [
             CustomTitleTextInput(
-              title: AppLocalizations.of(context)!
-                  .edit_applicant_profile_page_fullname,
+              title: AppLocal.text.edit_applicant_profile_page_fullname,
               controller:
                   context.read<EditApplicantProfileCubit>().nameController,
             ),
@@ -76,15 +72,13 @@ class EditApplicantProfileView extends StatelessWidget {
             const SizedBox(height: 15),
             CustomTitleTextInput(
               onTap: () {}, // ontap => set readonly
-              title: AppLocalizations.of(context)!
-                  .edit_applicant_profile_page_email,
+              title: AppLocal.text.edit_applicant_profile_page_email,
               controller:
                   context.read<EditApplicantProfileCubit>().emailController,
             ),
             const SizedBox(height: 15),
             CustomTitleTextInput(
-              title: AppLocalizations.of(context)!
-                  .edit_applicant_profile_page_address,
+              title: AppLocal.text.edit_applicant_profile_page_address,
               controller:
                   context.read<EditApplicantProfileCubit>().locationController,
             ),
@@ -94,8 +88,7 @@ class EditApplicantProfileView extends StatelessWidget {
               child: CustomButton(
                 onPressed:
                     context.read<EditApplicantProfileCubit>().updateUserInfo,
-                title: AppLocalizations.of(context)!
-                    .edit_applicant_profile_page_save
+                title: AppLocal.text.edit_applicant_profile_page_save
                     .toUpperCase(),
               ),
             )
@@ -132,10 +125,10 @@ class EditApplicantProfileView extends StatelessWidget {
     );
   }
 
-  Widget _buildAppBar(BuildContext context) {
-    double width = MediaQuery.sizeOf(context).width;
+  Widget _buildAppBar() {
     return BlocBuilder<EditApplicantProfileCubit, EditApplicantProfileState>(
       builder: (context, state) {
+        double width = MediaQuery.sizeOf(context).width;
         return SliverAppBar(
           leading: IconButton(
             onPressed: () => context.router.pop(),
@@ -196,7 +189,7 @@ class EditApplicantProfileView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 20),
-                  Hero(tag: AppTags.avatar, child: _buildAvatar()),
+                  _buildAvatar(),
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () => context
@@ -212,8 +205,7 @@ class EditApplicantProfileView extends StatelessWidget {
                         vertical: 5,
                       ),
                       child: Text(
-                        AppLocalizations.of(context)!
-                            .edit_applicant_profile_page_change_image,
+                        AppLocal.text.edit_applicant_profile_page_change_image,
                         style: AppStyles.normalTextWhite.copyWith(fontSize: 14),
                       ),
                     ),
@@ -231,18 +223,21 @@ class EditApplicantProfileView extends StatelessWidget {
     return BlocBuilder<EditApplicantProfileCubit, EditApplicantProfileState>(
       buildWhen: (previous, current) => previous.avatar != current.avatar,
       builder: (context, state) {
-        return ClipOval(
-          child: state.avatar.isLink || state.avatar.isEmpty
-              ? CachedNetworkImage(
-                  imageUrl: state.avatar,
-                  height: 100,
-                  width: 100,
-                  placeholder: (context, url) =>
-                      const ItemLoading(width: 100, height: 100, radius: 90),
-                  errorWidget: (context, url, error) =>
-                      SvgPicture.asset(AppImages.logo),
-                )
-              : Image.file(File(state.avatar), height: 100, width: 100),
+        return Hero(
+          tag: AppTags.avatar,
+          child: ClipOval(
+            child: state.avatar.isLink || state.avatar.isEmpty
+                ? CachedNetworkImage(
+                    imageUrl: state.avatar,
+                    height: 100,
+                    width: 100,
+                    placeholder: (context, url) =>
+                        const ItemLoading(width: 100, height: 100, radius: 90),
+                    errorWidget: (context, url, error) =>
+                        SvgPicture.asset(AppImages.logo),
+                  )
+                : Image.file(File(state.avatar), height: 100, width: 100),
+          ),
         );
       },
     );

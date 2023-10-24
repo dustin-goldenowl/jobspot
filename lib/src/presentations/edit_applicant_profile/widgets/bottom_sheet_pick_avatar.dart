@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 
 class BottomSheetPickAvatar extends StatelessWidget {
@@ -27,8 +27,7 @@ class BottomSheetPickAvatar extends StatelessWidget {
           ),
           const SizedBox(height: 40),
           _buildOption(
-            title: AppLocalizations.of(context)!
-                .edit_applicant_profile_page_camera,
+            title: AppLocal.text.edit_applicant_profile_page_camera,
             icon: AppImages.camera,
             onTap: () {
               onTap(true);
@@ -37,8 +36,7 @@ class BottomSheetPickAvatar extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           _buildOption(
-            title: AppLocalizations.of(context)!
-                .edit_applicant_profile_page_gallery,
+            title: AppLocal.text.edit_applicant_profile_page_gallery,
             icon: AppImages.gallery,
             onTap: () {
               onTap(false);
