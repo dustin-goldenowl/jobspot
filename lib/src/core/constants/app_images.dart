@@ -36,4 +36,8 @@ class AppImages {
   static String skill = "assets/images/skill.svg";
   static String archive = "assets/images/archive.svg";
   static String resume = "assets/images/resume.svg";
+  static String logOut = "assets/images/log_out.svg";
+  static String lock = "assets/images/lock.svg";
+  static String vietnam = "assets/images/vietnam.svg";
+  static String english = "assets/images/united_kingdom.svg";
 }

@@ -12,6 +12,7 @@ import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/cubit/applicant_profile_cubit.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/router/applicant_profile_coordinator.dart';
 
 class ApplicantProfileView extends StatefulWidget {
   const ApplicantProfileView({super.key});
@@ -93,7 +94,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
         return SliverAppBar(
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: ApplicantProfileCoordinator.showSetting,
               icon: SvgPicture.asset(AppImages.setting),
             ),
             const SizedBox(width: 5),
