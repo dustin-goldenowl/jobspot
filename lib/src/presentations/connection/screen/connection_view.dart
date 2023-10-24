@@ -7,7 +7,7 @@ import 'package:jobspot/src/presentations/connection/cubit/connection_cubit.dart
     as cubit;
 import 'package:jobspot/src/presentations/connection/domain/router/connection_coordinator.dart';
 import 'package:jobspot/src/presentations/connection/widgets/post_item.dart';
-import 'package:jobspot/src/presentations/connection/widgets/post_loading.dart';
+import 'package:jobspot/src/presentations/connection/widgets/post_item_loading.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 
 class ConnectionView extends StatelessWidget {
@@ -76,7 +76,7 @@ class ConnectionView extends StatelessWidget {
                         },
                       )
                     : state.isMore
-                        ? const PostLoading()
+                        ? const PostItemLoading()
                         : _buildNoPost();
               },
             );

@@ -16,13 +16,23 @@ class NotificationItem extends StatelessWidget {
   });
 
   final NotificationEntity notification;
-  final Function(String action, String id) onTap;
+  final Function(String action, String type, String id) onTap;
   final Function(String id) onDelete;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onTap(notification.action, notification.id),
+      onTap: () {
+        if ([AppTags.reply, AppTags.favouriteCmt].contains(notification.type)) {
+          onTap(
+            notification.comment?.post ?? "",
+            notification.type,
+            notification.id,
+          );
+        } else {
+          onTap(notification.action, notification.type, notification.id);
+        }
+      },
       child: Container(
         padding: const EdgeInsets.all(AppDimens.smallPadding),
         decoration: BoxDecoration(
@@ -91,25 +101,37 @@ class NotificationItem extends StatelessWidget {
 
   Widget _buildContent() {
     final content = switch (notification.type) {
-      AppTags.favourite ||
-      AppTags.comment ||
-      AppTags.share =>
-        AppLocal.text.notification_favourite(
+      AppTags.favourite => AppLocal.text.notification_favourite(
           notification.from.name,
           notification.post?.title ?? "",
         ),
-      AppTags.favouriteCmt ||
-      AppTags.reply =>
-        AppLocal.text.notification_favourite_cmt(
+      AppTags.comment => AppLocal.text.notification_comment(
           notification.from.name,
-          notification.comment?.content ?? "",
+          notification.post?.title ?? "",
         ),
-      AppTags.apply ||
-      AppTags.accept ||
-      AppTags.reject =>
-        AppLocal.text.notification_apply(
+      AppTags.favouriteCmt => AppLocal.text.notification_favourite_cmt(
+          notification.comment?.content ?? "",
           notification.from.name,
+        ),
+      AppTags.reply => AppLocal.text.notification_reply(
+          notification.comment?.content ?? "",
+          notification.from.name,
+        ),
+      AppTags.apply => AppLocal.text.notification_apply(
           notification.job?.jobPosition ?? "",
+          notification.from.name,
+        ),
+      AppTags.accept => AppLocal.text.notification_accept(
+          notification.job?.jobPosition ?? "",
+          notification.from.name,
+        ),
+      AppTags.reject => AppLocal.text.notification_reject(
+          notification.job?.jobPosition ?? "",
+          notification.from.name,
+        ),
+      AppTags.share => AppLocal.text.notification_share(
+          notification.from.name,
+          notification.post?.title ?? "",
         ),
       _ => ""
     };

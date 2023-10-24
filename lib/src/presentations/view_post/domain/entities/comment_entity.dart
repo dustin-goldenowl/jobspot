@@ -2,15 +2,17 @@ import 'package:jobspot/src/presentations/connection/domain/entities/user_entity
 
 class CommentEntity {
   final String id;
+  final String post;
+  final String content;
   final List<String> reply;
   final List<String> like;
   final UserEntity user;
-  final String content;
   final DateTime createAt;
 
   CommentEntity({
     required this.id,
     required this.content,
+    required this.post,
     required this.like,
     required this.reply,
     required this.createAt,

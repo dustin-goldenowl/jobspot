@@ -379,7 +379,7 @@ abstract class $AppRouter extends _i38.RootStackRouter {
         routeData: routeData,
         child: _i34.ViewJobPage(
           key: args.key,
-          postID: args.postID,
+          jobID: args.jobID,
         ),
       );
     },
@@ -1236,13 +1236,13 @@ class ViewApplicantProfileRouteArgs {
 class ViewJobRoute extends _i38.PageRouteInfo<ViewJobRouteArgs> {
   ViewJobRoute({
     _i39.Key? key,
-    required String postID,
+    required String jobID,
     List<_i38.PageRouteInfo>? children,
   }) : super(
           ViewJobRoute.name,
           args: ViewJobRouteArgs(
             key: key,
-            postID: postID,
+            jobID: jobID,
           ),
           initialChildren: children,
         );
@@ -1256,16 +1256,16 @@ class ViewJobRoute extends _i38.PageRouteInfo<ViewJobRouteArgs> {
 class ViewJobRouteArgs {
   const ViewJobRouteArgs({
     this.key,
-    required this.postID,
+    required this.jobID,
   });
 
   final _i39.Key? key;
 
-  final String postID;
+  final String jobID;
 
   @override
   String toString() {
-    return 'ViewJobRouteArgs{key: $key, postID: $postID}';
+    return 'ViewJobRouteArgs{key: $key, jobID: $jobID}';
   }
 }
 

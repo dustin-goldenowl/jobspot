@@ -37,11 +37,8 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
           response.map((e) => CommentModel.fromSnapshot(e)).toList();
       final listUser = await getListUser(comments);
       comments = comments
-          .map(
-            (e) => e.copyWith(
-              user: listUser.firstWhere((element) => element.id == e.owner),
-            ),
-          )
+          .map((e) => e.copyWith(
+              user: listUser.firstWhere((element) => element.id == e.owner)))
           .toList();
       return DataSuccess(comments.map((e) => e.toCommentEntity()).toList());
     } catch (e) {
@@ -99,7 +96,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
           params: SendNotificationEntity(
         action: comment.post,
         to: comment.owner,
-        type: "comment",
+        type: AppTags.comment,
       ));
       await postStore.update({
         "comment": [...comments, commentStore.id]
@@ -124,17 +121,14 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
       final notification = SendNotificationEntity(
         action: favourite.id,
         to: favourite.uidTo,
-        type: "favourite",
+        type: AppTags.favourite,
       );
       if (listFavourite.contains(uid)) {
         _sendNotificationUseCase.call(params: notification);
       } else {
         _deleteNotificationUseCase.call(params: notification);
       }
-      await FirebaseFirestore.instance
-          .collection("posts")
-          .doc(favourite.id)
-          .update({"like": listFavourite});
+      await XCollection.post.doc(favourite.id).update({"like": listFavourite});
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
@@ -144,8 +138,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
   @override
   Future<DataState<bool>> favouriteComment(FavouriteEntity favourite) async {
     try {
-      await FirebaseFirestore.instance
-          .collection("comments")
+      await XCollection.comment
           .doc(favourite.id)
           .update({"like": favourite.listFavourite});
       return DataSuccess(true);

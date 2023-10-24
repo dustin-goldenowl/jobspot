@@ -7,7 +7,7 @@ import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/applicant_profile/cubit/applicant_profile_cubit.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/router/applicant_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/connection/widgets/post_item.dart';
-import 'package:jobspot/src/presentations/connection/widgets/post_loading.dart';
+import 'package:jobspot/src/presentations/connection/widgets/post_item_loading.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 
 @RoutePage()
@@ -35,7 +35,6 @@ class ApplicantPostTab extends StatelessWidget {
                       uidTo: state.listPost![index].user.id,
                       id: state.listPost![index].id,
                       listFavourite: state.listPost![index].like,
-                      uidTo: state.listPost![index].user.id,
                     )),
                 onShare: () {},
                 onViewFullPost: () => ApplicantProfileCoordinator.showFullPost(
@@ -70,7 +69,7 @@ class ApplicantPostTab extends StatelessWidget {
                 ),
               );
             }
-            return const PostLoading();
+            return const PostItemLoading();
           },
           separatorBuilder: (context, index) => const SizedBox(height: 15),
           itemCount: state.listPost?.length ?? 10,

@@ -9,4 +9,7 @@ class NotificationCoordinator {
 
   static void showPost(String postID) =>
       rootRouter.push(ViewPostRoute(postID: postID));
+
+  static void showJob(String jobID) =>
+      rootRouter.push(ViewJobRoute(jobID: jobID));
 }

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/constants/app_tags.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/core/service/firebase_messaging_service.dart';
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
@@ -19,8 +20,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
   @override
   Stream<DataState<List<NotificationEntity>>> streamNotification() {
     try {
-      return FirebaseFirestore.instance
-          .collection("notifications")
+      return XCollection.notification
           .where("to", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .orderBy("createAt", descending: true)
           .snapshots()
@@ -56,6 +56,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
         return DataSuccess(notifications.map((e) => e.toEntity()!).toList());
       });
     } catch (e) {
+      print(e.toString());
       return Stream.value(DataFailed(e.toString()));
     }
   }
@@ -65,10 +66,8 @@ class NotificationRepositoryImpl extends NotificationRepository {
     for (var data in datas) {
       listUserId.add(data.from);
     }
-    final userData = await Future.wait(listUserId
-        .map((id) =>
-            FirebaseFirestore.instance.collection("users").doc(id).get())
-        .toList());
+    final userData = await Future.wait(
+        listUserId.map((id) => XCollection.user.doc(id).get()).toList());
     return userData.map((e) => UserModel.fromDocumentSnapshot(e)).toList();
   }
 
@@ -78,10 +77,8 @@ class NotificationRepositoryImpl extends NotificationRepository {
     for (var data in datas) {
       if (listTag.contains(data.type)) listPostId.add(data.action);
     }
-    final userData = await Future.wait(listPostId
-        .map((id) =>
-            FirebaseFirestore.instance.collection("posts").doc(id).get())
-        .toList());
+    final userData = await Future.wait(
+        listPostId.map((id) => XCollection.post.doc(id).get()).toList());
     return userData.map((e) => PostModel.fromDocumentSnapshot(e)).toList();
   }
 
@@ -91,10 +88,8 @@ class NotificationRepositoryImpl extends NotificationRepository {
     for (var data in datas) {
       if (listTag.contains(data.type)) listJobId.add(data.action);
     }
-    final userData = await Future.wait(listJobId
-        .map(
-            (id) => FirebaseFirestore.instance.collection("jobs").doc(id).get())
-        .toList());
+    final userData = await Future.wait(
+        listJobId.map((id) => XCollection.job.doc(id).get()).toList());
     return userData.map((e) => JobModel.fromDocumentSnapshot(e)).toList();
   }
 
@@ -105,10 +100,8 @@ class NotificationRepositoryImpl extends NotificationRepository {
     for (var data in datas) {
       if (listTag.contains(data.type)) listCommentId.add(data.action);
     }
-    final userData = await Future.wait(listCommentId
-        .map((id) =>
-            FirebaseFirestore.instance.collection("comments").doc(id).get())
-        .toList());
+    final userData = await Future.wait(
+        listCommentId.map((id) => XCollection.comment.doc(id).get()).toList());
     return userData.map((e) => CommentModel.fromSnapshot(e)).toList();
   }
 
@@ -121,9 +114,8 @@ class NotificationRepositoryImpl extends NotificationRepository {
       }
 
       final response = await Future.wait([
-        FirebaseFirestore.instance.collection("tokens").doc(entity.to).get(),
-        FirebaseFirestore.instance
-            .collection("notifications")
+        XCollection.token.doc(entity.to).get(),
+        XCollection.notification
             .doc()
             .set(SendNotificationModel.fromEntity(entity).toJson()),
       ]);
@@ -140,10 +132,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
   @override
   Future<DataState<bool>> readNotification(String id) async {
     try {
-      await FirebaseFirestore.instance
-          .collection("notifications")
-          .doc(id)
-          .update({"isRead": true});
+      await XCollection.notification.doc(id).update({"isRead": true});
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
@@ -153,8 +142,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
   @override
   Future<DataState<bool>> readAllNotification() async {
     try {
-      final response = await FirebaseFirestore.instance
-          .collection("notifications")
+      final response = await XCollection.notification
           .where("to", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .get();
       await Future.wait(
@@ -168,10 +156,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
   @override
   Future<DataState<bool>> deleteNotificationFromID(String id) async {
     try {
-      await FirebaseFirestore.instance
-          .collection("notifications")
-          .doc(id)
-          .delete();
+      await XCollection.notification.doc(id).delete();
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
@@ -182,8 +167,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
   Future<DataState<bool>> deleteNotification(
       SendNotificationEntity entity) async {
     try {
-      final response = await FirebaseFirestore.instance
-          .collection("notifications")
+      final response = await XCollection.notification
           .where("to", isEqualTo: entity.to)
           .where("from", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .where("type", isEqualTo: entity.type)

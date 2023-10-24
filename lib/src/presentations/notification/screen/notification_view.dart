@@ -48,6 +48,7 @@ class NotificationView extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.listNotification != current.listNotification,
       builder: (context, state) {
+        final listTag = [AppTags.accept, AppTags.apply, AppTags.reject];
         return ListView.separated(
           physics: const BouncingScrollPhysics(
             parent: AlwaysScrollableScrollPhysics(),
@@ -57,8 +58,12 @@ class NotificationView extends StatelessWidget {
             if (state.listNotification != null) {
               return NotificationItem(
                 notification: state.listNotification![index],
-                onTap: (action, id) {
-                  NotificationCoordinator.showPost(action);
+                onTap: (action, type, id) {
+                  if (listTag.contains(type)) {
+                    NotificationCoordinator.showJob(action);
+                  } else {
+                    NotificationCoordinator.showPost(action);
+                  }
                   context.read<NotificationCubit>().readNotification(id);
                 },
                 onDelete: context.read<NotificationCubit>().deleteNotification,

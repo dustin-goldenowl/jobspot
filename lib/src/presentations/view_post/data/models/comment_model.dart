@@ -6,6 +6,7 @@ import 'package:jobspot/src/presentations/view_post/domain/entities/comment_enti
 class CommentModel {
   final String id;
   final String owner;
+  final String post;
   final List<String> reply;
   final List<String> like;
   final UserModel? user;
@@ -19,6 +20,7 @@ class CommentModel {
     required this.like,
     required this.reply,
     required this.createAt,
+    required this.post,
     this.user,
   });
 
@@ -28,6 +30,7 @@ class CommentModel {
     return CommentModel(
       id: snapshot.id,
       owner: data["owner"],
+      post: data["post"],
       content: data["content"],
       like: List<String>.from(data["like"].map((x) => x)),
       reply: List<String>.from(data["reply"].map((x) => x)),
@@ -44,12 +47,14 @@ class CommentModel {
       reply: reply,
       createAt: createAt,
       user: user,
+      post: post,
     );
   }
 
   CommentEntity toCommentEntity() => CommentEntity(
         id: id,
         content: content,
+        post: post,
         like: like,
         reply: reply,
         createAt: createAt,

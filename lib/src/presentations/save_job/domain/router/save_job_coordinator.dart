@@ -8,8 +8,8 @@ class SaveJobCoordinator {
 
   static AppRouter get rootRouter => getIt<AppRouter>();
 
-  static void showViewJobDescription(String postID) =>
-      rootRouter.push(ViewJobRoute(postID: postID));
+  static void showViewJobDescription(String jobID) =>
+      rootRouter.push(ViewJobRoute(jobID: jobID));
 
   static void showApplyJob(JobEntity job) =>
       rootRouter.push(ApplyJobRoute(job: job));
