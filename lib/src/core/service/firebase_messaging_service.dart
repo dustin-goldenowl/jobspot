@@ -23,8 +23,6 @@ class FirebaseMessagingService {
     required String body,
   }) async {
     final user = PrefsUtils.getUserInfo();
-    token =
-        "eLI0XJOXSZadb2eeb9YU61:APA91bHWtGr-8gh6r8bkSZ7Xc9RMwO9VLfixowH7_DfKROn-t2jl5wqWtK_vTbfoZmsUfoFgzqQWwvTsqsELNGCHZ6HR9KjdfCYwRKhG8hVuOyWbvDIQsrCndFJ6AxBHnRfc8HQXRxxX";
     final data = {
       "to": token,
       "priority": "high",

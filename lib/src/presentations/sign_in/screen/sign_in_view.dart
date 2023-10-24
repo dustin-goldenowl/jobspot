@@ -33,6 +33,7 @@ class SignInView extends StatelessWidget {
           }
 
           if (state.dataState is DataSuccess) {
+            context.read<SignInCubit>().updateToken();
             customToast(context, text: AppLocal.text.logged_in_successfully);
             SignInCoordinator.showMain();
           }

@@ -181,4 +181,16 @@ class NotificationRepositoryImpl extends NotificationRepository {
       return DataFailed(e.toString());
     }
   }
+
+  @override
+  Future<DataState<bool>> updateToken(String token) async {
+    try {
+      await XCollection.token
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({"token": token});
+      return DataSuccess(true);
+    } catch (e) {
+      return DataFailed(e.toString());
+    }
+  }
 }

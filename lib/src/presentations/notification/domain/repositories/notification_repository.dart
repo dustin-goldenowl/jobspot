@@ -14,4 +14,6 @@ abstract class NotificationRepository {
   Future<DataState<bool>> deleteNotificationFromID(String id);
 
   Future<DataState<bool>> deleteNotification(SendNotificationEntity entity);
+
+  Future<DataState<bool>> updateToken(String token);
 }

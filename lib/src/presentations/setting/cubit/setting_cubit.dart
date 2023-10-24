@@ -7,6 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
+import 'package:jobspot/src/presentations/notification/domain/use_cases/update_token_use_case.dart';
 import 'package:jobspot/src/presentations/setting/domain/router/setting_coordinator.dart';
 import 'package:jobspot/src/presentations/setting/domain/use_cases/delete_account_use_case.dart';
 import 'package:jobspot/src/presentations/setting/widgets/bottom_sheet_language.dart';
@@ -16,9 +17,11 @@ part 'setting_state.dart';
 
 @injectable
 class SettingCubit extends Cubit<SettingState> {
-  final DeleteAccountUseCase _useCase;
+  final DeleteAccountUseCase _deleteAccountUseCase;
+  final UpdateTokenUseCase _updateTokenUseCase;
 
-  SettingCubit(this._useCase) : super(SettingState.ds());
+  SettingCubit(this._deleteAccountUseCase, this._updateTokenUseCase)
+      : super(SettingState.ds());
 
   void changeNotification(bool value) =>
       emit(state.copyWith(isNotification: value));
@@ -26,6 +29,7 @@ class SettingCubit extends Cubit<SettingState> {
   void changeLanguage(bool value) => emit(state.copyWith(isVietNam: value));
 
   void logOut() {
+    _updateTokenUseCase.call(params: "");
     PrefsUtils.removeUserInfo();
     FirebaseAuth.instance.signOut();
     GoogleSignIn().signOut();
@@ -34,7 +38,7 @@ class SettingCubit extends Cubit<SettingState> {
 
   Future deleteAccount() async {
     emit(state.copyWith(isLoading: true));
-    final response = await _useCase.call();
+    final response = await _deleteAccountUseCase.call();
     if (response is DataSuccess) {
       emit(state.copyWith());
       logOut();
