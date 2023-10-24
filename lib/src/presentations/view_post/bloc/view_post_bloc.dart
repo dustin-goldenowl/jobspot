@@ -160,6 +160,8 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     emit(ChangeTextCommentState());
     final response = await _replyCommentUseCase.call(
         params: ReplyCommentEntity(
+      uidComment: event.uidComment,
+      uidPost: _owner ?? "",
       postID: _postID!,
       commentID: commentID,
       content: comment,
@@ -190,7 +192,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
       params: FavouriteEntity(
         id: _postID!,
         listFavourite: event.listFavourist,
-        owner: _owner ?? "",
+        uidTo: _owner ?? "",
       ),
     );
     if (response is DataFailed) {
@@ -209,7 +211,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
         params: FavouriteEntity(
       id: event.id,
       listFavourite: listFavourite,
-      owner: _owner ?? "",
+      uidTo: _owner ?? "",
     ));
     if (response is DataSuccess) {
       emit(FavouriteCommentSuccess(id: event.id, listFavoutite: listFavourite));

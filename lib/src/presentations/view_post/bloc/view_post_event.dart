@@ -88,8 +88,12 @@ class ReplyCommentClickEvent extends ViewPostEvent {
 }
 
 class ReplyCommentEvent extends ViewPostEvent {
+  final String uidComment;
+
+  ReplyCommentEvent({required this.uidComment});
+
   @override
-  List<Object?> get props => [identityHashCode(this)];
+  List<Object?> get props => [uidComment];
 }
 
 class ViewReplyCommentEvent extends ViewPostEvent {

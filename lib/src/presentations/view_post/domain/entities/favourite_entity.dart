@@ -1,11 +1,11 @@
 class FavouriteEntity {
   final String id;
-  final String owner;
+  final String uidTo;
   final List<String> listFavourite;
 
   FavouriteEntity({
     required this.id,
-    required this.owner,
+    required this.uidTo,
     required this.listFavourite,
   });
 }

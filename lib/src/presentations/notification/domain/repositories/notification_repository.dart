@@ -10,4 +10,8 @@ abstract class NotificationRepository {
   Future<DataState<bool>> readNotification(String id);
 
   Future<DataState<bool>> readAllNotification();
+
+  Future<DataState<bool>> deleteNotificationFromID(String id);
+
+  Future<DataState<bool>> deleteNotification(SendNotificationEntity entity);
 }

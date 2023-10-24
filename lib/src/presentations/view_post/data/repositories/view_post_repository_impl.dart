@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 import 'package:jobspot/src/presentations/notification/domain/entities/send_notification_entity.dart';
+import 'package:jobspot/src/presentations/notification/domain/use_cases/delete_notification_use_case.dart';
 import 'package:jobspot/src/presentations/notification/domain/use_cases/send_notification_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/data/models/comment_model.dart';
 import 'package:jobspot/src/presentations/view_post/data/models/reply_comment_model.dart';
@@ -19,9 +21,11 @@ import 'package:jobspot/src/presentations/view_post/domain/repositories/view_pos
 
 @LazySingleton(as: ViewPostRepository)
 class ViewPostRepositoryImpl extends ViewPostRepository {
-  final SendNotificationUseCase _useCase;
+  final SendNotificationUseCase _sendNotificationUseCase;
+  final DeleteNotificationUseCase _deleteNotificationUseCase;
 
-  ViewPostRepositoryImpl(this._useCase);
+  ViewPostRepositoryImpl(
+      this._sendNotificationUseCase, this._deleteNotificationUseCase);
 
   @override
   Future<DataState<List<CommentEntity>>> getCommentFirstLevel(
@@ -91,7 +95,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
       final snapshot = response.last as DocumentSnapshot<Map<String, dynamic>>;
       List<String> comments =
           List<String>.from(snapshot.data()!["comment"].map((x) => x));
-      _useCase.call(
+      _sendNotificationUseCase.call(
           params: SendNotificationEntity(
         action: comment.post,
         to: comment.owner,
@@ -110,19 +114,23 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
   Future<DataState<bool>> favouritePost(FavouriteEntity favourite) async {
     try {
       List<String> listFavourite = [...favourite.listFavourite];
-      if (favourite.listFavourite
-          .contains(FirebaseAuth.instance.currentUser!.uid)) {
-        listFavourite.remove(FirebaseAuth.instance.currentUser!.uid);
+      final uid = FirebaseAuth.instance.currentUser!.uid;
+      if (favourite.listFavourite.contains(uid)) {
+        listFavourite.remove(uid);
       } else {
-        listFavourite.add(FirebaseAuth.instance.currentUser!.uid);
+        listFavourite.add(uid);
       }
       await XCollection.post.doc(favourite.id).update({"like": listFavourite});
-      _useCase.call(
-          params: SendNotificationEntity(
+      final notification = SendNotificationEntity(
         action: favourite.id,
-        to: favourite.owner,
+        to: favourite.uidTo,
         type: "favourite",
-      ));
+      );
+      if (listFavourite.contains(uid)) {
+        _sendNotificationUseCase.call(params: notification);
+      } else {
+        _deleteNotificationUseCase.call(params: notification);
+      }
       await FirebaseFirestore.instance
           .collection("posts")
           .doc(favourite.id)
@@ -136,7 +144,8 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
   @override
   Future<DataState<bool>> favouriteComment(FavouriteEntity favourite) async {
     try {
-      await XCollection.comment
+      await FirebaseFirestore.instance
+          .collection("comments")
           .doc(favourite.id)
           .update({"like": favourite.listFavourite});
       return DataSuccess(true);
@@ -159,6 +168,18 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
       List<String> listReply =
           List<String>.from(snapshot.data()!["reply"].map((x) => x));
       String? highLevel = snapshot.data()!["highLevel"];
+      _sendNotificationUseCase.call(
+          params: SendNotificationEntity(
+        action: comment.commentID,
+        to: comment.uidComment,
+        type: AppTags.reply,
+      ));
+      _sendNotificationUseCase.call(
+          params: SendNotificationEntity(
+        action: comment.postID,
+        to: comment.uidPost,
+        type: AppTags.comment,
+      ));
       await Future.wait([
         replyCommentStore.update({"highLevel": highLevel ?? comment.commentID}),
         updateReplyCommentHighLevel(
@@ -167,7 +188,6 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
           "reply": [...listReply, replyCommentStore.id]
         }),
       ]);
-
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());

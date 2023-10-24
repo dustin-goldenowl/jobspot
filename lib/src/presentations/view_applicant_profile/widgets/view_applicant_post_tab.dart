@@ -31,6 +31,7 @@ class ViewApplicantPostTab extends StatelessWidget {
                 onFavourite: () => context
                     .read<ViewApplicantProfileCubit>()
                     .favouritePost(FavouriteEntity(
+                      uidTo: state.listPost![index].user.id,
                       id: state.listPost![index].id,
                       listFavourite: state.listPost![index].like,
                     )),

@@ -12,10 +12,12 @@ class NotificationItem extends StatelessWidget {
     super.key,
     required this.notification,
     required this.onTap,
+    required this.onDelete,
   });
 
   final NotificationEntity notification;
   final Function(String action, String id) onTap;
+  final Function(String id) onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -60,10 +62,7 @@ class NotificationItem extends StatelessWidget {
                     style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
                   ),
                   const SizedBox(height: 6),
-                  Text(
-                    "Applications for Apple companies have entered for company review", //Hard text to test UI
-                    style: AppStyles.normalTextMulledWine,
-                  ),
+                  _buildContent(),
                   const SizedBox(height: 15),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -73,7 +72,7 @@ class NotificationItem extends StatelessWidget {
                         style: AppStyles.normalTextSpunPearl,
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () => onDelete(notification.id),
                         style: TextButton.styleFrom(
                           foregroundColor: AppColors.tartOrange,
                         ),
@@ -88,5 +87,44 @@ class NotificationItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildContent() {
+    final content = switch (notification.type) {
+      AppTags.favourite => AppLocal.text.notification_favourite(
+          notification.from.name,
+          notification.action,
+        ),
+      AppTags.comment => AppLocal.text.notification_favourite(
+          notification.from.name,
+          notification.action,
+        ),
+      AppTags.favouriteCmt => AppLocal.text.notification_favourite_cmt(
+          notification.from.name,
+          notification.action,
+        ),
+      AppTags.reply => AppLocal.text.notification_reply(
+          notification.from.name,
+          notification.action,
+        ),
+      AppTags.apply => AppLocal.text.notification_apply(
+          notification.from.name,
+          notification.action,
+        ),
+      AppTags.accept => AppLocal.text.notification_accept(
+          notification.from.name,
+          notification.action,
+        ),
+      AppTags.reject => AppLocal.text.notification_reject(
+          notification.from.name,
+          notification.action,
+        ),
+      AppTags.share => AppLocal.text.notification_share(
+          notification.from.name,
+          notification.action,
+        ),
+      _ => ""
+    };
+    return Text(content, style: AppStyles.normalTextMulledWine);
   }
 }

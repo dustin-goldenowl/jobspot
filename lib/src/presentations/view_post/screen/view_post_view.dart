@@ -270,7 +270,8 @@ class ViewPostView extends StatelessWidget {
                   onTap: () {
                     bloc.replyComment == null
                         ? bloc.add(SendCommentEvent())
-                        : bloc.add(ReplyCommentEvent());
+                        : bloc.add(ReplyCommentEvent(
+                            uidComment: bloc.replyComment!.user.id));
                   },
                   child: const Icon(
                     FontAwesomeIcons.paperPlane,

@@ -67,7 +67,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
       ]);
       FirebaseMessagingService.sendNotification(
         token: (response.first as DocumentSnapshot<Map>).data()?["token"] ?? "",
-        body: "body",
+        body: entity.type,
       );
       return DataSuccess(true);
     } catch (e) {
@@ -97,6 +97,39 @@ class NotificationRepositoryImpl extends NotificationRepository {
           .get();
       await Future.wait(
           response.docs.map((e) => readNotification(e.id)).toList());
+      return DataSuccess(true);
+    } catch (e) {
+      return DataFailed(e.toString());
+    }
+  }
+
+  @override
+  Future<DataState<bool>> deleteNotificationFromID(String id) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("notifications")
+          .doc(id)
+          .delete();
+      return DataSuccess(true);
+    } catch (e) {
+      return DataFailed(e.toString());
+    }
+  }
+
+  @override
+  Future<DataState<bool>> deleteNotification(
+      SendNotificationEntity entity) async {
+    try {
+      final response = await FirebaseFirestore.instance
+          .collection("notifications")
+          .where("to", isEqualTo: entity.to)
+          .where("from", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .where("type", isEqualTo: entity.type)
+          .where("action", isEqualTo: entity.action)
+          .get();
+      if (response.docs.isNotEmpty) {
+        deleteNotificationFromID(response.docs[0].id);
+      }
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());

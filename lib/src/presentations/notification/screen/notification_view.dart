@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/notification/cubit/notification_cubit.dart';
@@ -28,8 +29,16 @@ class NotificationView extends StatelessWidget {
         scrolledUnderElevation: 0,
       ),
       body: RefreshIndicator(
-        onRefresh: () async {},
-        child: _buildListNotification(),
+        onRefresh: () async =>
+            context.read<NotificationCubit>().getNotification(),
+        child: BlocListener<NotificationCubit, NotificationState>(
+          listener: (context, state) {
+            if (state.error != null) {
+              customToast(context, text: state.error ?? "");
+            }
+          },
+          child: _buildListNotification(),
+        ),
       ),
     );
   }
@@ -52,6 +61,7 @@ class NotificationView extends StatelessWidget {
                   NotificationCoordinator.showPost(action);
                   context.read<NotificationCubit>().readNotification(id);
                 },
+                onDelete: context.read<NotificationCubit>().deleteNotification,
               );
             }
             return const NotificationLoading();
