@@ -35,6 +35,7 @@ class ApplicantPostTab extends StatelessWidget {
                       uidTo: state.listPost![index].user.id,
                       id: state.listPost![index].id,
                       listFavourite: state.listPost![index].like,
+                      uidTo: state.listPost![index].user.id,
                     )),
                 onShare: () {},
                 onViewFullPost: () => ApplicantProfileCoordinator.showFullPost(

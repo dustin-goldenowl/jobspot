@@ -91,40 +91,33 @@ class NotificationItem extends StatelessWidget {
 
   Widget _buildContent() {
     final content = switch (notification.type) {
-      AppTags.favourite => AppLocal.text.notification_favourite(
+      AppTags.favourite ||
+      AppTags.comment ||
+      AppTags.share =>
+        AppLocal.text.notification_favourite(
           notification.from.name,
-          notification.action,
+          notification.post?.title ?? "",
         ),
-      AppTags.comment => AppLocal.text.notification_favourite(
+      AppTags.favouriteCmt ||
+      AppTags.reply =>
+        AppLocal.text.notification_favourite_cmt(
           notification.from.name,
-          notification.action,
+          notification.comment?.content ?? "",
         ),
-      AppTags.favouriteCmt => AppLocal.text.notification_favourite_cmt(
+      AppTags.apply ||
+      AppTags.accept ||
+      AppTags.reject =>
+        AppLocal.text.notification_apply(
           notification.from.name,
-          notification.action,
-        ),
-      AppTags.reply => AppLocal.text.notification_reply(
-          notification.from.name,
-          notification.action,
-        ),
-      AppTags.apply => AppLocal.text.notification_apply(
-          notification.from.name,
-          notification.action,
-        ),
-      AppTags.accept => AppLocal.text.notification_accept(
-          notification.from.name,
-          notification.action,
-        ),
-      AppTags.reject => AppLocal.text.notification_reject(
-          notification.from.name,
-          notification.action,
-        ),
-      AppTags.share => AppLocal.text.notification_share(
-          notification.from.name,
-          notification.action,
+          notification.job?.jobPosition ?? "",
         ),
       _ => ""
     };
-    return Text(content, style: AppStyles.normalTextMulledWine);
+    return Text(
+      content,
+      style: AppStyles.normalTextMulledWine,
+      maxLines: 3,
+      overflow: TextOverflow.ellipsis,
+    );
   }
 }

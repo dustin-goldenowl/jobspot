@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jobspot/src/presentations/add_post/domain/entities/update_post_entity.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/user_entity.dart';
 
 class PostModel {
   String id;
@@ -123,11 +124,11 @@ class PostModel {
 
   PostEntity toPostEntity() {
     return PostEntity(
-      user: user!.toUserEntity(),
+      user: user?.toUserEntity() ?? UserEntity(id: "", name: "", avatar: ""),
       id: id,
       title: title,
       description: description,
-      numberOfComments: numberOfComments!,
+      numberOfComments: numberOfComments ?? 0,
       images: images,
       like: like,
       comment: comment,

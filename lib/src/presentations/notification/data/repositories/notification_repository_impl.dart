@@ -1,14 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jobspot/src/core/constants/app_tags.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/firebase_messaging_service.dart';
+import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/notification/data/models/notification_model.dart';
 import 'package:jobspot/src/presentations/notification/data/models/send_notification_model.dart';
 import 'package:jobspot/src/presentations/notification/domain/entities/notification_entity.dart';
 import 'package:jobspot/src/presentations/notification/domain/entities/send_notification_entity.dart';
 import 'package:jobspot/src/presentations/notification/domain/repositories/notification_repository.dart';
+import 'package:jobspot/src/presentations/view_job/data/models/job_model.dart';
+import 'package:jobspot/src/presentations/view_post/data/models/comment_model.dart';
 
 @LazySingleton(as: NotificationRepository)
 class NotificationRepositoryImpl extends NotificationRepository {
@@ -25,13 +29,31 @@ class NotificationRepositoryImpl extends NotificationRepository {
         for (var element in event.docs) {
           notifications.add(NotificationModel.fromDocumentSnapshot(element));
         }
-        final listUser = await getListUser(notifications);
-        notifications = notifications
-            .map((e) => e.copyWith(
-                  fromUser: listUser.firstWhere((item) => item.id == e.from),
-                ))
-            .toList();
-        return DataSuccess(notifications.map((e) => e.toEntity()).toList());
+        final response = await Future.wait([
+          getListUser(notifications),
+          getListComment(notifications),
+          getListJob(notifications),
+          getListPost(notifications),
+        ]);
+
+        final listUser = response[0] as List<UserModel>;
+        final listComment = response[1] as List<CommentModel>;
+        final listJob = response[2] as List<JobModel>;
+        final listPost = response[3] as List<PostModel>;
+
+        notifications = notifications.map((e) {
+          final comments =
+              listComment.where((item) => item.id == e.action).toList();
+          final posts = listPost.where((item) => item.id == e.action).toList();
+          final jobs = listJob.where((item) => item.id == e.action).toList();
+          return e.copyWith(
+            fromUser: listUser.firstWhere((item) => item.id == e.from),
+            comment: comments.isEmpty ? null : comments.first,
+            job: jobs.isEmpty ? null : jobs.first,
+            post: posts.isEmpty ? null : posts.first,
+          );
+        }).toList();
+        return DataSuccess(notifications.map((e) => e.toEntity()!).toList());
       });
     } catch (e) {
       return Stream.value(DataFailed(e.toString()));
@@ -48,6 +70,46 @@ class NotificationRepositoryImpl extends NotificationRepository {
             FirebaseFirestore.instance.collection("users").doc(id).get())
         .toList());
     return userData.map((e) => UserModel.fromDocumentSnapshot(e)).toList();
+  }
+
+  Future<List<PostModel>> getListPost(List<NotificationModel> datas) async {
+    Set<String> listPostId = {};
+    final listTag = [AppTags.favourite, AppTags.comment, AppTags.share];
+    for (var data in datas) {
+      if (listTag.contains(data.type)) listPostId.add(data.action);
+    }
+    final userData = await Future.wait(listPostId
+        .map((id) =>
+            FirebaseFirestore.instance.collection("posts").doc(id).get())
+        .toList());
+    return userData.map((e) => PostModel.fromDocumentSnapshot(e)).toList();
+  }
+
+  Future<List<JobModel>> getListJob(List<NotificationModel> datas) async {
+    Set<String> listJobId = {};
+    final listTag = [AppTags.apply, AppTags.accept, AppTags.reject];
+    for (var data in datas) {
+      if (listTag.contains(data.type)) listJobId.add(data.action);
+    }
+    final userData = await Future.wait(listJobId
+        .map(
+            (id) => FirebaseFirestore.instance.collection("jobs").doc(id).get())
+        .toList());
+    return userData.map((e) => JobModel.fromDocumentSnapshot(e)).toList();
+  }
+
+  Future<List<CommentModel>> getListComment(
+      List<NotificationModel> datas) async {
+    Set<String> listCommentId = {};
+    final listTag = [AppTags.favouriteCmt, AppTags.reply];
+    for (var data in datas) {
+      if (listTag.contains(data.type)) listCommentId.add(data.action);
+    }
+    final userData = await Future.wait(listCommentId
+        .map((id) =>
+            FirebaseFirestore.instance.collection("comments").doc(id).get())
+        .toList());
+    return userData.map((e) => CommentModel.fromSnapshot(e)).toList();
   }
 
   @override
