@@ -23,7 +23,6 @@ class CustomButtonProfile extends StatelessWidget {
           color: AppColors.sundown.withOpacity(0.2),
           borderRadius: BorderRadius.circular(8),
         ),
-        // padding: const EdgeInsets.symmetric(vertical: 12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -31,7 +30,7 @@ class CustomButtonProfile extends StatelessWidget {
             const SizedBox(width: 10),
             Text(
               title,
-              style: const TextStyle(color: Color(0xFFFC4646), fontSize: 14),
+              style: TextStyle(color: AppColors.venetianRed, fontSize: 14),
             ),
           ],
         ),

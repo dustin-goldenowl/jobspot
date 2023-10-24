@@ -1,6 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/connection/widgets/post_item.dart';
+import 'package:jobspot/src/presentations/connection/widgets/post_loading.dart';
+import 'package:jobspot/src/presentations/view_company_profile/cubit/view_company_profile_cubit.dart';
+import 'package:jobspot/src/presentations/view_company_profile/domain/router/view_company_profile_coordinator.dart';
+import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 
 @RoutePage()
 class ViewCompanyPostTab extends StatelessWidget {
@@ -8,21 +14,36 @@ class ViewCompanyPostTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: 10,
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      separatorBuilder: (context, index) => const SizedBox(height: 20),
-      itemBuilder: (context, index) {
-        return Text("post");
-        // return PostItem(
-        //   post: post,
-        //   onFavourite: onFavourite,
-        //   onComment: onComment,
-        //   onShare: onShare,
-        //   onViewFullPost: onViewFullPost,
-        //   onViewProfile: onViewProfile,
-        // );
+    return BlocBuilder<ViewCompanyProfileCubit, ViewCompanyProfileState>(
+      buildWhen: (previous, current) => previous.listPost != current.listPost,
+      builder: (context, state) {
+        return ListView.separated(
+          itemCount: state.listPost?.length ?? 10,
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          separatorBuilder: (context, index) => const SizedBox(height: 20),
+          padding: const EdgeInsets.all(AppDimens.smallPadding),
+          itemBuilder: (context, index) {
+            if (state.listPost != null) {
+              return PostItem(
+                post: state.listPost![index],
+                onFavourite: () => context
+                    .read<ViewCompanyProfileCubit>()
+                    .favouritePost(FavouriteEntity(
+                      id: state.listPost![index].id,
+                      listFavourite: state.listPost![index].like,
+                    )),
+                onComment: () {},
+                onShare: () {},
+                onViewFullPost: () =>
+                    ViewCompanyProfileCoordinator.showFullPost(
+                        post: state.listPost![index]),
+                onViewProfile: () {},
+              );
+            }
+            return const PostLoading();
+          },
+        );
       },
     );
   }

@@ -1,8 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/view_company_profile/cubit/view_company_profile_cubit.dart';
@@ -96,9 +99,9 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
           title: AnimatedOpacity(
             opacity: !state.isTop ? 0.0 : 1.0,
             duration: const Duration(milliseconds: 300),
-            child: const Text(
-              "Google",
-              style: TextStyle(fontWeight: FontWeight.w500),
+            child: Text(
+              state.user?.name ?? "",
+              style: const TextStyle(fontWeight: FontWeight.w500),
             ),
           ),
           flexibleSpace: FlexibleSpaceBar(
@@ -106,14 +109,14 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
             expandedTitleScale: 1.0,
             centerTitle: false,
             titlePadding: const EdgeInsets.all(16),
-            background: _buildBackgroundAppbar(),
+            background: _buildBackgroundAppbar(state),
           ),
         );
       },
     );
   }
 
-  Widget _buildBackgroundAppbar() {
+  Widget _buildBackgroundAppbar(ViewCompanyProfileState state) {
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -127,23 +130,23 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
               child: Column(
                 children: [
                   const SizedBox(height: 28),
-                  Text(
-                    "Google",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18,
-                      color: AppColors.nightBlue,
-                    ),
-                  ),
+                  state.user != null
+                      ? Text(
+                          state.user?.name ?? "",
+                          style: AppStyles.boldTextNightBlue
+                              .copyWith(fontSize: 18),
+                        )
+                      : const ItemLoading(width: 70, height: 20, radius: 5),
                   const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      _buildText("12 Follower"),
+                      _buildText(
+                          "${state.user?.following.length ?? 0} Follower"),
                       _buildDotText,
-                      _buildText("10 Post"),
+                      _buildText("${state.listPost?.length ?? 0} Post"),
                       _buildDotText,
-                      _buildText("100 Jobs"),
+                      _buildText("${state.listJob?.length ?? 0} Jobs"),
                     ],
                   )
                 ],
@@ -153,41 +156,59 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
         ),
         Positioned(
           top: 60,
-          child: SvgPicture.asset(AppImages.google, width: 84, height: 84),
+          child: ClipOval(
+            child: CachedNetworkImage(
+              imageUrl: state.user?.avatar ?? "",
+              height: 84,
+              width: 84,
+              placeholder: (context, url) =>
+                  const ItemLoading(width: 84, height: 84, radius: 90),
+              errorWidget: (context, url, error) =>
+                  SvgPicture.asset(AppImages.logo),
+            ),
+          ),
         )
       ],
     );
   }
 
-  Widget get _buildDotText =>
-      Text("•", style: AppStyles.boldTextNightBlue.copyWith(fontSize: 25));
-
-  Widget _buildText(String title) =>
-      Text(title, style: AppStyles.normalTextNightBlue.copyWith(fontSize: 16));
-
   Widget _buildButtonProfile() {
-    return Row(
-      children: [
-        Expanded(
-          child: CustomButtonProfile(
-            onTap: () {},
-            icon: const Icon(
-              FontAwesomeIcons.plus,
-              color: Color(0xFFFC4646),
-              size: 15,
-            ),
-            title: "Follow",
+    return BlocBuilder<ViewCompanyProfileCubit, ViewCompanyProfileState>(
+      buildWhen: (previous, current) => previous.user != current.user,
+      builder: (context, state) {
+        if (state.user == null ||
+            state.user != null && (state.user!.website ?? "").isNotEmpty) {
+          return Row(
+            children: [
+              Expanded(child: _buildButtonFollow(state.user?.follower ?? [])),
+              const SizedBox(width: 20),
+              Expanded(
+                child: CustomButtonProfile(
+                  onTap: () {},
+                  icon: SvgPicture.asset(AppImages.openBrowser),
+                  title: "Visit website",
+                ),
+              ),
+            ],
+          );
+        }
+        return Center(
+          child: SizedBox(
+            width: 170,
+            child: _buildButtonFollow(state.user?.follower ?? []),
           ),
-        ),
-        const SizedBox(width: 20),
-        Expanded(
-          child: CustomButtonProfile(
-            onTap: () {},
-            icon: SvgPicture.asset(AppImages.openBrowser),
-            title: "Visit website",
-          ),
-        ),
-      ],
+        );
+      },
+    );
+  }
+
+  Widget _buildButtonFollow(List<String> follower) {
+    return CustomButtonProfile(
+      onTap: () {},
+      icon: Icon(FontAwesomeIcons.plus, color: AppColors.venetianRed, size: 15),
+      title: follower.contains(FirebaseAuth.instance.currentUser!.uid)
+          ? "Unfollow"
+          : "Follow",
     );
   }
 
@@ -228,4 +249,10 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
       ),
     );
   }
+
+  Widget get _buildDotText =>
+      Text("•", style: AppStyles.boldTextNightBlue.copyWith(fontSize: 25));
+
+  Widget _buildText(String title) =>
+      Text(title, style: AppStyles.normalTextNightBlue.copyWith(fontSize: 16));
 }

@@ -11,6 +11,6 @@ class ViewJobCoordinator {
   static void showApplyJob({required JobEntity job}) =>
       rootRouter.push(ApplyJobRoute(job: job));
 
-  static void showViewCompany() =>
-      rootRouter.push(ViewCompanyProfileRoute(uid: ""));
+  static void showViewCompany(String uid) =>
+      rootRouter.push(ViewCompanyProfileRoute(uid: uid));
 }

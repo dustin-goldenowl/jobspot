@@ -1,6 +1,11 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/presentations/view_company_profile/cubit/view_company_profile_cubit.dart';
 import 'package:jobspot/src/presentations/view_company_profile/widgets/profile_title_info.dart';
 
 @RoutePage()
@@ -13,56 +18,97 @@ class ViewCompanyAboutTab extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       child: Padding(
         padding: const EdgeInsets.all(AppDimens.smallPadding),
-        child: Column(
+        child: _buildBody(),
+      ),
+    );
+  }
+
+  Widget _buildBody() {
+    return BlocBuilder<ViewCompanyProfileCubit, ViewCompanyProfileState>(
+      buildWhen: (previous, current) => previous.user != current.user,
+      builder: (context, state) {
+        if (state.user != null) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ProfileTitleInfo(
+                title: "About Company",
+                isJustify: true,
+                content: state.user?.description ?? "",
+              ),
+              const SizedBox(height: 20),
+              ProfileTitleInfo(
+                title: "Website",
+                content: state.user?.website ?? "",
+                contentColor: AppColors.deepSaffron,
+                onTap: () {},
+              ),
+              const SizedBox(height: 20),
+              const ProfileTitleInfo(
+                title: "Industry",
+                content: "Internet product",
+              ),
+              const SizedBox(height: 20),
+              ProfileTitleInfo(
+                title: "Employee size",
+                content: "${state.user?.employeeSize} Employees",
+              ),
+              const SizedBox(height: 20),
+              ProfileTitleInfo(
+                title: "Head office",
+                content: state.user?.address ?? "",
+              ),
+              const SizedBox(height: 20),
+              const ProfileTitleInfo(
+                title: "Type",
+                content: "Multinational company",
+              ),
+              const SizedBox(height: 20),
+              ProfileTitleInfo(
+                title: "Since",
+                content: state.user?.birthday.year.toString() ?? "",
+              ),
+              const SizedBox(height: 20),
+              const ProfileTitleInfo(
+                title: "Specialization",
+                content:
+                    "Search technology, Web computing, Software and Online advertising",
+              ),
+            ],
+          );
+        }
+        return _buildLoading();
+      },
+    );
+  }
+
+  Widget _buildLoading() {
+    Random random = Random();
+    return ListView.separated(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const ProfileTitleInfo(
-              title: "About Company",
-              isJustify: true,
-              content:
-                  "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. \n\nAt vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas .",
-            ),
-            const SizedBox(height: 20),
-            ProfileTitleInfo(
-              title: "Website",
-              content: "https://www.google.com",
-              contentColor: AppColors.deepSaffron,
-              onTap: () {},
-            ),
-            const SizedBox(height: 20),
-            const ProfileTitleInfo(
-              title: "Industry",
-              content: "Internet product",
-            ),
-            const SizedBox(height: 20),
-            const ProfileTitleInfo(
-              title: "Employee size",
-              content: "132,121 Employees",
-            ),
-            const SizedBox(height: 20),
-            const ProfileTitleInfo(
-              title: "Head office",
-              content: "Mountain View, California, Amerika Serikat",
-            ),
-            const SizedBox(height: 20),
-            const ProfileTitleInfo(
-              title: "Type",
-              content: "Multinational company",
-            ),
-            const SizedBox(height: 20),
-            const ProfileTitleInfo(
-              title: "Since",
-              content: "1998",
-            ),
-            const SizedBox(height: 20),
-            const ProfileTitleInfo(
-              title: "Specialization",
-              content:
-                  "Search technology, Web computing, Software and Online advertising",
+            ItemLoading(width: random.nextInt(50) + 70, height: 20, radius: 5),
+            const SizedBox(height: 8),
+            ...List.generate(
+              random.nextInt(3) + 5,
+              (index) => const Padding(
+                padding: EdgeInsets.only(bottom: 3),
+                child: ItemLoading(
+                  width: double.infinity,
+                  height: 16,
+                  radius: 5,
+                ),
+              ),
             ),
           ],
-        ),
-      ),
+        );
+      },
+      separatorBuilder: (context, index) => const SizedBox(height: 20),
+      itemCount: 10,
     );
   }
 }

@@ -323,10 +323,8 @@ class ApplicantAboutTab extends StatelessWidget {
             onTap: onRemove,
             child: SvgPicture.asset(
               AppImages.trash,
-              colorFilter: const ColorFilter.mode(
-                Color(0xFFFC4646),
-                BlendMode.srcIn,
-              ),
+              colorFilter:
+                  ColorFilter.mode(AppColors.venetianRed, BlendMode.srcIn),
             ),
           )
         ],

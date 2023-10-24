@@ -160,10 +160,8 @@ class ViewLanguageView extends StatelessWidget {
                       .deleteLanguage(language.id),
                   child: SvgPicture.asset(
                     AppImages.trash,
-                    colorFilter: const ColorFilter.mode(
-                      Color(0xFFFC4646),
-                      BlendMode.srcIn,
-                    ),
+                    colorFilter: ColorFilter.mode(
+                        AppColors.venetianRed, BlendMode.srcIn),
                   ),
                 )
               ],

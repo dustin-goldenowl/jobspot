@@ -14,7 +14,7 @@ class ViewCompanyProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<ViewCompanyProfileCubit>(),
+      create: (context) => getIt<ViewCompanyProfileCubit>()..init(uid),
       child: const ViewCompanyProfileView(),
     );
   }

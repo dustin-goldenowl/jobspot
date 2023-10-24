@@ -82,7 +82,8 @@ class CustomAppBarCompany extends StatelessWidget {
           IconButton(
             onPressed: () {
               //TODO set to test
-              ViewJobCoordinator.showViewCompany();
+              ViewJobCoordinator.showViewCompany(
+                  "iE1bQu3bwOXi8sjDSJAYdfRBSaY2");
             },
             icon: const Icon(FontAwesomeIcons.ellipsisVertical),
           )

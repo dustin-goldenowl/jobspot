@@ -10,8 +10,8 @@ class UserModel {
   DateTime birthday;
   String address;
   String description;
-  List<dynamic> follower;
-  List<dynamic> following;
+  List<String> follower;
+  List<String> following;
   DateTime updateAt;
   DateTime createAt;
 

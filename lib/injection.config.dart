@@ -13,7 +13,7 @@ import 'package:injectable/injectable.dart' as _i2;
 import 'package:jobspot/injection.dart' as _i153;
 import 'package:jobspot/src/core/config/router/app_router.dart' as _i9;
 import 'package:jobspot/src/presentations/add_appreciation/cubit/add_appreciation_cubit.dart'
-    as _i133;
+    as _i132;
 import 'package:jobspot/src/presentations/add_appreciation/data/repositories/appreciation_repository_impl.dart'
     as _i13;
 import 'package:jobspot/src/presentations/add_appreciation/domain/repositories/appreciation_repository.dart'
@@ -25,7 +25,7 @@ import 'package:jobspot/src/presentations/add_appreciation/domain/use_cases/dele
 import 'package:jobspot/src/presentations/add_appreciation/domain/use_cases/update_appreciation_use_case.dart'
     as _i62;
 import 'package:jobspot/src/presentations/add_education/cubit/add_education_cubit.dart'
-    as _i134;
+    as _i133;
 import 'package:jobspot/src/presentations/add_education/data/repositories/education_repository_impl.dart'
     as _i21;
 import 'package:jobspot/src/presentations/add_education/domain/repositories/education_repository.dart'
@@ -47,7 +47,7 @@ import 'package:jobspot/src/presentations/add_job/domain/use_cases/add_job_use_c
 import 'package:jobspot/src/presentations/add_job/domain/use_cases/update_job_use_case.dart'
     as _i65;
 import 'package:jobspot/src/presentations/add_language/cubit/add_language_cubit.dart'
-    as _i135;
+    as _i134;
 import 'package:jobspot/src/presentations/add_language/data/repositories/language_repository_impl.dart'
     as _i31;
 import 'package:jobspot/src/presentations/add_language/domain/repositories/language_repository.dart'
@@ -69,7 +69,7 @@ import 'package:jobspot/src/presentations/add_post/domain/use_cases/add_post_use
 import 'package:jobspot/src/presentations/add_post/domain/use_cases/update_post_use_case.dart'
     as _i69;
 import 'package:jobspot/src/presentations/add_resume/cubit/add_resume_cubit.dart'
-    as _i136;
+    as _i135;
 import 'package:jobspot/src/presentations/add_resume/data/repositories/resume_repository_impl.dart'
     as _i37;
 import 'package:jobspot/src/presentations/add_resume/domain/repositories/resume_repository.dart'
@@ -79,7 +79,7 @@ import 'package:jobspot/src/presentations/add_resume/domain/use_cases/add_resume
 import 'package:jobspot/src/presentations/add_resume/domain/use_cases/delete_resume_use_case.dart'
     as _i100;
 import 'package:jobspot/src/presentations/add_skill/cubit/add_skill_cubit.dart'
-    as _i137;
+    as _i136;
 import 'package:jobspot/src/presentations/add_skill/data/repositories/skill_repository_impl.dart'
     as _i53;
 import 'package:jobspot/src/presentations/add_skill/domain/repositories/skill_repository.dart'
@@ -89,7 +89,7 @@ import 'package:jobspot/src/presentations/add_skill/domain/use_cases/get_list_sk
 import 'package:jobspot/src/presentations/add_skill/domain/use_cases/update_skill_use_case.dart'
     as _i70;
 import 'package:jobspot/src/presentations/add_work_experience/cubit/add_work_experience_cubit.dart'
-    as _i138;
+    as _i137;
 import 'package:jobspot/src/presentations/add_work_experience/data/repositories/experience_repository_impl.dart'
     as _i23;
 import 'package:jobspot/src/presentations/add_work_experience/domain/repositories/experience_repository.dart'
@@ -125,7 +125,7 @@ import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/str
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/update_about_me_use_case.dart'
     as _i61;
 import 'package:jobspot/src/presentations/apply_job/cubit/apply_job_cubit.dart'
-    as _i139;
+    as _i138;
 import 'package:jobspot/src/presentations/apply_job/data/repositories/apply_job_repository_impl.dart'
     as _i90;
 import 'package:jobspot/src/presentations/apply_job/domain/repositories/apply_job_repository.dart'
@@ -212,7 +212,7 @@ import 'package:jobspot/src/presentations/setting/domain/repositories/setting_re
 import 'package:jobspot/src/presentations/setting/domain/use_cases/delete_account_use_case.dart'
     as _i93;
 import 'package:jobspot/src/presentations/sign_in/cubit/sign_in_cubit.dart'
-    as _i147;
+    as _i146;
 import 'package:jobspot/src/presentations/sign_in/data/repositories/sign_in_repository_impl.dart'
     as _i49;
 import 'package:jobspot/src/presentations/sign_in/domain/repositories/sign_in_repository.dart'
@@ -244,7 +244,7 @@ import 'package:jobspot/src/presentations/update_password/domain/use_cases/chang
 import 'package:jobspot/src/presentations/update_password/domain/use_cases/validate_password_use_case.dart'
     as _i73;
 import 'package:jobspot/src/presentations/view_applicant_profile/cubit/view_applicant_profile_cubit.dart'
-    as _i149;
+    as _i148;
 import 'package:jobspot/src/presentations/view_applicant_profile/data/repositories/view_applicant_profile_repository_impl.dart'
     as _i75;
 import 'package:jobspot/src/presentations/view_applicant_profile/domain/repositories/view_applicant_profile_repository.dart'
@@ -262,7 +262,7 @@ import 'package:jobspot/src/presentations/view_applicant_profile/domain/use_case
 import 'package:jobspot/src/presentations/view_applicant_profile/domain/use_cases/get_work_experience_use_case.dart'
     as _i112;
 import 'package:jobspot/src/presentations/view_company_profile/cubit/view_company_profile_cubit.dart'
-    as _i128;
+    as _i149;
 import 'package:jobspot/src/presentations/view_company_profile/data/repositories/view_company_profile_repository_impl.dart'
     as _i77;
 import 'package:jobspot/src/presentations/view_company_profile/domain/repositories/view_company_profile_repository.dart'
@@ -270,7 +270,7 @@ import 'package:jobspot/src/presentations/view_company_profile/domain/repositori
 import 'package:jobspot/src/presentations/view_company_profile/domain/use_cases/get_list_job_use_case.dart'
     as _i108;
 import 'package:jobspot/src/presentations/view_job/cubit/view_job_cubit.dart'
-    as _i129;
+    as _i128;
 import 'package:jobspot/src/presentations/view_job/data/repositories/view_job_repository_impl.dart'
     as _i79;
 import 'package:jobspot/src/presentations/view_job/domain/repositories/view_job_repository.dart'
@@ -278,7 +278,7 @@ import 'package:jobspot/src/presentations/view_job/domain/repositories/view_job_
 import 'package:jobspot/src/presentations/view_job/domain/use_cases/fetch_job_use_case.dart'
     as _i103;
 import 'package:jobspot/src/presentations/view_language/cubit/view_language_cubit.dart'
-    as _i130;
+    as _i129;
 import 'package:jobspot/src/presentations/view_language/data/repositories/view_language_repository_impl.dart'
     as _i81;
 import 'package:jobspot/src/presentations/view_language/domain/repositories/view_language_repository.dart'
@@ -288,25 +288,25 @@ import 'package:jobspot/src/presentations/view_language/domain/use_cases/stream_
 import 'package:jobspot/src/presentations/view_post/bloc/view_post_bloc.dart'
     as _i150;
 import 'package:jobspot/src/presentations/view_post/data/repositories/view_post_repository_impl.dart'
-    as _i132;
-import 'package:jobspot/src/presentations/view_post/domain/repositories/view_post_repository.dart'
     as _i131;
+import 'package:jobspot/src/presentations/view_post/domain/repositories/view_post_repository.dart'
+    as _i130;
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/delete_comment_use_case.dart'
-    as _i140;
+    as _i139;
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/favourite_comment_use_case.dart'
-    as _i141;
+    as _i140;
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/favourite_post_use_case.dart'
-    as _i142;
+    as _i141;
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/fetch_data_comment_first_level_use_case.dart'
-    as _i143;
+    as _i142;
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/get_reply_comment_use_case.dart'
-    as _i144;
+    as _i143;
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/reply_comment_use_case.dart'
-    as _i145;
+    as _i144;
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/send_comment_use_case.dart'
-    as _i146;
+    as _i145;
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/sync_post_data_use_case.dart'
-    as _i148;
+    as _i147;
 import 'package:shared_preferences/shared_preferences.dart' as _i47;
 
 extension GetItInjectableX on _i1.GetIt {
@@ -539,70 +539,68 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i92.ChangePasswordUseCase>(),
           gh<_i73.ValidatePassworkUseCase>(),
         ));
-    gh.factory<_i128.ViewCompanyProfileCubit>(
-        () => _i128.ViewCompanyProfileCubit(gh<_i108.GetListJobUseCase>()));
-    gh.factory<_i129.ViewJobCubit>(
-        () => _i129.ViewJobCubit(gh<_i103.FetchJobUseCase>()));
-    gh.factory<_i130.ViewLanguageCubit>(() => _i130.ViewLanguageCubit(
+    gh.factory<_i128.ViewJobCubit>(
+        () => _i128.ViewJobCubit(gh<_i103.FetchJobUseCase>()));
+    gh.factory<_i129.ViewLanguageCubit>(() => _i129.ViewLanguageCubit(
           gh<_i126.StreamLanguagesUseCase>(),
           gh<_i97.DeleteLanguageUseCase>(),
         ));
-    gh.lazySingleton<_i131.ViewPostRepository>(
-        () => _i132.ViewPostRepositoryImpl(
+    gh.lazySingleton<_i130.ViewPostRepository>(
+        () => _i131.ViewPostRepositoryImpl(
               gh<_i44.SendNotificationUseCase>(),
               gh<_i99.DeleteNotificationUseCase>(),
             ));
-    gh.factory<_i133.AddAppreciationCubit>(() => _i133.AddAppreciationCubit(
+    gh.factory<_i132.AddAppreciationCubit>(() => _i132.AddAppreciationCubit(
           gh<_i82.AddAppreciationUseCase>(),
           gh<_i62.UpdateAppreciationUseCase>(),
           gh<_i16.DeleteAppreciationUseCase>(),
         ));
-    gh.factory<_i134.AddEducationCubit>(() => _i134.AddEducationCubit(
+    gh.factory<_i133.AddEducationCubit>(() => _i133.AddEducationCubit(
           gh<_i83.AddEducationUseCase>(),
           gh<_i95.DeleteEducationUseCase>(),
           gh<_i63.UpdateEducationUseCase>(),
         ));
-    gh.factory<_i135.AddLanguageCubit>(() => _i135.AddLanguageCubit(
+    gh.factory<_i134.AddLanguageCubit>(() => _i134.AddLanguageCubit(
           gh<_i86.AddLanguageUseCase>(),
           gh<_i66.UpdateLanguageUseCase>(),
         ));
-    gh.factory<_i136.AddResumeCubit>(
-        () => _i136.AddResumeCubit(gh<_i88.AddResumeUseCase>()));
-    gh.factory<_i137.AddSkillCubit>(() => _i137.AddSkillCubit(
+    gh.factory<_i135.AddResumeCubit>(
+        () => _i135.AddResumeCubit(gh<_i88.AddResumeUseCase>()));
+    gh.factory<_i136.AddSkillCubit>(() => _i136.AddSkillCubit(
           gh<_i109.GetListSkillUseCase>(),
           gh<_i70.UpdateSkillUseCase>(),
         ));
-    gh.factory<_i138.AddWorkExperienceCubit>(() => _i138.AddWorkExperienceCubit(
+    gh.factory<_i137.AddWorkExperienceCubit>(() => _i137.AddWorkExperienceCubit(
           gh<_i84.AddExperienceUseCase>(),
           gh<_i64.UpdateExperienceUseCase>(),
           gh<_i96.DeleteExperienceUseCase>(),
         ));
-    gh.factory<_i139.ApplyJobCubit>(
-        () => _i139.ApplyJobCubit(gh<_i91.ApplyJobUseCase>()));
-    gh.lazySingleton<_i140.DeleteCommentUseCase>(
-        () => _i140.DeleteCommentUseCase(gh<_i131.ViewPostRepository>()));
-    gh.lazySingleton<_i141.FavouriteCommentUseCase>(
-        () => _i141.FavouriteCommentUseCase(gh<_i131.ViewPostRepository>()));
-    gh.lazySingleton<_i142.FavouritePostUseCase>(
-        () => _i142.FavouritePostUseCase(gh<_i131.ViewPostRepository>()));
-    gh.lazySingleton<_i143.FetchDataCommentFirstLevelUseCase>(() =>
-        _i143.FetchDataCommentFirstLevelUseCase(
-            gh<_i131.ViewPostRepository>()));
-    gh.lazySingleton<_i144.GetReplyCommentUseCase>(
-        () => _i144.GetReplyCommentUseCase(gh<_i131.ViewPostRepository>()));
-    gh.lazySingleton<_i145.ReplyCommentUseCase>(
-        () => _i145.ReplyCommentUseCase(gh<_i131.ViewPostRepository>()));
-    gh.lazySingleton<_i146.SendCommentUseCase>(
-        () => _i146.SendCommentUseCase(gh<_i131.ViewPostRepository>()));
-    gh.factory<_i147.SignInCubit>(() => _i147.SignInCubit(
+    gh.factory<_i138.ApplyJobCubit>(
+        () => _i138.ApplyJobCubit(gh<_i91.ApplyJobUseCase>()));
+    gh.lazySingleton<_i139.DeleteCommentUseCase>(
+        () => _i139.DeleteCommentUseCase(gh<_i130.ViewPostRepository>()));
+    gh.lazySingleton<_i140.FavouriteCommentUseCase>(
+        () => _i140.FavouriteCommentUseCase(gh<_i130.ViewPostRepository>()));
+    gh.lazySingleton<_i141.FavouritePostUseCase>(
+        () => _i141.FavouritePostUseCase(gh<_i130.ViewPostRepository>()));
+    gh.lazySingleton<_i142.FetchDataCommentFirstLevelUseCase>(() =>
+        _i142.FetchDataCommentFirstLevelUseCase(
+            gh<_i130.ViewPostRepository>()));
+    gh.lazySingleton<_i143.GetReplyCommentUseCase>(
+        () => _i143.GetReplyCommentUseCase(gh<_i130.ViewPostRepository>()));
+    gh.lazySingleton<_i144.ReplyCommentUseCase>(
+        () => _i144.ReplyCommentUseCase(gh<_i130.ViewPostRepository>()));
+    gh.lazySingleton<_i145.SendCommentUseCase>(
+        () => _i145.SendCommentUseCase(gh<_i130.ViewPostRepository>()));
+    gh.factory<_i146.SignInCubit>(() => _i146.SignInCubit(
           gh<_i123.SignInEmailPasswordUseCase>(),
           gh<_i124.SignInGoogleUseCase>(),
           gh<_i71.UpdateTokenUseCase>(),
         ));
-    gh.lazySingleton<_i148.SyncPostDataUseCase>(
-        () => _i148.SyncPostDataUseCase(gh<_i131.ViewPostRepository>()));
-    gh.factory<_i149.ViewApplicantProfileCubit>(
-        () => _i149.ViewApplicantProfileCubit(
+    gh.lazySingleton<_i147.SyncPostDataUseCase>(
+        () => _i147.SyncPostDataUseCase(gh<_i130.ViewPostRepository>()));
+    gh.factory<_i148.ViewApplicantProfileCubit>(
+        () => _i148.ViewApplicantProfileCubit(
               gh<_i104.GetAppreciationUseCase>(),
               gh<_i106.GetEducationUseCase>(),
               gh<_i107.GetLanguageUseCase>(),
@@ -611,17 +609,24 @@ extension GetItInjectableX on _i1.GetIt {
               gh<_i111.GetUserInfoUseCase>(),
               gh<_i112.GetWorkExperienceUseCase>(),
               gh<_i56.StreamListPostUseCase>(),
-              gh<_i142.FavouritePostUseCase>(),
+              gh<_i141.FavouritePostUseCase>(),
+            ));
+    gh.factory<_i149.ViewCompanyProfileCubit>(
+        () => _i149.ViewCompanyProfileCubit(
+              gh<_i108.GetListJobUseCase>(),
+              gh<_i56.StreamListPostUseCase>(),
+              gh<_i111.GetUserInfoUseCase>(),
+              gh<_i141.FavouritePostUseCase>(),
             ));
     gh.factory<_i150.ViewPostBloc>(() => _i150.ViewPostBloc(
-          gh<_i143.FetchDataCommentFirstLevelUseCase>(),
-          gh<_i141.FavouriteCommentUseCase>(),
-          gh<_i142.FavouritePostUseCase>(),
-          gh<_i146.SendCommentUseCase>(),
-          gh<_i148.SyncPostDataUseCase>(),
-          gh<_i145.ReplyCommentUseCase>(),
-          gh<_i144.GetReplyCommentUseCase>(),
-          gh<_i140.DeleteCommentUseCase>(),
+          gh<_i142.FetchDataCommentFirstLevelUseCase>(),
+          gh<_i140.FavouriteCommentUseCase>(),
+          gh<_i141.FavouritePostUseCase>(),
+          gh<_i145.SendCommentUseCase>(),
+          gh<_i147.SyncPostDataUseCase>(),
+          gh<_i144.ReplyCommentUseCase>(),
+          gh<_i143.GetReplyCommentUseCase>(),
+          gh<_i139.DeleteCommentUseCase>(),
         ));
     gh.factory<_i151.ApplicantProfileCubit>(() => _i151.ApplicantProfileCubit(
           gh<_i17.DeletePostUseCase>(),
@@ -635,11 +640,11 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i59.StreamUserInfoUseCase>(),
           gh<_i126.StreamLanguagesUseCase>(),
           gh<_i61.UpdateAboutMeUseCase>(),
-          gh<_i142.FavouritePostUseCase>(),
+          gh<_i141.FavouritePostUseCase>(),
         ));
     gh.factory<_i152.ConnectionCubit>(() => _i152.ConnectionCubit(
           gh<_i24.FetchPostUseCase>(),
-          gh<_i142.FavouritePostUseCase>(),
+          gh<_i141.FavouritePostUseCase>(),
         ));
     return this;
   }

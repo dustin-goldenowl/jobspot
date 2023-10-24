@@ -7,8 +7,8 @@ class UserEntity {
   final DateTime birthday;
   final String address;
   final String description;
-  final List<dynamic> follower;
-  final List<dynamic> following;
+  final List<String> follower;
+  final List<String> following;
   final DateTime updateAt;
   final DateTime createAt;
 
