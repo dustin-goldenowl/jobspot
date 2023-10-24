@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/core/utils/firebase_utils.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/data/entities/user_entity.dart';
@@ -27,8 +28,7 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
   @override
   Stream<DataState<List<PostEntity>>> getListPost(GetPostEntity entity) {
     try {
-      return FirebaseFirestore.instance
-          .collection("posts")
+      return XCollection.post
           .where("owner",
               isEqualTo: entity.uid ?? FirebaseAuth.instance.currentUser!.uid)
           .limit(entity.limit)
@@ -58,36 +58,23 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
 
   List<Future<AggregateQuerySnapshot>> getListCommentPost(List<String> listID) {
     return listID
-        .map((e) => FirebaseFirestore.instance
-            .collection("comments")
-            .where("post", isEqualTo: e)
-            .count()
-            .get())
+        .map((e) =>
+            XCollection.comment.where("post", isEqualTo: e).count().get())
         .toList();
   }
 
   @override
   Future<DataState<bool>> deletePost(PostEntity post) async {
     try {
-      FirebaseFirestore.instance
-          .collection("comments")
-          .where("post", isEqualTo: post.id)
-          .get()
-          .then((value) {
+      XCollection.comment.where("post", isEqualTo: post.id).get().then((value) {
         for (var doc in value.docs) {
-          FirebaseFirestore.instance
-              .collection("comments")
-              .doc(doc.id)
-              .delete();
+          XCollection.comment.doc(doc.id).delete();
         }
       });
       for (var element in post.images) {
         FirebaseUtils.deleteImage(element);
       }
-      await FirebaseFirestore.instance
-          .collection("posts")
-          .doc(post.id)
-          .delete();
+      await XCollection.post.doc(post.id).delete();
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
@@ -97,8 +84,7 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
   @override
   Stream<DataState<List<WorkExperienceEntity>>> getWorkExperience() {
     try {
-      return FirebaseFirestore.instance
-          .collection("workExperiences")
+      return XCollection.workExperience
           .where("owner", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .snapshots()
           .asyncMap((event) async {
@@ -116,8 +102,7 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
   @override
   Stream<DataState<List<EducationEntity>>> getEducation() {
     try {
-      return FirebaseFirestore.instance
-          .collection("educations")
+      return XCollection.education
           .where("owner", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .snapshots()
           .asyncMap((event) async {
@@ -135,8 +120,7 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
   @override
   Stream<DataState<List<AppreciationEntity>>> getAppreciation() {
     try {
-      return FirebaseFirestore.instance
-          .collection("appreciations")
+      return XCollection.appreciation
           .where("owner", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .snapshots()
           .asyncMap((event) async {
@@ -154,8 +138,7 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
   @override
   Stream<DataState<List<ResumeEntity>>> getResume() {
     try {
-      return FirebaseFirestore.instance
-          .collection("resumes")
+      return XCollection.resume
           .where("owner", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .snapshots()
           .asyncMap((event) async {
@@ -172,8 +155,7 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
   @override
   Stream<DataState<UserEntity>> getUserInfo() {
     try {
-      return FirebaseFirestore.instance
-          .collection("users")
+      return XCollection.user
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .snapshots()
           .asyncMap((event) async {
@@ -189,9 +171,8 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
   @override
   Future<DataState<List<SkillEntity>>> getSkill(List<String> listSkill) async {
     try {
-      final response = await Future.wait(listSkill.map(
-        (e) => FirebaseFirestore.instance.collection("skills").doc(e).get(),
-      ));
+      final response = await Future.wait(
+          listSkill.map((e) => XCollection.skill.doc(e).get()));
       return DataSuccess(response
           .map((e) => SkillModel.fromDocumentSnapshot(e).toSkillEntity())
           .toList());
@@ -203,8 +184,7 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
   @override
   Future<DataState<bool>> updateAboutMe(String description) async {
     try {
-      await FirebaseFirestore.instance
-          .collection("users")
+      await XCollection.user
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({"description": description});
       return DataSuccess(true);

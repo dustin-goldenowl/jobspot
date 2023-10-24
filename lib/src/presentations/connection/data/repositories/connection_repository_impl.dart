@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/fetch_post_data.dart';
@@ -13,8 +14,7 @@ class ConnectionRepositoryImpl extends ConnectionRepository {
   @override
   Stream<DataState<FetchPostData>> fetchPostData(int limit) {
     try {
-      return FirebaseFirestore.instance
-          .collection("posts")
+      return XCollection.post
           // .where("owner", isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
           //TODO This command is to filter posts that are not from the current account.
           .limit(limit)
@@ -26,8 +26,7 @@ class ConnectionRepositoryImpl extends ConnectionRepository {
         }
         final data = await Future.wait([
           getListUser(posts),
-          FirebaseFirestore.instance
-              .collection("posts")
+          XCollection.post
               // .where("owner", isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
               //TODO This command is to filter posts that are not from the current account.
               .count()
@@ -60,20 +59,15 @@ class ConnectionRepositoryImpl extends ConnectionRepository {
     for (var data in datas) {
       listUserId.add(data.owner);
     }
-    final userData = await Future.wait(listUserId
-        .map((id) =>
-            FirebaseFirestore.instance.collection("users").doc(id).get())
-        .toList());
+    final userData = await Future.wait(
+        listUserId.map((id) => XCollection.user.doc(id).get()).toList());
     return userData.map((e) => UserModel.fromDocumentSnapshot(e)).toList();
   }
 
   List<Future<AggregateQuerySnapshot>> getListCommentPost(List<String> listID) {
     return listID
-        .map((e) => FirebaseFirestore.instance
-            .collection("comments")
-            .where("post", isEqualTo: e)
-            .count()
-            .get())
+        .map((e) =>
+            XCollection.comment.where("post", isEqualTo: e).count().get())
         .toList();
   }
 }

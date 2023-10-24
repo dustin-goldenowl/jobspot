@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/add_job/data/models/job_model.dart';
 import 'package:jobspot/src/presentations/add_job/data/models/update_job_model.dart';
 import 'package:jobspot/src/presentations/add_job/domain/entities/job_entity.dart';
@@ -12,7 +12,7 @@ class AddJobRepositoryImpl extends AddJobRepository {
   @override
   Future<DataState> addJob(JobEntity job) async {
     try {
-      final firestore = FirebaseFirestore.instance.collection("jobs").doc();
+      final firestore = XCollection.job.doc();
       JobModel postModel = JobModel.fromJobEntity(job);
       await firestore.set(postModel.toJson());
       return DataSuccess(true);
@@ -25,8 +25,7 @@ class AddJobRepositoryImpl extends AddJobRepository {
   @override
   Future<DataState> updateJob(UpdateJobEntity job) async {
     try {
-      final firestore =
-          FirebaseFirestore.instance.collection("jobs").doc(job.id);
+      final firestore = XCollection.job.doc(job.id);
       UpdateJobModel postModel = UpdateJobModel.fromJobEntity(job);
       await firestore.update(postModel.toJson());
       return DataSuccess(true);

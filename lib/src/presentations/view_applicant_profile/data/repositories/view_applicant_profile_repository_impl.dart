@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/data/entities/user_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/education_model.dart';
@@ -23,10 +23,8 @@ class ViewApplicantProfileRepositoryImpl
   Future<DataState<List<WorkExperienceEntity>>> getWorkExperience(
       String uid) async {
     try {
-      final response = await FirebaseFirestore.instance
-          .collection("workExperiences")
-          .where("owner", isEqualTo: uid)
-          .get();
+      final response =
+          await XCollection.workExperience.where("owner", isEqualTo: uid).get();
       List<WorkExperienceModel> listExperience = response.docs
           .map((e) => WorkExperienceModel.fromDocumentSnapshot(e))
           .toList();
@@ -40,10 +38,8 @@ class ViewApplicantProfileRepositoryImpl
   @override
   Future<DataState<List<EducationEntity>>> getEducation(String uid) async {
     try {
-      final response = await FirebaseFirestore.instance
-          .collection("educations")
-          .where("owner", isEqualTo: uid)
-          .get();
+      final response =
+          await XCollection.education.where("owner", isEqualTo: uid).get();
       List<EducationModel> listExperience = response.docs
           .map((e) => EducationModel.fromDocumentSnapshot(e))
           .toList();
@@ -58,10 +54,8 @@ class ViewApplicantProfileRepositoryImpl
   Future<DataState<List<AppreciationEntity>>> getAppreciation(
       String uid) async {
     try {
-      final response = await FirebaseFirestore.instance
-          .collection("appreciations")
-          .where("owner", isEqualTo: uid)
-          .get();
+      final response =
+          await XCollection.appreciation.where("owner", isEqualTo: uid).get();
       List<AppreciationModel> listExperience = response.docs
           .map((e) => AppreciationModel.fromDocumentSnapshot(e))
           .toList();
@@ -75,10 +69,8 @@ class ViewApplicantProfileRepositoryImpl
   @override
   Future<DataState<List<ResumeEntity>>> getResume(String uid) async {
     try {
-      final response = await FirebaseFirestore.instance
-          .collection("resumes")
-          .where("owner", isEqualTo: uid)
-          .get();
+      final response =
+          await XCollection.resume.where("owner", isEqualTo: uid).get();
       List<ResumeModel> listExperience = response.docs
           .map((e) => ResumeModel.fromDocumentSnapshot(e))
           .toList();
@@ -92,8 +84,7 @@ class ViewApplicantProfileRepositoryImpl
   @override
   Future<DataState<UserEntity>> getUserInfo(String uid) async {
     try {
-      final response =
-          await FirebaseFirestore.instance.collection("users").doc(uid).get();
+      final response = await XCollection.user.doc(uid).get();
       final user = user_model.UserModel.fromJsonFirebase(response.data()!);
       await PrefsUtils.saveUserInfo(user.toJson());
       return DataSuccess(user.toUserEntity());
@@ -105,10 +96,8 @@ class ViewApplicantProfileRepositoryImpl
   @override
   Future<DataState<List<LanguageEntity>>> getLanguages(String uid) async {
     try {
-      final response = await FirebaseFirestore.instance
-          .collection("languages")
-          .where("owner", isEqualTo: uid)
-          .get();
+      final response =
+          await XCollection.language.where("owner", isEqualTo: uid).get();
       return DataSuccess(response.docs
           .map((e) => LanguageModel.fromDocumentSnapshot(e).toLanguageEntity())
           .toList());

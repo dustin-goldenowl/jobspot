@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/add_education/data/models/add_education_model.dart';
 import 'package:jobspot/src/presentations/add_education/data/models/update_education_model.dart';
 import 'package:jobspot/src/presentations/add_education/domain/entities/add_education_entity.dart';
@@ -12,8 +12,7 @@ class EducationRepositoryImpl extends EducationRepository {
   @override
   Future<DataState<bool>> addEducation(AddEducationEntity education) async {
     try {
-      await FirebaseFirestore.instance
-          .collection("educations")
+      await XCollection.education
           .doc()
           .set(AddEducationModel.fromEntity(education).toJson());
       return DataSuccess(true);
@@ -26,8 +25,7 @@ class EducationRepositoryImpl extends EducationRepository {
   Future<DataState<bool>> updateEducation(
       UpdateEducationEntity education) async {
     try {
-      await FirebaseFirestore.instance
-          .collection("educations")
+      await XCollection.education
           .doc(education.id)
           .update(UpdateEducationModel.fromEntity(education).toJson());
       return DataSuccess(true);
@@ -39,10 +37,7 @@ class EducationRepositoryImpl extends EducationRepository {
   @override
   Future<DataState<bool>> deleteEducation(String id) async {
     try {
-      await FirebaseFirestore.instance
-          .collection("educations")
-          .doc(id)
-          .delete();
+      await XCollection.education.doc(id).delete();
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());

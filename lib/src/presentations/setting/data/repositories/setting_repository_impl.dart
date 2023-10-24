@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/core/utils/firebase_utils.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/setting/domain/repositories/setting_repository.dart';
@@ -14,10 +14,7 @@ class SettingRepositoryImpl extends SettingRepository {
       await Future.wait([
         deletePost(),
         deleteComment(),
-        FirebaseFirestore.instance
-            .collection("users")
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .delete(),
+        XCollection.user.doc(FirebaseAuth.instance.currentUser!.uid).delete(),
         FirebaseUtils.deleteImage(PrefsUtils.getUserInfo()?.avatar ?? ""),
         FirebaseAuth.instance.currentUser!.delete(),
       ]);
@@ -28,26 +25,20 @@ class SettingRepositoryImpl extends SettingRepository {
   }
 
   Future deletePost() async {
-    final collection = await FirebaseFirestore.instance
-        .collection("posts")
+    final collection = await XCollection.post
         .where("owner", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get();
     await Future.wait(collection.docs
-        .map((e) =>
-            FirebaseFirestore.instance.collection("posts").doc(e.id).delete())
+        .map((e) => XCollection.post.doc(e.id).delete())
         .toList());
   }
 
   Future deleteComment() async {
-    final collection = await FirebaseFirestore.instance
-        .collection("comments")
+    final collection = await XCollection.comment
         .where("owner", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .get();
     await Future.wait(collection.docs
-        .map((e) => FirebaseFirestore.instance
-            .collection("comments")
-            .doc(e.id)
-            .delete())
+        .map((e) => XCollection.comment.doc(e.id).delete())
         .toList());
   }
 }

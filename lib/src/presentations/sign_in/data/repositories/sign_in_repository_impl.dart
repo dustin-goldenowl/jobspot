@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/sign_in/domain/entities/authentication_entity.dart';
@@ -52,11 +52,7 @@ class LoginRepositoryImpl extends SignInRepository {
   }
 
   Future saveUserInfo(String userUid) async {
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(userUid)
-        .get()
-        .then((value) async {
+    await XCollection.user.doc(userUid).get().then((value) async {
       if (value.data() != null) {
         await PrefsUtils.saveUserInfo(
             UserModel.fromJsonFirebase(value.data()!).toJson());

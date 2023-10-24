@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/save_job/domain/repositories/save_job_repository.dart';
 import 'package:jobspot/src/presentations/view_job/data/models/company_model.dart';
@@ -13,18 +13,14 @@ class SaveJobRepositoryImpl extends SaveJobRepository {
   @override
   Stream<DataState<List<JobEntity>>> listenSaveJob() {
     try {
-      return FirebaseFirestore.instance
-          .collection("users")
+      return XCollection.user
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .snapshots()
           .asyncMap((event) async {
         List<String> listSaveJob =
             List<String>.from(event.data()!["saveJob"].map((x) => x));
         final response = await Future.wait(
-          listSaveJob
-              .map((e) =>
-                  FirebaseFirestore.instance.collection("jobs").doc(e).get())
-              .toList(),
+          listSaveJob.map((e) => XCollection.job.doc(e).get()).toList(),
         );
         List<JobModel> listJob =
             response.map((e) => JobModel.fromDocumentSnapshot(e)).toList();
@@ -45,10 +41,8 @@ class SaveJobRepositoryImpl extends SaveJobRepository {
     for (var data in datas) {
       listCompanyId.add(data.owner);
     }
-    final companyData = await Future.wait(listCompanyId
-        .map((id) =>
-            FirebaseFirestore.instance.collection("users").doc(id).get())
-        .toList());
+    final companyData = await Future.wait(
+        listCompanyId.map((id) => XCollection.user.doc(id).get()).toList());
     return companyData
         .map((e) => CompanyModel.fromDocumentSnapshot(e))
         .toList();
@@ -60,8 +54,7 @@ class SaveJobRepositoryImpl extends SaveJobRepository {
       final user = PrefsUtils.getUserInfo()!;
       user.saveJob!.clear();
       await Future.wait([
-        FirebaseFirestore.instance
-            .collection("users")
+        XCollection.user
             .doc(FirebaseAuth.instance.currentUser!.uid)
             .update({"saveJob": []}),
         PrefsUtils.saveUserInfo(user.toJson()),

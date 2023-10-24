@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/core/utils/firebase_utils.dart';
 import 'package:jobspot/src/presentations/add_post/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/add_post/data/models/update_post_model.dart';
@@ -13,7 +13,7 @@ class AddPostRepositoryImpl extends AddPostRepository {
   @override
   Future<DataState> addPost(PostEntity post) async {
     try {
-      final firestore = FirebaseFirestore.instance.collection("posts").doc();
+      final firestore = XCollection.post.doc();
       final images = await Future.wait(post.images
           .map((e) => FirebaseUtils.uploadImage(
                 folder: "posts/${firestore.id}",
@@ -34,8 +34,7 @@ class AddPostRepositoryImpl extends AddPostRepository {
   @override
   Future<DataState> updatePost(UpdatePostEntity post) async {
     try {
-      final firestorePost =
-          FirebaseFirestore.instance.collection("posts").doc(post.id);
+      final firestorePost = XCollection.post.doc(post.id);
       for (var element in post.removeImages) {
         FirebaseUtils.deleteImage(element);
       }
