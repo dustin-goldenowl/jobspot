@@ -169,5 +169,15 @@ class AppRouter extends $AppRouter {
           page: EditApplicantProfileRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
+        CustomRoute(
+            path: '/viewCompanyProfile',
+            page: ViewCompanyProfileRoute.page,
+            transitionsBuilder: TransitionsBuilders.slideBottom,
+            children: [
+              AutoRoute(
+                  path: "viewCompanyAbout", page: ViewCompanyAboutTab.page),
+              AutoRoute(path: "viewCompanyPost", page: ViewCompanyPostTab.page),
+              AutoRoute(path: "viewCompanyJob", page: ViewCompanyJobTab.page),
+            ]),
       ];
 }

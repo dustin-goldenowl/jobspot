@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
+import 'package:jobspot/src/presentations/view_job/domain/router/view_job_coordinator.dart';
 
 import '../../../core/constants/constants.dart';
 
@@ -79,7 +80,10 @@ class CustomAppBarCompany extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_rounded),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              //TODO set to test
+              ViewJobCoordinator.showViewCompany();
+            },
             icon: const Icon(FontAwesomeIcons.ellipsisVertical),
           )
         ],
