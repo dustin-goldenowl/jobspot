@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/core/utils/firebase_utils.dart';
 import 'package:jobspot/src/presentations/add_resume/data/models/add_resume_model.dart';
 import 'package:jobspot/src/presentations/add_resume/domain/entities/add_resume_entity.dart';
@@ -18,10 +18,7 @@ class ResumeRepositoryImpl extends ResumeRepository {
         image: resume.path,
       );
       final model = AddResumeModel.fromEntity(resume)..file = link;
-      await FirebaseFirestore.instance
-          .collection("resumes")
-          .doc()
-          .set(model.toJson());
+      await XCollection.resume.doc().set(model.toJson());
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
@@ -33,10 +30,7 @@ class ResumeRepositoryImpl extends ResumeRepository {
     try {
       await Future.wait([
         FirebaseUtils.deleteImage(resume.file),
-        FirebaseFirestore.instance
-            .collection("resumes")
-            .doc(resume.id)
-            .delete(),
+        XCollection.resume.doc(resume.id).delete(),
       ]);
       return DataSuccess(true);
     } catch (e) {

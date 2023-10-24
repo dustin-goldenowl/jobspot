@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/view_job/data/models/company_model.dart';
 import 'package:jobspot/src/presentations/view_job/data/models/job_model.dart';
 import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart';
@@ -11,13 +11,9 @@ class ViewJobRepositoryImpl extends ViewJobRepository {
   @override
   Future<DataState<JobEntity>> getJobData(String id) async {
     try {
-      final jobSnapshot =
-          await FirebaseFirestore.instance.collection("jobs").doc(id).get();
+      final jobSnapshot = await XCollection.job.doc(id).get();
       JobModel job = JobModel.fromDocumentSnapshot(jobSnapshot);
-      final companySnapshot = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(job.owner)
-          .get();
+      final companySnapshot = await XCollection.user.doc(job.owner).get();
       CompanyModel company = CompanyModel.fromDocumentSnapshot(companySnapshot);
       return DataSuccess(job.copyWith(company: company).toJobEntity());
     } catch (e) {

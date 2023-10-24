@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/extension/date_time_extension.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/home/domain/entities/fetch_job_data.dart';
@@ -16,8 +17,7 @@ class HomeRepositoryImpl extends HomeRepository {
   Stream<DataState<FetchJobData>> fetchJobData() {
     try {
       Timestamp time = Timestamp.fromDate(DateTime.now().getDate);
-      return FirebaseFirestore.instance
-          .collection("jobs")
+      return XCollection.job
           .where("startDate", isLessThanOrEqualTo: time)
           .orderBy("startDate", descending: true)
           .snapshots()
@@ -57,39 +57,31 @@ class HomeRepositoryImpl extends HomeRepository {
     }
   }
 
-  Future<AggregateQuerySnapshot> parttime(Timestamp time) =>
-      FirebaseFirestore.instance
-          .collection("jobs")
-          .where("endDate", isGreaterThanOrEqualTo: time)
-          .where("jobType", isEqualTo: 1)
-          .count()
-          .get();
+  Future<AggregateQuerySnapshot> parttime(Timestamp time) => XCollection.job
+      .where("endDate", isGreaterThanOrEqualTo: time)
+      .where("jobType", isEqualTo: 1)
+      .count()
+      .get();
 
-  Future<AggregateQuerySnapshot> remote(Timestamp time) =>
-      FirebaseFirestore.instance
-          .collection("jobs")
-          .where("endDate", isGreaterThanOrEqualTo: time)
-          .where("typeWorkplace", isEqualTo: 2)
-          .count()
-          .get();
+  Future<AggregateQuerySnapshot> remote(Timestamp time) => XCollection.job
+      .where("endDate", isGreaterThanOrEqualTo: time)
+      .where("typeWorkplace", isEqualTo: 2)
+      .count()
+      .get();
 
-  Future<AggregateQuerySnapshot> fulltime(Timestamp time) =>
-      FirebaseFirestore.instance
-          .collection("jobs")
-          .where("endDate", isGreaterThanOrEqualTo: time)
-          .where("jobType", isEqualTo: 0)
-          .count()
-          .get();
+  Future<AggregateQuerySnapshot> fulltime(Timestamp time) => XCollection.job
+      .where("endDate", isGreaterThanOrEqualTo: time)
+      .where("jobType", isEqualTo: 0)
+      .count()
+      .get();
 
   Future<List<CompanyModel>> getListCompany(List<JobModel> datas) async {
     Set<String> listCompanyId = {};
     for (var data in datas) {
       listCompanyId.add(data.owner);
     }
-    final companyData = await Future.wait(listCompanyId
-        .map((id) =>
-            FirebaseFirestore.instance.collection("users").doc(id).get())
-        .toList());
+    final companyData = await Future.wait(
+        listCompanyId.map((id) => XCollection.user.doc(id).get()).toList());
     return companyData
         .map((e) => CompanyModel.fromDocumentSnapshot(e))
         .toList();
@@ -105,10 +97,7 @@ class HomeRepositoryImpl extends HomeRepository {
         user.saveJob!.add(jobID);
       }
       await Future.wait([
-        FirebaseFirestore.instance
-            .collection("users")
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .update({
+        XCollection.user.doc(FirebaseAuth.instance.currentUser!.uid).update({
           "saveJob": user.saveJob!,
         }),
         PrefsUtils.saveUserInfo(user.toJson()),

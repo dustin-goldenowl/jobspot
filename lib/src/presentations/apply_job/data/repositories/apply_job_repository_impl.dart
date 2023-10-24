@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/core/utils/firebase_utils.dart';
 import 'package:jobspot/src/presentations/apply_job/data/models/resume_model.dart';
 import 'package:jobspot/src/presentations/apply_job/domain/entities/resume_entity.dart';
@@ -11,8 +11,7 @@ class ApplyJobRepositoryImpl extends ApplyJobRepository {
   @override
   Future<DataState<bool>> applyJob(ResumeEntity cv) async {
     try {
-      final applyFirestore =
-          FirebaseFirestore.instance.collection("apply").doc();
+      final applyFirestore = XCollection.apply.doc();
       String cvUrl = await FirebaseUtils.uploadImage(
         folder: "cvs",
         name: DateTime.now().microsecondsSinceEpoch.toString(),

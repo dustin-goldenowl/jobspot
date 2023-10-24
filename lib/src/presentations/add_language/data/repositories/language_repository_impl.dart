@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/add_language/data/models/add_language_model.dart';
 import 'package:jobspot/src/presentations/add_language/data/models/update_language_model.dart';
 import 'package:jobspot/src/presentations/add_language/domain/entities/add_language_entity.dart';
@@ -14,20 +14,16 @@ class LanguageRepositoryImpl extends LanguageRepository {
   Future<DataState<bool>> addLanguage(AddLanguageEntity language) async {
     try {
       if (language.isFirst) {
-        final response = await FirebaseFirestore.instance
-            .collection("languages")
+        final response = await XCollection.language
             .where("owner", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
             .where("isFirst", isEqualTo: true)
             .get();
         await Future.wait(response.docs
-            .map((e) => FirebaseFirestore.instance
-                .collection("languages")
-                .doc(e.id)
-                .update({"isFirst": false}))
+            .map((e) =>
+                XCollection.language.doc(e.id).update({"isFirst": false}))
             .toList());
       }
-      await FirebaseFirestore.instance
-          .collection("languages")
+      await XCollection.language
           .doc()
           .set(AddLanguageModel.fromEntity(language).toJson());
       return DataSuccess(true);
@@ -40,20 +36,16 @@ class LanguageRepositoryImpl extends LanguageRepository {
   Future<DataState<bool>> updateLanguage(UpdateLanguageEntity language) async {
     try {
       if (language.isFirst) {
-        final response = await FirebaseFirestore.instance
-            .collection("languages")
+        final response = await XCollection.language
             .where("owner", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
             .where("isFirst", isEqualTo: true)
             .get();
         await Future.wait(response.docs
-            .map((e) => FirebaseFirestore.instance
-                .collection("languages")
-                .doc(e.id)
-                .update({"isFirst": false}))
+            .map((e) =>
+                XCollection.language.doc(e.id).update({"isFirst": false}))
             .toList());
       }
-      await FirebaseFirestore.instance
-          .collection("languages")
+      await XCollection.language
           .doc(language.id)
           .update(UpdateLanguageModel.fromEntity(language).toJson());
       return DataSuccess(true);
@@ -65,7 +57,7 @@ class LanguageRepositoryImpl extends LanguageRepository {
   @override
   Future<DataState<bool>> deleteLanguage(String id) async {
     try {
-      await FirebaseFirestore.instance.collection("languages").doc(id).delete();
+      await XCollection.language.doc(id).delete();
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());

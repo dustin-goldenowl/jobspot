@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/sign_up/data/models/register_applicant_model.dart';
 import 'package:jobspot/src/presentations/sign_up/data/models/register_business_model.dart';
 import 'package:jobspot/src/presentations/sign_up/domain/entities/register_applicant_entity.dart';
@@ -60,10 +60,7 @@ class SignUpRepositoryImpl extends SignUpRepository {
         email: email,
         password: password,
       );
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(credential.user!.uid)
-          .set(data);
+      await XCollection.user.doc(credential.user!.uid).set(data);
       return DataSuccess(credential);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

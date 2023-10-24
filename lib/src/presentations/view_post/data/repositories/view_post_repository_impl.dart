@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
@@ -20,10 +21,8 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
   Future<DataState<List<CommentEntity>>> getCommentFirstLevel(
       List<String> listComment) async {
     try {
-      final response = await Future.wait(listComment
-          .map((e) =>
-              FirebaseFirestore.instance.collection("comments").doc(e).get())
-          .toList());
+      final response = await Future.wait(
+          listComment.map((e) => XCollection.comment.doc(e).get()).toList());
       List<CommentModel> comments =
           response.map((e) => CommentModel.fromSnapshot(e)).toList();
       final listUser = await getListUser(comments);
@@ -46,32 +45,19 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
     for (var data in datas) {
       listUserId.add(data.owner);
     }
-    final userData = await Future.wait(listUserId
-        .map((id) =>
-            FirebaseFirestore.instance.collection("users").doc(id).get())
-        .toList());
+    final userData = await Future.wait(
+        listUserId.map((id) => XCollection.user.doc(id).get()).toList());
     return userData.map((e) => UserModel.fromDocumentSnapshot(e)).toList();
   }
 
   @override
   Stream<DataState<PostEntity>> syncPostData(String id) {
     try {
-      return FirebaseFirestore.instance
-          .collection("posts")
-          .doc(id)
-          .snapshots()
-          .asyncMap((event) async {
+      return XCollection.post.doc(id).snapshots().asyncMap((event) async {
         PostModel postModel = PostModel.fromDocumentSnapshot(event);
         final response = await Future.wait([
-          FirebaseFirestore.instance
-              .collection("users")
-              .doc(postModel.owner)
-              .get(),
-          FirebaseFirestore.instance
-              .collection("comments")
-              .where("post", isEqualTo: id)
-              .count()
-              .get()
+          XCollection.user.doc(postModel.owner).get(),
+          XCollection.comment.where("post", isEqualTo: id).count().get()
         ]);
         final user = response.first as DocumentSnapshot<Map<String, dynamic>>;
         final numberOfComments = response.last as AggregateQuerySnapshot;
@@ -89,10 +75,8 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
   @override
   Future<DataState<bool>> sendComment(SendCommentEntity comment) async {
     try {
-      final commentStore =
-          FirebaseFirestore.instance.collection("comments").doc();
-      final postStore =
-          FirebaseFirestore.instance.collection("posts").doc(comment.post);
+      final commentStore = XCollection.comment.doc();
+      final postStore = XCollection.post.doc(comment.post);
       final commentModel = SendCommentModel.fromEntity(comment);
       final response = await Future.wait([
         commentStore.set(commentModel.toJson()),
@@ -120,10 +104,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
       } else {
         listFavourite.add(FirebaseAuth.instance.currentUser!.uid);
       }
-      await FirebaseFirestore.instance
-          .collection("posts")
-          .doc(favourite.id)
-          .update({"like": listFavourite});
+      await XCollection.post.doc(favourite.id).update({"like": listFavourite});
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
@@ -133,8 +114,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
   @override
   Future<DataState<bool>> favouriteComment(FavouriteEntity favourite) async {
     try {
-      await FirebaseFirestore.instance
-          .collection("comments")
+      await XCollection.comment
           .doc(favourite.id)
           .update({"like": favourite.listFavourite});
       return DataSuccess(true);
@@ -146,11 +126,8 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
   @override
   Future<DataState<bool>> replyComment(ReplyCommentEntity comment) async {
     try {
-      final commentStore = FirebaseFirestore.instance
-          .collection("comments")
-          .doc(comment.commentID);
-      final replyCommentStore =
-          FirebaseFirestore.instance.collection("comments").doc();
+      final commentStore = XCollection.comment.doc(comment.commentID);
+      final replyCommentStore = XCollection.comment.doc();
       final replyCommentModel = ReplyCommentModel.fromEntity(comment);
       final response = await Future.wait([
         replyCommentStore.set(replyCommentModel.toJson()),
@@ -180,8 +157,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
     required String id,
   }) async {
     if (highLevel != null) {
-      final highLevelStore =
-          FirebaseFirestore.instance.collection("comments").doc(highLevel);
+      final highLevelStore = XCollection.comment.doc(highLevel);
       final response = await highLevelStore.get();
       List<String> listReply =
           List<String>.from(response.data()!["reply"].map((x) => x));
@@ -194,14 +170,11 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
   @override
   Future<DataState<List<CommentEntity>>> getReplyComment(String id) async {
     try {
-      final snapshot =
-          await FirebaseFirestore.instance.collection("comments").doc(id).get();
+      final snapshot = await XCollection.comment.doc(id).get();
       List<String> listReply =
           List<String>.from(snapshot.data()!["reply"].map((x) => x));
-      final response = await Future.wait(listReply
-          .map((e) =>
-              FirebaseFirestore.instance.collection("comments").doc(e).get())
-          .toList());
+      final response = await Future.wait(
+          listReply.map((e) => XCollection.comment.doc(e).get()).toList());
 
       List<CommentModel> listComment =
           response.map((e) => CommentModel.fromSnapshot(e)).toList();
@@ -223,7 +196,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
   @override
   Future<DataState<bool>> deleteComment(String id) async {
     try {
-      FirebaseFirestore.instance.collection("comments").doc(id).delete();
+      XCollection.comment.doc(id).delete();
       //TODO còn phải xóa id của nó ra khỏi các mục khác @@
       return DataSuccess(true);
     } catch (e) {

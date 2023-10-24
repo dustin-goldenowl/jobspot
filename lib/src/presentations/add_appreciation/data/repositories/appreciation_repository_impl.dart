@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/add_appreciation/data/models/add_appreciation_model.dart';
 import 'package:jobspot/src/presentations/add_appreciation/data/models/update_appreciation_model.dart';
 import 'package:jobspot/src/presentations/add_appreciation/domain/entities/add_appreciation_entity.dart';
@@ -13,8 +13,7 @@ class AppreciationRepositoryImpl extends AppreciationRepository {
   Future<DataState<bool>> addAppreciation(
       AddAppreciationEntity appreciation) async {
     try {
-      await FirebaseFirestore.instance
-          .collection("appreciations")
+      await XCollection.appreciation
           .doc()
           .set(AddAppreciationModel.fromEntity(appreciation).toJson());
       return DataSuccess(true);
@@ -27,8 +26,7 @@ class AppreciationRepositoryImpl extends AppreciationRepository {
   Future<DataState<bool>> updateAppreciation(
       UpdateAppreciationEntity appreciation) async {
     try {
-      await FirebaseFirestore.instance
-          .collection("appreciations")
+      await XCollection.appreciation
           .doc(appreciation.id)
           .update(UpdateAppreciationModel.fromEntity(appreciation).toJson());
       return DataSuccess(true);
@@ -40,10 +38,7 @@ class AppreciationRepositoryImpl extends AppreciationRepository {
   @override
   Future<DataState<bool>> deleteAppreciation(String id) async {
     try {
-      await FirebaseFirestore.instance
-          .collection("appreciations")
-          .doc(id)
-          .delete();
+      await XCollection.appreciation.doc(id).delete();
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
