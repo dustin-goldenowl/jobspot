@@ -1,183 +1,204 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
+import 'package:jobspot/src/core/constants/app_paths.dart';
 
 @lazySingleton
 @AutoRouterConfig()
 class AppRouter extends $AppRouter {
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: OnBoardingRoute.page),
+        AutoRoute(path: AppPaths.onBoarding, page: OnBoardingRoute.page),
         CustomRoute(
-          path: '/signIn',
+          path: AppPaths.signIn,
           page: SignInRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
         CustomRoute(
-          path: '/signUp',
+          path: AppPaths.signUp,
           page: SignUpRoute.page,
           transitionsBuilder: TransitionsBuilders.zoomIn,
         ),
         CustomRoute(
-          path: '/forgotPassword',
+          path: AppPaths.forgotPassword,
           page: ForgotPasswordRoute.page,
           transitionsBuilder: TransitionsBuilders.fadeIn,
         ),
         CustomRoute(
-          path: '/checkEmail',
+          path: AppPaths.checkEmail,
           page: CheckEmailRoute.page,
           transitionsBuilder: TransitionsBuilders.zoomIn,
         ),
         CustomRoute(
-          path: '/verifyEmail',
+          path: AppPaths.verifyEmail,
           page: VerifyEmailRoute.page,
           transitionsBuilder: TransitionsBuilders.slideTop,
         ),
         CustomRoute(
-          path: '/verifySuccess',
+          path: AppPaths.verifySuccess,
           page: VerifySuccessRoute.page,
           transitionsBuilder: TransitionsBuilders.fadeIn,
         ),
         CustomRoute(
-          path: '/main',
+          path: AppPaths.main,
           page: MainRoute.page,
           transitionsBuilder: TransitionsBuilders.fadeIn,
           children: [
-            AutoRoute(path: 'home', page: HomeRoute.page),
-            AutoRoute(path: 'connection', page: ConnectionRoute.page),
-            AutoRoute(path: 'notification', page: NotificationRoute.page),
-            AutoRoute(path: 'saveJob', page: SaveJobRoute.page),
+            AutoRoute(path: AppPaths.homeTab, page: HomeRoute.page),
+            AutoRoute(path: AppPaths.connectionTab, page: ConnectionRoute.page),
+            AutoRoute(
+                path: AppPaths.notificationTab, page: NotificationRoute.page),
+            AutoRoute(path: AppPaths.saveJobTab, page: SaveJobRoute.page),
           ],
         ),
         CustomRoute(
-          path: '/addPost',
+          path: AppPaths.addPost,
           page: AddPostRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
         CustomRoute(
-          path: '/addJob',
+          path: AppPaths.addJob,
           page: AddJobRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
         CustomRoute(
-          path: '/jobPosition',
+          path: AppPaths.jobPosition,
           page: JobPositionRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
         CustomRoute(
-          path: '/location',
+          path: AppPaths.location,
           page: LocationRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
         CustomRoute(
-          path: '/jobDescription',
+          path: AppPaths.jobDescription,
           page: JobDescriptionRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
         CustomRoute(
-          path: '/viewJob',
+          path: AppPaths.viewJob,
           page: ViewJobRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
         CustomRoute(
-          path: '/applyJob',
+          path: AppPaths.applyJob,
           page: ApplyJobRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
         CustomRoute(
-          path: '/viewPost',
+          path: AppPaths.viewJob,
           page: ViewPostRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
         CustomRoute(
-          path: '/applicantProfile',
+          path: AppPaths.applicantProfile,
           page: ApplicantProfileRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
           children: [
-            AutoRoute(path: "applicantAbout", page: ApplicantAboutTab.page),
-            AutoRoute(path: "applicantPost", page: ApplicantPostTab.page)
+            AutoRoute(
+              path: AppPaths.applicantAboutTab,
+              page: ApplicantAboutTab.page,
+            ),
+            AutoRoute(
+              path: AppPaths.applicantPostTab,
+              page: ApplicantPostTab.page,
+            )
           ],
         ),
         CustomRoute(
-          path: '/addExperience',
+          path: AppPaths.addExperience,
           page: AddWorkExperienceRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
         CustomRoute(
-          path: '/addEducation',
+          path: AppPaths.addEducation,
           page: AddEducationRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
         CustomRoute(
-          path: '/addAppreciation',
+          path: AppPaths.addAppreciation,
           page: AddAppreciationRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
         CustomRoute(
-          path: '/addResume',
+          path: AppPaths.addResume,
           page: AddResumeRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
         CustomRoute(
-          path: '/viewPDF',
+          path: AppPaths.viewPDF,
           page: ViewPDFRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
         CustomRoute(
-          path: '/addSkill',
+          path: AppPaths.addSkill,
           page: AddSkillRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
         CustomRoute(
-          path: '/addLanguage',
+          path: AppPaths.addLanguage,
           page: AddLanguageRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
         CustomRoute(
-          path: '/viewLanguage',
+          path: AppPaths.viewLanguage,
           page: ViewLanguageRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
         CustomRoute(
-          path: '/searchLanguage',
+          path: AppPaths.searchLanguage,
           page: SearchLanguageRoute.page,
           transitionsBuilder: TransitionsBuilders.slideBottom,
         ),
         CustomRoute(
-          path: '/viewApplicantProfile',
+          path: AppPaths.viewApplicantProfile,
           page: ViewApplicantProfileRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
           children: [
             AutoRoute(
-                path: "viewAboutApplicant", page: ViewApplicantAboutTab.page),
+              path: AppPaths.viewApplicantAboutTab,
+              page: ViewApplicantAboutTab.page,
+            ),
             AutoRoute(
-                path: "viewPostApplicant", page: ViewApplicantPostTab.page)
+              path: AppPaths.viewApplicantPostTab,
+              page: ViewApplicantPostTab.page,
+            )
           ],
         ),
         CustomRoute(
-          path: '/setting',
+          path: AppPaths.setting,
           page: SettingRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
         CustomRoute(
-          path: '/updatePassword',
+          path: AppPaths.updatePassword,
           page: UpdatePasswordRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
         CustomRoute(
-          path: '/editApplicantProfile',
+          path: AppPaths.editApplicantProfile,
           page: EditApplicantProfileRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
         CustomRoute(
-            path: '/viewCompanyProfile',
-            page: ViewCompanyProfileRoute.page,
-            transitionsBuilder: TransitionsBuilders.slideBottom,
-            children: [
-              AutoRoute(
-                  path: "viewCompanyAbout", page: ViewCompanyAboutTab.page),
-              AutoRoute(path: "viewCompanyPost", page: ViewCompanyPostTab.page),
-              AutoRoute(path: "viewCompanyJob", page: ViewCompanyJobTab.page),
-            ],),
+          path: AppPaths.viewCompanyProfile,
+          page: ViewCompanyProfileRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideBottom,
+          children: [
+            AutoRoute(
+              path: AppPaths.viewCompanyAboutTab,
+              page: ViewCompanyAboutTab.page,
+            ),
+            AutoRoute(
+              path: AppPaths.viewCompanyPostTab,
+              page: ViewCompanyPostTab.page,
+            ),
+            AutoRoute(
+              path: AppPaths.viewCompanyJobTab,
+              page: ViewCompanyJobTab.page,
+            ),
+          ],
+        ),
       ];
 }
