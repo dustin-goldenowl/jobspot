@@ -40,4 +40,5 @@ class AppImages {
   static String lock = "assets/images/lock.svg";
   static String vietnam = "assets/images/vietnam.svg";
   static String english = "assets/images/united_kingdom.svg";
+  static String gallery = "assets/images/gallery.svg";
 }

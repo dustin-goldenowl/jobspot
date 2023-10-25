@@ -90,7 +90,7 @@ class HomeRepositoryImpl extends HomeRepository {
   @override
   Future<DataState<bool>> saveJob(String jobID) async {
     try {
-      UserModel user = PrefsUtils.getUserInfo()!;
+      UserModel user = UserModel.fromEntity(PrefsUtils.getUserInfo()!);
       if (user.saveJob!.contains(jobID)) {
         user.saveJob!.remove(jobID);
       } else {

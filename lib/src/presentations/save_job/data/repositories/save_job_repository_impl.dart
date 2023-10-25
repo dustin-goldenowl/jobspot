@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
+import 'package:jobspot/src/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/save_job/domain/repositories/save_job_repository.dart';
 import 'package:jobspot/src/presentations/view_job/data/models/company_model.dart';
 import 'package:jobspot/src/presentations/view_job/data/models/job_model.dart';
@@ -51,7 +52,7 @@ class SaveJobRepositoryImpl extends SaveJobRepository {
   @override
   Future<DataState<bool>> deleteAllSaveJob() async {
     try {
-      final user = PrefsUtils.getUserInfo()!;
+      final user = UserModel.fromEntity(PrefsUtils.getUserInfo()!);
       user.saveJob!.clear();
       await Future.wait([
         XCollection.user

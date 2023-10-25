@@ -366,5 +366,13 @@
     "notification_push_apply": "Đã ứng tuyển công việc của bạn",
     "notification_push_share": "Đã chia sẻ bài viết của bạn",
     "notification_push_reject": "Đã từ chối đơn ứng tuyển của bạn",
-    "notification_push_accept": "Đã chấp nhận đơn ứng tuyển của bạn"
+    "notification_push_accept": "Đã chấp nhận đơn ứng tuyển của bạn",
+
+    "edit_applicant_profile_page_fullname": "Họ tên",
+    "edit_applicant_profile_page_email": "Email",
+    "edit_applicant_profile_page_address": "Địa chỉ",
+    "edit_applicant_profile_page_change_image": "Đổi ảnh đại diện",
+    "edit_applicant_profile_page_save": "Lưu",
+    "edit_applicant_profile_page_camera": "Máy ảnh",
+    "edit_applicant_profile_page_gallery": "Thư viện"
 }
