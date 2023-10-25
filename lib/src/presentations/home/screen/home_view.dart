@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
@@ -21,7 +22,9 @@ class HomeView extends StatelessWidget {
     double width = MediaQuery.sizeOf(context).width;
 
     return Scaffold(
+      key: Key(AppLocalizations.of(context)!.key),
       appBar: _buildAppBar(
+        context,
         width: width,
         onTap: HomeCoordinator.showApplicantProfile,
       ),
@@ -106,7 +109,8 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  PreferredSizeWidget _buildAppBar({
+  PreferredSizeWidget _buildAppBar(
+    BuildContext context, {
     required double width,
     required VoidCallback onTap,
   }) {
