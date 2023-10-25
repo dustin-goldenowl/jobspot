@@ -110,8 +110,8 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
   @override
   Future<DataState<bool>> favouritePost(FavouriteEntity favourite) async {
     try {
-      List<String> listFavourite = [...favourite.listFavourite];
       final uid = FirebaseAuth.instance.currentUser!.uid;
+      List<String> listFavourite = [...favourite.listFavourite];
       if (favourite.listFavourite.contains(uid)) {
         listFavourite.remove(uid);
       } else {

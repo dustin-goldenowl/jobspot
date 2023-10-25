@@ -38,12 +38,18 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
             event.docs.map((e) => PostModel.fromDocumentSnapshot(e)).toList();
         final response = await Future.wait(
             getListCommentPost(listPost.map((e) => e.id).toList()));
-        final user = PrefsUtils.getUserInfo();
-        UserModel userModel = UserModel(
-          id: FirebaseAuth.instance.currentUser!.uid,
-          name: user!.name,
-          avatar: user.avatar,
-        );
+        UserModel? userModel;
+        if (entity.uid != null) {
+          final response = await XCollection.user.doc(entity.uid).get();
+          userModel = UserModel.fromDocumentSnapshot(response);
+        } else {
+          final user = PrefsUtils.getUserInfo();
+          userModel = UserModel(
+            id: FirebaseAuth.instance.currentUser!.uid,
+            name: user!.name,
+            avatar: user.avatar,
+          );
+        }
         int index = 0;
         listPost = listPost
             .map((e) => e.copyWith(
@@ -159,7 +165,7 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .snapshots()
           .asyncMap((event) async {
-        final user = user_model.UserModel.fromJsonFirebase(event.data()!);
+        final user = user_model.UserModel.fromDocumentSnapshot(event);
         await PrefsUtils.saveUserInfo(user.toJson());
         return DataSuccess(user.toUserEntity());
       });

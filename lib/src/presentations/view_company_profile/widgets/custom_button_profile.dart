@@ -4,12 +4,12 @@ import 'package:jobspot/src/core/constants/constants.dart';
 class CustomButtonProfile extends StatelessWidget {
   const CustomButtonProfile({
     super.key,
-    required this.icon,
+    this.icon,
     required this.title,
     required this.onTap,
   });
 
-  final Widget icon;
+  final Widget? icon;
   final String title;
   final VoidCallback onTap;
 
@@ -26,8 +26,8 @@ class CustomButtonProfile extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            icon,
-            const SizedBox(width: 10),
+            if (icon != null) icon!,
+            if (icon != null) const SizedBox(width: 10),
             Text(
               title,
               style: TextStyle(color: AppColors.venetianRed, fontSize: 14),

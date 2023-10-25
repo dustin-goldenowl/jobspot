@@ -86,7 +86,7 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
             const SizedBox(width: 5),
           ],
           leading: IconButton(
-            onPressed: () => context.router.pop(),
+            onPressed: context.router.pop,
             icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
           ),
           backgroundColor: state.isTop ? Colors.white : Colors.transparent,
@@ -101,7 +101,7 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
             duration: const Duration(milliseconds: 300),
             child: Text(
               state.user?.name ?? "",
-              style: const TextStyle(fontWeight: FontWeight.w500),
+              style: const TextStyle(fontWeight: FontWeight.w700),
             ),
           ),
           flexibleSpace: FlexibleSpaceBar(
@@ -142,7 +142,7 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       _buildText(
-                          "${state.user?.following.length ?? 0} Follower"),
+                          "${state.user?.follower.length ?? 0} Follower"),
                       _buildDotText,
                       _buildText("${state.listPost?.length ?? 0} Post"),
                       _buildDotText,
@@ -180,7 +180,11 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
             state.user != null && (state.user!.website ?? "").isNotEmpty) {
           return Row(
             children: [
-              Expanded(child: _buildButtonFollow(state.user?.follower ?? [])),
+              Expanded(
+                  child: _buildButtonFollow(
+                context,
+                follower: state.user?.follower ?? [],
+              )),
               const SizedBox(width: 20),
               Expanded(
                 child: CustomButtonProfile(
@@ -195,20 +199,27 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
         return Center(
           child: SizedBox(
             width: 170,
-            child: _buildButtonFollow(state.user?.follower ?? []),
+            child: _buildButtonFollow(
+              context,
+              follower: state.user?.follower ?? [],
+            ),
           ),
         );
       },
     );
   }
 
-  Widget _buildButtonFollow(List<String> follower) {
+  Widget _buildButtonFollow(
+    BuildContext context, {
+    required List<String> follower,
+  }) {
+    bool isFollow = follower.contains(FirebaseAuth.instance.currentUser!.uid);
     return CustomButtonProfile(
-      onTap: () {},
-      icon: Icon(FontAwesomeIcons.plus, color: AppColors.venetianRed, size: 15),
-      title: follower.contains(FirebaseAuth.instance.currentUser!.uid)
-          ? "Unfollow"
-          : "Follow",
+      onTap: context.read<ViewCompanyProfileCubit>().followUser,
+      icon: isFollow
+          ? null
+          : Icon(FontAwesomeIcons.plus, color: AppColors.venetianRed, size: 15),
+      title: isFollow ? "Unfollow" : "Follow",
     );
   }
 

@@ -1,5 +1,6 @@
 class UserEntity {
   //general
+  final String id;
   final String name;
   final String role;
   final String avatar;
@@ -25,7 +26,8 @@ class UserEntity {
   final List<String>? images;
   final List<String>? specialization;
 
-  UserEntity({
+  const UserEntity({
+    required this.id,
     required this.name,
     required this.email,
     required this.avatar,

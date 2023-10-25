@@ -3,6 +3,7 @@ import 'package:jobspot/src/data/entities/user_entity.dart';
 
 class UserModel {
   //general
+  String id;
   String name;
   String role;
   String avatar;
@@ -29,6 +30,7 @@ class UserModel {
   List<String>? specialization;
 
   UserModel({
+    required this.id,
     required this.name,
     required this.email,
     required this.avatar,
@@ -51,7 +53,34 @@ class UserModel {
     this.website,
   });
 
+  factory UserModel.fromEntity(UserEntity entity) {
+    return UserModel(
+      id: entity.id,
+      name: entity.name,
+      email: entity.email,
+      avatar: entity.avatar,
+      address: entity.address,
+      birthday: entity.birthday,
+      description: entity.description,
+      follower: entity.follower,
+      following: entity.following,
+      updateAt: entity.updateAt,
+      createAt: entity.createAt,
+      role: entity.role,
+      employeeSize: entity.employeeSize,
+      gender: entity.gender,
+      images: entity.images,
+      industry: entity.industry,
+      isAccept: entity.isAccept,
+      saveJob: entity.saveJob,
+      skill: entity.skill,
+      specialization: entity.specialization,
+      website: entity.website,
+    );
+  }
+
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
+        id: json["id"] ?? "",
         birthday: DateTime.parse(json["birthday"]),
         address: json["address"],
         role: json["role"],
@@ -80,34 +109,39 @@ class UserModel {
             : null,
       );
 
-  factory UserModel.fromJsonFirebase(Map<String, dynamic> json) => UserModel(
-        birthday: (json["birthday"] as Timestamp).toDate(),
-        address: json["address"],
-        role: json["role"],
-        follower: List<String>.from(json["follower"].map((x) => x)),
-        gender: json["gender"],
-        description: json["description"],
-        updateAt: (json["updateAt"] as Timestamp).toDate(),
-        avatar: json["avatar"],
-        createAt: (json["createAt"] as Timestamp).toDate(),
-        following: List<String>.from(json["following"].map((x) => x)),
-        saveJob: List<String>.from(json["saveJob"].map((x) => x)),
-        skill: json["skill"] != null
-            ? List<String>.from(json["skill"].map((x) => x))
-            : null,
-        name: json["name"],
-        email: json["email"],
-        website: json["website"],
-        images: json["images"] != null
-            ? List<String>.from(json["images"].map((x) => x))
-            : null,
-        isAccept: json["isAccept"],
-        industry: json["industry"],
-        employeeSize: json["employeeSize"],
-        specialization: json["specialization"] != null
-            ? List<String>.from(json["specialization"].map((x) => x))
-            : null,
-      );
+  factory UserModel.fromDocumentSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    final data = snapshot.data()!;
+    return UserModel(
+      id: snapshot.id,
+      birthday: (data["birthday"] as Timestamp).toDate(),
+      address: data["address"],
+      role: data["role"],
+      follower: List<String>.from(data["follower"].map((x) => x)),
+      gender: data["gender"],
+      description: data["description"],
+      updateAt: (data["updateAt"] as Timestamp).toDate(),
+      avatar: data["avatar"],
+      createAt: (data["createAt"] as Timestamp).toDate(),
+      following: List<String>.from(data["following"].map((x) => x)),
+      saveJob: List<String>.from(data["saveJob"].map((x) => x)),
+      skill: data["skill"] != null
+          ? List<String>.from(data["skill"].map((x) => x))
+          : null,
+      name: data["name"],
+      email: data["email"],
+      website: data["website"],
+      images: data["images"] != null
+          ? List<String>.from(data["images"].map((x) => x))
+          : null,
+      isAccept: data["isAccept"],
+      industry: data["industry"],
+      employeeSize: data["employeeSize"],
+      specialization: data["specialization"] != null
+          ? List<String>.from(data["specialization"].map((x) => x))
+          : null,
+    );
+  }
 
   factory UserModel.fromEntity(UserEntity user) {
     return UserModel(
@@ -175,6 +209,7 @@ class UserModel {
 
   UserEntity toUserEntity() {
     return UserEntity(
+      id: id,
       name: name,
       email: email,
       avatar: avatar,

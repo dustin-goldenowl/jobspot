@@ -84,7 +84,7 @@ class ViewApplicantProfileRepositoryImpl
   Future<DataState<UserEntity>> getUserInfo(String uid) async {
     try {
       final response = await XCollection.user.doc(uid).get();
-      final user = user_model.UserModel.fromJsonFirebase(response.data()!);
+      final user = user_model.UserModel.fromDocumentSnapshot(response);
       return DataSuccess(user.toUserEntity());
     } catch (e) {
       return DataFailed(e.toString());
