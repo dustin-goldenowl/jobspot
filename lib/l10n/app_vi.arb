@@ -387,5 +387,14 @@
     "view_company_profile_page_specialization": "Chuyên môn",
     "view_company_profile_page_since": "Từ",
     "view_company_profile_page_company_gallery": "Hình ảnh công ty",
-    "view_company_profile_page_website": "Trang web"
+    "view_company_profile_page_website": "Trang web",
+    "view_company_profile_page_about_us": "Về chúng tôi",
+    "view_company_profile_page_post": "Bài viết",
+    "view_company_profile_page_job": "Công việc",
+    "view_company_profile_page_visit_website": "Truy cập trang web",
+    "view_company_profile_page_jobs": "{number} Công việc",
+    "view_company_profile_page_posts": "{number} Bài viết",
+    "view_company_profile_page_follower": "{number} Người theo dõi",
+    "view_company_profile_page_unfollow": "Bỏ theo dõi",
+    "view_company_profile_page_follow": "Theo dõi"
 }

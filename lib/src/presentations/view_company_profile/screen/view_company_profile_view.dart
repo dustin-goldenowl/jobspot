@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
+import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/view_company_profile/cubit/view_company_profile_cubit.dart';
@@ -72,7 +74,15 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
                   title: _buildTabBar(onTap: tabsRouter.setActiveIndex),
                 ),
               ],
-              body: child,
+              body: BlocListener<ViewCompanyProfileCubit,
+                  ViewCompanyProfileState>(
+                listener: (context, state) {
+                  if (state.error != null) {
+                    customToast(context, text: state.error ?? "");
+                  }
+                },
+                child: child,
+              ),
             ),
           ),
         );
@@ -129,50 +139,7 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
     return Stack(
       alignment: Alignment.center,
       children: [
-        Column(
-          children: [
-            Container(height: 120, color: Colors.white),
-            Container(
-              height: 120,
-              width: double.infinity,
-              decoration: const BoxDecoration(color: Color(0xFFF3F2F2)),
-              child: Column(
-                children: [
-                  const SizedBox(height: 28),
-                  state.user != null
-                      ? Text(
-                          state.user?.name ?? "",
-                          style: AppStyles.boldTextNightBlue
-                              .copyWith(fontSize: 18),
-                        )
-                      : const ItemLoading(width: 70, height: 20, radius: 5),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildText(
-                        onTap: () {},
-                        title: "${state.user?.follower.length ?? 0} Follower",
-                      ),
-                      _buildDotText,
-                      _buildText(
-                        onTap: () =>
-                            context.read<ViewCompanyProfileCubit>().toTab(1),
-                        title: "${state.listPost?.length ?? 0} Post",
-                      ),
-                      _buildDotText,
-                      _buildText(
-                        onTap: () =>
-                            context.read<ViewCompanyProfileCubit>().toTab(2),
-                        title: "${state.listJob?.length ?? 0} Jobs",
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
+        _buildBehindBackground(context, state: state),
         Positioned(
           top: 60,
           child: ClipOval(
@@ -187,6 +154,58 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
             ),
           ),
         )
+      ],
+    );
+  }
+
+  Widget _buildBehindBackground(
+    BuildContext context, {
+    required ViewCompanyProfileState state,
+  }) {
+    return Column(
+      children: [
+        Container(height: 120, color: Colors.white),
+        Container(
+          height: 120,
+          width: double.infinity,
+          decoration: const BoxDecoration(color: Color(0xFFF3F2F2)),
+          child: Column(
+            children: [
+              const SizedBox(height: 28),
+              state.user != null
+                  ? Text(
+                      state.user?.name ?? "",
+                      style: AppStyles.boldTextNightBlue.copyWith(fontSize: 18),
+                    )
+                  : const ItemLoading(width: 70, height: 20, radius: 5),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _buildText(
+                    onTap: () {},
+                    title: AppLocal.text.view_company_profile_page_follower(
+                        state.user?.follower.length ?? 0),
+                  ),
+                  _buildDotText,
+                  _buildText(
+                    onTap: () =>
+                        context.read<ViewCompanyProfileCubit>().toTab(1),
+                    title: AppLocal.text.view_company_profile_page_posts(
+                        state.listPost?.length ?? 0),
+                  ),
+                  _buildDotText,
+                  _buildText(
+                    onTap: () =>
+                        context.read<ViewCompanyProfileCubit>().toTab(2),
+                    title: AppLocal.text.view_company_profile_page_jobs(
+                        state.listJob?.length ?? 0),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -209,7 +228,7 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
                 child: CustomButtonProfile(
                   onTap: context.read<ViewCompanyProfileCubit>().openWebsite,
                   icon: SvgPicture.asset(AppImages.openBrowser),
-                  title: "Visit website",
+                  title: AppLocal.text.view_company_profile_page_visit_website,
                 ),
               ),
             ],
@@ -238,7 +257,9 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
       icon: isFollow
           ? null
           : Icon(FontAwesomeIcons.plus, color: AppColors.venetianRed, size: 15),
-      title: isFollow ? "Unfollow" : "Follow",
+      title: isFollow
+          ? AppLocal.text.view_company_profile_page_unfollow
+          : AppLocal.text.view_company_profile_page_follow,
     );
   }
 
@@ -268,10 +289,10 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
               indicatorSize: TabBarIndicatorSize.tab,
               labelStyle: const TextStyle(fontWeight: FontWeight.w700),
               onTap: onTap,
-              tabs: const [
-                Tab(text: 'About us'),
-                Tab(text: 'Post'),
-                Tab(text: 'Jobs'),
+              tabs: [
+                Tab(text: AppLocal.text.view_company_profile_page_about_us),
+                Tab(text: AppLocal.text.view_company_profile_page_post),
+                Tab(text: AppLocal.text.view_company_profile_page_job),
               ],
             ),
           ],

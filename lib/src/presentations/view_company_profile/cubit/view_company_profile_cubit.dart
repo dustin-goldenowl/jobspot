@@ -67,6 +67,8 @@ class ViewCompanyProfileCubit extends Cubit<ViewCompanyProfileState> {
     final response = await _getListJobUseCase.call(params: uid);
     if (response is DataSuccess) {
       emit(state.copyWith(listJob: response.data));
+    } else {
+      emit(state.copyWith(error: response.error));
     }
   }
 
@@ -77,6 +79,8 @@ class ViewCompanyProfileCubit extends Cubit<ViewCompanyProfileState> {
         .listen((event) {
       if (event is DataSuccess) {
         emit(state.copyWith(listPost: event.data));
+      } else {
+        emit(state.copyWith(error: event.error));
       }
     });
   }
@@ -85,12 +89,16 @@ class ViewCompanyProfileCubit extends Cubit<ViewCompanyProfileState> {
     final response = await _getUserInfoUseCase.call(params: uid);
     if (response is DataSuccess) {
       emit(state.copyWith(user: response.data));
+    } else {
+      emit(state.copyWith(error: response.error));
     }
   }
 
   Future favouritePost(FavouriteEntity entity) async {
     final response = await _favouritePostUseCase.call(params: entity);
-    if (response is DataSuccess) {}
+    if (response is DataFailed) {
+      emit(state.copyWith(error: response.error));
+    }
   }
 
   Future followUser() async {
@@ -106,9 +114,7 @@ class ViewCompanyProfileCubit extends Cubit<ViewCompanyProfileState> {
       id: state.user!.id,
       listFavourite: user.follower,
     ));
-    if (response is DataSuccess) {
-      // emit(state.)
-    } else {
+    if (response is DataFailed) {
       isFollow ? user.follower.add(uid) : user.follower.remove(uid);
       emit(state.copyWith(user: user.toUserEntity()));
     }
