@@ -6,3 +6,6 @@ generate_project_delete_conflict:
 
 generate_sha:
 	keytool -list -v -keystore "C:\Users\yourusernamehere\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
+
+generate_icon:
+	flutter pub run flutter_launcher_icons

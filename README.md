@@ -1,6 +1,7 @@
 <div align="center">
 
-  <img src="assets/images/logo.svg" alt="logo" width="200" height="auto" />
+  <img src="screenshots/logo.svg" alt="logo" width="150" height="auto" />
+  
   <h1>Jobspot</h1>
   
   <p>
