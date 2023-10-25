@@ -32,7 +32,8 @@ class ViewCompanyJobTab extends StatelessWidget {
                 onTap: () => ViewCompanyProfileCoordinator.showFullJob(
                     state.listJob![index].id),
                 isShowApply: true,
-                onApply: () {},
+                onApply: () => ViewCompanyProfileCoordinator.showApplyJob(
+                    job: state.listJob![index]),
                 job: state.listJob![index],
               );
             }

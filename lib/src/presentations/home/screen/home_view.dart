@@ -98,7 +98,8 @@ class HomeView extends StatelessWidget {
               onTap: () => HomeCoordinator.showViewJobDescription(job.id),
               onSave: () => context.read<HomeCubit>().saveJob(job.id),
               onApply: () => HomeCoordinator.showApplyJob(job: job),
-              isSave: PrefsUtils.getUserInfo()!.saveJob!.contains(job.id),
+              isSave:
+                  false, //PrefsUtils.getUserInfo()!.saveJob!.contains(job.id),
             );
           },
         );

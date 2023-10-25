@@ -26,6 +26,7 @@ class UserModel {
   String? website;
   String? industry;
   String? employeeSize;
+  String? type;
   List<String>? images;
   List<String>? specialization;
 
@@ -51,6 +52,7 @@ class UserModel {
     this.isAccept,
     this.specialization,
     this.website,
+    this.type,
   });
 
   factory UserModel.fromEntity(UserEntity entity) {
@@ -76,6 +78,7 @@ class UserModel {
       skill: entity.skill,
       specialization: entity.specialization,
       website: entity.website,
+      type: entity.type,
     );
   }
 
@@ -91,7 +94,9 @@ class UserModel {
         avatar: json["avatar"],
         createAt: DateTime.parse(json["createAt"]),
         following: List<String>.from(json["following"].map((x) => x)),
-        saveJob: List<String>.from(json["saveJob"].map((x) => x)),
+        saveJob: json["saveJob"] != null
+            ? List<String>.from(json["saveJob"].map((x) => x))
+            : null,
         skill: json["skill"] != null
             ? List<String>.from(json["skill"].map((x) => x))
             : null,
@@ -107,6 +112,7 @@ class UserModel {
         specialization: json["specialization"] != null
             ? List<String>.from(json["specialization"].map((x) => x))
             : null,
+        type: json["type"],
       );
 
   factory UserModel.fromDocumentSnapshot(
@@ -124,7 +130,9 @@ class UserModel {
       avatar: data["avatar"],
       createAt: (data["createAt"] as Timestamp).toDate(),
       following: List<String>.from(data["following"].map((x) => x)),
-      saveJob: List<String>.from(data["saveJob"].map((x) => x)),
+      saveJob: data["saveJob"] != null
+          ? List<String>.from(data["saveJob"].map((x) => x))
+          : null,
       skill: data["skill"] != null
           ? List<String>.from(data["skill"].map((x) => x))
           : null,
@@ -140,31 +148,7 @@ class UserModel {
       specialization: data["specialization"] != null
           ? List<String>.from(data["specialization"].map((x) => x))
           : null,
-    );
-  }
-
-  factory UserModel.fromEntity(UserEntity user) {
-    return UserModel(
-      name: user.name,
-      email: user.email,
-      avatar: user.avatar,
-      address: user.address,
-      birthday: user.birthday,
-      description: user.description,
-      follower: user.follower,
-      following: user.following,
-      updateAt: user.updateAt,
-      createAt: user.createAt,
-      role: user.role,
-      employeeSize: user.employeeSize,
-      gender: user.gender,
-      images: user.images,
-      industry: user.industry,
-      isAccept: user.isAccept,
-      saveJob: user.saveJob,
-      skill: user.skill,
-      specialization: user.specialization,
-      website: user.website,
+      type: data["type"],
     );
   }
 
@@ -188,6 +172,7 @@ class UserModel {
             "industry": industry,
             "employeeSize": employeeSize,
             "specialization": specialization,
+            "type": type,
           }
         : {
             "birthday": birthday.toIso8601String(),
@@ -230,6 +215,7 @@ class UserModel {
       skill: skill,
       specialization: specialization,
       website: website,
+      type: type,
     );
   }
 }

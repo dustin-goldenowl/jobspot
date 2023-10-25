@@ -16,6 +16,7 @@ class CustomAppBarCompany extends StatelessWidget {
     required this.jobPosition,
     required this.location,
     required this.time,
+    required this.companyID,
   });
 
   final String companyName;
@@ -23,6 +24,7 @@ class CustomAppBarCompany extends StatelessWidget {
   final String location;
   final String jobPosition;
   final String avatar;
+  final String companyID;
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +32,17 @@ class CustomAppBarCompany extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Column(
-            children: [_buildUpBody(context), _buildBottomBody()],
-          ),
+          Column(children: [
+            _buildUpBody(context),
+            _buildBottomBody(),
+          ]),
           Positioned(top: 60, child: _buildAvatar()),
         ],
       ),
     );
   }
 
-  Container _buildBottomBody() {
+  Widget _buildBottomBody() {
     return Container(
       height: 120,
       width: double.infinity,
@@ -55,11 +58,14 @@ class CustomAppBarCompany extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              _buildText(companyName),
+              _buildText(
+                onTap: () => ViewJobCoordinator.showViewCompany(companyID),
+                title: companyName,
+              ),
               _buildDotText,
-              _buildText(location),
+              _buildText(title: location),
               _buildDotText,
-              _buildText(time)
+              _buildText(title: time)
             ],
           )
         ],
@@ -80,11 +86,7 @@ class CustomAppBarCompany extends StatelessWidget {
             icon: const Icon(Icons.arrow_back_rounded),
           ),
           IconButton(
-            onPressed: () {
-              //TODO set to test
-              ViewJobCoordinator.showViewCompany(
-                  "iE1bQu3bwOXi8sjDSJAYdfRBSaY2");
-            },
+            onPressed: () {},
             icon: const Icon(FontAwesomeIcons.ellipsisVertical),
           )
         ],
@@ -92,28 +94,33 @@ class CustomAppBarCompany extends StatelessWidget {
     );
   }
 
-  ClipOval _buildAvatar() {
-    return ClipOval(
-      child: avatar.isEmpty
-          ? SvgPicture.asset(AppImages.logo, height: 84, width: 84)
-          : CachedNetworkImage(
-              imageUrl: avatar,
-              placeholder: (_, __) =>
-                  const ItemLoading(width: 84, height: 84, radius: 360),
-              errorWidget: (_, __, ___) => const Icon(Icons.warning),
-              height: 84,
-              width: 84,
-            ),
+  Widget _buildAvatar() {
+    return GestureDetector(
+      onTap: () => ViewJobCoordinator.showViewCompany(companyID),
+      child: ClipOval(
+        child: CachedNetworkImage(
+          imageUrl: avatar,
+          placeholder: (_, __) =>
+              const ItemLoading(width: 84, height: 84, radius: 360),
+          errorWidget: (_, __, ___) =>
+              SvgPicture.asset(AppImages.logo, height: 84, width: 84),
+          height: 84,
+          width: 84,
+        ),
+      ),
     );
   }
 
   Widget get _buildDotText =>
       Text("•", style: AppStyles.boldTextNightBlue.copyWith(fontSize: 25));
 
-  Widget _buildText(String title) {
-    return Text(
-      title,
-      style: AppStyles.normalTextNightBlue.copyWith(fontSize: 16),
+  Widget _buildText({VoidCallback? onTap, required String title}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Text(
+        title,
+        style: AppStyles.normalTextNightBlue.copyWith(fontSize: 16),
+      ),
     );
   }
 }

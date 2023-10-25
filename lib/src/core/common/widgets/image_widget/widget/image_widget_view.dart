@@ -8,6 +8,7 @@ import 'package:jobspot/src/core/common/widgets/image_widget/cubit/image_widget_
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
+import 'package:jobspot/src/core/function/show_full_image.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:zoom_pinch_overlay/zoom_pinch_overlay.dart';
 
@@ -31,8 +32,8 @@ class ImageWidgetView extends StatelessWidget {
   Widget build(BuildContext context) {
     List<String> list = [...networkImages, ...images];
     return SizedBox(
-      height: MediaQuery.of(context).size.width,
-      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.sizeOf(context).width,
+      width: MediaQuery.sizeOf(context).width,
       child: Stack(
         children: [
           PageView.builder(
@@ -70,11 +71,7 @@ class ImageWidgetView extends StatelessWidget {
     return Stack(
       children: [
         InkWell(
-          onTap: () {
-            context
-                .read<ImageWidgetCubit>()
-                .showFullImage(context, images: images, initIndex: index);
-          },
+          onTap: () => showFullImage(context, images: images, initIndex: index),
           child: ZoomOverlay(
             modalBarrierColor: Colors.black12,
             minScale: 0.5,

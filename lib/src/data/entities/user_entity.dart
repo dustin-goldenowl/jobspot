@@ -23,6 +23,7 @@ class UserEntity {
   final String? website;
   final String? industry;
   final String? employeeSize;
+  final String? type;
   final List<String>? images;
   final List<String>? specialization;
 
@@ -48,5 +49,6 @@ class UserEntity {
     this.isAccept,
     this.specialization,
     this.website,
+    this.type,
   });
 }

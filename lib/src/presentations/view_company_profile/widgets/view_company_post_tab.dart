@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/connection/widgets/post_item.dart';
-import 'package:jobspot/src/presentations/connection/widgets/post_loading.dart';
+import 'package:jobspot/src/presentations/connection/widgets/post_item_loading.dart';
 import 'package:jobspot/src/presentations/view_company_profile/cubit/view_company_profile_cubit.dart';
 import 'package:jobspot/src/presentations/view_company_profile/domain/router/view_company_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
@@ -30,10 +30,12 @@ class ViewCompanyPostTab extends StatelessWidget {
                 onFavourite: () => context
                     .read<ViewCompanyProfileCubit>()
                     .favouritePost(FavouriteEntity(
+                      uidTo: state.listPost![index].user.id,
                       id: state.listPost![index].id,
                       listFavourite: state.listPost![index].like,
                     )),
-                onComment: () {},
+                onComment: () => ViewCompanyProfileCoordinator.showFullPost(
+                    post: state.listPost![index], isComment: true),
                 onShare: () {},
                 onViewFullPost: () =>
                     ViewCompanyProfileCoordinator.showFullPost(
@@ -41,7 +43,7 @@ class ViewCompanyPostTab extends StatelessWidget {
                 onViewProfile: () {},
               );
             }
-            return const PostLoading();
+            return const PostItemLoading();
           },
         );
       },

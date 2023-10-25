@@ -41,6 +41,12 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
         if (tabsRouter.activeIndex != cubit.tabController.index) {
           cubit.tabController.animateTo(tabsRouter.activeIndex);
         }
+        cubit.tabController.addListener(() {
+          if (tabsRouter.activeIndex != cubit.tabController.index) {
+            tabsRouter.setActiveIndex(cubit.tabController.index);
+          }
+        });
+
         return Scaffold(
           body: SafeArea(
             child: NestedScrollView(
@@ -109,14 +115,17 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
             expandedTitleScale: 1.0,
             centerTitle: false,
             titlePadding: const EdgeInsets.all(16),
-            background: _buildBackgroundAppbar(state),
+            background: _buildBackgroundAppbar(context, state: state),
           ),
         );
       },
     );
   }
 
-  Widget _buildBackgroundAppbar(ViewCompanyProfileState state) {
+  Widget _buildBackgroundAppbar(
+    BuildContext context, {
+    required ViewCompanyProfileState state,
+  }) {
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -142,11 +151,21 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       _buildText(
-                          "${state.user?.follower.length ?? 0} Follower"),
+                        onTap: () {},
+                        title: "${state.user?.follower.length ?? 0} Follower",
+                      ),
                       _buildDotText,
-                      _buildText("${state.listPost?.length ?? 0} Post"),
+                      _buildText(
+                        onTap: () =>
+                            context.read<ViewCompanyProfileCubit>().toTab(1),
+                        title: "${state.listPost?.length ?? 0} Post",
+                      ),
                       _buildDotText,
-                      _buildText("${state.listJob?.length ?? 0} Jobs"),
+                      _buildText(
+                        onTap: () =>
+                            context.read<ViewCompanyProfileCubit>().toTab(2),
+                        title: "${state.listJob?.length ?? 0} Jobs",
+                      ),
                     ],
                   )
                 ],
@@ -188,7 +207,7 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
               const SizedBox(width: 20),
               Expanded(
                 child: CustomButtonProfile(
-                  onTap: () {},
+                  onTap: context.read<ViewCompanyProfileCubit>().openWebsite,
                   icon: SvgPicture.asset(AppImages.openBrowser),
                   title: "Visit website",
                 ),
@@ -264,6 +283,13 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
   Widget get _buildDotText =>
       Text("•", style: AppStyles.boldTextNightBlue.copyWith(fontSize: 25));
 
-  Widget _buildText(String title) =>
-      Text(title, style: AppStyles.normalTextNightBlue.copyWith(fontSize: 16));
+  Widget _buildText({required VoidCallback onTap, required String title}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Text(
+        title,
+        style: AppStyles.normalTextNightBlue.copyWith(fontSize: 16),
+      ),
+    );
+  }
 }

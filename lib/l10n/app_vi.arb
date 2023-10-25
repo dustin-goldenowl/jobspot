@@ -374,5 +374,18 @@
     "edit_applicant_profile_page_change_image": "Đổi ảnh đại diện",
     "edit_applicant_profile_page_save": "Lưu",
     "edit_applicant_profile_page_camera": "Máy ảnh",
-    "edit_applicant_profile_page_gallery": "Thư viện"
+    "edit_applicant_profile_page_gallery": "Thư viện",
+
+    "view_company_profile_page_not_provided": "Không được cung cấp",
+    "view_company_profile_page_no_description": "Không có mô tả",
+    "view_company_profile_page_about_company": "Giới thiệu về công ty",
+    "view_company_profile_page_industry": "Nghành công nghiệp",
+    "view_company_profile_page_employee_size": "Quy mô nhân viên",
+    "view_company_profile_page_employee": "{number} Nhân viên",
+    "view_company_profile_page_head_office": "Trụ sở chính",
+    "view_company_profile_page_type": "Loại",
+    "view_company_profile_page_specialization": "Chuyên môn",
+    "view_company_profile_page_since": "Từ",
+    "view_company_profile_page_company_gallery": "Hình ảnh công ty",
+    "view_company_profile_page_website": "Trang web"
 }

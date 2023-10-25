@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/data/entities/user_entity.dart';
 import 'package:jobspot/src/data/models/user_model.dart';
@@ -54,6 +55,14 @@ class ViewCompanyProfileCubit extends Cubit<ViewCompanyProfileState> {
 
   void changeIsTop(bool isTop) => emit(state.copyWith(isTop: isTop));
 
+  void toTab(int index) => tabController.animateTo(index);
+
+  Future openWebsite() async {
+    if (await canLaunchUrlString(state.user?.website ?? "")) {
+      await launchUrlString(state.user?.website ?? "");
+    }
+  }
+
   Future _getListJob(String uid) async {
     final response = await _getListJobUseCase.call(params: uid);
     if (response is DataSuccess) {
@@ -93,6 +102,7 @@ class ViewCompanyProfileCubit extends Cubit<ViewCompanyProfileState> {
     emit(state.copyWith(user: user.toUserEntity()));
     final response = await _followUserUseCase.call(
         params: FavouriteEntity(
+      uidTo: user.id,
       id: state.user!.id,
       listFavourite: user.follower,
     ));

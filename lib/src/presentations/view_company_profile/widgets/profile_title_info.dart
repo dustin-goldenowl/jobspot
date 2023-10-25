@@ -25,11 +25,7 @@ class ProfileTitleInfo extends StatelessWidget {
       children: [
         Text(
           title,
-          style: TextStyle(
-            color: AppColors.haiti,
-            fontWeight: FontWeight.w700,
-            fontSize: 16,
-          ),
+          style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
         ),
         const SizedBox(height: 5),
         GestureDetector(
