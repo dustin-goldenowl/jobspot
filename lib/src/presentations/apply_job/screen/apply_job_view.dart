@@ -36,8 +36,9 @@ class ApplyJobView extends StatelessWidget {
                     horizontal: AppDimens.smallPadding,
                   ),
                   child: CustomButton(
-                    onPressed: () =>
-                        context.read<ApplyJobCubit>().applyJob(job.id),
+                    onPressed: () => context
+                        .read<ApplyJobCubit>()
+                        .applyJob(jobID: job.id, uidJob: job.owner),
                     title: AppLocal.text.apply_job_page_apply_job.toUpperCase(),
                   ),
                 )

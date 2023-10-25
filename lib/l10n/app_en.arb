@@ -348,5 +348,23 @@
     "update_password_page_old_password_incorrect": "The old password is incorrect",
     "update_password_page_enter_old_password": "Please enter your old password",
     "update_password_page_min_character_password": "Password must have a minimum of 8 characters",
-    "update_password_page_update_success": "Password changed successfully"
+    "update_password_page_update_success": "Password changed successfully",
+
+    "notification_favourite": "{name} liked your post {postTitle}",
+    "notification_favourite_cmt": "{name} liked your comment {comment}",
+    "notification_comment": "{name} commented on your post {postTitle}",
+    "notification_reply": "{name} replied to your comment {comment}",
+    "notification_share": "{name} shared your post {postTitle}",
+    "notification_apply": "{name} has applied for your job {jobTitle}",
+    "notification_reject": "{name} has rejected your application {jobTitle}",
+    "notification_accept": "{name} has accepted your application {jobTitle}",
+
+    "notification_push_favourite": "Liked your post",
+    "notification_push_favourite_cmt": "Liked your comment",
+    "notification_push_comment": "Commented on your post",
+    "notification_push_reply": "Replied to your comment",
+    "notification_push_apply": "Has applied for your job",
+    "notification_push_share": "Shared your post",
+    "notification_push_reject": "Has rejected your application",
+    "notification_push_accept": "Has accepted your application"
 }

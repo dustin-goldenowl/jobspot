@@ -3,6 +3,7 @@ class ResumeEntity {
   String path;
   String description;
   String jobID;
+  String uidJob;
   int size;
 
   ResumeEntity({
@@ -11,5 +12,6 @@ class ResumeEntity {
     required this.description,
     required this.jobID,
     required this.size,
+    required this.uidJob,
   });
 }

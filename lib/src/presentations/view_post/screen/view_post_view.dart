@@ -13,6 +13,7 @@ import 'package:jobspot/src/presentations/view_post/bloc/view_post_bloc.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/comment_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/router/view_post_coordinator.dart';
 import 'package:jobspot/src/presentations/view_post/widgets/comment_loading.dart';
+import 'package:jobspot/src/presentations/view_post/widgets/post_loading.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/common/widgets/image_widget/widget/image_widget.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
@@ -69,27 +70,32 @@ class ViewPostView extends StatelessWidget {
   Widget _buildBody(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 25),
-        Padding(
-          padding:
-              const EdgeInsets.symmetric(horizontal: AppDimens.smallPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeaderPost(context),
-              const SizedBox(height: 20),
-              _buildContentPost(),
-            ],
-          ),
-        ),
-        const SizedBox(height: 30),
         BlocBuilder<ViewPostBloc, ViewPostState>(
           buildWhen: (previous, current) => current is SyncPostDataSuccess,
           builder: (context, state) {
-            if (state is SyncPostDataSuccess && state.post.images.isNotEmpty) {
-              return ImageWidget(images: state.post.images);
+            if (state is SyncPostDataSuccess) {
+              return Column(
+                children: [
+                  const SizedBox(height: 25),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: AppDimens.smallPadding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildHeaderPost(state.post),
+                        const SizedBox(height: 20),
+                        _buildContentPost(state.post),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  if (state.post.images.isNotEmpty)
+                    ImageWidget(images: state.post.images),
+                ],
+              );
             }
-            return const SizedBox();
+            return const PostLoading();
           },
         ),
         _buildBottomPost(),
@@ -100,75 +106,56 @@ class ViewPostView extends StatelessWidget {
     );
   }
 
-  Widget _buildContentPost() {
-    return BlocBuilder<ViewPostBloc, ViewPostState>(
-      buildWhen: (previous, current) => current is SyncPostDataSuccess,
-      builder: (context, state) {
-        if (state is SyncPostDataSuccess) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(state.post.title, style: AppStyles.boldTextHaiti),
-              const SizedBox(height: 15),
-              Text(
-                state.post.description,
-                style: AppStyles.normalTextMulledWine,
-              ),
-            ],
-          );
-        }
-        return const SizedBox();
-      },
+  Widget _buildContentPost(PostEntity post) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(post.title, style: AppStyles.boldTextHaiti),
+        const SizedBox(height: 15),
+        Text(
+          post.description,
+          style: AppStyles.normalTextMulledWine,
+        ),
+      ],
     );
   }
 
-  Widget _buildHeaderPost(BuildContext context) {
-    return BlocBuilder<ViewPostBloc, ViewPostState>(
-      buildWhen: (previous, current) => current is SyncPostDataSuccess,
-      builder: (context, state) {
-        if (state is SyncPostDataSuccess) {
-          PostEntity post = state.post;
-          return Row(
-            children: [
-              GestureDetector(
-                onTap: () => ViewPostCoordinator.showViewProfile(
-                    uid: state.post.user.id),
-                child: ClipOval(
-                  child: CachedNetworkImage(
-                    imageUrl: post.user.avatar,
-                    width: 50,
-                    height: 50,
-                    placeholder: (context, url) =>
-                        const ItemLoading(width: 50, height: 50, radius: 0),
-                    errorWidget: (context, url, error) =>
-                        SvgPicture.asset(AppImages.logo, height: 50, width: 50),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(post.user.name, style: AppStyles.boldTextHaiti),
-                  const SizedBox(height: 5),
-                  Row(
-                    children: [
-                      SvgPicture.asset(AppImages.clock, height: 16),
-                      const SizedBox(width: 8),
-                      Text(
-                        timeago.format(post.createAt),
-                        style: AppStyles.normalTextSpunPearl
-                            .copyWith(fontSize: 12),
-                      )
-                    ],
-                  )
-                ],
-              )
-            ],
-          );
-        }
-        return const SizedBox();
-      },
+  Widget _buildHeaderPost(PostEntity post) {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () => ViewPostCoordinator.showViewProfile(uid: post.user.id),
+          child: ClipOval(
+            child: CachedNetworkImage(
+              imageUrl: post.user.avatar,
+              width: 50,
+              height: 50,
+              placeholder: (context, url) =>
+                  const ItemLoading(width: 50, height: 50, radius: 0),
+              errorWidget: (context, url, error) =>
+                  SvgPicture.asset(AppImages.logo, height: 50, width: 50),
+            ),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(post.user.name, style: AppStyles.boldTextHaiti),
+            const SizedBox(height: 5),
+            Row(
+              children: [
+                SvgPicture.asset(AppImages.clock, height: 16),
+                const SizedBox(width: 8),
+                Text(
+                  timeago.format(post.createAt),
+                  style: AppStyles.normalTextSpunPearl.copyWith(fontSize: 12),
+                )
+              ],
+            )
+          ],
+        )
+      ],
     );
   }
 
@@ -269,7 +256,8 @@ class ViewPostView extends StatelessWidget {
                   onTap: () {
                     bloc.replyComment == null
                         ? bloc.add(SendCommentEvent())
-                        : bloc.add(ReplyCommentEvent());
+                        : bloc.add(ReplyCommentEvent(
+                            uidComment: bloc.replyComment!.user.id));
                   },
                   child: const Icon(
                     FontAwesomeIcons.paperPlane,

@@ -7,14 +7,14 @@ import 'package:jobspot/src/presentations/view_job/screen/view_job_view.dart';
 
 @RoutePage()
 class ViewJobPage extends StatelessWidget {
-  const ViewJobPage({super.key, required this.postID});
+  const ViewJobPage({super.key, required this.jobID});
 
-  final String postID;
+  final String jobID;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<ViewJobCubit>()..fetchJobData(postID),
+      create: (context) => getIt<ViewJobCubit>()..fetchJobData(jobID),
       child: const ViewJobView(),
     );
   }

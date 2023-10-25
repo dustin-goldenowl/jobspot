@@ -11,65 +11,59 @@ class PostLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        children: [
-          const SizedBox(height: 25),
-          Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: AppDimens.smallPadding),
-            child: _buildBody(),
-          ),
-          const SizedBox(height: 30),
-          _buildBottom(),
-        ],
-      ),
+    return Column(
+      children: [
+        const SizedBox(height: 25),
+        _buildBody(),
+        const SizedBox(height: 30),
+        _buildBottom(),
+      ],
     );
   }
 
   Widget _buildBody() {
     Random random = Random();
     int title = random.nextInt(2) + 1;
-    int description = random.nextInt(5) + 3;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildHeader(),
-        const SizedBox(height: 20),
-        ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return ItemLoading(
-              width: index < title ? double.infinity : random.nextInt(50) + 50,
-              height: 16,
-              radius: 5,
-            );
-          },
-          separatorBuilder: (context, index) => const SizedBox(height: 5),
-          itemCount: title,
-        ),
-        const SizedBox(height: 15),
-        ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return ItemLoading(
-              width: index < description
-                  ? double.infinity
-                  : random.nextInt(50) + 50,
-              height: 16,
-              radius: 5,
-            );
-          },
-          separatorBuilder: (context, index) => const SizedBox(height: 5),
-          itemCount: description,
-        ),
-      ],
+    int description = random.nextInt(5) + 5;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppDimens.smallPadding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildHeader(),
+          const SizedBox(height: 20),
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return ItemLoading(
+                width:
+                    index < title ? double.infinity : random.nextInt(50) + 50,
+                height: 16,
+                radius: 5,
+              );
+            },
+            separatorBuilder: (context, index) => const SizedBox(height: 5),
+            itemCount: title,
+          ),
+          const SizedBox(height: 15),
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return ItemLoading(
+                width: index < description
+                    ? double.infinity
+                    : random.nextInt(50) + 50,
+                height: 16,
+                radius: 5,
+              );
+            },
+            separatorBuilder: (context, index) => const SizedBox(height: 5),
+            itemCount: description,
+          ),
+        ],
+      ),
     );
   }
 
@@ -108,12 +102,9 @@ class PostLoading extends StatelessWidget {
 
   Widget _buildBottom() {
     return Container(
-      decoration: BoxDecoration(
-        color: AppColors.interdimensionalBlue.withOpacity(0.1),
-        borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)),
-      ),
+      color: AppColors.interdimensionalBlue.withOpacity(0.1),
+      padding: const EdgeInsets.symmetric(horizontal: AppDimens.smallPadding),
       height: 64,
-      padding: const EdgeInsets.symmetric(horizontal: AppDimens.mediumPadding),
       child: Row(
         children: [
           _buildItemReaction(

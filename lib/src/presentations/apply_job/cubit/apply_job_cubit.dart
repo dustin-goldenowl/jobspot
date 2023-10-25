@@ -37,10 +37,11 @@ class ApplyJobCubit extends Cubit<ApplyJobState> {
 
   void removeCV() => emit(state.copyWith());
 
-  Future applyJob(String jobID) async {
+  Future applyJob({required String jobID, required String uidJob}) async {
     emit(state.copyWith(file: state.file, time: state.time, isLoading: true));
     final response = await _useCase.call(
         params: ResumeEntity(
+      uidJob: uidJob,
       fileName: state.file!.name,
       path: state.file!.path!,
       description: controller.text,

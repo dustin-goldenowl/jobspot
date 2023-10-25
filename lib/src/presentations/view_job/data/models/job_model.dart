@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jobspot/src/presentations/view_job/data/models/company_model.dart';
+import 'package:jobspot/src/presentations/view_job/domain/entities/company_entity.dart';
 import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart';
 
 class JobModel {
@@ -89,7 +90,8 @@ class JobModel {
       jobPosition: jobPosition,
       startDate: startDate,
       requirements: requirements,
-      company: company!.toCompanyEntity(),
+      company: company?.toCompanyEntity() ??
+          CompanyEntity(id: "", address: "", avatar: "", name: ""),
     );
   }
 }

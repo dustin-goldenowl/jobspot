@@ -1,12 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jobspot/src/core/service/firebase_messaging_service.dart';
 import 'package:jobspot/src/presentations/main/widgets/bottom_sheet_post_option_view.dart';
 
 part 'main_state.dart';
 
 class MainCubit extends Cubit<MainState> {
-  MainCubit() : super(const MainState());
+  MainCubit() : super(const MainState()) {
+    FirebaseMessagingService.listenNotification();
+  }
 
   void deleteSaveJob(String jobID) {
     emit(state.copyWith(jobID: jobID));

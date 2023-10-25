@@ -8,16 +8,22 @@ import 'package:jobspot/src/presentations/view_post/screen/view_post_view.dart';
 
 @RoutePage()
 class ViewPostPage extends StatelessWidget {
-  const ViewPostPage({super.key, required this.post, this.isComment = false});
+  const ViewPostPage({
+    super.key,
+    this.post,
+    this.postID,
+    this.isComment = false,
+  });
 
-  final PostEntity post;
+  final PostEntity? post;
+  final String? postID;
   final bool isComment;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => getIt<ViewPostBloc>()
-        ..add(SyncPostDataEvent(post))
+        ..add(SyncPostDataEvent(post: post, postID: postID))
         ..add(RequestCommentEvent(isComment)),
       child: const ViewPostView(),
     );

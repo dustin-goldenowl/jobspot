@@ -348,5 +348,23 @@
     "update_password_page_old_password_incorrect": "Mật khẩu hiện tại không chính xác",
     "update_password_page_enter_old_password": "Vui lòng nhập vào mật khẩu hiện tại",
     "update_password_page_min_character_password": "Mật khẩu phải có tối thiểu 8 ký tự",
-    "update_password_page_update_success": "Đổi mật khẩu thành công"
+    "update_password_page_update_success": "Đổi mật khẩu thành công",
+
+    "notification_favourite": "{name} đã thích bài biết {postTitle}",
+    "notification_favourite_cmt": "{name} đã thích bình luận {comment}",
+    "notification_comment": "{name} đã bình luận bài viết {postTitle}",
+    "notification_reply": "{name} đã trả lời bình luận {comment}",
+    "notification_share": "{name} đã chia sẻ bài viết {postTitle}",
+    "notification_apply": "{name} đã ứng tuyển công việc {jobTitle}",
+    "notification_reject": "{name} đã từ chối đơn ứng tuyển {jobTitle}",
+    "notification_accept": "{name} đã chấp nhận đơn ứng tuyển {jobTitle}",
+
+    "notification_push_favourite": "Đã thích bài viết của bạn",
+    "notification_push_favourite_cmt": "Đã thích bình luận của bạn",
+    "notification_push_comment": "Đã bình luận bài viết của bạn",
+    "notification_push_reply": "Đã trả lời bình luận của bạn",
+    "notification_push_apply": "Đã ứng tuyển công việc của bạn",
+    "notification_push_share": "Đã chia sẻ bài viết của bạn",
+    "notification_push_reject": "Đã từ chối đơn ứng tuyển của bạn",
+    "notification_push_accept": "Đã chấp nhận đơn ứng tuyển của bạn"
 }
