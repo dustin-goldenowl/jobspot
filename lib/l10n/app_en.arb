@@ -374,5 +374,27 @@
     "edit_applicant_profile_page_change_image": "Change avatar",
     "edit_applicant_profile_page_save": "Save",
     "edit_applicant_profile_page_camera": "Camera",
-    "edit_applicant_profile_page_gallery": "Gallery"
+    "edit_applicant_profile_page_gallery": "Gallery",
+
+    "view_company_profile_page_not_provided": "Not provided",
+    "view_company_profile_page_no_description": "No description",
+    "view_company_profile_page_about_company": "About Company",
+    "view_company_profile_page_industry": "Industry",
+    "view_company_profile_page_employee_size": "Employee size",
+    "view_company_profile_page_employee": "{number} Employee",
+    "view_company_profile_page_head_office": "Head office",
+    "view_company_profile_page_type": "Type",
+    "view_company_profile_page_specialization": "Specialization",
+    "view_company_profile_page_since": "Since",
+    "view_company_profile_page_company_gallery": "Company Gallery",
+    "view_company_profile_page_website": "Website",
+    "view_company_profile_page_about_us": "About us",
+    "view_company_profile_page_post": "Post",
+    "view_company_profile_page_job": "Job",
+    "view_company_profile_page_visit_website": "Visit website",
+    "view_company_profile_page_jobs": "{number} Jobs",
+    "view_company_profile_page_posts": "{number} Posts",
+    "view_company_profile_page_follower": "{number} Follower",
+    "view_company_profile_page_unfollow": "Unfollow",
+    "view_company_profile_page_follow": "Follow"
 }

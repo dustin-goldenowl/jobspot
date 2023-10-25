@@ -62,6 +62,7 @@ class ViewJobView extends StatelessWidget {
               location: data.company.address,
               jobPosition: data.position,
               time: timeago.format(data.startDate),
+              companyID: data.company.id,
             );
           }
           return const AppBarCompanyLoading();

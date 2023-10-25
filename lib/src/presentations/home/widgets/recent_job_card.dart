@@ -90,7 +90,7 @@ class RecentJobCard extends StatelessWidget {
     );
   }
 
-  Row _buildHeader(location) {
+  Widget _buildHeader(location) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [

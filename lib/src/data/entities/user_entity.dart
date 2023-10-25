@@ -1,5 +1,6 @@
 class UserEntity {
   //general
+  final String id;
   final String name;
   final String role;
   final String avatar;
@@ -7,8 +8,8 @@ class UserEntity {
   final DateTime birthday;
   final String address;
   final String description;
-  final List<dynamic> follower;
-  final List<dynamic> following;
+  final List<String> follower;
+  final List<String> following;
   final DateTime updateAt;
   final DateTime createAt;
 
@@ -22,10 +23,12 @@ class UserEntity {
   final String? website;
   final String? industry;
   final String? employeeSize;
+  final String? type;
   final List<String>? images;
   final List<String>? specialization;
 
-  UserEntity({
+  const UserEntity({
+    required this.id,
     required this.name,
     required this.email,
     required this.avatar,
@@ -46,5 +49,6 @@ class UserEntity {
     this.isAccept,
     this.specialization,
     this.website,
+    this.type,
   });
 }

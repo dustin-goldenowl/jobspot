@@ -80,6 +80,7 @@ class ApplyJobView extends StatelessWidget {
         jobPosition: job.jobPosition,
         time: timeago.format(job.startDate),
         location: job.company.address,
+        companyID: job.company.id,
       ),
     );
   }

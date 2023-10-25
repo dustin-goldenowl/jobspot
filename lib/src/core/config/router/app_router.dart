@@ -94,8 +94,8 @@ class AppRouter extends $AppRouter {
           page: ApplicantProfileRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
           children: [
-            AutoRoute(path: "aboutApplicant", page: ApplicantAboutTab.page),
-            AutoRoute(path: "postApplicant", page: ApplicantPostTab.page)
+            AutoRoute(path: "applicantAbout", page: ApplicantAboutTab.page),
+            AutoRoute(path: "applicantPost", page: ApplicantPostTab.page)
           ],
         ),
         CustomRoute(
@@ -149,9 +149,9 @@ class AppRouter extends $AppRouter {
           transitionsBuilder: TransitionsBuilders.slideLeft,
           children: [
             AutoRoute(
-                path: "aboutViewApplicant", page: ViewApplicantAboutTab.page),
+                path: "viewAboutApplicant", page: ViewApplicantAboutTab.page),
             AutoRoute(
-                path: "postViewApplicant", page: ViewApplicantPostTab.page)
+                path: "viewPostApplicant", page: ViewApplicantPostTab.page)
           ],
         ),
         CustomRoute(
@@ -169,5 +169,15 @@ class AppRouter extends $AppRouter {
           page: EditApplicantProfileRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
+        CustomRoute(
+            path: '/viewCompanyProfile',
+            page: ViewCompanyProfileRoute.page,
+            transitionsBuilder: TransitionsBuilders.slideBottom,
+            children: [
+              AutoRoute(
+                  path: "viewCompanyAbout", page: ViewCompanyAboutTab.page),
+              AutoRoute(path: "viewCompanyPost", page: ViewCompanyPostTab.page),
+              AutoRoute(path: "viewCompanyJob", page: ViewCompanyJobTab.page),
+            ],),
       ];
 }

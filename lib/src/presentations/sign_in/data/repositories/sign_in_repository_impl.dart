@@ -55,7 +55,8 @@ class LoginRepositoryImpl extends SignInRepository {
     await XCollection.user.doc(userUid).get().then((value) async {
       if (value.data() != null) {
         await PrefsUtils.saveUserInfo(
-            UserModel.fromJsonFirebase(value.data()!).toJson());
+          UserModel.fromDocumentSnapshot(value).toJson(),
+        );
       }
     });
   }

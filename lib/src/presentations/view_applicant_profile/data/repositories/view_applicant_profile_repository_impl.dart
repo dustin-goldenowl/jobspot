@@ -1,7 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/firebase_collection.dart';
-import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/data/entities/user_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/education_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/appreciation_model.dart';
@@ -85,8 +84,7 @@ class ViewApplicantProfileRepositoryImpl
   Future<DataState<UserEntity>> getUserInfo(String uid) async {
     try {
       final response = await XCollection.user.doc(uid).get();
-      final user = user_model.UserModel.fromJsonFirebase(response.data()!);
-      await PrefsUtils.saveUserInfo(user.toJson());
+      final user = user_model.UserModel.fromDocumentSnapshot(response);
       return DataSuccess(user.toUserEntity());
     } catch (e) {
       return DataFailed(e.toString());
