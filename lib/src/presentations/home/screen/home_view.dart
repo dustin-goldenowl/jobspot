@@ -175,7 +175,9 @@ class HomeView extends StatelessWidget {
                 _buildRemoteJobWidget(
                   width,
                   quantity: "${state.data?.remote ?? 0}",
-                  onTap: () {},
+                  onTap: () {
+                    HomeCoordinator.showSearchJob();
+                  },
                 ),
                 const SizedBox(width: 20),
                 Column(

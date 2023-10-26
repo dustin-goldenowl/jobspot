@@ -23,6 +23,7 @@ class CustomTitleTextInput extends StatelessWidget {
     this.textCapitalization = TextCapitalization.none,
     this.inputFormatters,
     this.suffixIcon,
+    this.prefixIcon,
   });
 
   final TextEditingController controller;
@@ -42,6 +43,7 @@ class CustomTitleTextInput extends StatelessWidget {
   final TextCapitalization textCapitalization;
   final List<TextInputFormatter>? inputFormatters;
   final Widget? suffixIcon;
+  final Widget? prefixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +98,7 @@ class CustomTitleTextInput extends StatelessWidget {
                       color: AppColors.spunPearl,
                       size: 20,
                     )
-                  : null,
+                  : prefixIcon,
               suffixIcon: suffixIcon ??
                   (isPassword
                       ? IconButton(
