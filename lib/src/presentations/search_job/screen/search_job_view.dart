@@ -107,7 +107,10 @@ class SearchJobView extends StatelessWidget {
         return SliverAppBar(
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () => SearchJobCoordinator.showFilterJob(
+                onBack: context.read<SearchJobCubit>().changeFilter,
+                filter: context.read<SearchJobCubit>().filter,
+              ),
               icon: SvgPicture.asset(AppImages.filter),
             ),
             const SizedBox(width: 5),

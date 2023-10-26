@@ -35,6 +35,13 @@ class AppLists {
         }
       ];
 
+  static List<String> listTimeUpdate = [
+    AppLocal.text.filter_page_recent,
+    AppLocal.text.filter_page_last_week,
+    AppLocal.text.filter_page_last_month,
+    AppLocal.text.filter_page_any_time,
+  ];
+
   static List<Map<String, dynamic>> provinces = [
     {"name": "Thành phố Hà Nội", "code": 1},
     {"name": "Tỉnh Hà Giang", "code": 2},

@@ -407,5 +407,17 @@
     "search_job_page_no_more_search_results": "No more search results",
     "search_job_page_no_results_found": "No results found",
     "search_job_page_no_results_found_content": "The search could not be found, please check spelling or write another word.",
-    "search_job_page_location_hint": "Ho Chi Minh City, Viet Nam"
+    "search_job_page_location_hint": "Ho Chi Minh City, Viet Nam",
+
+    "filter_page_filter": "Filter",
+    "filter_page_last_update": "Last update",
+    "filter_page_type_workplace": "Type of workplace",
+    "filter_page_job_type": "Job type",
+    "filter_page_position_level": "Position level",
+    "filter_page_salary": "Salary",
+    "filter_page_recent": "Recent",
+    "filter_page_last_week": "Last week",
+    "filter_page_last_month": "Last month",
+    "filter_page_any_time": "Any time",
+    "filter_page_apply_now": "Apply now"
 }
