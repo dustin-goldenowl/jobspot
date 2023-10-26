@@ -5,7 +5,7 @@ import 'package:jobspot/src/presentations/update_password/domain/repositories/up
 
 @lazySingleton
 class ValidatePassworkUseCase extends UseCase<DataState<bool>, String> {
-  UpdatePasswordRepository _repository;
+  final UpdatePasswordRepository _repository;
 
   ValidatePassworkUseCase(this._repository);
 
