@@ -44,7 +44,7 @@ class UpdateJobModel {
     return {
       "description": description,
       "location": jobLocation,
-      "position": jobPosition,
+      "position": jobPosition.toLowerCase(),
       "jobType": jobType,
       "level": level,
       "salary": salary,

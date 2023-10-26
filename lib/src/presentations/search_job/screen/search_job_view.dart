@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/save_job/widgets/custom_job_card.dart';
 import 'package:jobspot/src/presentations/save_job/widgets/custom_job_card_loading.dart';
 import 'package:jobspot/src/presentations/search_job/cubit/search_job_cubit.dart';
+import 'package:jobspot/src/presentations/search_job/domain/router/search_job_coordinator.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_input.dart';
 
 class SearchJobView extends StatelessWidget {
@@ -28,28 +30,73 @@ class SearchJobView extends StatelessWidget {
 
   Widget _buildBody() {
     return BlocBuilder<SearchJobCubit, SearchJobState>(
-      buildWhen: (previous, current) => previous.listJob != current.listJob,
+      buildWhen: (previous, current) =>
+          previous.listJob != current.listJob ||
+          previous.isMore != current.isMore,
       builder: (context, state) {
-        return RefreshIndicator(
-          onRefresh: () async {},
-          child: ListView.separated(
+        if (state.listJob != null && state.listJob!.isEmpty) {
+          return SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.all(AppDimens.smallPadding),
-            itemBuilder: (context, index) {
-              if (state.listJob != null) {
-                return CustomJobCard(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50),
+              child: Column(
+                children: [
+                  const SizedBox(height: 60),
+                  SvgPicture.asset(
+                    AppImages.noResult,
+                    width: MediaQuery.sizeOf(context).width * 0.5,
+                  ),
+                  const SizedBox(height: 60),
+                  Text(
+                    AppLocal.text.search_job_page_no_results_found,
+                    style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    AppLocal.text.search_job_page_no_results_found_content,
+                    textAlign: TextAlign.center,
+                    style: AppStyles.normalTextMulledWine,
+                  )
+                ],
+              ),
+            ),
+          );
+        }
+        return _buildListJob(context, state);
+      },
+    );
+  }
+
+  Widget _buildListJob(BuildContext context, SearchJobState state) {
+    return RefreshIndicator(
+      onRefresh: context.read<SearchJobCubit>().searchJob,
+      child: ListView.separated(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.all(AppDimens.smallPadding),
+        itemCount: (state.listJob?.length ?? 9) + 1,
+        itemBuilder: (context, index) {
+          return state.listJob != null && index < state.listJob!.length
+              ? CustomJobCard(
                   job: state.listJob![index],
                   button: const SizedBox(),
-                  onTap: () {},
-                );
-              }
-              return const CustomJobCardLoading(isShowApply: false);
-            },
-            separatorBuilder: (context, index) => const SizedBox(height: 15),
-            itemCount: state.listJob?.length ?? 10,
-          ),
-        );
-      },
+                  onTap: () => SearchJobCoordinator.showViewJob(
+                      state.listJob![index].id),
+                )
+              : state.isMore
+                  ? const CustomJobCardLoading(isShowApply: false)
+                  : _buildNoJob();
+        },
+        separatorBuilder: (context, index) => const SizedBox(height: 15),
+      ),
+    );
+  }
+
+  Widget _buildNoJob() {
+    return Center(
+      child: Text(
+        AppLocal.text.search_job_page_no_more_search_results,
+        style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
+      ),
     );
   }
 
@@ -79,7 +126,7 @@ class SearchJobView extends StatelessWidget {
             opacity: !state.isTop ? 0.0 : 1.0,
             duration: const Duration(milliseconds: 300),
             child: Text(
-              "Search",
+              AppLocal.text.search_job_page_search,
               style: AppStyles.normalTextWhite
                   .copyWith(fontWeight: FontWeight.w500),
             ),
@@ -121,18 +168,15 @@ class SearchJobView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 40),
-                  CustomTitleTextInput(
-                    controller: context.read<SearchJobCubit>().searchController,
-                    hintText: "Design",
-                    isSearch: true,
-                    textInputAction: TextInputAction.search,
-                  ),
+                  _buildSearch(),
                   const SizedBox(height: 15),
                   CustomTitleTextInput(
-                    controller: TextEditingController(),
-                    hintText: "HCMC - VietNam",
+                    controller:
+                        context.read<SearchJobCubit>().locationController,
+                    hintText: AppLocal.text.search_job_page_location_hint,
                     prefixIcon: const Icon(FontAwesomeIcons.locationDot),
-                    onTap: () {},
+                    onTap: () => SearchJobCoordinator.showLocation(
+                        context.read<SearchJobCubit>().setLocation),
                   ),
                 ],
               ),
@@ -140,6 +184,22 @@ class SearchJobView extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildSearch() {
+    return BlocBuilder<SearchJobCubit, SearchJobState>(
+      buildWhen: (previous, current) => previous.query != current.query,
+      builder: (context, state) {
+        return CustomTitleTextInput(
+          controller: context.read<SearchJobCubit>().searchController,
+          hintText: AppLocal.text.search_job_page_search_hint,
+          isSearch: true,
+          textInputAction: TextInputAction.search,
+          onFieldSubmitted: (value) =>
+              context.read<SearchJobCubit>().searchJob(),
+        );
+      },
     );
   }
 }

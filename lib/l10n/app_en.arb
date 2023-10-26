@@ -89,6 +89,8 @@
     "notification_page_notifications": "Notifications",
     "notification_page_read_all": "Read all",
     "notification_page_delete": "Delete",
+    "notification_page_no_notification": "No notifications",
+    "notification_page_no_notification_content": "You have no notifications at this time thank you",
 
     "save_job_page_save_job": "Save Job",
     "save_job_page_apply": "Apply",
@@ -398,5 +400,12 @@
     "view_company_profile_page_posts": "{number} Posts",
     "view_company_profile_page_follower": "{number} Follower",
     "view_company_profile_page_unfollow": "Unfollow",
-    "view_company_profile_page_follow": "Follow"
+    "view_company_profile_page_follow": "Follow",
+
+    "search_job_page_search": "Search Job",
+    "search_job_page_search_hint": "Design",
+    "search_job_page_no_more_search_results": "No more search results",
+    "search_job_page_no_results_found": "No results found",
+    "search_job_page_no_results_found_content": "The search could not be found, please check spelling or write another word.",
+    "search_job_page_location_hint": "Ho Chi Minh City, Viet Nam"
 }

@@ -46,7 +46,7 @@ class JobModel {
       "owner": FirebaseAuth.instance.currentUser!.uid,
       "description": description,
       "location": jobLocation,
-      "position": jobPosition,
+      "position": jobPosition.toLowerCase(),
       "jobType": jobType,
       "level": level,
       "salary": salary,

@@ -82,7 +82,7 @@ class AddJobState extends Equatable {
       level: entity.level,
       salary: entity.salary,
       jobLocation: entity.jobLocation,
-      jobPosition: entity.jobPosition,
+      jobPosition: entity.jobPosition.capitalizedString,
       description: entity.description,
       endDate: entity.endDate,
       startDate: entity.startDate,

@@ -89,6 +89,8 @@
     "notification_page_notifications": "Thông báo",
     "notification_page_read_all": "Đọc tất cả",
     "notification_page_delete": "Xóa",
+    "notification_page_no_notification": "Không có thông báo",
+    "notification_page_no_notification_content": "Bạn không có thông báo nào vào lúc này, cảm ơn bạn",
 
     "save_job_page_save_job": "Công Việc Đã Lưu",
     "save_job_page_apply": "Ứng tuyển",
@@ -398,5 +400,12 @@
     "view_company_profile_page_posts": "{number} Bài viết",
     "view_company_profile_page_follower": "{number} Người theo dõi",
     "view_company_profile_page_unfollow": "Bỏ theo dõi",
-    "view_company_profile_page_follow": "Theo dõi"
+    "view_company_profile_page_follow": "Theo dõi",
+
+    "search_job_page_search": "Tìm kiếm công việc",
+    "search_job_page_search_hint": "Thiết kế",
+    "search_job_page_no_more_search_results": "Không còn kết quả tìm kiếm",
+    "search_job_page_no_results_found": "Không có kết quả nào được tìm thấy",
+    "search_job_page_no_results_found_content": "Không thể tìm thấy tìm kiếm, vui lòng kiểm tra chính tả hoặc viết từ khác.",
+    "search_job_page_location_hint": "Thành phố Hồ Chí Minh, Việt Nam"
 }
