@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
@@ -45,6 +46,7 @@ class SaveJobView extends StatelessWidget {
 
   Widget _buildHaveSaveJob(BuildContext context) {
     return Scaffold(
+      key: Key(AppLocalizations.of(context)!.key),
       appBar: AppBar(
         title: Text(
           AppLocal.text.save_job_page_save_job,

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
@@ -23,6 +24,7 @@ class ApplicantAboutTab extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       child: Padding(
         padding: const EdgeInsets.all(AppDimens.smallPadding),
+        key: Key(AppLocalizations.of(context)!.key),
         child: Column(
           children: [
             _buildAboutMe(),

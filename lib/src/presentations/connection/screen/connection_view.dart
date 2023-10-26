@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
@@ -16,6 +17,7 @@ class ConnectionView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: Key(AppLocalizations.of(context)!.key),
       appBar: AppBar(
         title: Text(AppLocal.text.connection_page_connection),
         titleTextStyle: AppStyles.boldTextHaiti.copyWith(fontSize: 20),

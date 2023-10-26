@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/applicant_profile/cubit/applicant_profile_cubit.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/router/applicant_profile_coordinator.dart';
@@ -19,6 +20,7 @@ class ApplicantPostTab extends StatelessWidget {
     return BlocBuilder<ApplicantProfileCubit, ApplicantProfileState>(
       builder: (context, state) {
         return ListView.separated(
+          key: Key(AppLocalizations.of(context)!.key),
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.all(AppDimens.smallPadding),
           itemBuilder: (context, index) {

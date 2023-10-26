@@ -47,6 +47,8 @@
     "year": "year",
     "month": "month",
     "now": "Now",
+    "app_title": "Jobspot",
+    "key": "key_en",
 
     "forgot_password_page_forgot_password": "Forgot password",
     "forgot_password_page_reset_password": "Reset password",
