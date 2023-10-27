@@ -12,7 +12,7 @@ class MainView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AutoTabsRouter.pageView(
       routes: const [
-        HomeRoute(),
+        HomeApplicantRoute(),
         ConnectionRoute(),
         NotificationRoute(),
         SaveJobRoute()

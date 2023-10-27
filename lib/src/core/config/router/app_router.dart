@@ -44,7 +44,7 @@ class AppRouter extends $AppRouter {
           page: MainRoute.page,
           transitionsBuilder: TransitionsBuilders.fadeIn,
           children: [
-            AutoRoute(path: AppPaths.homeTab, page: HomeRoute.page),
+            AutoRoute(path: AppPaths.homeTab, page: HomeApplicantRoute.page),
             AutoRoute(path: AppPaths.connectionTab, page: ConnectionRoute.page),
             AutoRoute(
                 path: AppPaths.notificationTab, page: NotificationRoute.page),

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
-import 'package:jobspot/src/presentations/home/domain/use_cases/save_job_use_case.dart';
+import 'package:jobspot/src/presentations/home_applicant/domain/use_cases/save_job_use_case.dart';
 import 'package:jobspot/src/presentations/save_job/domain/use_cases/delete_all_save_job_use_case.dart';
 import 'package:jobspot/src/presentations/save_job/domain/use_cases/listen_save_job_use_case.dart';
 import 'package:jobspot/src/presentations/save_job/widgets/bottom_sheet_save_job_option_view.dart';

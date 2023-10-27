@@ -6,16 +6,16 @@ import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
-import 'package:jobspot/src/presentations/home/cubit/home_cubit.dart';
-import 'package:jobspot/src/presentations/home/domain/router/home_coordinator.dart';
-import 'package:jobspot/src/presentations/home/widgets/job_card_loading.dart';
-import 'package:jobspot/src/presentations/home/widgets/recent_job_card.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:jobspot/src/presentations/home_applicant/cubit/home_applicant_cubit.dart';
+import 'package:jobspot/src/presentations/home_applicant/domain/router/home_applicant_coordinator.dart';
+import 'package:jobspot/src/presentations/home_applicant/widgets/job_card_loading.dart';
+import 'package:jobspot/src/presentations/home_applicant/widgets/recent_job_card.dart';
 import 'package:jobspot/src/presentations/main/cubit/main_cubit.dart';
 import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart';
 
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+class HomeApplicantView extends StatelessWidget {
+  const HomeApplicantView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +26,11 @@ class HomeView extends StatelessWidget {
       appBar: _buildAppBar(
         context,
         width: width,
-        onTap: HomeCoordinator.showApplicantProfile,
+        onTap: HomeApplicantCoordinator.showApplicantProfile,
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          context.read<HomeCubit>().fetchJobData();
+          context.read<HomeApplicantCubit>().fetchJobData();
         },
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(
@@ -65,7 +65,7 @@ class HomeView extends StatelessWidget {
           style: AppStyles.boldText.copyWith(fontSize: 16),
         ),
         const SizedBox(height: 16),
-        BlocBuilder<HomeCubit, HomeState>(
+        BlocBuilder<HomeApplicantCubit, HomeApplicantState>(
           buildWhen: (previous, current) =>
               current.jobID == null && current.error == null,
           builder: (context, state) {
@@ -93,14 +93,15 @@ class HomeView extends StatelessWidget {
       buildWhen: (previous, current) =>
           current.jobID == job.id || (current.isDeleteAllSaveJob ?? false),
       builder: (context, state) {
-        return BlocBuilder<HomeCubit, HomeState>(
+        return BlocBuilder<HomeApplicantCubit, HomeApplicantState>(
           buildWhen: (previous, current) => current.jobID == job.id,
           builder: (context, state) {
             return RecentJobCard(
               job: job,
-              onTap: () => HomeCoordinator.showViewJobDescription(job.id),
-              onSave: () => context.read<HomeCubit>().saveJob(job.id),
-              onApply: () => HomeCoordinator.showApplyJob(job: job),
+              onTap: () =>
+                  HomeApplicantCoordinator.showViewJobDescription(job.id),
+              onSave: () => context.read<HomeApplicantCubit>().saveJob(job.id),
+              onApply: () => HomeApplicantCoordinator.showApplyJob(job: job),
               isSave: PrefsUtils.getUserInfo()!.saveJob!.contains(job.id),
             );
           },
@@ -158,7 +159,7 @@ class HomeView extends StatelessWidget {
   }
 
   Widget _buildFindYourJob({required double width}) {
-    return BlocBuilder<HomeCubit, HomeState>(
+    return BlocBuilder<HomeApplicantCubit, HomeApplicantState>(
       buildWhen: (previous, current) =>
           current.jobID == null && current.error == null,
       builder: (context, state) {
@@ -175,9 +176,7 @@ class HomeView extends StatelessWidget {
                 _buildRemoteJobWidget(
                   width,
                   quantity: "${state.data?.remote ?? 0}",
-                  onTap: () {
-                    HomeCoordinator.showSearchJob();
-                  },
+                  onTap: HomeApplicantCoordinator.showSearchJob,
                 ),
                 const SizedBox(width: 20),
                 Column(

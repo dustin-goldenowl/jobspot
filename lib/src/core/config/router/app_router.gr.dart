@@ -63,7 +63,8 @@ import 'package:jobspot/src/presentations/filter/screen/filter_page.dart'
     as _i16;
 import 'package:jobspot/src/presentations/forgot_password/screen/forgot_password_page.dart'
     as _i17;
-import 'package:jobspot/src/presentations/home/screen/home_page.dart' as _i18;
+import 'package:jobspot/src/presentations/home_applicant/screen/home_applicant_page.dart'
+    as _i18;
 import 'package:jobspot/src/presentations/job_description/screen/job_description_page.dart'
     as _i19;
 import 'package:jobspot/src/presentations/job_position/screen/job_position_page.dart'
@@ -276,10 +277,10 @@ abstract class $AppRouter extends _i45.RootStackRouter {
         child: const _i17.ForgotPasswordPage(),
       );
     },
-    HomeRoute.name: (routeData) {
+    HomeApplicantRoute.name: (routeData) {
       return _i45.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i18.HomePage(),
+        child: const _i18.HomeApplicantPage(),
       );
     },
     JobDescriptionRoute.name: (routeData) {
@@ -973,15 +974,15 @@ class ForgotPasswordRoute extends _i45.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i18.HomePage]
-class HomeRoute extends _i45.PageRouteInfo<void> {
-  const HomeRoute({List<_i45.PageRouteInfo>? children})
+/// [_i18.HomeApplicantPage]
+class HomeApplicantRoute extends _i45.PageRouteInfo<void> {
+  const HomeApplicantRoute({List<_i45.PageRouteInfo>? children})
       : super(
-          HomeRoute.name,
+          HomeApplicantRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'HomeRoute';
+  static const String name = 'HomeApplicantRoute';
 
   static const _i45.PageInfo<void> page = _i45.PageInfo<void>(name);
 }

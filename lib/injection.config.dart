@@ -148,14 +148,15 @@ import 'package:jobspot/src/presentations/edit_applicant_profile/domain/reposito
     as _i18;
 import 'package:jobspot/src/presentations/edit_applicant_profile/domain/use_cases/update_user_info_use_case.dart'
     as _i75;
-import 'package:jobspot/src/presentations/home/cubit/home_cubit.dart' as _i113;
-import 'package:jobspot/src/presentations/home/data/repositories/home_repository_impl.dart'
+import 'package:jobspot/src/presentations/home_applicant/cubit/home_applicant_cubit.dart'
+    as _i113;
+import 'package:jobspot/src/presentations/home_applicant/data/repositories/home_applicant_repository_impl.dart'
     as _i27;
-import 'package:jobspot/src/presentations/home/domain/repositories/home_repository.dart'
+import 'package:jobspot/src/presentations/home_applicant/domain/repositories/home_applicant_repository.dart'
     as _i26;
-import 'package:jobspot/src/presentations/home/domain/use_cases/fetch_job_use_case.dart'
-    as _i104;
-import 'package:jobspot/src/presentations/home/domain/use_cases/save_job_use_case.dart'
+import 'package:jobspot/src/presentations/home_applicant/domain/use_cases/fetch_job_use_case.dart'
+    as _i103;
+import 'package:jobspot/src/presentations/home_applicant/domain/use_cases/save_job_use_case.dart'
     as _i40;
 import 'package:jobspot/src/presentations/job_position/cubit/job_position_cubit.dart'
     as _i114;
@@ -286,7 +287,7 @@ import 'package:jobspot/src/presentations/view_job/data/repositories/view_job_re
 import 'package:jobspot/src/presentations/view_job/domain/repositories/view_job_repository.dart'
     as _i79;
 import 'package:jobspot/src/presentations/view_job/domain/use_cases/fetch_job_use_case.dart'
-    as _i103;
+    as _i104;
 import 'package:jobspot/src/presentations/view_language/cubit/view_language_cubit.dart'
     as _i132;
 import 'package:jobspot/src/presentations/view_language/data/repositories/view_language_repository_impl.dart'
@@ -358,7 +359,8 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i24.FetchPostUseCase(gh<_i14.ConnectionRepository>()));
     gh.factory<_i25.GetSkillUseCase>(
         () => _i25.GetSkillUseCase(gh<_i10.ApplicantProfileRepository>()));
-    gh.lazySingleton<_i26.HomeRepository>(() => _i27.HomeRepositoryImpl());
+    gh.lazySingleton<_i26.HomeApplicantRepository>(
+        () => _i27.HomeApplicantRepositoryImpl());
     gh.lazySingleton<_i28.JobPositionRepository>(
         () => _i29.JobPositionRepositoryImpl());
     gh.lazySingleton<_i30.LanguageRepository>(
@@ -373,7 +375,7 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i38.SaveJobRepository>(
         () => _i39.SaveJobRepositoryImpl());
     gh.lazySingleton<_i40.SaveJobUseCase>(
-        () => _i40.SaveJobUseCase(gh<_i26.HomeRepository>()));
+        () => _i40.SaveJobUseCase(gh<_i26.HomeApplicantRepository>()));
     gh.factory<_i41.SearchJobPositionUseCase>(
         () => _i41.SearchJobPositionUseCase(gh<_i28.JobPositionRepository>()));
     gh.lazySingleton<_i42.SearchJobRepository>(
@@ -482,9 +484,9 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i102.EditApplicantProfileCubit>(() =>
         _i102.EditApplicantProfileCubit(gh<_i75.UpdateUserInfoUseCase>()));
     gh.lazySingleton<_i103.FetchJobUseCase>(
-        () => _i103.FetchJobUseCase(gh<_i79.ViewJobRepository>()));
+        () => _i103.FetchJobUseCase(gh<_i26.HomeApplicantRepository>()));
     gh.lazySingleton<_i104.FetchJobUseCase>(
-        () => _i104.FetchJobUseCase(gh<_i26.HomeRepository>()));
+        () => _i104.FetchJobUseCase(gh<_i79.ViewJobRepository>()));
     gh.lazySingleton<_i105.GetAppreciationUseCase>(() =>
         _i105.GetAppreciationUseCase(
             gh<_i77.ViewApplicantProfileRepository>()));
@@ -503,8 +505,8 @@ extension GetItInjectableX on _i1.GetIt {
     gh.lazySingleton<_i112.GetWorkExperienceUseCase>(() =>
         _i112.GetWorkExperienceUseCase(
             gh<_i77.ViewApplicantProfileRepository>()));
-    gh.factory<_i113.HomeCubit>(() => _i113.HomeCubit(
-          gh<_i104.FetchJobUseCase>(),
+    gh.factory<_i113.HomeApplicantCubit>(() => _i113.HomeApplicantCubit(
+          gh<_i103.FetchJobUseCase>(),
           gh<_i40.SaveJobUseCase>(),
         ));
     gh.factory<_i114.JobPositionCubit>(
@@ -557,7 +559,7 @@ extension GetItInjectableX on _i1.GetIt {
               gh<_i47.SendNotificationUseCase>(),
             ));
     gh.factory<_i131.ViewJobCubit>(
-        () => _i131.ViewJobCubit(gh<_i103.FetchJobUseCase>()));
+        () => _i131.ViewJobCubit(gh<_i104.FetchJobUseCase>()));
     gh.factory<_i132.ViewLanguageCubit>(() => _i132.ViewLanguageCubit(
           gh<_i127.StreamLanguagesUseCase>(),
           gh<_i98.DeleteLanguageUseCase>(),
