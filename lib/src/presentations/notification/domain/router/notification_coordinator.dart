@@ -12,4 +12,7 @@ class NotificationCoordinator {
 
   static void showJob(String jobID) =>
       rootRouter.push(ViewJobRoute(jobID: jobID));
+
+  static void showViewProfile(String uid) =>
+      rootRouter.push(ViewApplicantProfileRoute(uid: uid));
 }

@@ -103,6 +103,14 @@ class NotificationModel {
           action: action,
           createAt: createAt,
         ),
+      AppTags.follow => NotificationFollowEntity(
+          id: id,
+          from: fromUser!.toUserEntity(),
+          type: type,
+          action: action,
+          isRead: isRead,
+          createAt: createAt,
+        ),
       _ => null
     };
     return entity;

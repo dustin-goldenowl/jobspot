@@ -6,13 +6,13 @@ import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/data/models/user_model.dart';
-import 'package:jobspot/src/presentations/home/domain/entities/fetch_job_data.dart';
-import 'package:jobspot/src/presentations/home/domain/repositories/home_repository.dart';
+import 'package:jobspot/src/presentations/home_applicant/domain/entities/fetch_job_data.dart';
+import 'package:jobspot/src/presentations/home_applicant/domain/repositories/home_applicant_repository.dart';
 import 'package:jobspot/src/presentations/view_job/data/models/company_model.dart';
 import 'package:jobspot/src/presentations/view_job/data/models/job_model.dart';
 
-@LazySingleton(as: HomeRepository)
-class HomeRepositoryImpl extends HomeRepository {
+@LazySingleton(as: HomeApplicantRepository)
+class HomeApplicantRepositoryImpl extends HomeApplicantRepository {
   @override
   Stream<DataState<FetchJobData>> fetchJobData() {
     try {

@@ -78,6 +78,8 @@ class NotificationView extends StatelessWidget {
             onTap: (action, type, id) {
               if (listTag.contains(type)) {
                 NotificationCoordinator.showJob(action);
+              } else if (type == AppTags.follow) {
+                NotificationCoordinator.showViewProfile(action);
               } else {
                 NotificationCoordinator.showPost(action);
               }

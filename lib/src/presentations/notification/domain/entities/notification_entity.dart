@@ -6,6 +6,7 @@ import 'package:jobspot/src/presentations/view_post/domain/entities/comment_enti
 part 'notification_comment_entity.dart';
 part 'notification_job_entity.dart';
 part 'notification_post_entity.dart';
+part 'notification_follow_entity.dart';
 
 abstract class NotificationEntity {
   final String id;

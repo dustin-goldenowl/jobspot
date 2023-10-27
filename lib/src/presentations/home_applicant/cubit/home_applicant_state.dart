@@ -1,18 +1,18 @@
-part of 'home_cubit.dart';
+part of 'home_applicant_cubit.dart';
 
-class HomeState extends Equatable {
-  const HomeState({this.error, this.data, this.jobID});
+class HomeApplicantState extends Equatable {
+  const HomeApplicantState({this.error, this.data, this.jobID});
 
   final FetchJobData? data;
   final String? error;
   final String? jobID;
 
-  HomeState copyWith({
+  HomeApplicantState copyWith({
     FetchJobData? data,
     String? error,
     String? jobID,
   }) {
-    return HomeState(error: error, data: data, jobID: jobID);
+    return HomeApplicantState(error: error, data: data, jobID: jobID);
   }
 
   @override

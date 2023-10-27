@@ -67,6 +67,7 @@ class NotificationServices {
       AppTags.comment => AppLocal.text.notification_push_comment,
       AppTags.reply => AppLocal.text.notification_push_reply,
       AppTags.share => AppLocal.text.notification_push_share,
+      AppTags.follow => AppLocal.text.notification_push_follow,
       _ => "",
     };
     return content;

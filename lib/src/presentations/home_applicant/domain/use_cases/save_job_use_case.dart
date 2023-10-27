@@ -1,11 +1,11 @@
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/resources/use_case.dart';
-import 'package:jobspot/src/presentations/home/domain/repositories/home_repository.dart';
+import 'package:jobspot/src/presentations/home_applicant/domain/repositories/home_applicant_repository.dart';
 
 @lazySingleton
 class SaveJobUseCase extends UseCase<DataState<bool>, String> {
-  final HomeRepository _repository;
+  final HomeApplicantRepository _repository;
 
   SaveJobUseCase(this._repository);
 

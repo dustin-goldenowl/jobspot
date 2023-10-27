@@ -133,6 +133,8 @@ class NotificationItem extends StatelessWidget {
           notification.from.name,
           notification.post?.title ?? "",
         ),
+      AppTags.follow =>
+        AppLocal.text.notification_follow(notification.from.name),
       _ => ""
     };
     return Text(
