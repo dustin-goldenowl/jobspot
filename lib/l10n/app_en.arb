@@ -431,5 +431,6 @@
     "view_job_applicant_accepted": "Accepted",
     "view_job_applicant_reject": "Reject",
     "view_job_applicant_rejected": "Rejected",
+    "view_job_applicant_no_applications": "There are no job applications here",
     "view_job_applicant_consider": "Consider"
 }

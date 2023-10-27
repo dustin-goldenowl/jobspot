@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jobspot/src/core/enum/application_status.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/resume_model.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/view_job_applicant/domain/entities/resume_applicant_entity.dart';
@@ -9,7 +10,7 @@ class ResumeApplicantModel {
   String resumeID;
   String owner;
   String jobID;
-  bool? isAccept;
+  ApplicationStatus status;
   ResumeModel? resume;
   UserModel? applicant;
   DateTime createAt;
@@ -19,7 +20,7 @@ class ResumeApplicantModel {
     required this.description,
     required this.owner,
     required this.resumeID,
-    required this.isAccept,
+    required this.status,
     required this.jobID,
     this.resume,
     this.applicant,
@@ -36,7 +37,7 @@ class ResumeApplicantModel {
       owner: owner,
       resumeID: resumeID,
       createAt: createAt,
-      isAccept: isAccept,
+      status: status,
       jobID: jobID,
       applicant: applicant ?? this.applicant,
       resume: resume ?? this.resume,
@@ -48,7 +49,11 @@ class ResumeApplicantModel {
     final data = snapshot.data()!;
     return ResumeApplicantModel(
       id: snapshot.id,
-      isAccept: data["isAccept"],
+      status: data["status"] == "pending"
+          ? ApplicationStatus.pending
+          : data["status"] == "accept"
+              ? ApplicationStatus.accept
+              : ApplicationStatus.decline,
       description: data["description"],
       createAt: (data["createAt"] as Timestamp).toDate(),
       owner: data["owner"],
@@ -61,7 +66,7 @@ class ResumeApplicantModel {
     return ResumeApplicantEntity(
       id: id,
       description: description,
-      isAccept: isAccept,
+      status: status,
       resume: resume!.toResumeEntity(),
       applicant: applicant!.toUserEntity(),
       createAt: createAt,

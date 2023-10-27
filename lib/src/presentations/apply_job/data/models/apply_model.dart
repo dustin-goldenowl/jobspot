@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:jobspot/src/core/enum/application_status.dart';
 
 class ApplyModel {
   String description;
@@ -16,7 +17,7 @@ class ApplyModel {
       "description": description,
       "jobID": jobID,
       "resumeID": resumeID,
-      "isAccept": null,
+      "status": ApplicationStatus.pending.name.toString(),
       "owner": FirebaseAuth.instance.currentUser!.uid,
       "createAt": DateTime.now(),
       "updateAt": DateTime.now(),

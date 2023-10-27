@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/enum/application_status.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:jobspot/src/presentations/view_job_applicant/cubit/view_job_applicant_cubit.dart';
 import 'package:jobspot/src/presentations/view_job_applicant/domain/entities/consider_resume.dart';
@@ -62,7 +63,12 @@ class _ViewJobApplicantViewState extends State<ViewJobApplicantView>
                   onRefresh:
                       context.read<ViewJobApplicantCubit>().getListApplicant,
                   child: _buildListResume(
-                      isAccept: index == 0 ? null : index == 1),
+                    index == 0
+                        ? ApplicationStatus.pending
+                        : index == 1
+                            ? ApplicationStatus.accept
+                            : ApplicationStatus.decline,
+                  ),
                 ),
               ),
             ),
@@ -119,14 +125,21 @@ class _ViewJobApplicantViewState extends State<ViewJobApplicantView>
     );
   }
 
-  Widget _buildListResume({bool? isAccept}) {
+  Widget _buildListResume(ApplicationStatus status) {
     return BlocBuilder<ViewJobApplicantCubit, ViewJobApplicantState>(
       builder: (context, state) {
         List<ResumeApplicantEntity>? listResume;
         if (state.listResume != null) {
           listResume = state.listResume!
-              .where((element) => element.isAccept == isAccept)
+              .where((element) => element.status == status)
               .toList();
+        }
+        if (listResume != null && listResume.isEmpty) {
+          return Center(
+              child: Text(
+            AppLocal.text.view_job_applicant_no_applications,
+            style: AppStyles.boldTextMulledWine.copyWith(fontSize: 16),
+          ));
         }
         return ListView.separated(
           itemCount: listResume?.length ?? 10,
@@ -142,7 +155,9 @@ class _ViewJobApplicantViewState extends State<ViewJobApplicantView>
                     .read<ViewJobApplicantCubit>()
                     .considerResume(ConsiderResume(
                       applyID: listResume![index].id,
-                      isAccept: isAcept,
+                      status: isAcept
+                          ? ApplicationStatus.accept
+                          : ApplicationStatus.decline,
                       toUserID: listResume[index].applicant.id,
                       jobID: listResume[index].jobID,
                     )),

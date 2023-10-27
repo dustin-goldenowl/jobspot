@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
+import 'package:jobspot/src/core/enum/application_status.dart';
 import 'package:jobspot/src/core/extension/int_extension.dart';
 import 'package:jobspot/src/core/utils/date_time_utils.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
@@ -47,14 +48,16 @@ class ItemResumeApplicant extends StatelessWidget {
       children: [
         _buildHeader(),
         const SizedBox(height: 20),
-        Text(
-          resume.description,
-          style: AppStyles.normalTextMulledWine,
-        ),
-        const SizedBox(height: 15),
+        if (resume.description.isNotEmpty)
+          Text(
+            resume.description,
+            style: AppStyles.normalTextMulledWine,
+          ),
+        if (resume.description.isNotEmpty) const SizedBox(height: 15),
         _buildResumeFile(),
-        if (resume.isAccept == null) const SizedBox(height: 15),
-        if (resume.isAccept == null)
+        if (resume.status == ApplicationStatus.pending)
+          const SizedBox(height: 15),
+        if (resume.status == ApplicationStatus.pending)
           Row(
             children: [
               Expanded(
@@ -67,7 +70,7 @@ class ItemResumeApplicant extends StatelessWidget {
               Expanded(
                 child: CustomButton(
                   isElevated: false,
-                  onPressed: ()=> onConsider(false),
+                  onPressed: () => onConsider(false),
                   title: AppLocal.text.view_job_applicant_reject.toUpperCase(),
                 ),
               )

@@ -37,9 +37,8 @@ class ViewJobApplicantCubit extends Cubit<ViewJobApplicantState> {
   Future considerResume(ConsiderResume consider) async {
     List<ResumeApplicantEntity> listResume = [...state.listResume!];
     List<ResumeApplicantEntity> temptList = state.listResume!
-        .map((e) => e.id == consider.applyID
-            ? e.copyWith(isAccept: consider.isAccept)
-            : e)
+        .map((e) =>
+            e.id == consider.applyID ? e.copyWith(status: consider.status) : e)
         .toList();
     emit(state.copyWith(listResume: temptList));
     final response = await _considerResumeUseCase.call(params: consider);

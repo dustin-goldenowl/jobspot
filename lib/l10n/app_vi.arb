@@ -431,5 +431,6 @@
     "view_job_applicant_accepted": "Chấp nhận",
     "view_job_applicant_reject": "Từ chối",
     "view_job_applicant_rejected": "Từ chối",
+    "view_job_applicant_no_applications": "Không có hồ sơ nào ở đây",
     "view_job_applicant_consider": "Xem xét"
 }
