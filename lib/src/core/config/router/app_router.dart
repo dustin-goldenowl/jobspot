@@ -213,5 +213,10 @@ class AppRouter extends $AppRouter {
           page: FilterRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
+        CustomRoute(
+          path: AppPaths.viewJobApplicant,
+          page: ViewJobApplicantRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
+        ),
       ];
 }

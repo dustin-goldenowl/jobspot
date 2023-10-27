@@ -3,7 +3,7 @@ import 'package:jobspot/src/presentations/add_resume/domain/entities/add_resume_
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/resume_entity.dart';
 
 abstract class ResumeRepository {
-  Future<DataState<bool>> addResume(AddResumeEntity resume);
+  Future<DataState<String>> addResume(AddResumeEntity resume);
 
   Future<DataState<bool>> deleteResume(ResumeEntity resume);
 }

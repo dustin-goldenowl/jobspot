@@ -11,14 +11,15 @@ import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/save_job/widgets/tag_item.dart';
 
 class ItemMyJob extends StatelessWidget {
-  const ItemMyJob({super.key, required this.myJob});
+  const ItemMyJob({super.key, required this.myJob, required this.onTap});
 
   final MyJobEntity myJob;
+  final Function(String title, String jobID) onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () => onTap(myJob.position, myJob.id),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -45,7 +46,7 @@ class ItemMyJob extends StatelessWidget {
         _buildHeader(),
         const SizedBox(height: 20),
         Text(
-          AppLocal.text.home_company_page_number_applicant(myJob.applicants),
+          AppLocal.text.home_company_page_applicant_applied(myJob.applicants),
           style: AppStyles.boldTextMulledWine,
         ),
         const SizedBox(height: 20),
@@ -112,7 +113,7 @@ class ItemMyJob extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               Text(
-                timeago.format(DateTime.now()),
+                timeago.format(myJob.startDate),
                 overflow: TextOverflow.ellipsis,
               ),
             ],

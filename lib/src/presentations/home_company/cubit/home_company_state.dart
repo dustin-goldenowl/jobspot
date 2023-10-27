@@ -13,9 +13,9 @@ class HomeCompanyState extends Equatable {
     String? error,
   }) {
     return HomeCompanyState(
-      jobs: jobs ?? this.jobs,
+      jobs: jobs,
       isMore: isMore ?? this.isMore,
-      error: error ?? this.error,
+      error: error,
     );
   }
 
