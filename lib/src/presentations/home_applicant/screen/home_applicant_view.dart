@@ -136,18 +136,15 @@ class HomeApplicantView extends StatelessWidget {
                 child: Hero(
                   tag: AppTags.avatar,
                   child: ClipOval(
-                    child: user!.avatar.isEmpty
-                        ? SvgPicture.asset(AppImages.logo,
-                            height: 40, width: 40)
-                        : CachedNetworkImage(
-                            imageUrl: user.avatar,
-                            placeholder: (_, __) => const ItemLoading(
-                                width: 40, height: 40, radius: 0),
-                            errorWidget: (_, __, ___) =>
-                                const Icon(Icons.warning),
-                            height: 40,
-                            width: 40,
-                          ),
+                    child: CachedNetworkImage(
+                      imageUrl: user?.avatar ?? "",
+                      placeholder: (_, __) =>
+                          const ItemLoading(width: 40, height: 40, radius: 0),
+                      errorWidget: (_, __, ___) =>
+                          SvgPicture.asset(AppImages.logo),
+                      height: 40,
+                      width: 40,
+                    ),
                   ),
                 ),
               )

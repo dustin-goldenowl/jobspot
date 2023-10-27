@@ -24,7 +24,7 @@ class ConnectionCubit extends Cubit<ConnectionState> {
   ConnectionCubit(this._fetchPostUseCase, this._favouritePostUseCase)
       : super(const ConnectionState(isMore: true)) {
     scrollController.addListener(() {
-      if (scrollController.position.pixels ==
+      if (scrollController.position.pixels >=
           scrollController.position.maxScrollExtent) {
         fetchPostData(limit: _limit + 15, isLoading: false);
       }

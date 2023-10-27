@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/firebase_collection.dart';
@@ -14,27 +15,20 @@ class ConnectionRepositoryImpl extends ConnectionRepository {
   @override
   Stream<DataState<FetchPostData>> fetchPostData(int limit) {
     try {
-      return XCollection.post
-          // .where("owner", isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
-          //TODO This command is to filter posts that are not from the current account.
-          .limit(limit)
-          .snapshots()
-          .asyncMap((event) async {
+      final myPostCollection = XCollection.post
+          .where("owner", isNotEqualTo: FirebaseAuth.instance.currentUser!.uid);
+      return myPostCollection.limit(limit).snapshots().asyncMap((event) async {
         List<PostModel> posts = [];
         for (var element in event.docs) {
           posts.add(PostModel.fromQueryDocumentSnapshot(element));
         }
         final data = await Future.wait([
           getListUser(posts),
-          XCollection.post
-              // .where("owner", isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
-              //TODO This command is to filter posts that are not from the current account.
-              .count()
-              .get(),
+          myPostCollection.count().get(),
           ...getListCommentPost(posts.map((e) => e.id).toList()),
         ]);
         final listUser = data.first as List<UserModel>;
-        final documents = data[1] as AggregateQuerySnapshot;
+        final count = (data[1] as AggregateQuerySnapshot).count;
         int index = 2;
         posts = posts
             .map((e) => e.copyWith(
@@ -44,9 +38,9 @@ class ConnectionRepositoryImpl extends ConnectionRepository {
                 ))
             .toList();
         return DataSuccess(FetchPostData(
-          isMore: limit < documents.count,
+          isMore: limit < count,
           posts: posts.map((e) => e.toPostEntity()).toList(),
-          limit: limit < documents.count ? limit : documents.count,
+          limit: limit < count ? limit : count,
         ));
       });
     } catch (e) {

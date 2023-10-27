@@ -37,7 +37,8 @@ class AppPaths {
   static const String filterJob = "/filterJob";
 
   //tab
-  static const String homeTab = "home";
+  static const String homeApplicantTab = "homeApplicant";
+  static const String homeCompanyTab = "homeCompany";
   static const String connectionTab = "connection";
   static const String notificationTab = "notification";
   static const String saveJobTab = "saveJob";

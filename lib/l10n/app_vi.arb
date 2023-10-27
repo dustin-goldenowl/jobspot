@@ -362,6 +362,7 @@
     "notification_apply": "{name} đã ứng tuyển công việc {jobTitle}",
     "notification_reject": "{name} đã từ chối đơn ứng tuyển {jobTitle}",
     "notification_accept": "{name} đã chấp nhận đơn ứng tuyển {jobTitle}",
+    "notification_follow": "{name} đã theo dõi bạn",
 
     "notification_push_favourite": "Đã thích bài viết của bạn",
     "notification_push_favourite_cmt": "Đã thích bình luận của bạn",
@@ -371,6 +372,7 @@
     "notification_push_share": "Đã chia sẻ bài viết của bạn",
     "notification_push_reject": "Đã từ chối đơn ứng tuyển của bạn",
     "notification_push_accept": "Đã chấp nhận đơn ứng tuyển của bạn",
+    "notification_push_follow": "Đã theo dõi bạn",
 
     "edit_applicant_profile_page_fullname": "Họ tên",
     "edit_applicant_profile_page_email": "Email",

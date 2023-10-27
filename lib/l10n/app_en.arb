@@ -362,6 +362,7 @@
     "notification_apply": "{name} has applied for your job {jobTitle}",
     "notification_reject": "{name} has rejected your application {jobTitle}",
     "notification_accept": "{name} has accepted your application {jobTitle}",
+    "notification_follow": "{name} has followed you",
 
     "notification_push_favourite": "Liked your post",
     "notification_push_favourite_cmt": "Liked your comment",
@@ -371,6 +372,7 @@
     "notification_push_share": "Shared your post",
     "notification_push_reject": "Has rejected your application",
     "notification_push_accept": "Has accepted your application",
+    "notification_push_follow": "Has followed you",
 
     "edit_applicant_profile_page_fullname": "Fullname",
     "edit_applicant_profile_page_email": "Email",

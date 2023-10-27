@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
+import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/main/cubit/main_cubit.dart';
+import 'package:jobspot/src/presentations/main/domain/router/main_coordinator.dart';
 import 'package:jobspot/src/presentations/main/widgets/custom_bottom_bar.dart';
 
 class MainView extends StatelessWidget {
@@ -10,12 +12,16 @@ class MainView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = PrefsUtils.getUserInfo();
+
     return AutoTabsRouter.pageView(
-      routes: const [
-        HomeApplicantRoute(),
-        ConnectionRoute(),
-        NotificationRoute(),
-        SaveJobRoute()
+      routes: [
+        user?.role == "business"
+            ? const HomeCompanyRoute()
+            : const HomeApplicantRoute(),
+        const ConnectionRoute(),
+        const NotificationRoute(),
+        const SaveJobRoute()
       ],
       builder: (context, child, pageController) {
         final tabsRouter = AutoTabsRouter.of(context);
@@ -24,7 +30,13 @@ class MainView extends StatelessWidget {
           bottomNavigationBar: SafeArea(
             child: CustomBottomBar(
               changeTab: tabsRouter.setActiveIndex,
-              onTap: () => context.read<MainCubit>().showBottomSheet(context),
+              onTap: () {
+                if (user?.role == "business" && (user?.isAccept ?? false)) {
+                  context.read<MainCubit>().showBottomSheet(context);
+                } else {
+                  MainCoordinator.showAddPost();
+                }
+              },
               currentIndex: tabsRouter.activeIndex,
             ),
           ),
