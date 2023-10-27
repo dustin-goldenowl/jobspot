@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
+import 'package:jobspot/src/core/extension/string_extension.dart';
+import 'package:jobspot/src/core/function/get_location.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/save_job/widgets/tag_item.dart';
@@ -54,12 +56,12 @@ class CustomJobCard extends StatelessWidget {
         _buildHeader(),
         const SizedBox(height: 10),
         Text(
-          job.position,
+          job.position.capitalizedString,
           style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
         ),
         const SizedBox(height: 5),
         Text(
-          "${job.company.name} • ${job.company.address}",
+          "${job.company.name} • ${getLocation(job.location)}",
           style: AppStyles.normalTextMulledWine,
         ),
         const SizedBox(height: 20),

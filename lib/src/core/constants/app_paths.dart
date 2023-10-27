@@ -33,6 +33,8 @@ class AppPaths {
   static const String updatePassword = "/updatePassword";
   static const String editApplicantProfile = "/editApplicantProfile";
   static const String viewCompanyProfile = "/viewCompanyProfile";
+  static const String searchJob = "/searchJob";
+  static const String filterJob = "/filterJob";
 
   //tab
   static const String homeTab = "home";

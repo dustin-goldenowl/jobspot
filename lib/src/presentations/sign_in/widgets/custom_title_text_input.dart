@@ -23,6 +23,8 @@ class CustomTitleTextInput extends StatelessWidget {
     this.textCapitalization = TextCapitalization.none,
     this.inputFormatters,
     this.suffixIcon,
+    this.prefixIcon,
+    this.onFieldSubmitted,
   });
 
   final TextEditingController controller;
@@ -42,6 +44,8 @@ class CustomTitleTextInput extends StatelessWidget {
   final TextCapitalization textCapitalization;
   final List<TextInputFormatter>? inputFormatters;
   final Widget? suffixIcon;
+  final Widget? prefixIcon;
+  final Function(String value)? onFieldSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +81,7 @@ class CustomTitleTextInput extends StatelessWidget {
             maxLines: maxLines,
             textInputAction: textInputAction,
             validator: validator,
+            onFieldSubmitted: onFieldSubmitted,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: AppDimens.smallPadding,
@@ -96,7 +101,7 @@ class CustomTitleTextInput extends StatelessWidget {
                       color: AppColors.spunPearl,
                       size: 20,
                     )
-                  : null,
+                  : prefixIcon,
               suffixIcon: suffixIcon ??
                   (isPassword
                       ? IconButton(

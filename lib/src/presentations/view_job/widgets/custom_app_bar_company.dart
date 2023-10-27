@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
+import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:jobspot/src/presentations/view_job/domain/router/view_job_coordinator.dart';
 
 import '../../../core/constants/constants.dart';
@@ -51,7 +52,7 @@ class CustomAppBarCompany extends StatelessWidget {
         children: [
           const SizedBox(height: 28),
           Text(
-            jobPosition,
+            jobPosition.capitalizedString,
             style: AppStyles.boldTextNightBlue.copyWith(fontSize: 18),
           ),
           const SizedBox(height: 16),

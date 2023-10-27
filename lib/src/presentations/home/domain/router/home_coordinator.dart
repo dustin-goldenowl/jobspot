@@ -16,4 +16,6 @@ class HomeCoordinator {
 
   static void showApplicantProfile() =>
       rootRouter.push(const ApplicantProfileRoute());
+
+  static void showSearchJob() => rootRouter.push(const SearchJobRoute());
 }

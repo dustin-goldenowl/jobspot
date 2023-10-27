@@ -42,4 +42,7 @@ class AppImages {
   static String english = "assets/images/united_kingdom.svg";
   static String gallery = "assets/images/gallery.svg";
   static String openBrowser = "assets/images/open_browser.svg";
+  static String filter = "assets/images/filter.svg";
+  static String noResult = "assets/images/no_results.svg";
+  static String noNotification = "assets/images/no_notification.svg";
 }
