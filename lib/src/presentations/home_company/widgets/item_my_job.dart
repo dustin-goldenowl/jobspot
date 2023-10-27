@@ -46,7 +46,7 @@ class ItemMyJob extends StatelessWidget {
         _buildHeader(),
         const SizedBox(height: 20),
         Text(
-          AppLocal.text.home_company_page_number_applicant(myJob.applicants),
+          AppLocal.text.home_company_page_applicant_applied(myJob.applicants),
           style: AppStyles.boldTextMulledWine,
         ),
         const SizedBox(height: 20),

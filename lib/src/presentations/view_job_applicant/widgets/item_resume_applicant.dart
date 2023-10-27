@@ -15,13 +15,11 @@ class ItemResumeApplicant extends StatelessWidget {
   const ItemResumeApplicant({
     super.key,
     required this.resume,
-    required this.onAccept,
-    required this.onReject,
+    required this.onConsider,
   });
 
   final ResumeApplicantEntity resume;
-  final VoidCallback onAccept;
-  final VoidCallback onReject;
+  final Function(bool isAcept) onConsider;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +59,7 @@ class ItemResumeApplicant extends StatelessWidget {
             children: [
               Expanded(
                 child: CustomButton(
-                  onPressed: onAccept,
+                  onPressed: () => onConsider(true),
                   title: AppLocal.text.view_job_applicant_accept.toUpperCase(),
                 ),
               ),
@@ -69,7 +67,7 @@ class ItemResumeApplicant extends StatelessWidget {
               Expanded(
                 child: CustomButton(
                   isElevated: false,
-                  onPressed: onReject,
+                  onPressed: ()=> onConsider(false),
                   title: AppLocal.text.view_job_applicant_reject.toUpperCase(),
                 ),
               )

@@ -425,8 +425,11 @@
 
     "home_company_page_my_job_list": "Danh sách công việc của tôi",
     "home_company_page_no_job": "Không còn công việc nào ở đây",
-    "home_company_page_number_applicant": "Có {number} người ứng tuyển",
+    "home_company_page_applicant_applied": "Đã có {number} người ứng tuyển",
 
     "view_job_applicant_accept": "Chấp nhận",
-    "view_job_applicant_reject": "Từ chối"
+    "view_job_applicant_accepted": "Chấp nhận",
+    "view_job_applicant_reject": "Từ chối",
+    "view_job_applicant_rejected": "Từ chối",
+    "view_job_applicant_consider": "Xem xét"
 }

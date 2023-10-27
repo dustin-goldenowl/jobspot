@@ -27,7 +27,7 @@ class HomeCompanyRepositoryImpl extends HomeCompanyRepository {
       int index = 0;
       List<MyJobModel> listJob = listJobDocs.docs
           .map((e) => MyJobModel.fromDocument(e)
-            ..copyWith(applicants: listApplicant[index++]))
+              .copyWith(applicants: listApplicant[index++]))
           .toList();
       int count = (response[1] as AggregateQuerySnapshot).count;
       return DataSuccess(FetchMyJobData(

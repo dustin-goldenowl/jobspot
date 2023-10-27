@@ -8,6 +8,7 @@ class ResumeApplicantModel {
   String description;
   String resumeID;
   String owner;
+  String jobID;
   bool? isAccept;
   ResumeModel? resume;
   UserModel? applicant;
@@ -19,6 +20,7 @@ class ResumeApplicantModel {
     required this.owner,
     required this.resumeID,
     required this.isAccept,
+    required this.jobID,
     this.resume,
     this.applicant,
     required this.createAt,
@@ -35,6 +37,7 @@ class ResumeApplicantModel {
       resumeID: resumeID,
       createAt: createAt,
       isAccept: isAccept,
+      jobID: jobID,
       applicant: applicant ?? this.applicant,
       resume: resume ?? this.resume,
     );
@@ -50,6 +53,7 @@ class ResumeApplicantModel {
       createAt: (data["createAt"] as Timestamp).toDate(),
       owner: data["owner"],
       resumeID: data["resumeID"],
+      jobID: data["jobID"],
     );
   }
 
@@ -61,6 +65,7 @@ class ResumeApplicantModel {
       resume: resume!.toResumeEntity(),
       applicant: applicant!.toUserEntity(),
       createAt: createAt,
+      jobID: jobID,
     );
   }
 }
