@@ -2,6 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
+import 'package:jobspot/src/core/config/localization/app_local.dart';
+import 'package:jobspot/src/core/extension/string_extension.dart';
+import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/home_company/domain/entities/my_job_entity.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/constants/constants.dart';
@@ -40,6 +43,11 @@ class ItemMyJob extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildHeader(),
+        const SizedBox(height: 20),
+        Text(
+          AppLocal.text.home_company_page_number_applicant(myJob.applicants),
+          style: AppStyles.boldTextMulledWine,
+        ),
         const SizedBox(height: 20),
         RichText(
           text: TextSpan(
@@ -81,7 +89,7 @@ class ItemMyJob extends StatelessWidget {
       children: [
         ClipOval(
           child: CachedNetworkImage(
-            imageUrl: "",
+            imageUrl: PrefsUtils.getUserInfo()?.avatar ?? "",
             width: 40,
             height: 40,
             errorWidget: (context, url, error) =>
@@ -99,7 +107,7 @@ class ItemMyJob extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Flutter Developer",
+                myJob.jobPosition.capitalizedString,
                 style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
               ),
               const SizedBox(height: 5),

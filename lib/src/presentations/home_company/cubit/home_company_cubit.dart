@@ -29,7 +29,7 @@ class HomeCompanyCubit extends Cubit<HomeCompanyState> {
 
   Future getListMyJob({int limit = 15, bool isLoading = true}) async {
     emit(state.copyWith(jobs: isLoading ? null : state.jobs, isMore: true));
-    final response = await _useCase.call(params: 15);
+    final response = await _useCase.call(params: limit);
     if (response is DataSuccess) {
       _limit = response.data!.limit;
       emit(state.copyWith(

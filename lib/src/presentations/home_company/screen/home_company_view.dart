@@ -8,7 +8,7 @@ import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
-import 'package:jobspot/src/presentations/connection/widgets/post_item_loading.dart';
+import 'package:jobspot/src/presentations/home_applicant/widgets/job_card_loading.dart';
 import 'package:jobspot/src/presentations/home_company/cubit/home_company_cubit.dart';
 import 'package:jobspot/src/presentations/home_company/widgets/item_my_job.dart';
 
@@ -24,7 +24,9 @@ class HomeCompanyView extends StatelessWidget {
       appBar: _buildAppBar(
         context,
         width: width,
-        onTap: () {},
+        onTap: () {
+          //TODO don't think using
+        },
       ),
       body: BlocListener<HomeCompanyCubit, HomeCompanyState>(
         listener: (context, state) {
@@ -45,7 +47,7 @@ class HomeCompanyView extends StatelessWidget {
         children: [
           const SizedBox(height: 16),
           Text(
-            "My Job List",
+            AppLocal.text.home_company_page_my_job_list,
             style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
           ),
           const SizedBox(height: 20),
@@ -60,33 +62,30 @@ class HomeCompanyView extends StatelessWidget {
       onRefresh: context.read<HomeCompanyCubit>().getListMyJob,
       child: BlocBuilder<HomeCompanyCubit, HomeCompanyState>(
         builder: (context, state) {
-          if (state.jobs != null) {
-            return ListView.separated(
-              controller: context.read<HomeCompanyCubit>().scrollController,
-              physics: const BouncingScrollPhysics(
-                parent: AlwaysScrollableScrollPhysics(),
-              ),
-              itemBuilder: (context, index) {
-                return state.jobs != null && index < state.jobs!.length
-                    ? ItemMyJob(myJob: state.jobs![index])
-                    : state.isMore
-                        ? const PostItemLoading()
-                        : _buildNoPost();
-              },
-              separatorBuilder: (context, index) => const SizedBox(height: 15),
-              itemCount: (state.jobs?.length ?? 9) + 1,
-            );
-          }
-          return const CircularProgressIndicator();
+          return ListView.separated(
+            controller: context.read<HomeCompanyCubit>().scrollController,
+            physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics(),
+            ),
+            itemBuilder: (context, index) {
+              return state.jobs != null && index < state.jobs!.length
+                  ? ItemMyJob(myJob: state.jobs![index])
+                  : state.isMore
+                      ? const JobCardLoading()
+                      : _buildNoJob();
+            },
+            separatorBuilder: (context, index) => const SizedBox(height: 15),
+            itemCount: (state.jobs?.length ?? 9) + 1,
+          );
         },
       ),
     );
   }
 
-  Widget _buildNoPost() {
+  Widget _buildNoJob() {
     return Center(
       child: Text(
-        AppLocal.text.connection_page_no_new_posts,
+        AppLocal.text.home_company_page_no_job,
         style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
       ),
     );

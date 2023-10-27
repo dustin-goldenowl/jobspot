@@ -421,5 +421,9 @@
     "filter_page_last_week": "Last week",
     "filter_page_last_month": "Last month",
     "filter_page_any_time": "Any time",
-    "filter_page_apply_now": "Apply now"
+    "filter_page_apply_now": "Apply now",
+
+    "home_company_page_my_job_list": "My Job List",
+    "home_company_page_no_job": "There are no more jobs here",
+    "home_company_page_number_applicant": "There are {number} applicants"
 }

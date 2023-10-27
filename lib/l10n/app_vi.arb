@@ -421,5 +421,9 @@
     "filter_page_last_week": "Tuần trước",
     "filter_page_last_month": "Tháng trước",
     "filter_page_any_time": "Bất cứ lúc nào",
-    "filter_page_apply_now": "Áp dụng ngay"
+    "filter_page_apply_now": "Áp dụng ngay",
+
+    "home_company_page_my_job_list": "Danh sách công việc của tôi",
+    "home_company_page_no_job": "Không còn công việc nào ở đây",
+    "home_company_page_number_applicant": "Có {number} người ứng tuyển"
 }
