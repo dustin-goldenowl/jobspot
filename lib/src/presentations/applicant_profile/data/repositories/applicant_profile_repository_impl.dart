@@ -10,7 +10,7 @@ import 'package:jobspot/src/presentations/add_skill/data/models/skill_model.dart
 import 'package:jobspot/src/presentations/add_skill/domain/entities/skill_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/education_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/appreciation_model.dart';
-import 'package:jobspot/src/presentations/applicant_profile/data/models/resume_entity.dart';
+import 'package:jobspot/src/presentations/applicant_profile/data/models/resume_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/work_experience_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/education_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/get_post_entity.dart';

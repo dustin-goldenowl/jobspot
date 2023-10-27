@@ -10,6 +10,7 @@ import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/home_applicant/widgets/job_card_loading.dart';
 import 'package:jobspot/src/presentations/home_company/cubit/home_company_cubit.dart';
+import 'package:jobspot/src/presentations/home_company/domain/router/home_company_coordinator.dart';
 import 'package:jobspot/src/presentations/home_company/widgets/item_my_job.dart';
 
 class HomeCompanyView extends StatelessWidget {
@@ -69,7 +70,10 @@ class HomeCompanyView extends StatelessWidget {
             ),
             itemBuilder: (context, index) {
               return state.jobs != null && index < state.jobs!.length
-                  ? ItemMyJob(myJob: state.jobs![index])
+                  ? ItemMyJob(
+                      myJob: state.jobs![index],
+                      onTap: HomeCompanyCoordinator.showViewJobApplicant,
+                    )
                   : state.isMore
                       ? const JobCardLoading()
                       : _buildNoJob();

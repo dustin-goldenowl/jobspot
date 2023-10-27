@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 
-class JobCardLoading extends StatelessWidget {
-  const JobCardLoading({super.key});
+class ItemResumeLoading extends StatelessWidget {
+  const ItemResumeLoading({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,19 +29,15 @@ class JobCardLoading extends StatelessWidget {
         children: [
           _buildHeader(),
           const SizedBox(height: 20),
-          ItemLoading(width: random.nextInt(20) + 50, height: 20, radius: 5),
+          ...List.generate(
+              random.nextInt(3) + 3,
+              (index) => const Padding(
+                    padding: EdgeInsets.only(bottom: 5),
+                    child: ItemLoading(
+                        width: double.infinity, height: 16, radius: 5),
+                  )),
           const SizedBox(height: 10),
-          Row(
-            children: [
-              ItemLoading(
-                  width: random.nextInt(30) + 80, height: 25, radius: 8),
-              const SizedBox(width: 8),
-              ItemLoading(
-                  width: random.nextInt(30) + 80, height: 25, radius: 8),
-              const Spacer(),
-              const ItemLoading(width: 77, height: 25, radius: 8),
-            ],
-          ),
+          const ItemLoading(width: double.infinity, height: 80, radius: 15)
         ],
       ),
     );
@@ -62,7 +58,7 @@ class JobCardLoading extends StatelessWidget {
                   width: random.nextInt(100) + 100, height: 18, radius: 5),
               const SizedBox(height: 5),
               ItemLoading(
-                  width: random.nextInt(100) + 100, height: 18, radius: 5),
+                  width: random.nextInt(80) + 80, height: 16, radius: 5),
             ],
           ),
         ),

@@ -425,5 +425,8 @@
 
     "home_company_page_my_job_list": "My Job List",
     "home_company_page_no_job": "There are no more jobs here",
-    "home_company_page_number_applicant": "There are {number} applicants"
+    "home_company_page_number_applicant": "There are {number} applicants",
+
+    "view_job_applicant_accept": "Accept",
+    "view_job_applicant_reject": "Reject"
 }

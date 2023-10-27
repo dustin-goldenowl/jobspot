@@ -121,7 +121,7 @@ class ApplyJobView extends StatelessWidget {
     );
   }
 
-  ClipRRect _buildCVSuccess(BuildContext context) {
+  Widget _buildCVSuccess(BuildContext context) {
     final cubit = context.read<ApplyJobCubit>();
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(12)),

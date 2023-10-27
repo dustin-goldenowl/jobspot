@@ -10,7 +10,7 @@ import 'package:jobspot/src/presentations/applicant_profile/domain/entities/resu
 @LazySingleton(as: ResumeRepository)
 class ResumeRepositoryImpl extends ResumeRepository {
   @override
-  Future<DataState<bool>> addResume(AddResumeEntity resume) async {
+  Future<DataState<String>> addResume(AddResumeEntity resume) async {
     try {
       final link = await FirebaseUtils.uploadImage(
         folder: "resumes",
@@ -18,8 +18,9 @@ class ResumeRepositoryImpl extends ResumeRepository {
         image: resume.path,
       );
       final model = AddResumeModel.fromEntity(resume)..file = link;
-      await XCollection.resume.doc().set(model.toJson());
-      return DataSuccess(true);
+      final myDoc = XCollection.resume.doc();
+      await myDoc.set(model.toJson());
+      return DataSuccess(myDoc.id);
     } catch (e) {
       return DataFailed(e.toString());
     }
