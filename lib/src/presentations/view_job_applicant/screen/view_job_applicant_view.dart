@@ -151,13 +151,11 @@ class _ViewJobApplicantViewState extends State<ViewJobApplicantView>
             if (listResume != null) {
               return ItemResumeApplicant(
                 resume: listResume[index],
-                onConsider: (isAcept) => context
+                onConsider: (status) => context
                     .read<ViewJobApplicantCubit>()
                     .considerResume(ConsiderResume(
                       applyID: listResume![index].id,
-                      status: isAcept
-                          ? ApplicationStatus.accept
-                          : ApplicationStatus.decline,
+                      status: status,
                       toUserID: listResume[index].applicant.id,
                       jobID: listResume[index].jobID,
                     )),

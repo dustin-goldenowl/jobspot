@@ -54,6 +54,9 @@ class JobspotApp extends StatelessWidget {
                   return const DeepLink([OnBoardingRoute()]);
                 } else {
                   if (FirebaseAuth.instance.currentUser != null) {
+                    if (PrefsUtils.getUserInfo()!.role == "admin") {
+                      return const DeepLink([HomeAdminRoute()]);
+                    }
                     return const DeepLink([MainRoute()]);
                   } else {
                     return const DeepLink([SignInRoute()]);

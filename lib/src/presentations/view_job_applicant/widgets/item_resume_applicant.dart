@@ -20,7 +20,7 @@ class ItemResumeApplicant extends StatelessWidget {
   });
 
   final ResumeApplicantEntity resume;
-  final Function(bool isAcept) onConsider;
+  final Function(ApplicationStatus status) onConsider;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class ItemResumeApplicant extends StatelessWidget {
             children: [
               Expanded(
                 child: CustomButton(
-                  onPressed: () => onConsider(true),
+                  onPressed: () => onConsider(ApplicationStatus.accept),
                   title: AppLocal.text.view_job_applicant_accept.toUpperCase(),
                 ),
               ),
@@ -70,7 +70,7 @@ class ItemResumeApplicant extends StatelessWidget {
               Expanded(
                 child: CustomButton(
                   isElevated: false,
-                  onPressed: () => onConsider(false),
+                  onPressed: () => onConsider(ApplicationStatus.decline),
                   title: AppLocal.text.view_job_applicant_reject.toUpperCase(),
                 ),
               )

@@ -7,6 +7,7 @@ import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/config/localization/cubit/localization_cubit.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/function/loading_animation.dart';
+import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/setting/cubit/setting_cubit.dart';
 import 'package:jobspot/src/presentations/setting/domain/router/setting_coordinator.dart';
 
@@ -49,16 +50,19 @@ class SettingView extends StatelessWidget {
         ),
         const SizedBox(height: 25),
         _buildLanguage(context),
-        const SizedBox(height: 10),
-        _buildNotification(),
-        const SizedBox(height: 10),
-        _itemSetting(
-          icon: AppImages.trash,
-          title: AppLocal.text.setting_page_delete_account,
-          onTap: () => context
-              .read<SettingCubit>()
-              .showBottomSheetDeleteAccount(context),
-        ),
+        if (PrefsUtils.getUserInfo()!.role != "admin")
+          const SizedBox(height: 10),
+        if (PrefsUtils.getUserInfo()!.role != "admin") _buildNotification(),
+        if (PrefsUtils.getUserInfo()!.role != "admin")
+          const SizedBox(height: 10),
+        if (PrefsUtils.getUserInfo()!.role != "admin")
+          _itemSetting(
+            icon: AppImages.trash,
+            title: AppLocal.text.setting_page_delete_account,
+            onTap: () => context
+                .read<SettingCubit>()
+                .showBottomSheetDeleteAccount(context),
+          ),
         const SizedBox(height: 10),
         _itemSetting(
           icon: AppImages.lock,
