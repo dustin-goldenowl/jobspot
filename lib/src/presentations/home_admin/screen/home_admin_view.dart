@@ -40,25 +40,29 @@ class HomeAdminView extends StatelessWidget {
     return BlocBuilder<HomeAdminCubit, HomeAdminState>(
       builder: (context, state) {
         return ListView.separated(
+          controller: context.read<HomeAdminCubit>().scrollController,
           physics: const BouncingScrollPhysics(
             parent: AlwaysScrollableScrollPhysics(),
           ),
           padding: const EdgeInsets.all(AppDimens.smallPadding),
+          itemCount: (state.listCompany?.length ?? 9) + 1,
           itemBuilder: (context, index) {
-            if (state.listCompany != null) {
-              return CompanyItem(
-                company: state.listCompany![index],
-                onConsider: (isAccept) => context
-                    .read<HomeAdminCubit>()
-                    .considerCompany(ConsiderCompany(
-                        isAccept: isAccept,
-                        toUserID: state.listCompany![index].id)),
-              );
-            }
-            return const CompanyItemLoading();
+            return state.listCompany != null &&
+                    index < state.listCompany!.length
+                ? CompanyItem(
+                    company: state.listCompany![index],
+                    onConsider: (isAccept) => context
+                        .read<HomeAdminCubit>()
+                        .considerCompany(ConsiderCompany(
+                          isAccept: isAccept,
+                          toUserID: state.listCompany![index].id,
+                        )),
+                  )
+                : state.isMore
+                    ? const CompanyItemLoading()
+                    : const SizedBox();
           },
           separatorBuilder: (context, index) => const SizedBox(height: 15),
-          itemCount: state.listCompany?.length ?? 10,
         );
       },
     );

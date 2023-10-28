@@ -1,15 +1,24 @@
 part of 'home_admin_cubit.dart';
 
 class HomeAdminState extends Equatable {
-  const HomeAdminState({this.listCompany, this.error});
+  const HomeAdminState({required this.isMore, this.listCompany, this.error});
 
+  final bool isMore;
   final List<CompanyEntity>? listCompany;
   final String? error;
 
-  HomeAdminState copyWith({List<CompanyEntity>? listCompany, String? error}) {
-    return HomeAdminState(listCompany: listCompany, error: error);
+  HomeAdminState copyWith({
+    bool? isMore,
+    List<CompanyEntity>? listCompany,
+    String? error,
+  }) {
+    return HomeAdminState(
+      isMore: isMore ?? this.isMore,
+      listCompany: listCompany,
+      error: error,
+    );
   }
 
   @override
-  List<Object?> get props => [listCompany, error];
+  List<Object?> get props => [isMore, listCompany, error];
 }
