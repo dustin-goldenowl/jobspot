@@ -50,11 +50,12 @@ class HomeAdminView extends StatelessWidget {
             return state.listCompany != null &&
                     index < state.listCompany!.length
                 ? CompanyItem(
+                    onViewCompany: HomeAdminCoordinator.showViewCompany,
                     company: state.listCompany![index],
-                    onConsider: (isAccept) => context
+                    onConsider: (status) => context
                         .read<HomeAdminCubit>()
                         .considerCompany(ConsiderCompany(
-                          isAccept: isAccept,
+                          status: status,
                           toUserID: state.listCompany![index].id,
                         )),
                   )

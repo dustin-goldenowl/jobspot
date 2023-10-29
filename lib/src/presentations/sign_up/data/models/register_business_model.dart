@@ -37,7 +37,7 @@ class RegisterBusinessModel {
       "description": "",
       "industry": "",
       "website": "",
-      "isAccept": false,
+      "verify": "none",
       "images": [],
       "follower": [],
       "following": [],

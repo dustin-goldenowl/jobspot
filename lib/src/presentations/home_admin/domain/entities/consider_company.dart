@@ -1,9 +1,11 @@
+import 'package:jobspot/src/core/enum/verify_status.dart';
+
 class ConsiderCompany {
-  final bool isAccept;
+  final VerifyStatus status;
   final String toUserID;
 
   ConsiderCompany({
-    required this.isAccept,
+    required this.status,
     required this.toUserID,
   });
 }

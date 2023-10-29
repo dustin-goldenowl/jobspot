@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jobspot/src/core/enum/user_role.dart';
+import 'package:jobspot/src/core/enum/verify_status.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/home_admin/domain/entities/consider_company.dart';
@@ -14,8 +16,8 @@ class HomeAdminRepositoryImpl extends HomeAdminRepository {
   Future<DataState<FetchCompanyData>> getListCompanyPending(int limit) async {
     try {
       final myCollection = XCollection.user
-          .where("role", isEqualTo: "business")
-          .where("isAccept", isEqualTo: false);
+          .where("role", isEqualTo: UserRole.business.name)
+          .where("verify", isEqualTo: VerifyStatus.pending.name);
       final response = await Future.wait([
         myCollection.limit(limit).get(),
         myCollection.count().get(),
@@ -41,7 +43,7 @@ class HomeAdminRepositoryImpl extends HomeAdminRepository {
     try {
       await XCollection.user
           .doc(consider.toUserID)
-          .update({"isAccept": consider.isAccept});
+          .update({"verify": consider.status.name});
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());

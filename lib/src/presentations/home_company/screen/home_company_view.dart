@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jobspot/injection.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
+import 'package:jobspot/src/core/config/router/app_router.dart';
+import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/home_applicant/widgets/job_card_loading.dart';
@@ -27,6 +30,7 @@ class HomeCompanyView extends StatelessWidget {
         width: width,
         onTap: () {
           //TODO don't think using
+          getIt<AppRouter>().push(const SettingRoute());
         },
       ),
       body: BlocListener<HomeCompanyCubit, HomeCompanyState>(

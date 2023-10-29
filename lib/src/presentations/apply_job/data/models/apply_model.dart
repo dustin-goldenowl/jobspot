@@ -17,7 +17,7 @@ class ApplyModel {
       "description": description,
       "jobID": jobID,
       "resumeID": resumeID,
-      "status": ApplicationStatus.pending.name.toString(),
+      "status": ApplicationStatus.pending.name,
       "owner": FirebaseAuth.instance.currentUser!.uid,
       "createAt": DateTime.now(),
       "updateAt": DateTime.now(),

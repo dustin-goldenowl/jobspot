@@ -5,8 +5,8 @@ import 'package:jobspot/src/core/config/router/app_router.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 
-class VerifySuccessCoordinator {
-  VerifySuccessCoordinator._();
+class VerifyBusinessCoordinator {
+  VerifyBusinessCoordinator._();
 
   static AppRouter get rootRouter => getIt<AppRouter>();
 
@@ -17,6 +17,5 @@ class VerifySuccessCoordinator {
     rootRouter.replace(const SignInRoute());
   }
 
-  static void showVerifyCompany() =>
-      rootRouter.replace(const VerifyBusinessRoute());
+  static void showMain() => rootRouter.replace(const MainRoute());
 }

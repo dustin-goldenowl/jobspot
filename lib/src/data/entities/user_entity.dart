@@ -1,8 +1,11 @@
+import 'package:jobspot/src/core/enum/user_role.dart';
+import 'package:jobspot/src/core/enum/verify_status.dart';
+
 class UserEntity {
   //general
   final String id;
   final String name;
-  final String role;
+  final UserRole role;
   final String avatar;
   final String email;
   final DateTime birthday;
@@ -19,7 +22,7 @@ class UserEntity {
   final List<String>? saveJob;
 
   //business
-  final bool? isAccept;
+  final VerifyStatus? verify;
   final String? website;
   final String? industry;
   final String? employeeSize;
@@ -46,7 +49,7 @@ class UserEntity {
     this.employeeSize,
     this.images,
     this.industry,
-    this.isAccept,
+    this.verify,
     this.specialization,
     this.website,
     this.type,

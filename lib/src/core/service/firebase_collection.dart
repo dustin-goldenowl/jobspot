@@ -33,6 +33,9 @@ class XCollection {
 
   static FirebaseCollection resume = instance.collection("resumes");
 
+  static FirebaseCollection verifyBusiness =
+      instance.collection("verifyBusiness");
+
   static FirebaseCollection workExperience =
       instance.collection("workExperiences");
 }

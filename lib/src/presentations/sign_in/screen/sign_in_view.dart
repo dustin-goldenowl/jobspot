@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,10 +6,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/enum/user_role.dart';
+import 'package:jobspot/src/core/enum/verify_status.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/core/function/on_will_pop.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/utils/prefs_utils.dart';
+import 'package:jobspot/src/data/entities/user_entity.dart';
 import 'package:jobspot/src/presentations/sign_in/cubit/sign_in_cubit.dart';
 import 'package:jobspot/src/presentations/sign_in/domain/router/sign_in_coordinator.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
@@ -35,7 +40,16 @@ class SignInView extends StatelessWidget {
           if (state.dataState is DataSuccess) {
             context.read<SignInCubit>().updateToken();
             customToast(context, text: AppLocal.text.logged_in_successfully);
-            SignInCoordinator.showMain();
+            UserEntity? user = PrefsUtils.getUserInfo();
+            if (!FirebaseAuth.instance.currentUser!.emailVerified) {
+              SignInCoordinator.showVerifyEmail();
+            } else if (FirebaseAuth.instance.currentUser!.emailVerified &&
+                user?.role == UserRole.business &&
+                user?.verify == VerifyStatus.none) {
+              SignInCoordinator.showVerifyBusiness();
+            } else {
+              SignInCoordinator.showMain();
+            }
           }
         },
         child: WillPopScope(

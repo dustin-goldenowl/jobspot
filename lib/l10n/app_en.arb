@@ -68,6 +68,7 @@
     "verify_email_page_resend": "Resend",
 
     "verify_success_page_successfully": "Successfully",
+    "verify_success_page_continue": "Continue",
     "verify_success_page_success_content": "You have successfully authenticated your account, please log in again",
 
     "connection_page_connection": "Connection",

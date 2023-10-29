@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jobspot/src/core/enum/user_role.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/injection.dart';
 import 'package:jobspot/src/core/config/localization/cubit/localization_cubit.dart';
@@ -54,9 +55,10 @@ class JobspotApp extends StatelessWidget {
                   return const DeepLink([OnBoardingRoute()]);
                 } else {
                   if (FirebaseAuth.instance.currentUser != null) {
-                    if (PrefsUtils.getUserInfo()!.role == "admin") {
+                    if (PrefsUtils.getUserInfo()?.role == UserRole.admin) {
                       return const DeepLink([HomeAdminRoute()]);
                     }
+
                     return const DeepLink([MainRoute()]);
                   } else {
                     return const DeepLink([SignInRoute()]);

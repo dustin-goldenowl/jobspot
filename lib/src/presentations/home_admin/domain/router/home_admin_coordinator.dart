@@ -8,4 +8,7 @@ class HomeAdminCoordinator {
   static AppRouter get rootRouter => getIt<AppRouter>();
 
   static void showSetting() => rootRouter.push(const SettingRoute());
+
+  static void showViewCompany(String uid) =>
+      rootRouter.push(ViewCompanyProfileRoute(uid: uid));
 }

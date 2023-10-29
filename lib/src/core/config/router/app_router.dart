@@ -223,5 +223,10 @@ class AppRouter extends $AppRouter {
           page: HomeAdminRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
+        CustomRoute(
+          path: AppPaths.verifyBusiness,
+          page: VerifyBusinessRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
+        ),
       ];
 }

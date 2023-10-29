@@ -68,6 +68,7 @@
     "verify_email_page_resend": "Gửi lại",
 
     "verify_success_page_successfully": "Thành công",
+    "verify_success_page_continue": "Tiếp tục",
     "verify_success_page_success_content": "Bạn đã xác thực tài khoản thành công, vui lòng đăng nhập lại",
     
     "connection_page_connection": "Kết nối",

@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/enum/verify_status.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
 import 'package:jobspot/src/presentations/view_job/domain/entities/company_entity.dart';
 
@@ -12,9 +13,11 @@ class CompanyItem extends StatelessWidget {
     super.key,
     required this.company,
     required this.onConsider,
+    required this.onViewCompany,
   });
 
-  final Function(bool isAccept) onConsider;
+  final Function(VerifyStatus status) onConsider;
+  final Function(String uid) onViewCompany;
   final CompanyEntity company;
 
   @override
@@ -44,7 +47,7 @@ class CompanyItem extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomButton(
-                    onPressed: () => onConsider(true),
+                    onPressed: () => onConsider(VerifyStatus.accept),
                     title:
                         AppLocal.text.view_job_applicant_accept.toUpperCase(),
                   ),
@@ -53,7 +56,7 @@ class CompanyItem extends StatelessWidget {
                 Expanded(
                   child: CustomButton(
                     isElevated: false,
-                    onPressed: () => onConsider(false),
+                    onPressed: () => onConsider(VerifyStatus.decline),
                     title:
                         AppLocal.text.view_job_applicant_reject.toUpperCase(),
                   ),
@@ -70,15 +73,18 @@ class CompanyItem extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        ClipOval(
-          child: CachedNetworkImage(
-            imageUrl: company.avatar,
-            width: 40,
-            height: 40,
-            errorWidget: (context, url, error) =>
-                SvgPicture.asset(AppImages.logo, height: 40, width: 40),
-            placeholder: (context, url) =>
-                const ItemLoading(width: 40, height: 40, radius: 0),
+        GestureDetector(
+          onTap: () => onViewCompany(company.id),
+          child: ClipOval(
+            child: CachedNetworkImage(
+              imageUrl: company.avatar,
+              width: 40,
+              height: 40,
+              errorWidget: (context, url, error) =>
+                  SvgPicture.asset(AppImages.logo, height: 40, width: 40),
+              placeholder: (context, url) =>
+                  const ItemLoading(width: 40, height: 40, radius: 0),
+            ),
           ),
         ),
         const SizedBox(width: 10),
@@ -86,9 +92,12 @@ class CompanyItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                company.name,
-                style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
+              GestureDetector(
+                onTap: () => onViewCompany(company.id),
+                child: Text(
+                  company.name,
+                  style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
+                ),
               ),
               const SizedBox(height: 5),
               Text(
