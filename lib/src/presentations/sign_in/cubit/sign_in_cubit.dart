@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/firebase_messaging_service.dart';
+import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/notification/domain/use_cases/update_token_use_case.dart';
 import 'package:jobspot/src/presentations/sign_in/domain/entities/authentication_entity.dart';
 import 'package:jobspot/src/presentations/sign_in/domain/use_cases/sign_in_email_password_use_case.dart';
@@ -28,7 +29,12 @@ class SignInCubit extends Cubit<SignInState> {
     this._signInEmailPasswordUseCase,
     this._signInGoogleUseCase,
     this._updateTokenUseCase,
-  ) : super(const SignInState(isHide: true, isRememberMe: false));
+  ) : super(SignInState(isHide: true, isRememberMe: PrefsUtils.isRemember)) {
+    if (PrefsUtils.isRemember) {
+      emailController.text = PrefsUtils.email!;
+      passwordController.text = PrefsUtils.password!;
+    }
+  }
 
   void hidePassword(bool isHide) => emit(state.copyWith(isHide: isHide));
 
@@ -43,6 +49,16 @@ class SignInCubit extends Cubit<SignInState> {
       password: passwordController.text,
     ));
     emit(state.copyWith(dataState: response));
+    if (response is DataSuccess) {
+      if (state.isRememberMe) {
+        PrefsUtils.setRemember(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+      } else {
+        PrefsUtils.removeRemember();
+      }
+    }
   }
 
   Future signInWithGoogle() async {

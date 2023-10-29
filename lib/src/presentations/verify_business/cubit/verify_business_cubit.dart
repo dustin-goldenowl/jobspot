@@ -53,6 +53,8 @@ class VerifyBusinessCubit extends Cubit<VerifyBusinessState> {
           file: state.file,
           time: state.time,
         ));
+      } else {
+        emit(state.copyWith());
       }
     } else if (state.file == null) {
       emit(state.copyWith(
