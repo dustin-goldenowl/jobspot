@@ -18,6 +18,10 @@ class AppRouter extends $AppRouter {
           path: AppPaths.signUp,
           page: SignUpRoute.page,
           transitionsBuilder: TransitionsBuilders.zoomIn,
+          children: [
+            AutoRoute(path: AppPaths.applicantTab, page: ApplicantTab.page),
+            AutoRoute(path: AppPaths.businessTab, page: BusinessTab.page),
+          ],
         ),
         CustomRoute(
           path: AppPaths.forgotPassword,

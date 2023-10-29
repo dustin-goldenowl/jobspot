@@ -1,17 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
+import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/core/function/on_will_pop.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/sign_up/cubit/sign_up_cubit.dart';
 import 'package:jobspot/src/presentations/sign_up/domain/router/sign_up_coordinator.dart';
-import 'package:jobspot/src/presentations/sign_up/widgets/applicant_tab.dart';
-import 'package:jobspot/src/presentations/sign_up/widgets/business_tab.dart';
-import 'package:jobspot/src/presentations/sign_up/widgets/slide_transition_x.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -31,81 +29,77 @@ class _SignUpViewState extends State<SignUpView>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocListener<SignUpCubit, SignUpState>(
-        listenWhen: (previous, current) {
-          if (previous.isLoading) Navigator.of(context).pop();
-          return true;
-        },
-        listener: (context, state) {
-          if (state.isLoading) loadingAnimation(context);
+    return AutoTabsRouter.pageView(
+      physics: const BouncingScrollPhysics(),
+      routes: const [ApplicantTab(), BusinessTab()],
+      builder: (context, child, pageController) {
+        final tabsRouter = AutoTabsRouter.of(context);
+        final cubit = context.read<SignUpCubit>();
+        if (tabsRouter.activeIndex != cubit.tabController.index) {
+          cubit.tabController.animateTo(tabsRouter.activeIndex);
+        }
+        return Scaffold(
+          body: BlocListener<SignUpCubit, SignUpState>(
+            listenWhen: (previous, current) {
+              if (previous.isLoading) Navigator.of(context).pop();
+              return true;
+            },
+            listener: (context, state) {
+              if (state.isLoading) loadingAnimation(context);
 
-          if (state.dataState is DataFailed) {
-            customToast(context, text: state.dataState?.error ?? "");
-          }
+              if (state.dataState is DataFailed) {
+                customToast(context, text: state.dataState?.error ?? "");
+              }
 
-          if (state.dataState is DataSuccess) {
-            customToast(context, text: AppLocal.text.sign_up_successfully);
-            SignUpCoordinator.showVerifyEmail();
-            print(state.dataState!.data);
-          }
-        },
-        child: WillPopScope(
-          onWillPop: () => onWillPop(
-            context: context,
-            action: (now) =>
-                context.read<SignUpCubit>().currentBackPressTime = now,
-            currentBackPressTime:
-                context.read<SignUpCubit>().currentBackPressTime,
-          ),
-          child: _buildBody(),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBody() {
-    return SafeArea(
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.all(AppDimens.largePadding),
-          child: Column(
-            children: [
-              const SizedBox(height: 30),
-              _buildTitle(),
-              const SizedBox(height: 28),
-              _buildTabBar(),
-              const SizedBox(height: 28),
-              _buildTabView(),
-              const SizedBox(height: 16),
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: AppLocal.text.you_dont_have_an_account_yet,
-                      style: AppStyles.normalTextMulledWine,
-                    ),
-                    TextSpan(
-                      text: AppLocal.text.sign_in,
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        color: AppColors.deepSaffron,
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = SignUpCoordinator.showSignIn,
-                    )
-                  ],
-                ),
+              if (state.dataState is DataSuccess) {
+                customToast(context, text: AppLocal.text.sign_up_successfully);
+                SignUpCoordinator.showVerifyEmail();
+                print(state.dataState!.data);
+              }
+            },
+            child: WillPopScope(
+              onWillPop: () => onWillPop(
+                context: context,
+                action: (now) =>
+                    context.read<SignUpCubit>().currentBackPressTime = now,
+                currentBackPressTime:
+                    context.read<SignUpCubit>().currentBackPressTime,
               ),
-            ],
+              child: NestedScrollView(
+                physics: const BouncingScrollPhysics(),
+                headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                  SliverToBoxAdapter(
+                    child: SafeArea(
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 80),
+                          _buildTitle(),
+                          const SizedBox(height: 28),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SliverAppBar(
+                    backgroundColor: AppColors.scaffoldBackground,
+                    pinned: true,
+                    centerTitle: true,
+                    automaticallyImplyLeading: false,
+                    expandedHeight: 0,
+                    elevation: 0,
+                    scrolledUnderElevation: 0,
+                    title: _buildTabBar(onTap: tabsRouter.setActiveIndex),
+                  ),
+                ],
+                body: child,
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
-  Widget _buildTabBar() {
+  Widget _buildTabBar({required Function(int) onTap}) {
     return Container(
       width: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
@@ -137,7 +131,7 @@ class _SignUpViewState extends State<SignUpView>
               dividerColor: Colors.transparent,
               indicatorSize: TabBarIndicatorSize.tab,
               labelStyle: AppStyles.boldText,
-              onTap: context.read<SignUpCubit>().changeTab,
+              onTap: onTap,
               tabs: [
                 Tab(text: AppLocal.text.applicant),
                 Tab(text: AppLocal.text.business),
@@ -146,38 +140,6 @@ class _SignUpViewState extends State<SignUpView>
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildTabView() {
-    return BlocBuilder<SignUpCubit, SignUpState>(
-      buildWhen: (previous, current) {
-        if (current.currentTab != previous.currentTab) {
-          context.read<SignUpCubit>().axisDirection =
-              previous.currentTab < current.currentTab
-                  ? AxisDirection.left
-                  : AxisDirection.right;
-          return true;
-        }
-        return false;
-      },
-      builder: (context, state) {
-        return AnimatedSwitcher(
-          duration: const Duration(milliseconds: 400),
-          transitionBuilder: (child, animation) {
-            return SlideTransitionX(
-              direction: context.read<SignUpCubit>().axisDirection,
-              position: animation,
-              child: child,
-            );
-          },
-          child: IndexedStack(
-            key: ValueKey(context.read<SignUpCubit>().tabController.index),
-            index: context.read<SignUpCubit>().tabController.index,
-            children: const [ApplicantTab(), BusinessTab()],
-          ),
-        );
-      },
     );
   }
 

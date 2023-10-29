@@ -40,6 +40,8 @@ class AppPaths {
   static const String verifyBusiness = "/verifyBusiness";
 
   //tab
+  static const String applicantTab = "applicant";
+  static const String businessTab = "business";
   static const String homeApplicantTab = "homeApplicant";
   static const String homeCompanyTab = "homeCompany";
   static const String connectionTab = "connection";
