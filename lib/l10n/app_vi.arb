@@ -426,6 +426,7 @@
 
     "home_company_page_my_job_list": "Danh sách công việc của tôi",
     "home_company_page_no_job": "Không còn công việc nào ở đây",
+    "home_company_page_you_no_job": "Bạn chưa đăng tải công việc nào!",
     "home_company_page_applicant_applied": "Đã có {number} người ứng tuyển",
 
     "view_job_applicant_accept": "Chấp nhận",
@@ -433,5 +434,14 @@
     "view_job_applicant_reject": "Từ chối",
     "view_job_applicant_rejected": "Từ chối",
     "view_job_applicant_no_applications": "Không có hồ sơ nào ở đây",
-    "view_job_applicant_consider": "Xem xét"
+    "view_job_applicant_consider": "Xem xét",
+
+    "verify_business_page_upload": "Tải lên",
+    "verify_business_page_back_to_login": "Trở về đăng nhập",
+    "verify_business_page_upload_pdf_file": "Tải lên tệp PDF",
+    "verify_business_page_information": "Thông tin",
+    "verify_business_page_information_content": "Nói gì đó về doanh nghiệp của bạn",
+    "verify_business_page_information_validate": "Vui lòng mô tả một ít về doanh nghiệp của bạn",
+    "verify_business_page_verify_business": "Xác Thực Doanh Nghiệp",
+    "verify_business_page_verify_business_content": "Tải lên tệp chứng minh bạn là một doanh nghiệp"
 }

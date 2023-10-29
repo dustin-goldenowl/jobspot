@@ -5,20 +5,23 @@ import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/enum/verify_status.dart';
+import 'package:jobspot/src/core/extension/int_extension.dart';
+import 'package:jobspot/src/core/utils/date_time_utils.dart';
+import 'package:jobspot/src/presentations/home_admin/domain/entities/verify_company_entity.dart';
+import 'package:jobspot/src/presentations/home_admin/domain/router/home_admin_coordinator.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
-import 'package:jobspot/src/presentations/view_job/domain/entities/company_entity.dart';
 
 class CompanyItem extends StatelessWidget {
   const CompanyItem({
     super.key,
-    required this.company,
+    required this.verify,
     required this.onConsider,
     required this.onViewCompany,
   });
 
   final Function(VerifyStatus status) onConsider;
   final Function(String uid) onViewCompany;
-  final CompanyEntity company;
+  final VerifyCompanyEntity verify;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +45,13 @@ class CompanyItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildHeader(),
+            const SizedBox(height: 20),
+            Text(
+              verify.description,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(height: 20),
+            _buildResumeFile(),
             const SizedBox(height: 20),
             Row(
               children: [
@@ -74,10 +84,10 @@ class CompanyItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         GestureDetector(
-          onTap: () => onViewCompany(company.id),
+          onTap: () => onViewCompany(verify.company.id),
           child: ClipOval(
             child: CachedNetworkImage(
-              imageUrl: company.avatar,
+              imageUrl: verify.company.avatar,
               width: 40,
               height: 40,
               errorWidget: (context, url, error) =>
@@ -93,21 +103,66 @@ class CompanyItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               GestureDetector(
-                onTap: () => onViewCompany(company.id),
+                onTap: () => onViewCompany(verify.company.id),
                 child: Text(
-                  company.name,
+                  verify.company.name,
                   style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
                 ),
               ),
               const SizedBox(height: 5),
               Text(
-                company.address,
+                verify.company.address,
                 overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildResumeFile() {
+    return GestureDetector(
+      onTap: () => HomeAdminCoordinator.viewPDF(verify.file),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.interdimensionalBlue.withOpacity(0.1),
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+        ),
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                SvgPicture.asset(AppImages.pdf, height: 45),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        verify.fileName,
+                        style: AppStyles.normalTextHaiti,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        "${verify.size.getFileSizeString(decimals: 1)} - ${DateTimeUtils.formatCVTime(verify.createAt)}",
+                        style: AppStyles.normalTextSpunPearl,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

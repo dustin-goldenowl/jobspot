@@ -42,21 +42,23 @@ class SignInCubit extends Cubit<SignInState> {
       emit(state.copyWith(isRememberMe: isRememberMe));
 
   Future signInWithEmailAndPassword() async {
-    emit(state.copyWith(isLoading: true));
-    final response = await _signInEmailPasswordUseCase.call(
-        params: AuthenticationEntity(
-      email: emailController.text,
-      password: passwordController.text,
-    ));
-    emit(state.copyWith(dataState: response));
-    if (response is DataSuccess) {
-      if (state.isRememberMe) {
-        PrefsUtils.setRemember(
-          email: emailController.text,
-          password: passwordController.text,
-        );
-      } else {
-        PrefsUtils.removeRemember();
+    if (formKey.currentState!.validate()) {
+      emit(state.copyWith(isLoading: true));
+      final response = await _signInEmailPasswordUseCase.call(
+          params: AuthenticationEntity(
+        email: emailController.text,
+        password: passwordController.text,
+      ));
+      emit(state.copyWith(dataState: response, isLoginGoogle: false));
+      if (response is DataSuccess) {
+        if (state.isRememberMe) {
+          PrefsUtils.setRemember(
+            email: emailController.text,
+            password: passwordController.text,
+          );
+        } else {
+          PrefsUtils.removeRemember();
+        }
       }
     }
   }
@@ -66,7 +68,7 @@ class SignInCubit extends Cubit<SignInState> {
     if (googleUser != null) {
       emit(state.copyWith(isLoading: true));
       final response = await _signInGoogleUseCase.call(params: googleUser);
-      emit(state.copyWith(dataState: response));
+      emit(state.copyWith(dataState: response, isLoginGoogle: true));
     } else {
       emit(state.copyWith(
         dataState: DataFailed(AppLocal.text.cancel_google_login),

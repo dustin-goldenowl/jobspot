@@ -53,7 +53,11 @@ class _SignUpViewState extends State<SignUpView>
 
               if (state.dataState is DataSuccess) {
                 customToast(context, text: AppLocal.text.sign_up_successfully);
-                SignUpCoordinator.showVerifyEmail();
+                if (state.isGoogle) {
+                  SignUpCoordinator.showRegisterGoogle();
+                } else {
+                  SignUpCoordinator.showVerifyEmail();
+                }
                 print(state.dataState!.data);
               }
             },

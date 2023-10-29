@@ -27,7 +27,7 @@ class VerifyBusinessModel {
       "size": file.size,
       "description": description,
       "company": FirebaseAuth.instance.currentUser!.uid,
-      "creatAt": DateTime.now(),
+      "createAt": DateTime.now(),
       "updateAt": DateTime.now(),
     };
   }

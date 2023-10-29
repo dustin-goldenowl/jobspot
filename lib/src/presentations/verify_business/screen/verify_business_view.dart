@@ -59,13 +59,14 @@ class VerifyBusinessView extends StatelessWidget {
             const SizedBox(height: 50),
             CustomButton(
               onPressed: context.read<VerifyBusinessCubit>().uploadFile,
-              title: "UPLOAD",
+              title: AppLocal.text.verify_business_page_upload.toUpperCase(),
             ),
             const SizedBox(height: 15),
-            const CustomButton(
+            CustomButton(
               onPressed: VerifyBusinessCoordinator.backToSignIn,
               isElevated: false,
-              title: "BACK TO LOGIN",
+              title: AppLocal.text.verify_business_page_back_to_login
+                  .toUpperCase(),
             ),
             const SizedBox(height: 50),
           ],
@@ -78,13 +79,13 @@ class VerifyBusinessView extends StatelessWidget {
     return Column(
       children: [
         Text(
-          "Xác thực doanh nghiệp",
+          AppLocal.text.verify_business_page_verify_business,
           style: AppStyles.boldTextNightBlue.copyWith(fontSize: 30),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 10),
         Text(
-          "Tải lên các tệp chứng minh bạn là một doanh nghiệp",
+          AppLocal.text.verify_business_page_verify_business_content,
           style: AppStyles.normalTextMulledWine,
           textAlign: TextAlign.center,
         ),
@@ -131,7 +132,7 @@ class VerifyBusinessView extends StatelessWidget {
                     SvgPicture.asset(AppImages.upload, width: 24),
                     const SizedBox(width: 15),
                     Text(
-                      "Tải lên file PDF",
+                      AppLocal.text.verify_business_page_upload_pdf_file,
                       style: AppStyles.normalTextHaiti,
                     )
                   ],
@@ -154,7 +155,7 @@ class VerifyBusinessView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Thông tin",
+          AppLocal.text.verify_business_page_information,
           style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
         ),
         const SizedBox(height: 16),
@@ -163,7 +164,7 @@ class VerifyBusinessView extends StatelessWidget {
           maxLines: 8,
           validator: (value) {
             if (value!.isEmpty) {
-              return "Vui lòng mô tả một ít về doanh nghiệp của bạn";
+              return AppLocal.text.verify_business_page_information_validate;
             }
             return null;
           },
@@ -175,7 +176,7 @@ class VerifyBusinessView extends StatelessWidget {
               fontSize: 14,
               fontWeight: FontWeight.normal,
             ),
-            hintText: "Nói gì đó về doanh nghiệp của bạn",
+            hintText: AppLocal.text.verify_business_page_information_content,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
               borderSide: const BorderSide(width: 0, style: BorderStyle.none),

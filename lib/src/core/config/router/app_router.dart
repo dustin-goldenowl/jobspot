@@ -232,5 +232,10 @@ class AppRouter extends $AppRouter {
           page: VerifyBusinessRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
+        CustomRoute(
+          path: AppPaths.registerGoogle,
+          page: RegisterGoogleRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
+        ),
       ];
 }

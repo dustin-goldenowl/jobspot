@@ -1,7 +1,7 @@
-import 'package:jobspot/src/presentations/view_job/domain/entities/company_entity.dart';
+import 'package:jobspot/src/presentations/home_admin/domain/entities/verify_company_entity.dart';
 
 class FetchCompanyData {
-  final List<CompanyEntity> companies;
+  final List<VerifyCompanyEntity> companies;
   final bool isMore;
   final int limit;
 

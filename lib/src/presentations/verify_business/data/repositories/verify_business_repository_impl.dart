@@ -29,11 +29,10 @@ class VerifyBusinessRepositoryImpl extends VerifyBusinessRepository {
         userModel.verify = VerifyStatus.pending;
         PrefsUtils.saveUserInfo(userModel.toJson());
       }
+      final uid = FirebaseAuth.instance.currentUser!.uid;
       await Future.wait([
-        XCollection.verifyBusiness.doc().set(model.toJson()),
-        XCollection.user
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .update({"verify": VerifyStatus.pending.name}),
+        XCollection.verifyBusiness.doc(uid).set(model.toJson()),
+        XCollection.user.doc(uid).update({"verify": VerifyStatus.pending.name}),
       ]);
       return DataSuccess(true);
     } catch (e) {

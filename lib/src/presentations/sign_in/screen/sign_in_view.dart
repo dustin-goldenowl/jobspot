@@ -38,17 +38,23 @@ class SignInView extends StatelessWidget {
           }
 
           if (state.dataState is DataSuccess) {
-            context.read<SignInCubit>().updateToken();
-            customToast(context, text: AppLocal.text.logged_in_successfully);
-            UserEntity? user = PrefsUtils.getUserInfo();
-            if (!FirebaseAuth.instance.currentUser!.emailVerified) {
-              SignInCoordinator.showVerifyEmail();
-            } else if (FirebaseAuth.instance.currentUser!.emailVerified &&
-                user?.role == UserRole.business &&
-                user?.verify == VerifyStatus.none) {
-              SignInCoordinator.showVerifyBusiness();
+            if (!state.isLoginGoogle!) {
+              context.read<SignInCubit>().updateToken();
+              customToast(context, text: AppLocal.text.logged_in_successfully);
+              UserEntity? user = PrefsUtils.getUserInfo();
+              if (user?.role == UserRole.admin) {
+                SignInCoordinator.showHomeAdmin();
+              } else if (!FirebaseAuth.instance.currentUser!.emailVerified) {
+                SignInCoordinator.showVerifyEmail();
+              } else if (FirebaseAuth.instance.currentUser!.emailVerified &&
+                  user?.role == UserRole.business &&
+                  user?.verify == VerifyStatus.none) {
+                SignInCoordinator.showVerifyBusiness();
+              } else {
+                SignInCoordinator.showMain();
+              }
             } else {
-              SignInCoordinator.showMain();
+              SignInCoordinator.showRegisterGoogle();
             }
           }
         },
@@ -97,15 +103,8 @@ class SignInView extends StatelessWidget {
                 const SizedBox(height: 36),
                 CustomButton(
                   title: AppLocal.text.sign_in.toUpperCase(),
-                  onPressed: () {
-                    if (context
-                        .read<SignInCubit>()
-                        .formKey
-                        .currentState!
-                        .validate()) {
-                      context.read<SignInCubit>().signInWithEmailAndPassword();
-                    }
-                  },
+                  onPressed:
+                      context.read<SignInCubit>().signInWithEmailAndPassword,
                 ),
                 const SizedBox(height: 20),
                 CustomButton(

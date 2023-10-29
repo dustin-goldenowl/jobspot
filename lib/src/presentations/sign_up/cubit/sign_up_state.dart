@@ -1,7 +1,6 @@
 part of 'sign_up_cubit.dart';
 
 class SignUpState extends Equatable {
-  final int currentTab;
   final bool isHideApplicant;
   final bool isHideRepassApplicant;
   final bool isHideBusiness;
@@ -11,9 +10,9 @@ class SignUpState extends Equatable {
   final DateTime birthday;
   final DateTime founding;
   final DataState? dataState;
+  final bool isGoogle;
 
   const SignUpState({
-    required this.currentTab,
     required this.isHideApplicant,
     required this.isHideRepassApplicant,
     required this.isHideBusiness,
@@ -22,6 +21,7 @@ class SignUpState extends Equatable {
     required this.isLoading,
     required this.birthday,
     required this.founding,
+    required this.isGoogle,
     this.dataState,
   });
 
@@ -33,8 +33,8 @@ class SignUpState extends Equatable {
       isHideBusiness: true,
       isHideRepassBusiness: true,
       isLoading: false,
+      isGoogle: false,
       founding: DateTime.now(),
-      currentTab: 0,
       birthday: DateTime(
         DateTime.now().year - 18,
         DateTime.now().month,
@@ -44,19 +44,18 @@ class SignUpState extends Equatable {
   }
 
   SignUpState copyWith({
-    int? currentTab,
     bool? isHideApplicant,
     bool? isHideRepassApplicant,
     bool? isHideBusiness,
     bool? isHideRepassBusiness,
     bool? isMale,
+    bool? isGoogle,
     DateTime? birthday,
     DateTime? founding,
     bool isLoading = false,
     DataState? dataState,
   }) {
     return SignUpState(
-      currentTab: currentTab ?? this.currentTab,
       isHideApplicant: isHideApplicant ?? this.isHideApplicant,
       isHideRepassApplicant:
           isHideRepassApplicant ?? this.isHideRepassApplicant,
@@ -64,6 +63,7 @@ class SignUpState extends Equatable {
       isHideRepassBusiness: isHideRepassBusiness ?? this.isHideRepassBusiness,
       isMale: isMale ?? this.isMale,
       isLoading: isLoading,
+      isGoogle: isGoogle ?? this.isGoogle,
       birthday: birthday ?? this.birthday,
       founding: founding ?? this.founding,
       dataState: dataState,
@@ -76,7 +76,6 @@ class SignUpState extends Equatable {
         isHideBusiness,
         isHideRepassApplicant,
         isHideRepassBusiness,
-        currentTab,
         birthday,
         founding,
         isLoading,

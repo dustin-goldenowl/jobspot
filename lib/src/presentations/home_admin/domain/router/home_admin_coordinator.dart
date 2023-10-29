@@ -9,6 +9,8 @@ class HomeAdminCoordinator {
 
   static void showSetting() => rootRouter.push(const SettingRoute());
 
+  static void viewPDF(String url) => rootRouter.push(ViewPDFRoute(url: url));
+
   static void showViewCompany(String uid) =>
       rootRouter.push(ViewCompanyProfileRoute(uid: uid));
 }

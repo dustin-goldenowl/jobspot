@@ -45,18 +45,17 @@ class HomeAdminView extends StatelessWidget {
             parent: AlwaysScrollableScrollPhysics(),
           ),
           padding: const EdgeInsets.all(AppDimens.smallPadding),
-          itemCount: (state.listCompany?.length ?? 9) + 1,
+          itemCount: (state.listVerify?.length ?? 9) + 1,
           itemBuilder: (context, index) {
-            return state.listCompany != null &&
-                    index < state.listCompany!.length
+            return state.listVerify != null && index < state.listVerify!.length
                 ? CompanyItem(
                     onViewCompany: HomeAdminCoordinator.showViewCompany,
-                    company: state.listCompany![index],
+                    verify: state.listVerify![index],
                     onConsider: (status) => context
                         .read<HomeAdminCubit>()
                         .considerCompany(ConsiderCompany(
                           status: status,
-                          toUserID: state.listCompany![index].id,
+                          toUserID: state.listVerify![index].company.id,
                         )),
                   )
                 : state.isMore

@@ -30,15 +30,7 @@ class BusinessTab extends StatelessWidget {
               const SizedBox(height: 20),
               CustomButton(
                 title: AppLocal.text.sign_up.toUpperCase(),
-                onPressed: () {
-                  if (context
-                      .read<SignUpCubit>()
-                      .formKeyBusiness
-                      .currentState!
-                      .validate()) {
-                    context.read<SignUpCubit>().registerBusiness();
-                  }
-                },
+                onPressed: context.read<SignUpCubit>().registerBusiness,
               ),
               const SizedBox(height: 16),
               RichText(

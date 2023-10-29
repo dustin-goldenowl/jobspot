@@ -31,15 +31,7 @@ class ApplicantTab extends StatelessWidget {
               const SizedBox(height: 20),
               CustomButton(
                 title: AppLocal.text.sign_up.toUpperCase(),
-                onPressed: () {
-                  if (context
-                      .read<SignUpCubit>()
-                      .formKeyApplicant
-                      .currentState!
-                      .validate()) {
-                    context.read<SignUpCubit>().registerApplicant();
-                  }
-                },
+                onPressed: context.read<SignUpCubit>().registerApplicant,
               ),
               const SizedBox(height: 20),
               CustomButton(

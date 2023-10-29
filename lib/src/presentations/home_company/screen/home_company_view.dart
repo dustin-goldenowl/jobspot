@@ -67,6 +67,14 @@ class HomeCompanyView extends StatelessWidget {
       onRefresh: context.read<HomeCompanyCubit>().getListMyJob,
       child: BlocBuilder<HomeCompanyCubit, HomeCompanyState>(
         builder: (context, state) {
+          if (state.jobs != null && state.jobs!.isEmpty) {
+            return Center(
+              child: Text(
+                AppLocal.text.home_company_page_you_no_job,
+                style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
+              ),
+            );
+          }
           return ListView.separated(
             controller: context.read<HomeCompanyCubit>().scrollController,
             physics: const BouncingScrollPhysics(
