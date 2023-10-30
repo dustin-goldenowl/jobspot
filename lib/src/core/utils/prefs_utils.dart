@@ -22,17 +22,18 @@ class PrefsUtils {
   static Future setRemember({
     required String email,
     required String password,
-  }) async {
-    await setIsRemember(true);
-    await prefs.setString("email", email);
-    await prefs.setString("password", password);
-  }
+  }) async =>
+      await Future.wait([
+        setIsRemember(true),
+        prefs.setString("email", email),
+        prefs.setString("password", password),
+      ]);
 
-  static Future removeRemember() async {
-    await setIsRemember(false);
-    await prefs.remove("email");
-    await prefs.remove("password");
-  }
+  static Future removeRemember() async => await Future.wait([
+        setIsRemember(false),
+        prefs.remove("email"),
+        prefs.remove("password"),
+      ]);
 
   static bool get isFirstOpen => prefs.getBool("first_open") ?? false;
 
