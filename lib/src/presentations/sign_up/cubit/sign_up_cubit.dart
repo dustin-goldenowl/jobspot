@@ -54,8 +54,6 @@ class SignUpCubit extends Cubit<SignUpState> {
     this._googleUseCase,
   ) : super(SignUpState.ds());
 
-  void changeTab(int value) => emit(state.copyWith(currentTab: value));
-
   void changeGender(bool isMale) => emit(state.copyWith(isMale: isMale));
 
   void changeBirthdate(DateTime date) => emit(state.copyWith(birthday: date));
@@ -75,30 +73,34 @@ class SignUpCubit extends Cubit<SignUpState> {
       emit(state.copyWith(isHideRepassBusiness: isHide));
 
   Future registerApplicant() async {
-    emit(state.copyWith(isLoading: true));
-    final response = await _applicantUseCase.call(
-        params: RegisterApplicantEntity(
-      fullname: nameApplicantController.text,
-      email: emailApplicantController.text,
-      password: passwordApplicantController.text,
-      gender: state.isMale,
-      birthday: state.birthday,
-    ));
-    emit(state.copyWith(dataState: response));
+    if (formKeyApplicant.currentState!.validate()) {
+      emit(state.copyWith(isLoading: true));
+      final response = await _applicantUseCase.call(
+          params: RegisterApplicantEntity(
+        fullname: nameApplicantController.text,
+        email: emailApplicantController.text,
+        password: passwordApplicantController.text,
+        gender: state.isMale,
+        birthday: state.birthday,
+      ));
+      emit(state.copyWith(dataState: response));
+    }
   }
 
   Future registerBusiness() async {
-    emit(state.copyWith(isLoading: true));
-    final response = await _businessUseCase.call(
-        params: RegisterBusinessEntity(
-      email: emailBusinessController.text,
-      name: nameBusinessController.text,
-      employeeSize: employeeSizeBusinessController.text,
-      founding: state.founding,
-      headquarters: headquartersBusinessController.text,
-      password: passwordBusinessController.text,
-    ));
-    emit(state.copyWith(dataState: response));
+    if (formKeyBusiness.currentState!.validate()) {
+      emit(state.copyWith(isLoading: true));
+      final response = await _businessUseCase.call(
+          params: RegisterBusinessEntity(
+        email: emailBusinessController.text,
+        name: nameBusinessController.text,
+        employeeSize: employeeSizeBusinessController.text,
+        founding: state.founding,
+        headquarters: headquartersBusinessController.text,
+        password: passwordBusinessController.text,
+      ));
+      emit(state.copyWith(dataState: response));
+    }
   }
 
   Future registerGoogle() async {
@@ -106,7 +108,7 @@ class SignUpCubit extends Cubit<SignUpState> {
     if (googleUser != null) {
       emit(state.copyWith(isLoading: true));
       final response = await _googleUseCase.call(params: googleUser);
-      emit(state.copyWith(dataState: response));
+      emit(state.copyWith(dataState: response, isGoogle: true));
     } else {
       emit(state.copyWith(
           dataState: DataFailed(AppLocal.text.cancel_google_register)));

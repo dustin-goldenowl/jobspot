@@ -1,37 +1,60 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
+import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_input.dart';
 import 'package:jobspot/src/presentations/sign_up/cubit/sign_up_cubit.dart';
+import 'package:jobspot/src/presentations/sign_up/domain/router/sign_up_coordinator.dart';
 import 'package:jobspot/src/presentations/sign_up/widgets/birthday_widget.dart';
 
+@RoutePage()
 class BusinessTab extends StatelessWidget {
   const BusinessTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: context.read<SignUpCubit>().formKeyBusiness,
-      child: Column(
-        children: [
-          _buildInput(context),
-          const SizedBox(height: 20),
-          CustomButton(
-            title: AppLocal.text.sign_up.toUpperCase(),
-            onPressed: () {
-              if (context
-                  .read<SignUpCubit>()
-                  .formKeyBusiness
-                  .currentState!
-                  .validate()) {
-                context.read<SignUpCubit>().registerBusiness();
-              }
-            },
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Padding(
+        padding: const EdgeInsets.all(AppDimens.largePadding),
+        child: Form(
+          key: context.read<SignUpCubit>().formKeyBusiness,
+          child: Column(
+            children: [
+              _buildInput(context),
+              const SizedBox(height: 20),
+              CustomButton(
+                title: AppLocal.text.sign_up.toUpperCase(),
+                onPressed: context.read<SignUpCubit>().registerBusiness,
+              ),
+              const SizedBox(height: 16),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: AppLocal.text.you_dont_have_an_account_yet,
+                      style: AppStyles.normalTextMulledWine,
+                    ),
+                    TextSpan(
+                      text: AppLocal.text.sign_in,
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: AppColors.deepSaffron,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = SignUpCoordinator.showSignIn,
+                    )
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

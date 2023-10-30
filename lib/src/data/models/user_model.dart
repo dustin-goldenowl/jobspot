@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jobspot/src/core/enum/user_role.dart';
+import 'package:jobspot/src/core/enum/verify_status.dart';
 import 'package:jobspot/src/data/entities/user_entity.dart';
 
 class UserModel {
   //general
   String id;
   String name;
-  String role;
+  UserRole role;
   String avatar;
   String email;
   DateTime birthday;
@@ -22,7 +24,7 @@ class UserModel {
   List<String>? saveJob;
 
   //business
-  bool? isAccept;
+  VerifyStatus? verify;
   String? website;
   String? industry;
   String? employeeSize;
@@ -49,7 +51,7 @@ class UserModel {
     this.employeeSize,
     this.images,
     this.industry,
-    this.isAccept,
+    this.verify,
     this.specialization,
     this.website,
     this.type,
@@ -73,7 +75,7 @@ class UserModel {
       gender: entity.gender,
       images: entity.images,
       industry: entity.industry,
-      isAccept: entity.isAccept,
+      verify: entity.verify,
       saveJob: entity.saveJob,
       skill: entity.skill,
       specialization: entity.specialization,
@@ -86,7 +88,7 @@ class UserModel {
         id: json["id"] ?? "",
         birthday: DateTime.parse(json["birthday"]),
         address: json["address"],
-        role: json["role"],
+        role: getUserRole(json["role"]),
         follower: List<String>.from(json["follower"].map((x) => x)),
         gender: json["gender"],
         description: json["description"],
@@ -106,7 +108,7 @@ class UserModel {
         images: json["images"] != null
             ? List<String>.from(json["images"].map((x) => x))
             : null,
-        isAccept: json["isAccept"],
+        verify: getVerifyStatus(json["verify"]),
         industry: json["industry"],
         employeeSize: json["employeeSize"],
         specialization: json["specialization"] != null
@@ -122,7 +124,7 @@ class UserModel {
       id: snapshot.id,
       birthday: (data["birthday"] as Timestamp).toDate(),
       address: data["address"],
-      role: data["role"],
+      role: getUserRole(data["role"]),
       follower: List<String>.from(data["follower"].map((x) => x)),
       gender: data["gender"],
       description: data["description"],
@@ -142,7 +144,7 @@ class UserModel {
       images: data["images"] != null
           ? List<String>.from(data["images"].map((x) => x))
           : null,
-      isAccept: data["isAccept"],
+      verify: getVerifyStatus(data["verify"]),
       industry: data["industry"],
       employeeSize: data["employeeSize"],
       specialization: data["specialization"] != null
@@ -153,11 +155,11 @@ class UserModel {
   }
 
   Map<String, dynamic> toJson() {
-    return role == "business"
+    return role == UserRole.business
         ? {
             "birthday": birthday.toIso8601String(),
             "address": address,
-            "role": role,
+            "role": role.name,
             "follower": follower,
             "description": description,
             "updateAt": updateAt.toIso8601String(),
@@ -168,7 +170,7 @@ class UserModel {
             "email": email,
             "website": website,
             "images": images,
-            "isAccept": isAccept,
+            "verify": verify!.name,
             "industry": industry,
             "employeeSize": employeeSize,
             "specialization": specialization,
@@ -177,7 +179,7 @@ class UserModel {
         : {
             "birthday": birthday.toIso8601String(),
             "address": address,
-            "role": role,
+            "role": role.name,
             "follower": follower,
             "gender": gender,
             "description": description,
@@ -210,7 +212,7 @@ class UserModel {
       gender: gender,
       images: images,
       industry: industry,
-      isAccept: isAccept,
+      verify: verify,
       saveJob: saveJob,
       skill: skill,
       specialization: specialization,

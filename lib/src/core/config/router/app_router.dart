@@ -18,6 +18,10 @@ class AppRouter extends $AppRouter {
           path: AppPaths.signUp,
           page: SignUpRoute.page,
           transitionsBuilder: TransitionsBuilders.zoomIn,
+          children: [
+            AutoRoute(path: AppPaths.applicantTab, page: ApplicantTab.page),
+            AutoRoute(path: AppPaths.businessTab, page: BusinessTab.page),
+          ],
         ),
         CustomRoute(
           path: AppPaths.forgotPassword,
@@ -216,6 +220,21 @@ class AppRouter extends $AppRouter {
         CustomRoute(
           path: AppPaths.viewJobApplicant,
           page: ViewJobApplicantRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
+        ),
+        CustomRoute(
+          path: AppPaths.homeAdmin,
+          page: HomeAdminRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
+        ),
+        CustomRoute(
+          path: AppPaths.verifyBusiness,
+          page: VerifyBusinessRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
+        ),
+        CustomRoute(
+          path: AppPaths.registerGoogle,
+          page: RegisterGoogleRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
       ];

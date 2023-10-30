@@ -10,4 +10,7 @@ class SignUpCoordinator {
   static void showSignIn() => rootRouter.replace(const SignInRoute());
 
   static void showVerifyEmail() => rootRouter.replace(const VerifyEmailRoute());
+
+  static void showRegisterGoogle() =>
+      rootRouter.push(const RegisterGoogleRoute());
 }

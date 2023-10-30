@@ -36,6 +36,7 @@ class VerifyEmailView extends StatelessWidget {
             Text(
               AppLocal.text.verify_email_page_check_your_email,
               style: AppStyles.boldTextNightBlue.copyWith(fontSize: 30),
+              textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             RichText(

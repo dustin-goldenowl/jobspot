@@ -33,7 +33,7 @@ class LoginRepositoryImpl extends SignInRepository {
   }
 
   @override
-  Future<DataState<UserCredential>> signInWithGoogle(
+  Future<DataState<bool>> signInWithGoogle(
       GoogleSignInAccount googleUser) async {
     try {
       final GoogleSignInAuthentication googleAuth =
@@ -44,20 +44,20 @@ class LoginRepositoryImpl extends SignInRepository {
       );
       final credential =
           await FirebaseAuth.instance.signInWithCredential(googleCredential);
-      await saveUserInfo(credential.user!.uid);
-      return DataSuccess(credential);
+      return DataSuccess(await saveUserInfo(credential.user!.uid));
     } catch (e) {
       return DataFailed(e.toString());
     }
   }
 
-  Future saveUserInfo(String userUid) async {
-    await XCollection.user.doc(userUid).get().then((value) async {
-      if (value.data() != null) {
-        await PrefsUtils.saveUserInfo(
-          UserModel.fromDocumentSnapshot(value).toJson(),
-        );
-      }
-    });
+  Future<bool> saveUserInfo(String userUid) async {
+    final response = await XCollection.user.doc(userUid).get();
+    if (response.data() != null) {
+      await PrefsUtils.saveUserInfo(
+        UserModel.fromDocumentSnapshot(response).toJson(),
+      );
+      return true;
+    }
+    return false;
   }
 }

@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
+import 'package:jobspot/src/core/enum/user_role.dart';
+import 'package:jobspot/src/core/enum/verify_status.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/main/cubit/main_cubit.dart';
 import 'package:jobspot/src/presentations/main/domain/router/main_coordinator.dart';
@@ -16,7 +18,7 @@ class MainView extends StatelessWidget {
 
     return AutoTabsRouter.pageView(
       routes: [
-        user?.role == "business"
+        user?.role == UserRole.business
             ? const HomeCompanyRoute()
             : const HomeApplicantRoute(),
         const ConnectionRoute(),
@@ -31,7 +33,8 @@ class MainView extends StatelessWidget {
             child: CustomBottomBar(
               changeTab: tabsRouter.setActiveIndex,
               onTap: () {
-                if (user?.role == "business" && (user?.isAccept ?? false)) {
+                if (user?.role == UserRole.business &&
+                    (user?.verify == VerifyStatus.accept)) {
                   context.read<MainCubit>().showBottomSheet(context);
                 } else {
                   MainCoordinator.showAddPost();

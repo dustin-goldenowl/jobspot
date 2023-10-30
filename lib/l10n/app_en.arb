@@ -68,6 +68,7 @@
     "verify_email_page_resend": "Resend",
 
     "verify_success_page_successfully": "Successfully",
+    "verify_success_page_continue": "Continue",
     "verify_success_page_success_content": "You have successfully authenticated your account, please log in again",
 
     "connection_page_connection": "Connection",
@@ -425,6 +426,7 @@
 
     "home_company_page_my_job_list": "My Job List",
     "home_company_page_no_job": "There are no more jobs here",
+    "home_company_page_you_no_job": "You haven't posted any jobs yet!",
     "home_company_page_applicant_applied": "{number} applicant applied",
 
     "view_job_applicant_accept": "Accept",
@@ -432,5 +434,14 @@
     "view_job_applicant_reject": "Reject",
     "view_job_applicant_rejected": "Rejected",
     "view_job_applicant_no_applications": "There are no job applications here",
-    "view_job_applicant_consider": "Consider"
+    "view_job_applicant_consider": "Consider",
+
+    "verify_business_page_upload": "Upload",
+    "verify_business_page_back_to_login": "Back to login",
+    "verify_business_page_upload_pdf_file": "Upload PDF file",
+    "verify_business_page_information": "Information",
+    "verify_business_page_information_content": "Say something about your business",
+    "verify_business_page_information_validate": "Please describe a little about your business",
+    "verify_business_page_verify_business": "Verify Business",
+    "verify_business_page_verify_business_content": "Upload a file proving you are a business"
 }

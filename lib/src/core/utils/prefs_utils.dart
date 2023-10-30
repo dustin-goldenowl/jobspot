@@ -10,6 +10,31 @@ class PrefsUtils {
 
   static SharedPreferences get prefs => getIt<SharedPreferences>();
 
+  static bool get isRemember => prefs.getBool("isRemember") ?? false;
+
+  static Future setIsRemember(bool value) async =>
+      await prefs.setBool("isRemember", value);
+
+  static String? get email => prefs.getString("email");
+
+  static String? get password => prefs.getString("password");
+
+  static Future setRemember({
+    required String email,
+    required String password,
+  }) async =>
+      await Future.wait([
+        setIsRemember(true),
+        prefs.setString("email", email),
+        prefs.setString("password", password),
+      ]);
+
+  static Future removeRemember() async => await Future.wait([
+        setIsRemember(false),
+        prefs.remove("email"),
+        prefs.remove("password"),
+      ]);
+
   static bool get isFirstOpen => prefs.getBool("first_open") ?? false;
 
   static Future openedApp() async => await prefs.setBool("first_open", true);

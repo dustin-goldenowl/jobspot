@@ -7,6 +7,5 @@ abstract class SignInRepository {
   Future<DataState<UserCredential>> signInWithEmailPassword(
       AuthenticationEntity entity);
 
-  Future<DataState<UserCredential>> signInWithGoogle(
-      GoogleSignInAccount googleUser);
+  Future<DataState<bool>> signInWithGoogle(GoogleSignInAccount googleUser);
 }
