@@ -56,6 +56,7 @@ class AppRouter extends $AppRouter {
             AutoRoute(
                 path: AppPaths.notificationTab, page: NotificationRoute.page),
             AutoRoute(path: AppPaths.saveJobTab, page: SaveJobRoute.page),
+            AutoRoute(path: AppPaths.settingTab, page: SettingRoute.page),
           ],
         ),
         CustomRoute(
@@ -235,6 +236,25 @@ class AppRouter extends $AppRouter {
         CustomRoute(
           path: AppPaths.registerGoogle,
           page: RegisterGoogleRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
+        ),
+        CustomRoute(
+          path: AppPaths.companyProfile,
+          page: CompanyProfileRoute.page,
+          children: [
+            AutoRoute(
+              path: AppPaths.companyAboutTab,
+              page: CompanyAboutTab.page,
+            ),
+            AutoRoute(
+              path: AppPaths.companyPostTab,
+              page: CompanyPostTab.page,
+            ),
+            AutoRoute(
+              path: AppPaths.companyJobTab,
+              page: CompanyJobTab.page,
+            ),
+          ],
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
       ];

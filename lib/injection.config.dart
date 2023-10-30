@@ -10,7 +10,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
-import 'package:jobspot/injection.dart' as _i180;
+import 'package:jobspot/injection.dart' as _i181;
 import 'package:jobspot/src/core/config/router/app_router.dart' as _i9;
 import 'package:jobspot/src/presentations/add_appreciation/cubit/add_appreciation_cubit.dart'
     as _i157;
@@ -132,8 +132,10 @@ import 'package:jobspot/src/presentations/apply_job/domain/repositories/apply_jo
     as _i101;
 import 'package:jobspot/src/presentations/apply_job/domain/use_cases/apply_job_use_case.dart'
     as _i103;
-import 'package:jobspot/src/presentations/connection/cubit/connection_cubit.dart'
+import 'package:jobspot/src/presentations/company_profile/cubit/company_profile_cubit.dart'
     as _i179;
+import 'package:jobspot/src/presentations/connection/cubit/connection_cubit.dart'
+    as _i180;
 import 'package:jobspot/src/presentations/connection/data/repositories/connection_repository_impl.dart'
     as _i15;
 import 'package:jobspot/src/presentations/connection/domain/repositories/connection_repository.dart'
@@ -753,7 +755,13 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i70.UpdateAboutMeUseCase>(),
           gh<_i166.FavouritePostUseCase>(),
         ));
-    gh.factory<_i179.ConnectionCubit>(() => _i179.ConnectionCubit(
+    gh.factory<_i179.CompanyProfileCubit>(() => _i179.CompanyProfileCubit(
+          gh<_i166.FavouritePostUseCase>(),
+          gh<_i68.StreamUserInfoUseCase>(),
+          gh<_i65.StreamListPostUseCase>(),
+          gh<_i169.GetListJobUseCase>(),
+        ));
+    gh.factory<_i180.ConnectionCubit>(() => _i180.ConnectionCubit(
           gh<_i24.FetchPostUseCase>(),
           gh<_i166.FavouritePostUseCase>(),
         ));
@@ -761,4 +769,4 @@ extension GetItInjectableX on _i1.GetIt {
   }
 }
 
-class _$InjectionModule extends _i180.InjectionModule {}
+class _$InjectionModule extends _i181.InjectionModule {}

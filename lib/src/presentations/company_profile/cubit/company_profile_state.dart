@@ -1,12 +1,12 @@
-part of 'view_company_profile_cubit.dart';
+part of 'company_profile_cubit.dart';
 
-class ViewCompanyProfileState extends Equatable {
-  const ViewCompanyProfileState({
+class CompanyProfileState extends Equatable {
+  const CompanyProfileState({
+    required this.isTop,
     this.listJob,
     this.listPost,
     this.user,
     this.error,
-    required this.isTop,
   });
 
   final bool isTop;
@@ -15,14 +15,14 @@ class ViewCompanyProfileState extends Equatable {
   final UserEntity? user;
   final String? error;
 
-  ViewCompanyProfileState copyWith({
+  CompanyProfileState copyWith({
     bool? isTop,
     List<JobEntity>? listJob,
     List<PostEntity>? listPost,
     UserEntity? user,
     String? error,
   }) {
-    return ViewCompanyProfileState(
+    return CompanyProfileState(
       isTop: isTop ?? this.isTop,
       listJob: listJob ?? this.listJob,
       listPost: listPost ?? this.listPost,

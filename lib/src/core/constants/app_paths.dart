@@ -39,6 +39,7 @@ class AppPaths {
   static const String homeAdmin = "/homeAdmin";
   static const String verifyBusiness = "/verifyBusiness";
   static const String registerGoogle = "/registerGoogle";
+  static const String companyProfile = "/companyProfile";
 
   //tab
   static const String applicantTab = "applicant";
@@ -48,6 +49,7 @@ class AppPaths {
   static const String connectionTab = "connection";
   static const String notificationTab = "notification";
   static const String saveJobTab = "saveJob";
+  static const String settingTab = "setting";
   static const String applicantAboutTab = "applicantAbout";
   static const String applicantPostTab = "applicantPost";
   static const String viewApplicantAboutTab = "viewApplicantAbout";
@@ -55,4 +57,7 @@ class AppPaths {
   static const String viewCompanyAboutTab = "viewCompanyAbout";
   static const String viewCompanyPostTab = "viewCompanyPost";
   static const String viewCompanyJobTab = "viewCompanyJob";
+  static const String companyAboutTab = "companyAbout";
+  static const String companyPostTab = "companyPost";
+  static const String companyJobTab = "companyJob";
 }

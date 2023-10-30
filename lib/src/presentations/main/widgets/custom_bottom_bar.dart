@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/enum/user_role.dart';
+import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/main/widgets/custom_item_bottom_bar.dart';
 
 class CustomBottomBar extends StatelessWidget {
@@ -48,7 +50,9 @@ class CustomBottomBar extends StatelessWidget {
             isSelected: currentIndex == 2,
           ),
           CustomItemBottomBar(
-            path: AppImages.save,
+            path: PrefsUtils.getUserInfo()?.role == UserRole.applicant
+                ? AppImages.save
+                : AppImages.setting,
             onTap: () => changeTab(3),
             isSelected: currentIndex == 3,
           ),
