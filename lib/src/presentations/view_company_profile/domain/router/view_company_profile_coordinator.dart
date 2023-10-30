@@ -18,6 +18,19 @@ class ViewCompanyProfileCoordinator {
   static void showFullJob(String jobID) =>
       rootRouter.push(ViewJobRoute(jobID: jobID));
 
+  static void viewFollow({
+    List<String>? following,
+    List<String>? follower,
+    String? title,
+    required int index,
+  }) =>
+      rootRouter.push(FollowRoute(
+        follower: follower,
+        following: following,
+        title: title,
+        index: index,
+      ));
+
   static void showApplyJob({required JobEntity job}) =>
       rootRouter.push(ApplyJobRoute(job: job));
 }

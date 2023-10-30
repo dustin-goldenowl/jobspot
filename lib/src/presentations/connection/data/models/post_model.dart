@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jobspot/src/core/enum/user_role.dart';
 import 'package:jobspot/src/presentations/add_post/domain/entities/update_post_entity.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
@@ -123,8 +124,10 @@ class PostModel {
   }
 
   PostEntity toPostEntity() {
+    final temptUser = UserEntity(
+        id: "", name: "", avatar: "", address: "", role: UserRole.applicant);
     return PostEntity(
-      user: user?.toUserEntity() ?? UserEntity(id: "", name: "", avatar: ""),
+      user: user?.toUserEntity() ?? temptUser,
       id: id,
       title: title,
       description: description,

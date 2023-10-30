@@ -3,6 +3,8 @@ import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/firebase_collection.dart';
+import 'package:jobspot/src/core/utils/prefs_utils.dart';
+import 'package:jobspot/src/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/notification/domain/entities/send_notification_entity.dart';
 import 'package:jobspot/src/presentations/notification/domain/use_cases/delete_notification_use_case.dart';
 import 'package:jobspot/src/presentations/notification/domain/use_cases/send_notification_use_case.dart';
@@ -41,9 +43,19 @@ class ViewCompanyProfileRepositoryImpl extends ViewCompanyProfileRepository {
   @override
   Future<DataState<bool>> followUser(FavouriteEntity entity) async {
     try {
-      await XCollection.user
-          .doc(entity.id)
-          .update({"follower": entity.listFavourite});
+      UserModel userModel = UserModel.fromEntity(PrefsUtils.getUserInfo()!);
+      List<String> listFollow = [...userModel.following];
+      entity.listFavourite.contains(userModel.id)
+          ? listFollow.add(entity.id)
+          : listFollow.remove(entity.id);
+      userModel.copyWith(following: listFollow);
+      await Future.wait([
+        XCollection.user
+            .doc(entity.id)
+            .update({"follower": entity.listFavourite}),
+        XCollection.user.doc(userModel.id).update({"following": listFollow}),
+        PrefsUtils.saveUserInfo(userModel.toJson()),
+      ]);
       final notification = SendNotificationEntity(
         action: entity.id,
         to: entity.uidTo,

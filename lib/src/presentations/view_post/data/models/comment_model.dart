@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jobspot/src/core/enum/user_role.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/user_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/comment_entity.dart';
@@ -51,13 +52,17 @@ class CommentModel {
     );
   }
 
-  CommentEntity toCommentEntity() => CommentEntity(
-        id: id,
-        content: content,
-        post: post,
-        like: like,
-        reply: reply,
-        createAt: createAt,
-        user: user?.toUserEntity() ?? UserEntity(id: "", name: "", avatar: ""),
-      );
+  CommentEntity toCommentEntity() {
+    final temptUser = UserEntity(
+        id: "", name: "", avatar: "", address: "", role: UserRole.applicant);
+    return CommentEntity(
+      id: id,
+      content: content,
+      post: post,
+      like: like,
+      reply: reply,
+      createAt: createAt,
+      user: user?.toUserEntity() ?? temptUser,
+    );
+  }
 }

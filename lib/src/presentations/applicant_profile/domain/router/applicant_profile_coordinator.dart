@@ -72,4 +72,17 @@ class ApplicantProfileCoordinator {
 
   static void showEditApplicantProfile() =>
       rootRouter.push(const EditApplicantProfileRoute());
+
+  static void viewFollow({
+    List<String>? following,
+    List<String>? follower,
+    String? title,
+    required int index,
+  }) =>
+      rootRouter.push(FollowRoute(
+        follower: follower,
+        following: following,
+        title: title,
+        index: index,
+      ));
 }

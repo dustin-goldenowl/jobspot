@@ -188,7 +188,12 @@ class _CompanyProfileViewState extends State<CompanyProfileView>
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   _buildText(
-                    onTap: () {},
+                    onTap: () => CompanyProfileCoordinator.viewFollow(
+                      index: 1,
+                      title: state.user?.name,
+                      follower: state.user?.follower ?? [],
+                      following: state.user?.following ?? [],
+                    ),
                     title: AppLocal.text.view_company_profile_page_follower(
                         state.user?.follower.length ?? 0),
                   ),
