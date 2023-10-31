@@ -25,7 +25,18 @@ class ApplyJobView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ApplyJobCubit, ApplyJobState>(
+    return BlocConsumer<ApplyJobCubit, ApplyJobState>(
+      listenWhen: (previous, current) {
+        if (previous.isLoading) Navigator.of(context).pop();
+        return true;
+      },
+      listener: (context, state) {
+        if (state.isLoading) loadingAnimation(context);
+
+        if (state.dataState is DataFailed) {
+          customToast(context, text: state.dataState!.error ?? "");
+        }
+      },
       buildWhen: (previous, current) => current.dataState is DataSuccess,
       builder: (context, state) {
         return Scaffold(
@@ -43,27 +54,14 @@ class ApplyJobView extends StatelessWidget {
                   ),
                 )
               : null,
-          appBar: _buildAppBar(),
-          body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Padding(
-              padding: const EdgeInsets.all(AppDimens.smallPadding),
-              child: BlocListener<ApplyJobCubit, ApplyJobState>(
-                listenWhen: (previous, current) {
-                  if (previous.isLoading) Navigator.of(context).pop();
-                  return true;
-                },
-                listener: (context, state) {
-                  if (state.isLoading) loadingAnimation(context);
-
-                  if (state.dataState is DataFailed) {
-                    customToast(context, text: state.dataState!.error ?? "");
-                  }
-                },
-                child: state.dataState is DataSuccess
-                    ? _buildBodyApplySuccess(context)
-                    : _buildBodyUploadCV(context),
-              ),
+          body: SafeArea(
+            child: NestedScrollView(
+              controller: context.read<ApplyJobCubit>().scrollController,
+              physics: const BouncingScrollPhysics(),
+              headerSliverBuilder: (_, __) => [_buildAppBar()],
+              body: state.dataState is DataSuccess
+                  ? _buildBodyApplySuccess(context)
+                  : _buildBodyUploadCV(context),
             ),
           ),
         );
@@ -71,53 +69,60 @@ class ApplyJobView extends StatelessWidget {
     );
   }
 
-  PreferredSize _buildAppBar() {
-    return PreferredSize(
-      preferredSize: const Size(double.infinity, 240),
-      child: CustomAppBarCompany(
-        avatar: job.company.avatar,
-        companyName: job.company.name,
-        jobPosition: job.jobPosition,
-        time: timeago.format(job.startDate),
-        location: job.company.address,
-        companyID: job.company.id,
-      ),
+  Widget _buildAppBar() {
+    return BlocBuilder<ApplyJobCubit, ApplyJobState>(
+      buildWhen: (previous, current) => previous.isTop != current.isTop,
+      builder: (context, state) {
+        return CustomAppBarCompany(
+          avatar: job.company.avatar,
+          companyName: job.company.name,
+          jobPosition: job.jobPosition,
+          time: timeago.format(job.startDate),
+          location: job.company.address,
+          companyID: job.company.id,
+          isTop: state.isTop,
+        );
+      },
     );
   }
 
   Widget _buildBodyApplySuccess(BuildContext context) {
-    return Column(
-      children: [
-        _buildCVSuccess(context),
-        const SizedBox(height: 20),
-        SvgPicture.asset(
-          AppImages.applySuccess,
-          width: MediaQuery.sizeOf(context).width / 2,
-        ),
-        const SizedBox(height: 32),
-        Text(
-          AppLocal.text.apply_job_page_successful,
-          style: AppStyles.boldTextJacarta.copyWith(fontSize: 18),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          AppLocal.text.apply_job_page_successful_content,
-          style: AppStyles.normalTextMulledWine,
-        ),
-        const SizedBox(height: 40),
-        CustomButton(
-          width: 260,
-          onPressed: ApplyJobCoordinator.backToHome,
-          title: AppLocal.text.apply_job_page_find_similar_job,
-          isElevated: false,
-        ),
-        const SizedBox(height: 20),
-        CustomButton(
-          width: 260,
-          onPressed: ApplyJobCoordinator.backToHome,
-          title: AppLocal.text.apply_job_page_back_to_home,
-        )
-      ],
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(AppDimens.smallPadding),
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        children: [
+          _buildCVSuccess(context),
+          const SizedBox(height: 20),
+          SvgPicture.asset(
+            AppImages.applySuccess,
+            width: MediaQuery.sizeOf(context).width / 2,
+          ),
+          const SizedBox(height: 32),
+          Text(
+            AppLocal.text.apply_job_page_successful,
+            style: AppStyles.boldTextJacarta.copyWith(fontSize: 18),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            AppLocal.text.apply_job_page_successful_content,
+            style: AppStyles.normalTextMulledWine,
+          ),
+          const SizedBox(height: 40),
+          CustomButton(
+            width: 260,
+            onPressed: ApplyJobCoordinator.backToHome,
+            title: AppLocal.text.apply_job_page_find_similar_job,
+            isElevated: false,
+          ),
+          const SizedBox(height: 20),
+          CustomButton(
+            width: 260,
+            onPressed: ApplyJobCoordinator.backToHome,
+            title: AppLocal.text.apply_job_page_back_to_home,
+          )
+        ],
+      ),
     );
   }
 
@@ -166,41 +171,46 @@ class ApplyJobView extends StatelessWidget {
   }
 
   Widget _buildBodyUploadCV(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        JobTitleInfo(
-          title: AppLocal.text.apply_job_page_upload_CV,
-          child: Text(
-            AppLocal.text.apply_job_page_upload_CV_content,
-            style: AppStyles.normalTextNightBlue,
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.all(AppDimens.smallPadding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          JobTitleInfo(
+            title: AppLocal.text.apply_job_page_upload_CV,
+            child: Text(
+              AppLocal.text.apply_job_page_upload_CV_content,
+              style: AppStyles.normalTextNightBlue,
+            ),
           ),
-        ),
-        const SizedBox(height: 20),
-        _buildCVWidget(),
-        const SizedBox(height: 30),
-        JobTitleInfo(
-          title: AppLocal.text.apply_job_page_information,
-          child: TextFormField(
-            controller: context.read<ApplyJobCubit>().controller,
-            maxLines: 8,
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              hintStyle: TextStyle(
-                color: AppColors.spunPearl,
-                fontSize: 14,
-                fontWeight: FontWeight.normal,
-              ),
-              hintText: AppLocal.text.apply_job_page_information_hint,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide: const BorderSide(width: 0, style: BorderStyle.none),
+          const SizedBox(height: 20),
+          _buildCVWidget(),
+          const SizedBox(height: 30),
+          JobTitleInfo(
+            title: AppLocal.text.apply_job_page_information,
+            child: TextFormField(
+              controller: context.read<ApplyJobCubit>().controller,
+              maxLines: 8,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintStyle: TextStyle(
+                  color: AppColors.spunPearl,
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                ),
+                hintText: AppLocal.text.apply_job_page_information_hint,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  borderSide:
+                      const BorderSide(width: 0, style: BorderStyle.none),
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

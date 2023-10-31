@@ -2,44 +2,60 @@ import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 
 class AppBarCompanyLoading extends StatelessWidget {
-  const AppBarCompanyLoading({super.key});
+  const AppBarCompanyLoading({super.key, required this.isTop});
+
+  final bool isTop;
 
   @override
   Widget build(BuildContext context) {
     Random random = Random();
-    return SafeArea(
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Column(
-            children: [_buildUpBody(context), _buildBottomBody(random)],
-          ),
-          const Positioned(
-            top: 60,
-            child: ItemLoading(width: 84, height: 84, radius: 360),
-          ),
-        ],
+    return SliverAppBar(
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(FontAwesomeIcons.ellipsisVertical),
+        ),
+        const SizedBox(width: 5),
+      ],
+      leading: IconButton(
+        onPressed: context.router.pop,
+        icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
       ),
-    );
-  }
-
-  Container _buildUpBody(BuildContext context) {
-    return Container(
-      height: 120,
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-      alignment: Alignment.topCenter,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          IconButton(
-            onPressed: context.router.pop,
-            icon: const Icon(Icons.arrow_back_rounded),
-          ),
-        ],
+      backgroundColor: isTop ? Colors.white : Colors.transparent,
+      elevation: 0,
+      pinned: true,
+      centerTitle: true,
+      stretch: true,
+      expandedHeight: 240,
+      scrolledUnderElevation: 0,
+      title: AnimatedOpacity(
+        opacity: !isTop ? 0.0 : 1.0,
+        duration: const Duration(milliseconds: 300),
+        child: ItemLoading(
+            width: random.nextInt(100) + 100, height: 20, radius: 5),
+      ),
+      flexibleSpace: FlexibleSpaceBar(
+        stretchModes: const [StretchMode.zoomBackground],
+        expandedTitleScale: 1.0,
+        centerTitle: false,
+        titlePadding: const EdgeInsets.all(16),
+        background: Stack(
+          alignment: Alignment.center,
+          children: [
+            Column(
+              children: [Container(height: 120), _buildBottomBody(random)],
+            ),
+            const Positioned(
+              top: 60,
+              child: ItemLoading(width: 84, height: 84, radius: 360),
+            ),
+          ],
+        ),
       ),
     );
   }

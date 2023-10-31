@@ -24,50 +24,43 @@ class ViewJobView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
-
     return Scaffold(
-      appBar: _buildAppBar(width),
       bottomNavigationBar: _buildBottomBar(context),
-      body: RefreshIndicator(
-        onRefresh: context.read<ViewJobCubit>().fetchJobData,
-        child: SingleChildScrollView(
+      body: SafeArea(
+        child: NestedScrollView(
+          controller: context.read<ViewJobCubit>().scrollController,
           physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.all(AppDimens.smallPadding),
-            child: BlocListener<ViewJobCubit, ViewJobState>(
-              listener: (context, state) {
-                if (state.dataState is DataFailed) {
-                  customToast(context, text: state.dataState!.error ?? "");
-                }
-              },
-              child: _buildBody(),
-            ),
+          headerSliverBuilder: (_, __) => [_buildAppBar()],
+          body: BlocListener<ViewJobCubit, ViewJobState>(
+            listener: (context, state) {
+              if (state.error != null) {
+                customToast(context, text: state.error ?? "");
+              }
+            },
+            child: _buildBody(),
           ),
         ),
       ),
     );
   }
 
-  PreferredSize _buildAppBar(double width) {
-    return PreferredSize(
-      preferredSize: Size(width, 240),
-      child: BlocBuilder<ViewJobCubit, ViewJobState>(
-        builder: (context, state) {
-          if (state.dataState is DataSuccess) {
-            final data = state.dataState!.data!;
-            return CustomAppBarCompany(
-              avatar: data.company.avatar,
-              companyName: data.company.name,
-              location: data.company.address,
-              jobPosition: data.position,
-              time: timeago.format(data.startDate),
-              companyID: data.company.id,
-            );
-          }
-          return const AppBarCompanyLoading();
-        },
-      ),
+  Widget _buildAppBar() {
+    return BlocBuilder<ViewJobCubit, ViewJobState>(
+      builder: (context, state) {
+        if (state.dataState is DataSuccess) {
+          final data = state.dataState!.data!;
+          return CustomAppBarCompany(
+            avatar: data.company.avatar,
+            companyName: data.company.name,
+            location: data.company.address,
+            jobPosition: data.position,
+            time: timeago.format(data.startDate),
+            companyID: data.company.id,
+            isTop: state.isTop,
+          );
+        }
+        return AppBarCompanyLoading(isTop: state.isTop);
+      },
     );
   }
 
@@ -77,47 +70,57 @@ class ViewJobView extends StatelessWidget {
       builder: (context, state) {
         if (state.dataState is DataSuccess) {
           final data = state.dataState!.data!;
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 10),
-              Row(
+          return RefreshIndicator(
+            onRefresh: context.read<ViewJobCubit>().fetchJobData,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.all(AppDimens.smallPadding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "\$${data.salary}",
-                          style: AppStyles.boldTextHaiti.copyWith(fontSize: 25),
-                        ),
-                        TextSpan(
-                          text: "/Mo",
-                          style: AppStyles.normalTextSpunPearl
-                              .copyWith(fontSize: 20),
-                        )
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                  Text(
-                    DateTimeUtils.daysLeft(data.endDate),
-                    style: AppStyles.normalTextNightBlue.copyWith(fontSize: 16),
-                  ),
+                  const SizedBox(height: 10),
+                  _buildSalary(data),
+                  const SizedBox(height: 30),
+                  _buildDescription(),
+                  const SizedBox(height: 20),
+                  _buildRequirements(data.requirements),
+                  const SizedBox(height: 20),
+                  _buildLocation(getLocation(data.location) ?? ""),
+                  const SizedBox(height: 20),
+                  _buildInformation(data),
                 ],
               ),
-              const SizedBox(height: 30),
-              _buildDescription(),
-              const SizedBox(height: 20),
-              _buildRequirements(data.requirements),
-              const SizedBox(height: 20),
-              _buildLocation(getLocation(data.location) ?? ""),
-              const SizedBox(height: 20),
-              _buildInformation(data),
-            ],
+            ),
           );
         }
         return const JobDescriptionLoading();
       },
+    );
+  }
+
+  Widget _buildSalary(JobEntity data) {
+    return Row(
+      children: [
+        RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: "\$${data.salary}",
+                style: AppStyles.boldTextHaiti.copyWith(fontSize: 25),
+              ),
+              TextSpan(
+                text: "/Mo",
+                style: AppStyles.normalTextSpunPearl.copyWith(fontSize: 20),
+              )
+            ],
+          ),
+        ),
+        const Spacer(),
+        Text(
+          DateTimeUtils.daysLeft(data.endDate),
+          style: AppStyles.normalTextNightBlue.copyWith(fontSize: 16),
+        ),
+      ],
     );
   }
 
