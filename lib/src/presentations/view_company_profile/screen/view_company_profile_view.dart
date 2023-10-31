@@ -11,6 +11,7 @@ import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/view_company_profile/cubit/view_company_profile_cubit.dart';
+import 'package:jobspot/src/presentations/view_company_profile/domain/router/view_company_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/view_company_profile/widgets/custom_button_profile.dart';
 
 class ViewCompanyProfileView extends StatefulWidget {
@@ -183,7 +184,12 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   _buildText(
-                    onTap: () {},
+                    onTap: () => ViewCompanyProfileCoordinator.viewFollow(
+                      index: 1,
+                      title: state.user?.name,
+                      follower: state.user?.follower ?? [],
+                      following: state.user?.following ?? [],
+                    ),
                     title: AppLocal.text.view_company_profile_page_follower(
                         state.user?.follower.length ?? 0),
                   ),

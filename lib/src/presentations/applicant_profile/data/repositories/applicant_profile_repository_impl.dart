@@ -48,6 +48,8 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
             id: FirebaseAuth.instance.currentUser!.uid,
             name: user!.name,
             avatar: user.avatar,
+            address: user.address,
+            role: user.role,
           );
         }
         int index = 0;

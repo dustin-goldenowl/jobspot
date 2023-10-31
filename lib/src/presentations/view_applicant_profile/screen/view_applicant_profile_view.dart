@@ -11,6 +11,7 @@ import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/data/entities/user_entity.dart';
 import 'package:jobspot/src/presentations/view_applicant_profile/cubit/view_applicant_profile_cubit.dart';
+import 'package:jobspot/src/presentations/view_applicant_profile/domain/router/view_applicant_profile_coordinator.dart';
 
 class ViewApplicantProfileView extends StatefulWidget {
   const ViewApplicantProfileView({super.key});
@@ -176,12 +177,19 @@ class _ViewApplicantProfileViewState extends State<ViewApplicantProfileView>
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      ///TODO if I have idea with it, it will be open
+                      // _itemFollow(
+                      //   title: AppLocal.text.applicant_profile_page_follow,
+                      //   number: "${user?.follower.length ?? 0}",
+                      // ),
+                      // const SizedBox(width: 30),
                       _itemFollow(
-                        title: AppLocal.text.applicant_profile_page_follow,
-                        number: "${user?.follower.length ?? 0}",
-                      ),
-                      const SizedBox(width: 30),
-                      _itemFollow(
+                        onTap: () => ViewApplicantProfileCoordinator.viewFollow(
+                          index: 0,
+                          title: user?.name ?? "",
+                          following: user?.following ?? [],
+                          follower: user?.follower ?? [],
+                        ),
                         title: AppLocal.text.applicant_profile_page_following,
                         number: "${user?.following.length ?? 0}",
                       ),
@@ -196,19 +204,26 @@ class _ViewApplicantProfileViewState extends State<ViewApplicantProfileView>
     );
   }
 
-  Widget _itemFollow({required String title, required String number}) {
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: number,
-            style: AppStyles.boldTextWhite.copyWith(fontSize: 16),
-          ),
-          TextSpan(
-            text: " $title",
-            style: AppStyles.normalTextWhite.copyWith(fontSize: 14),
-          )
-        ],
+  Widget _itemFollow({
+    VoidCallback? onTap,
+    required String title,
+    required String number,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: number,
+              style: AppStyles.boldTextWhite.copyWith(fontSize: 16),
+            ),
+            TextSpan(
+              text: " $title",
+              style: AppStyles.normalTextWhite.copyWith(fontSize: 14),
+            ),
+          ],
+        ),
       ),
     );
   }

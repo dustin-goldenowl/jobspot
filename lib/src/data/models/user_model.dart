@@ -153,6 +153,7 @@ class UserModel {
   Map<String, dynamic> toJson() {
     return role == UserRole.business
         ? {
+            "id": id,
             "birthday": birthday.toIso8601String(),
             "address": address,
             "role": role.name,
@@ -173,6 +174,7 @@ class UserModel {
             "type": type,
           }
         : {
+            "id": id,
             "birthday": birthday.toIso8601String(),
             "address": address,
             "role": role.name,
@@ -188,6 +190,33 @@ class UserModel {
             "email": email,
             "saveJob": saveJob,
           };
+  }
+
+  UserModel copyWith({List<String>? follower, List<String>? following}) {
+    return UserModel(
+      id: id,
+      name: name,
+      email: email,
+      avatar: avatar,
+      address: address,
+      birthday: birthday,
+      description: description,
+      follower: follower ?? this.follower,
+      following: following ?? this.following,
+      updateAt: updateAt,
+      createAt: createAt,
+      role: role,
+      employeeSize: employeeSize,
+      gender: gender,
+      images: images,
+      industry: industry,
+      saveJob: saveJob,
+      skill: skill,
+      specialization: specialization,
+      type: type,
+      verify: verify,
+      website: website,
+    );
   }
 
   UserEntity toUserEntity() {

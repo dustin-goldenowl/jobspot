@@ -222,7 +222,7 @@
     "custom_alert_dialog_cancel": "Hủy",
     "custom_alert_dialog_ok": "OK",
 
-    "applicant_profile_page_follow": "Theo dõi",
+    "applicant_profile_page_follower": "Người theo dõi",
     "applicant_profile_page_following": "Đang theo dõi",
     "applicant_profile_page_about": "Giới thiệu",
     "applicant_profile_page_post": "Bài viết",
@@ -453,5 +453,8 @@
     "edit_company_profile_page_head_office_validate": "Trụ sở chính của công ty không được để trống",
     "edit_company_profile_page_description": "Mô tả",
     "edit_company_profile_page_description_validate": "Mô tả doanh nghiệp không được để trống",
-    "edit_company_profile_page_no_images": "Không có hình ảnh nào ở đây"
+    "edit_company_profile_page_no_images": "Không có hình ảnh nào ở đây",
+
+    "follow_page_no_follower": "Không có người theo dõi",
+    "follow_page_no_following": "Không theo dõi ai"
 }

@@ -222,7 +222,7 @@
     "custom_alert_dialog_cancel": "Cancel",
     "custom_alert_dialog_ok": "OK",
 
-    "applicant_profile_page_follow": "Follow",
+    "applicant_profile_page_follower": "Follower",
     "applicant_profile_page_following": "Following",
     "applicant_profile_page_about": "About",
     "applicant_profile_page_post": "Post",
@@ -453,5 +453,8 @@
     "edit_company_profile_page_head_office_validate": "The company's headquarters cannot be empty",
     "edit_company_profile_page_description": "Description",
     "edit_company_profile_page_description_validate": "Business description cannot be blank",
-    "edit_company_profile_page_no_images": "There are no images here"
+    "edit_company_profile_page_no_images": "There are no images here",
+
+    "follow_page_no_follower": "No followers",
+    "follow_page_no_following": "No following"
 }

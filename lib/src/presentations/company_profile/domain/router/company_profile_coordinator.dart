@@ -23,4 +23,17 @@ class CompanyProfileCoordinator {
 
   static void showEditCompanyProfile() =>
       rootRouter.push(const EditCompanyProfileRoute());
+
+  static void viewFollow({
+    List<String>? following,
+    List<String>? follower,
+    String? title,
+    required int index,
+  }) =>
+      rootRouter.push(FollowRoute(
+        follower: follower,
+        following: following,
+        title: title,
+        index: index,
+      ));
 }

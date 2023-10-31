@@ -195,12 +195,14 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
     UserEntity? user = PrefsUtils.getUserInfo();
     return Row(
       children: [
+        ///TODO if I have idea with it, it will be open
+        // _itemFollow(
+        //   title: AppLocal.text.applicant_profile_page_follow,
+        //   number: "${user?.follower.length ?? 0}",
+        // ),
+        // const SizedBox(width: 20),
         _itemFollow(
-          title: AppLocal.text.applicant_profile_page_follow,
-          number: "${user?.follower.length ?? 0}",
-        ),
-        const SizedBox(width: 20),
-        _itemFollow(
+          onTap: () => ApplicantProfileCoordinator.viewFollow(index: 0),
           title: AppLocal.text.applicant_profile_page_following,
           number: "${user?.following.length ?? 0}",
         ),
@@ -238,19 +240,26 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
     );
   }
 
-  Widget _itemFollow({required String title, required String number}) {
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: number,
-            style: AppStyles.boldTextWhite.copyWith(fontSize: 16),
-          ),
-          TextSpan(
-            text: " $title",
-            style: AppStyles.normalTextWhite.copyWith(fontSize: 14),
-          )
-        ],
+  Widget _itemFollow({
+    VoidCallback? onTap,
+    required String title,
+    required String number,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(
+              text: number,
+              style: AppStyles.boldTextWhite.copyWith(fontSize: 16),
+            ),
+            TextSpan(
+              text: " $title",
+              style: AppStyles.normalTextWhite.copyWith(fontSize: 14),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -16,4 +16,17 @@ class ViewApplicantProfileCoordinator {
 
   static void viewPDF({required String url, String? title}) =>
       rootRouter.push(ViewPDFRoute(url: url, title: title));
+
+  static void viewFollow({
+    List<String>? following,
+    List<String>? follower,
+    String? title,
+    required int index,
+  }) =>
+      rootRouter.push(FollowRoute(
+        follower: follower,
+        following: following,
+        title: title,
+        index: index,
+      ));
 }
