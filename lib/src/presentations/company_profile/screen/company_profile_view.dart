@@ -9,6 +9,7 @@ import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/company_profile/cubit/company_profile_cubit.dart';
+import 'package:jobspot/src/presentations/company_profile/domain/router/company_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/view_company_profile/widgets/custom_button_profile.dart';
 
 class CompanyProfileView extends StatefulWidget {
@@ -62,9 +63,11 @@ class _CompanyProfileViewState extends State<CompanyProfileView>
                       child: SizedBox(
                         width: 170,
                         child: CustomButtonProfile(
-                          onTap: () {},
+                          onTap:
+                              CompanyProfileCoordinator.showEditCompanyProfile,
                           icon: SvgPicture.asset(AppImages.edit),
-                          title: "Edit Profile",
+                          title:
+                              AppLocal.text.applicant_profile_page_edit_profile,
                         ),
                       ),
                     ),
@@ -141,15 +144,18 @@ class _CompanyProfileViewState extends State<CompanyProfileView>
         _buildBehindBackground(context, state: state),
         Positioned(
           top: 60,
-          child: ClipOval(
-            child: CachedNetworkImage(
-              imageUrl: state.user?.avatar ?? "",
-              height: 84,
-              width: 84,
-              placeholder: (context, url) =>
-                  const ItemLoading(width: 84, height: 84, radius: 90),
-              errorWidget: (context, url, error) =>
-                  SvgPicture.asset(AppImages.logo),
+          child: Hero(
+            tag: AppTags.avatar,
+            child: ClipOval(
+              child: CachedNetworkImage(
+                imageUrl: state.user?.avatar ?? "",
+                height: 84,
+                width: 84,
+                placeholder: (context, url) =>
+                    const ItemLoading(width: 84, height: 84, radius: 90),
+                errorWidget: (context, url, error) =>
+                    SvgPicture.asset(AppImages.logo),
+              ),
             ),
           ),
         )

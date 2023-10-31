@@ -28,7 +28,7 @@ class UserEntity {
   final String? employeeSize;
   final String? type;
   final List<String>? images;
-  final List<String>? specialization;
+  final String? specialization;
 
   const UserEntity({
     required this.id,

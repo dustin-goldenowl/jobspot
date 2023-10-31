@@ -3,34 +3,34 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
+import 'package:jobspot/src/core/common/widgets/image_widget/widget/image_widget.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:jobspot/src/core/function/loading_animation.dart';
-import 'package:jobspot/src/presentations/edit_applicant_profile/cubit/edit_applicant_profile_cubit.dart';
+import 'package:jobspot/src/presentations/edit_company_profile/cubit/edit_company_profile_cubit.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_input.dart';
 import 'package:jobspot/src/presentations/sign_up/widgets/birthday_widget.dart';
-import 'package:jobspot/src/presentations/sign_up/widgets/gender_widget.dart';
 
-class EditApplicantProfileView extends StatelessWidget {
-  const EditApplicantProfileView({super.key});
+class EditCompanyProfileView extends StatelessWidget {
+  const EditCompanyProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: NestedScrollView(
-          controller:
-              context.read<EditApplicantProfileCubit>().scrollController,
+          controller: context.read<EditCompanyProfileCubit>().scrollController,
           physics: const BouncingScrollPhysics(),
           headerSliverBuilder: (_, __) => [_buildAppBar()],
-          body: BlocListener<EditApplicantProfileCubit,
-              EditApplicantProfileState>(
+          body: BlocListener<EditCompanyProfileCubit, EditCompanyProfileState>(
             listenWhen: (previous, current) {
               if (previous.isLoading) Navigator.of(context).pop();
 
@@ -47,7 +47,7 @@ class EditApplicantProfileView extends StatelessWidget {
               }
             },
             child: Form(
-              key: context.read<EditApplicantProfileCubit>().formKey,
+              key: context.read<EditCompanyProfileCubit>().formKey,
               child: _buildBody(context),
             ),
           ),
@@ -66,7 +66,7 @@ class EditApplicantProfileView extends StatelessWidget {
             CustomTitleTextInput(
               title: AppLocal.text.edit_applicant_profile_page_fullname,
               controller:
-                  context.read<EditApplicantProfileCubit>().nameController,
+                  context.read<EditCompanyProfileCubit>().nameController,
               validator: (value) {
                 if (value!.isEmpty) {
                   return AppLocal.text.edit_company_profile_page_name_validate;
@@ -75,52 +75,164 @@ class EditApplicantProfileView extends StatelessWidget {
               },
             ),
             const SizedBox(height: 15),
-            _buildBirthday(),
+            CustomTitleTextInput(
+              title: AppLocal.text.view_company_profile_page_website,
+              controller:
+                  context.read<EditCompanyProfileCubit>().websiteController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return AppLocal.text.edit_company_profile_page_website_blank;
+                }
+                if (!value.isLink) {
+                  return AppLocal.text.edit_company_profile_page_website_path;
+                }
+                return null;
+              },
+            ),
             const SizedBox(height: 15),
-            _buildGender(),
+            CustomTitleTextInput(
+              title: AppLocal.text.view_company_profile_page_industry,
+              controller:
+                  context.read<EditCompanyProfileCubit>().industryController,
+            ),
+            const SizedBox(height: 15),
+            CustomTitleTextInput(
+              title: AppLocal.text.employee_size,
+              keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              controller: context
+                  .read<EditCompanyProfileCubit>()
+                  .employeeSizeController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return AppLocal
+                      .text.edit_company_profile_page_employee_size_validate;
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 15),
+            _buildBirthday(),
             const SizedBox(height: 15),
             CustomTitleTextInput(
               onTap: () {}, // ontap => set readonly
               title: AppLocal.text.edit_applicant_profile_page_email,
               controller:
-                  context.read<EditApplicantProfileCubit>().emailController,
+                  context.read<EditCompanyProfileCubit>().emailController,
             ),
             const SizedBox(height: 15),
             CustomTitleTextInput(
-              title: AppLocal.text.edit_applicant_profile_page_address,
+              title: AppLocal.text.view_company_profile_page_type,
               controller:
-                  context.read<EditApplicantProfileCubit>().locationController,
+                  context.read<EditCompanyProfileCubit>().typeController,
+            ),
+            const SizedBox(height: 15),
+            CustomTitleTextInput(
+              title: AppLocal.text.view_company_profile_page_head_office,
+              controller:
+                  context.read<EditCompanyProfileCubit>().headOfficeController,
               validator: (value) {
                 if (value!.isEmpty) {
                   return AppLocal
-                      .text.edit_applicant_profile_page_address_validate;
+                      .text.edit_company_profile_page_head_office_validate;
                 }
                 return null;
               },
             ),
+            const SizedBox(height: 15),
+            CustomTitleTextInput(
+              title: AppLocal.text.view_company_profile_page_specialization,
+              maxLines: 3,
+              controller: context
+                  .read<EditCompanyProfileCubit>()
+                  .specializationController,
+            ),
+            const SizedBox(height: 15),
+            CustomTitleTextInput(
+              maxLines: 8,
+              title: AppLocal.text.edit_company_profile_page_description,
+              controller:
+                  context.read<EditCompanyProfileCubit>().descriptionController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return AppLocal
+                      .text.edit_company_profile_page_description_validate;
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 15),
+            _buildImage(),
             const SizedBox(height: 25),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 60),
               child: CustomButton(
                 onPressed:
-                    context.read<EditApplicantProfileCubit>().updateUserInfo,
+                    context.read<EditCompanyProfileCubit>().updateCompanyInfo,
                 title: AppLocal.text.edit_applicant_profile_page_save
                     .toUpperCase(),
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 
+  Widget _buildImage() {
+    return BlocBuilder<EditCompanyProfileCubit, EditCompanyProfileState>(
+      buildWhen: (previous, current) =>
+          previous.images != current.images ||
+          previous.removeImages != current.removeImages,
+      builder: (context, state) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  AppLocal.text.view_company_profile_page_company_gallery,
+                  style: AppStyles.boldTextNightBlue,
+                ),
+                IconButton(
+                  onPressed: () => context
+                      .read<EditCompanyProfileCubit>()
+                      .showPickImage(context),
+                  icon: Icon(
+                    FontAwesomeIcons.paperclip,
+                    color: AppColors.deepSaffron,
+                    size: 20,
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(height: 15),
+            state.images.isNotEmpty
+                ? ImageWidget(
+                    radius: 20,
+                    padding: 20,
+                    images: state.images,
+                    onDelete:
+                        context.read<EditCompanyProfileCubit>().removeImage,
+                    showDelete: true,
+                  )
+                : Text(
+                    AppLocal.text.edit_company_profile_page_no_images,
+                    style: AppStyles.normalTextMulledWine,
+                  ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget _buildBirthday() {
     final now = DateTime.now();
-    return BlocBuilder<EditApplicantProfileCubit, EditApplicantProfileState>(
+    return BlocBuilder<EditCompanyProfileCubit, EditCompanyProfileState>(
       buildWhen: (previous, current) => previous.birthday != current.birthday,
       builder: (context, state) {
         return BirthdayWidget(
-          title: AppLocal.text.birthday,
+          title: AppLocal.text.view_company_profile_page_since,
           onChange: (date) {},
           selectedDate: state.birthday,
           lastDate: DateTime(now.year - 18, now.month, now.day),
@@ -129,20 +241,8 @@ class EditApplicantProfileView extends StatelessWidget {
     );
   }
 
-  Widget _buildGender() {
-    return BlocBuilder<EditApplicantProfileCubit, EditApplicantProfileState>(
-      buildWhen: (previous, current) => previous.isMale != current.isMale,
-      builder: (context, state) {
-        return GenderWidget(
-          isMale: state.isMale,
-          onChange: context.read<EditApplicantProfileCubit>().changeGender,
-        );
-      },
-    );
-  }
-
   Widget _buildAppBar() {
-    return BlocBuilder<EditApplicantProfileCubit, EditApplicantProfileState>(
+    return BlocBuilder<EditCompanyProfileCubit, EditCompanyProfileState>(
       builder: (context, state) {
         double width = MediaQuery.sizeOf(context).width;
         return SliverAppBar(
@@ -160,7 +260,7 @@ class EditApplicantProfileView extends StatelessWidget {
             opacity: !state.isTop ? 0.0 : 1.0,
             duration: const Duration(milliseconds: 300),
             child: Text(
-              context.read<EditApplicantProfileCubit>().nameController.text,
+              context.read<EditCompanyProfileCubit>().nameController.text,
               style: AppStyles.normalTextWhite
                   .copyWith(fontWeight: FontWeight.w500),
             ),
@@ -209,7 +309,7 @@ class EditApplicantProfileView extends StatelessWidget {
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () => context
-                        .read<EditApplicantProfileCubit>()
+                        .read<EditCompanyProfileCubit>()
                         .showPickAvatar(context),
                     child: Container(
                       decoration: BoxDecoration(
@@ -236,7 +336,7 @@ class EditApplicantProfileView extends StatelessWidget {
   }
 
   Widget _buildAvatar() {
-    return BlocBuilder<EditApplicantProfileCubit, EditApplicantProfileState>(
+    return BlocBuilder<EditCompanyProfileCubit, EditCompanyProfileState>(
       buildWhen: (previous, current) => previous.avatar != current.avatar,
       builder: (context, state) {
         return Hero(

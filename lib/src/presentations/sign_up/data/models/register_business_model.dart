@@ -38,10 +38,11 @@ class RegisterBusinessModel {
       "industry": "",
       "website": "",
       "verify": "none",
+      "type": "",
       "images": [],
       "follower": [],
       "following": [],
-      "specialization": [],
+      "specialization": "",
       "createAt": DateTime.now(),
       "updateAt": DateTime.now(),
     };

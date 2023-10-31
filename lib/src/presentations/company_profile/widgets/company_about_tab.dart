@@ -31,14 +31,6 @@ class CompanyAboutTab extends StatelessWidget {
       buildWhen: (previous, current) => previous.user != current.user,
       builder: (context, state) {
         if (state.user != null) {
-          String specialization = "";
-          for (var element in state.user?.specialization ?? []) {
-            specialization += "$element, ";
-          }
-          if (specialization.length > 2) {
-            specialization =
-                specialization.substring(0, specialization.length - 2);
-          }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -99,9 +91,9 @@ class CompanyAboutTab extends StatelessWidget {
               const SizedBox(height: 20),
               ProfileTitleInfo(
                 title: AppLocal.text.view_company_profile_page_specialization,
-                content: specialization.isEmpty
+                content: (state.user?.specialization ?? "").isEmpty
                     ? AppLocal.text.view_company_profile_page_not_provided
-                    : specialization,
+                    : state.user!.specialization!,
               ),
               const SizedBox(height: 20),
               if ((state.user?.images?.length ?? 0) > 0)

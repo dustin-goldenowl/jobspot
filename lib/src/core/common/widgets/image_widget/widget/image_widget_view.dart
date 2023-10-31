@@ -18,6 +18,7 @@ class ImageWidgetView extends StatelessWidget {
   final bool showDelete;
   final Function(int index)? onDelete;
   final double padding;
+  final double radius;
 
   const ImageWidgetView({
     super.key,
@@ -25,6 +26,7 @@ class ImageWidgetView extends StatelessWidget {
     required this.networkImages,
     required this.showDelete,
     required this.padding,
+    required this.radius,
     this.onDelete,
   });
 
@@ -79,24 +81,27 @@ class ImageWidgetView extends StatelessWidget {
             animationCurve: Curves.fastOutSlowIn,
             animationDuration: const Duration(milliseconds: 300),
             twoTouchOnly: true,
-            child: SizedBox(
-              width: size,
-              height: size,
-              child: image.isAssets
-                  ? Image.asset(image, fit: BoxFit.cover)
-                  : (image.isLink
-                      ? CachedNetworkImage(
-                          imageUrl: image,
-                          height: 150,
-                          width: 150,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => const ItemLoading(
-                              width: 150, height: 150, radius: 0),
-                          errorWidget: (context, url, error) =>
-                              SvgPicture.asset(AppImages.logo,
-                                  fit: BoxFit.cover),
-                        )
-                      : Image.file(File(image), fit: BoxFit.cover)),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(radius),
+              child: SizedBox(
+                width: size,
+                height: size,
+                child: image.isAssets
+                    ? Image.asset(image, fit: BoxFit.cover)
+                    : (image.isLink
+                        ? CachedNetworkImage(
+                            imageUrl: image,
+                            height: 150,
+                            width: 150,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => const ItemLoading(
+                                width: 150, height: 150, radius: 0),
+                            errorWidget: (context, url, error) =>
+                                SvgPicture.asset(AppImages.logo,
+                                    fit: BoxFit.cover),
+                          )
+                        : Image.file(File(image), fit: BoxFit.cover)),
+              ),
             ),
           ),
         ),

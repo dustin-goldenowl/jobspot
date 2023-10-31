@@ -9,6 +9,7 @@ class ImageWidget extends StatelessWidget {
   final bool showDelete;
   final Function(int index)? onDelete;
   final double padding;
+  final double radius;
 
   const ImageWidget({
     super.key,
@@ -17,6 +18,7 @@ class ImageWidget extends StatelessWidget {
     this.showDelete = false,
     this.onDelete,
     this.padding = 0,
+    this.radius = 0,
   });
 
   @override
@@ -29,6 +31,7 @@ class ImageWidget extends StatelessWidget {
         onDelete: onDelete,
         showDelete: showDelete,
         padding: padding,
+        radius: radius,
       ),
     );
   }

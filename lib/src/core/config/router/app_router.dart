@@ -257,5 +257,10 @@ class AppRouter extends $AppRouter {
           ],
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
+        CustomRoute(
+          path: AppPaths.editCompanyProfile,
+          page: EditCompanyProfileRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
+        ),
       ];
 }
