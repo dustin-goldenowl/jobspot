@@ -14,10 +14,19 @@ part 'apply_job_state.dart';
 @injectable
 class ApplyJobCubit extends Cubit<ApplyJobState> {
   final ApplyJobUseCase _useCase;
+  final ScrollController scrollController = ScrollController();
 
   TextEditingController controller = TextEditingController();
 
-  ApplyJobCubit(this._useCase) : super(const ApplyJobState());
+  ApplyJobCubit(this._useCase) : super(const ApplyJobState(isTop: false)) {
+    scrollController.addListener(() {
+      bool isTop = scrollController.position.pixels >=
+          240 - 2 * AppBar().preferredSize.height;
+      changeIsTop(isTop);
+    });
+  }
+
+  void changeIsTop(bool isTop) => emit(state.copyWith(isTop: isTop));
 
   Future pickCVFile(BuildContext context) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -50,5 +59,12 @@ class ApplyJobCubit extends Cubit<ApplyJobState> {
     ));
     emit(state.copyWith(
         file: state.file, time: state.time, dataState: response));
+  }
+
+  @override
+  Future<void> close() {
+    scrollController.dispose();
+    controller.dispose();
+    return super.close();
   }
 }

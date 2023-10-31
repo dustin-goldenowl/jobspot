@@ -150,6 +150,7 @@ class ApplicantAboutTab extends StatelessWidget {
     return BlocBuilder<ApplicantProfileCubit, ApplicantProfileState>(
       buildWhen: (previous, current) => previous.listSkill != current.listSkill,
       builder: (context, state) {
+        print(state.listSkill);
         return ProfileItem(
           icon: AppImages.skill,
           title: AppLocal.text.applicant_profile_page_skill,
@@ -157,7 +158,7 @@ class ApplicantAboutTab extends StatelessWidget {
               ApplicantProfileCoordinator.showAddSkill(state.listSkill ?? []),
           onEdit: () =>
               ApplicantProfileCoordinator.showAddSkill(state.listSkill ?? []),
-          child: state.listResume == null
+          child: state.listSkill == null
               ? _buildListLoading()
               : state.listSkill != null && state.listSkill!.isNotEmpty
                   ? Wrap(
