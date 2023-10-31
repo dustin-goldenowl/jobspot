@@ -21,6 +21,7 @@ class EditApplicantProfileCubit extends Cubit<EditApplicantProfileState> {
   TextEditingController emailController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   final ScrollController scrollController = ScrollController();
+  final formKey = GlobalKey<FormState>();
 
   final UpdateUserInfoUseCase _useCase;
 
@@ -46,19 +47,21 @@ class EditApplicantProfileCubit extends Cubit<EditApplicantProfileState> {
   void changeGender(bool gender) => emit(state.copyWith(isMale: gender));
 
   Future updateUserInfo() async {
-    emit(state.copyWith(isLoading: true));
-    final response = await _useCase.call(
-        params: UpdateUserInfoEntity(
-      avatar: state.avatar,
-      name: nameController.text,
-      address: locationController.text,
-      birthday: state.birthday,
-      gender: state.isMale,
-    ));
-    if (response is DataFailed) {
-      emit(state.copyWith(error: response.error));
-    } else {
-      emit(state.copyWith());
+    if (formKey.currentState!.validate()) {
+      emit(state.copyWith(isLoading: true));
+      final response = await _useCase.call(
+          params: UpdateUserInfoEntity(
+        avatar: state.avatar,
+        name: nameController.text,
+        address: locationController.text,
+        birthday: state.birthday,
+        gender: state.isMale,
+      ));
+      if (response is DataFailed) {
+        emit(state.copyWith(error: response.error));
+      } else {
+        emit(state.copyWith());
+      }
     }
   }
 

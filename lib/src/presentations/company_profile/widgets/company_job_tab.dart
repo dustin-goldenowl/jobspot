@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/presentations/company_profile/cubit/company_profile_cubit.dart';
+import 'package:jobspot/src/presentations/company_profile/domain/router/company_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/save_job/widgets/custom_job_card.dart';
 import 'package:jobspot/src/presentations/save_job/widgets/custom_job_card_loading.dart';
-import 'package:jobspot/src/presentations/view_company_profile/cubit/view_company_profile_cubit.dart';
-import 'package:jobspot/src/presentations/view_company_profile/domain/router/view_company_profile_coordinator.dart';
 
 @RoutePage()
-class ViewCompanyJobTab extends StatelessWidget {
-  const ViewCompanyJobTab({super.key});
+class CompanyJobTab extends StatelessWidget {
+  const CompanyJobTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ViewCompanyProfileCubit, ViewCompanyProfileState>(
+    return BlocBuilder<CompanyProfileCubit, CompanyProfileState>(
       buildWhen: (previous, current) => previous.listJob != current.listJob,
       builder: (context, state) {
         return ListView.separated(
@@ -28,10 +28,9 @@ class ViewCompanyJobTab extends StatelessWidget {
                   icon: SvgPicture.asset(AppImages.save),
                   onPressed: () {},
                 ),
-                onTap: () => ViewCompanyProfileCoordinator.showFullJob(
+                onTap: () => CompanyProfileCoordinator.showFullJob(
                     state.listJob![index].id),
-                isShowApply: true,
-                onApply: () => ViewCompanyProfileCoordinator.showApplyJob(
+                onApply: () => CompanyProfileCoordinator.showApplyJob(
                     job: state.listJob![index]),
                 job: state.listJob![index],
               );

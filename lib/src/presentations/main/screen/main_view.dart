@@ -23,7 +23,9 @@ class MainView extends StatelessWidget {
             : const HomeApplicantRoute(),
         const ConnectionRoute(),
         const NotificationRoute(),
-        const SaveJobRoute()
+        user?.role == UserRole.business
+            ? const SettingRoute()
+            : const SaveJobRoute()
       ],
       builder: (context, child, pageController) {
         final tabsRouter = AutoTabsRouter.of(context);

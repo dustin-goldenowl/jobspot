@@ -9,6 +9,7 @@ import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/enum/user_role.dart';
 import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
+import 'package:jobspot/src/data/entities/user_entity.dart';
 import 'package:jobspot/src/presentations/setting/cubit/setting_cubit.dart';
 import 'package:jobspot/src/presentations/setting/domain/router/setting_coordinator.dart';
 
@@ -17,9 +18,18 @@ class SettingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserEntity user = PrefsUtils.getUserInfo()!;
     return Scaffold(
       key: Key(AppLocalizations.of(context)!.key),
-      appBar: AppBar(elevation: 0, scrolledUnderElevation: 0),
+      appBar: AppBar(
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        title: user.role == UserRole.business
+            ? Text(AppLocal.text.setting_page_setting)
+            : null,
+        titleTextStyle: AppStyles.boldTextHaiti.copyWith(fontSize: 20),
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(AppDimens.smallPadding),
         child: BlocListener<SettingCubit, SettingState>(
@@ -42,14 +52,16 @@ class SettingView extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
+    UserEntity user = PrefsUtils.getUserInfo()!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          AppLocal.text.setting_page_setting,
-          style: AppStyles.boldTextHaiti.copyWith(fontSize: 18),
-        ),
-        const SizedBox(height: 25),
+        if (user.role != UserRole.business)
+          Text(
+            AppLocal.text.setting_page_setting,
+            style: AppStyles.boldTextHaiti.copyWith(fontSize: 18),
+          ),
+        if (user.role != UserRole.business) const SizedBox(height: 25),
         _buildLanguage(context),
         if (PrefsUtils.getUserInfo()!.role != UserRole.admin)
           const SizedBox(height: 10),

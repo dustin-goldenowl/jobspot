@@ -32,6 +32,7 @@ class UpdateUserInfoModel {
       "address": address,
       "birthday": birthday,
       "gender": gender,
+      "updateAt": DateTime.now(),
     };
   }
 }

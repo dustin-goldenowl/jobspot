@@ -382,6 +382,7 @@
     "edit_applicant_profile_page_save": "Save",
     "edit_applicant_profile_page_camera": "Camera",
     "edit_applicant_profile_page_gallery": "Gallery",
+    "edit_applicant_profile_page_address_validate": "Address cannot be left blank",
 
     "view_company_profile_page_not_provided": "Not provided",
     "view_company_profile_page_no_description": "No description",
@@ -443,5 +444,14 @@
     "verify_business_page_information_content": "Say something about your business",
     "verify_business_page_information_validate": "Please describe a little about your business",
     "verify_business_page_verify_business": "Verify Business",
-    "verify_business_page_verify_business_content": "Upload a file proving you are a business"
+    "verify_business_page_verify_business_content": "Upload a file proving you are a business",
+
+    "edit_company_profile_page_name_validate": "Name cannot be blank",
+    "edit_company_profile_page_website_blank": "The website cannot be blank",
+    "edit_company_profile_page_website_path": "The path to the website is invalid",
+    "edit_company_profile_page_employee_size_validate": "Employee size cannot be left blank",
+    "edit_company_profile_page_head_office_validate": "The company's headquarters cannot be empty",
+    "edit_company_profile_page_description": "Description",
+    "edit_company_profile_page_description_validate": "Business description cannot be blank",
+    "edit_company_profile_page_no_images": "There are no images here"
 }

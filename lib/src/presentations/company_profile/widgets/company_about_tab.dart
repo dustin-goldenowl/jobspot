@@ -8,12 +8,12 @@ import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/function/show_full_image.dart';
-import 'package:jobspot/src/presentations/view_company_profile/cubit/view_company_profile_cubit.dart';
+import 'package:jobspot/src/presentations/company_profile/cubit/company_profile_cubit.dart';
 import 'package:jobspot/src/presentations/view_company_profile/widgets/profile_title_info.dart';
 
 @RoutePage()
-class ViewCompanyAboutTab extends StatelessWidget {
-  const ViewCompanyAboutTab({super.key});
+class CompanyAboutTab extends StatelessWidget {
+  const CompanyAboutTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class ViewCompanyAboutTab extends StatelessWidget {
   }
 
   Widget _buildBody() {
-    return BlocBuilder<ViewCompanyProfileCubit, ViewCompanyProfileState>(
+    return BlocBuilder<CompanyProfileCubit, CompanyProfileState>(
       buildWhen: (previous, current) => previous.user != current.user,
       builder: (context, state) {
         if (state.user != null) {
@@ -52,7 +52,7 @@ class ViewCompanyAboutTab extends StatelessWidget {
                     : null,
                 onTap: () {
                   if ((state.user?.website ?? "").isNotEmpty) {
-                    context.read<ViewCompanyProfileCubit>().openWebsite;
+                    context.read<CompanyProfileCubit>().openWebsite;
                   }
                 },
               ),

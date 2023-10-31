@@ -9,4 +9,7 @@ class HomeCompanyCoordinator {
 
   static void showViewJobApplicant(String title, String jobID) =>
       rootRouter.push(ViewJobApplicantRoute(title: title, jobID: jobID));
+
+  static void showCompanyProfile() =>
+      rootRouter.push(const CompanyProfileRoute());
 }

@@ -30,7 +30,7 @@ class UserModel {
   String? employeeSize;
   String? type;
   List<String>? images;
-  List<String>? specialization;
+  String? specialization;
 
   UserModel({
     required this.id,
@@ -111,9 +111,7 @@ class UserModel {
         verify: getVerifyStatus(json["verify"]),
         industry: json["industry"],
         employeeSize: json["employeeSize"],
-        specialization: json["specialization"] != null
-            ? List<String>.from(json["specialization"].map((x) => x))
-            : null,
+        specialization: json["specialization"],
         type: json["type"],
       );
 
@@ -147,9 +145,7 @@ class UserModel {
       verify: getVerifyStatus(data["verify"]),
       industry: data["industry"],
       employeeSize: data["employeeSize"],
-      specialization: data["specialization"] != null
-          ? List<String>.from(data["specialization"].map((x) => x))
-          : null,
+      specialization: data["specialization"],
       type: data["type"],
     );
   }
