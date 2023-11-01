@@ -59,8 +59,6 @@ import 'package:jobspot/src/presentations/company_profile/widgets/company_job_ta
     as _i17;
 import 'package:jobspot/src/presentations/company_profile/widgets/company_post_tab.dart'
     as _i18;
-import 'package:jobspot/src/presentations/company_profile/widgets/view_company_about_tab.dart'
-    as _i49;
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart'
     as _i72;
 import 'package:jobspot/src/presentations/connection/screen/connection_page.dart'
@@ -130,6 +128,8 @@ import 'package:jobspot/src/presentations/view_applicant_profile/widgets/view_ap
     as _i47;
 import 'package:jobspot/src/presentations/view_company_profile/screen/view_company_profile_page.dart'
     as _i52;
+import 'package:jobspot/src/presentations/view_company_profile/widgets/view_company_about_tab.dart'
+    as _i49;
 import 'package:jobspot/src/presentations/view_company_profile/widgets/view_company_job_tab.dart'
     as _i50;
 import 'package:jobspot/src/presentations/view_company_profile/widgets/view_company_post_tab.dart'
