@@ -1,0 +1,74 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+
+  before_all do
+    ENV["FIREBASE_CLI_TOKEN"] = "1//0e-bPssa0vzBaCgYIARAAGA4SNwF-L9IrY8pN1vDB8Q8ArQ7d8hRE046LPcmQOxrg5BO8UQ8idZSWr2BzpUNgbYOpIr-s2IkgDNA"
+    ENV["FIREBASE_APP_ID"] = "1:126210642252:android:df72db6b111e578e3a3fe9"
+  end
+
+  desc "Runs all the tests"
+  lane :runApp do
+    sh("flutter run")
+  end
+
+  desc "Build app apk"
+  lane :build do
+    sh("flutter build apk --release")
+  end
+
+  desc "Deploy a new version to Firebase Distribution"
+  # fastlane deploy_firebase_distribution version_name:"1.0.0" version_code:100
+  lane :deploy_firebase_distribution do |options|
+    version_name = options[:version_name]
+    version_code = options[:version_code]
+
+    sh "flutter build apk --build-name=#{version_name} --build-number=#{version_code} --release"
+
+    firebase_app_distribution(
+        app: ENV["FIREBASE_APP_ID"],
+        firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
+        apk_path: "../build/app/outputs/flutter-apk/app-release.apk",
+        groups: "tester",
+        release_notes: "update for fastlane",
+    )
+  end
+
+  desc "Deploy a new version to CH Play"
+  # fastlane deploy_ch_play version_name:"1.0.0" version_code:100
+  lane :deploy_ch_play do |options|
+    version_name = options[:version_name]
+    version_code = options[:version_code]
+
+    sh("flutter build appbundle --build-name=#{version_name} --build-number=#{version_code} --release")
+    # sh("flutter build appbundle --release")
+
+    upload_to_play_store(
+      track: 'internal', 
+      skip_upload_changelogs: true,
+      skip_upload_apk: true,
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      package_name: "com.walter.jobspot",
+      aab: '../build/app/outputs/bundle/release/app-release.aab', 
+      json_key: 'ch_play.json',
+      root_url: "https://androidpublisher.googleapis.com/",
+    )
+  end
+end
