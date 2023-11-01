@@ -1,0 +1,80 @@
+name: Build and Deploy to Firebase Distribution and CH Play
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - '.github/workflows/jobspot.yaml'
+
+  pull_request:
+    branches:
+      - develop
+    paths:
+      - '.github/workflows/jobspot.yaml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      VERSION_NAME: "1.0.1"
+      VERSION_CODE: 2
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: "17.0"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Install Fastlane
+        run: gem install fastlane
+
+      - name: Configure Keystore
+        env:
+          ANDROID_KEYSTORE_FILE: ./../upload-keystore.jks
+          KEYSTORE_KEY_ALIAS: ${{ secrets.KEYALIAS }}
+          KEYSTORE_KEY_PASSWORD: ${{ secrets.KEYPASSWORD }}
+          KEYSTORE_STORE_PASSWORD: ${{ secrets.STOREPASSWORD }}
+          PROPERTIES_PATH: "./android/key.properties"
+        run: |
+          echo "storeFile=$ANDROID_KEYSTORE_FILE" >>  ${{env.PROPERTIES_PATH}}
+          echo "keyAlias=$KEYSTORE_KEY_ALIAS" >>  ${{env.PROPERTIES_PATH}}
+          echo "storePassword=$KEYSTORE_STORE_PASSWORD" >>  ${{env.PROPERTIES_PATH}}
+          echo "keyPassword=$KEYSTORE_KEY_PASSWORD" >>  ${{env.PROPERTIES_PATH}}
+
+      - name: Create Google Play Config file
+        env:
+          PLAY_CONFIG_JSON: ${{ secrets.PLAY_CONFIG_JSON }}
+          PLAY_PATH: "./android/ch_play.json"
+        run : |
+          echo "$PLAY_CONFIG_JSON" > ch_play.json.b64
+          base64 -d -i ch_play.json.b64 > ${{env.PLAY_PATH}}
+
+      - name: Setup Multiple Language
+        shell: pwsh
+        run : flutter gen-l10n
+
+      - name: Deploy app to Firebse Distribution 🚀
+        working-directory: ./android
+        shell: pwsh
+        run: fastlane deploy_firebase_distribution version_name:${{env.VERSION_NAME}} version_code:${{env.VERSION_CODE}}
+
+      - name: Deploy app to CH Play 🚀
+        working-directory: ./android
+        shell: pwsh
+        run: fastlane deploy_ch_play version_name:${{env.VERSION_NAME}} version_code:${{env.VERSION_CODE}}
