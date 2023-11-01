@@ -173,7 +173,8 @@ class HomeApplicantView extends StatelessWidget {
                 _buildRemoteJobWidget(
                   width,
                   quantity: "${state.data?.remote ?? 0}",
-                  onTap: HomeApplicantCoordinator.showSearchJob,
+                  onTap: () =>
+                      HomeApplicantCoordinator.showSearchJob(isRemote: true),
                 ),
                 const SizedBox(width: 20),
                 Column(
@@ -183,7 +184,8 @@ class HomeApplicantView extends StatelessWidget {
                       title: AppLocal.text.home_page_full_time,
                       quantity: "${state.data?.fulltime ?? 0}",
                       color: AppColors.vodka,
-                      onTap: () {},
+                      onTap: () =>
+                          HomeApplicantCoordinator.showSearchJob(fulltime: 0),
                     ),
                     const SizedBox(height: 20),
                     _buildJobContainer(
@@ -191,7 +193,8 @@ class HomeApplicantView extends StatelessWidget {
                       title: AppLocal.text.home_page_part_time,
                       quantity: "${state.data?.parttime ?? 0}",
                       color: AppColors.feldspar,
-                      onTap: () {},
+                      onTap: () =>
+                          HomeApplicantCoordinator.showSearchJob(fulltime: 1),
                     ),
                   ],
                 )

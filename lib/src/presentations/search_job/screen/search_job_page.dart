@@ -7,12 +7,16 @@ import 'package:jobspot/src/presentations/search_job/screen/search_job_view.dart
 
 @RoutePage()
 class SearchJobPage extends StatelessWidget {
-  const SearchJobPage({super.key});
+  const SearchJobPage({super.key, this.fulltime, this.isRemote});
+
+  final bool? isRemote;
+  final int? fulltime;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<SearchJobCubit>()..listenScroll(context),
+      create: (context) =>
+          getIt<SearchJobCubit>()..init(fulltime: fulltime, isRemote: isRemote),
       child: const SearchJobView(),
     );
   }

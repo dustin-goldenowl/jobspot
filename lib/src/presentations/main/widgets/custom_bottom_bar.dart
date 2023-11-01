@@ -49,7 +49,10 @@ class CustomBottomBar extends StatelessWidget {
             height: 50,
             width: 50,
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(padding: EdgeInsets.zero),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.zero,
+                elevation: 10,
+              ),
               onPressed: onTap,
               child: const Icon(FontAwesomeIcons.plus),
             ),
