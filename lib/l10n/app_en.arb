@@ -235,6 +235,8 @@
     "applicant_profile_page_appreciation": "Appreciation",
     "applicant_profile_page_resume": "Resume",
     "applicant_profile_page_edit_profile": "Edit profile",
+    "applicant_profile_page_edit": "Edit",
+    "applicant_profile_page_delete": "Delete",
 
     "add_work_experience_page_add_work_experience": "Add work experience",
     "add_work_experience_page_update_work_experience": "Update work experience",

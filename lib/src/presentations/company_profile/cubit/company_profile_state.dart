@@ -3,12 +3,14 @@ part of 'company_profile_cubit.dart';
 class CompanyProfileState extends Equatable {
   const CompanyProfileState({
     required this.isTop,
+    required this.isLoading,
     this.listJob,
     this.listPost,
     this.user,
     this.error,
   });
 
+  final bool isLoading;
   final bool isTop;
   final List<JobEntity>? listJob;
   final List<PostEntity>? listPost;
@@ -17,12 +19,14 @@ class CompanyProfileState extends Equatable {
 
   CompanyProfileState copyWith({
     bool? isTop,
+    bool isLoading = false,
     List<JobEntity>? listJob,
     List<PostEntity>? listPost,
     UserEntity? user,
     String? error,
   }) {
     return CompanyProfileState(
+      isLoading: isLoading,
       isTop: isTop ?? this.isTop,
       listJob: listJob ?? this.listJob,
       listPost: listPost ?? this.listPost,
@@ -32,5 +36,5 @@ class CompanyProfileState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [isTop, listJob, listPost, user, error];
+  List<Object?> get props => [isTop, listJob, listPost, user, error, isLoading];
 }

@@ -9,8 +9,10 @@ import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/data/entities/user_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/get_post_entity.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/delete_post_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/stream_list_post_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/stream_user_info_use_case.dart';
+import 'package:jobspot/src/presentations/company_profile/domain/use_cases/delete_job_use_case.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 import 'package:jobspot/src/presentations/view_company_profile/domain/use_cases/get_list_job_use_case.dart';
 import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart';
@@ -31,13 +33,17 @@ class CompanyProfileCubit extends Cubit<CompanyProfileState> {
   final GetListJobUseCase _getListJobUseCase;
   final StreamListPostUseCase _streamListPostUseCase;
   final StreamUserInfoUseCase _streamUserInfoUseCase;
+  final DeletePostUseCase _deletePostUseCase;
+  final DeleteJobUseCase _deleteJobUseCase;
 
   CompanyProfileCubit(
     this._favouritePostUseCase,
     this._streamUserInfoUseCase,
     this._streamListPostUseCase,
     this._getListJobUseCase,
-  ) : super(const CompanyProfileState(isTop: false)) {
+    this._deletePostUseCase,
+    this._deleteJobUseCase,
+  ) : super(const CompanyProfileState(isTop: false, isLoading: false)) {
     scrollController.addListener(() {
       bool isTop = scrollController.position.pixels >=
           240 - 2 * AppBar().preferredSize.height;
@@ -92,6 +98,30 @@ class CompanyProfileCubit extends Cubit<CompanyProfileState> {
         emit(state.copyWith(user: event.data));
       }
     });
+  }
+
+  Future deletePost(PostEntity post) async {
+    emit(state.copyWith(isLoading: true));
+    final response = await _deletePostUseCase.call(params: post);
+    if (response is DataSuccess) {
+      final list = [...state.listPost!];
+      list.removeWhere((element) => element.id == post.id);
+      emit(state.copyWith(listPost: list));
+    } else {
+      emit(state.copyWith(error: response.error));
+    }
+  }
+
+  Future deleteJob(String id) async {
+    emit(state.copyWith(isLoading: true));
+    final response = await _deleteJobUseCase.call(params: id);
+    if (response is DataSuccess) {
+      final list = [...state.listJob!];
+      list.removeWhere((element) => element.id == id);
+      emit(state.copyWith(listJob: list));
+    } else {
+      emit(state.copyWith(error: response.error));
+    }
   }
 
   Future openWebsite() async {

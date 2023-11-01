@@ -18,6 +18,7 @@ class CustomJobCard extends StatelessWidget {
     required this.onTap,
     this.isShowApply = false,
     this.onApply,
+    this.moreWidget,
   });
 
   final Widget button;
@@ -25,6 +26,7 @@ class CustomJobCard extends StatelessWidget {
   final bool isShowApply;
   final VoidCallback? onApply;
   final JobEntity job;
+  final Widget? moreWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -117,29 +119,33 @@ class CustomJobCard extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        button,
+        moreWidget ?? button,
       ],
     );
   }
 
   Widget _buildTag() {
-    return Row(
-      children: [
-        TagItem(title: AppLists.listTypeWorkplace[job.typeWorkplace]["title"]!),
-        const SizedBox(width: 8),
-        TagItem(title: AppLists.listLevel[job.level]),
-        if (!isShowApply) const SizedBox(width: 8),
-        if (!isShowApply) TagItem(title: AppLists.listJobType[job.jobType]),
-        if (isShowApply) const Spacer(),
-        if (isShowApply)
-          GestureDetector(
-            onTap: onApply,
-            child: TagItem(
-              title: AppLocal.text.save_job_page_apply,
-              backgroundColor: AppColors.orangeRed.withOpacity(0.2),
-            ),
-          ),
-      ],
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          TagItem(
+              title: AppLists.listTypeWorkplace[job.typeWorkplace]["title"]!),
+          const SizedBox(width: 8),
+          TagItem(title: AppLists.listLevel[job.level]),
+          SizedBox(width: !isShowApply ? 8 : 15),
+          isShowApply
+              ? GestureDetector(
+                  onTap: onApply,
+                  child: TagItem(
+                    title: AppLocal.text.save_job_page_apply,
+                    backgroundColor: AppColors.orangeRed.withOpacity(0.2),
+                  ),
+                )
+              : TagItem(title: AppLists.listJobType[job.jobType]),
+        ],
+      ),
     );
   }
 }

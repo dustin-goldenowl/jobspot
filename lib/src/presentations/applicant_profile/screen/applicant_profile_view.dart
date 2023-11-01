@@ -65,15 +65,13 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
               ],
               body: BlocListener<ApplicantProfileCubit, ApplicantProfileState>(
                 listenWhen: (previous, current) {
-                  if (previous.isLoading) {
-                    Navigator.of(context).pop();
-                  }
+                  if (previous.isLoading) Navigator.of(context).pop();
+
                   return true;
                 },
                 listener: (context, state) {
-                  if (state.isLoading) {
-                    loadingAnimation(context);
-                  }
+                  if (state.isLoading) loadingAnimation(context);
+
                   if (state.error != null) {
                     customToast(context, text: state.error ?? "");
                   }
