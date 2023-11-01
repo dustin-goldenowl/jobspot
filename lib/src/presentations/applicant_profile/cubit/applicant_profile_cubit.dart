@@ -197,7 +197,7 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
   Future favouritePost(FavouriteEntity entity) async {
     final response = await _favouritePostUseCase.call(params: entity);
     if (response is DataFailed) {
-      print(response.error);
+      emit(state.copyWith(error: response.error));
     }
   }
 

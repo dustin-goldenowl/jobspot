@@ -1,7 +1,9 @@
 import 'package:jobspot/injection.dart';
 import 'package:jobspot/src/core/config/router/app_router.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
+import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
+import 'package:jobspot/src/presentations/view_job/data/models/job_model.dart';
 import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart';
 
 class CompanyProfileCoordinator {
@@ -23,6 +25,12 @@ class CompanyProfileCoordinator {
 
   static void showEditCompanyProfile() =>
       rootRouter.push(const EditCompanyProfileRoute());
+
+  static void showEditPost({required PostEntity post}) => rootRouter.push(
+      AddPostRoute(post: PostModel.fromEntity(post).toUpdatePostEntity()));
+
+  static void showEditJob({required JobEntity job}) => rootRouter
+      .push(AddJobRoute(job: JobModel.fromJobEntity(job).toUpdateJobEntity()));
 
   static void viewFollow({
     List<String>? following,

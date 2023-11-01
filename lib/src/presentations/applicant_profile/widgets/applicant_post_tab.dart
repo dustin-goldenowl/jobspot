@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/applicant_profile/cubit/applicant_profile_cubit.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/router/applicant_profile_coordinator.dart';
@@ -54,7 +55,7 @@ class ApplicantPostTab extends StatelessWidget {
                       value: 0,
                       child: _buildItemPopup(
                         icon: AppImages.edit,
-                        title: "Edit",
+                        title: AppLocal.text.applicant_profile_page_edit,
                       ),
                       onTap: () => ApplicantProfileCoordinator.showEditPost(
                           post: state.listPost![index]),
@@ -63,9 +64,11 @@ class ApplicantPostTab extends StatelessWidget {
                       value: 1,
                       child: _buildItemPopup(
                         icon: AppImages.trash,
-                        title: "Delete",
+                        title: AppLocal.text.applicant_profile_page_delete,
                       ),
-                      onTap: () {},
+                      onTap: () => context
+                          .read<ApplicantProfileCubit>()
+                          .deletePost(state.listPost![index]),
                     ),
                   ],
                 ),

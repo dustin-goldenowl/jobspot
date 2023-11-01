@@ -69,16 +69,20 @@ class ItemMyJob extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        Row(
-          children: [
-            TagItem(
-                title: AppLists.listTypeWorkplace[myJob.typeWorkplace]
-                    ["title"]!),
-            const SizedBox(width: 8),
-            TagItem(title: AppLists.listLevel[myJob.level]),
-            const SizedBox(width: 8),
-            TagItem(title: AppLists.listJobType[myJob.jobType]),
-          ],
+        SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              TagItem(
+                  title: AppLists.listTypeWorkplace[myJob.typeWorkplace]
+                      ["title"]!),
+              const SizedBox(width: 8),
+              TagItem(title: AppLists.listLevel[myJob.level]),
+              const SizedBox(width: 8),
+              TagItem(title: AppLists.listJobType[myJob.jobType]),
+            ],
+          ),
         ),
       ],
     );

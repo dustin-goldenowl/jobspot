@@ -8,6 +8,7 @@ import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/presentations/company_profile/cubit/company_profile_cubit.dart';
 import 'package:jobspot/src/presentations/company_profile/domain/router/company_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/view_company_profile/widgets/custom_button_profile.dart';
@@ -85,7 +86,14 @@ class _CompanyProfileViewState extends State<CompanyProfileView>
                 ),
               ],
               body: BlocListener<CompanyProfileCubit, CompanyProfileState>(
+                listenWhen: (previous, current) {
+                  if (previous.isLoading) Navigator.of(context).pop();
+
+                  return true;
+                },
                 listener: (context, state) {
+                  if (state.isLoading) loadingAnimation(context);
+
                   if (state.error != null) {
                     customToast(context, text: state.error ?? "");
                   }
