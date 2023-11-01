@@ -9,3 +9,7 @@ generate_sha:
 
 generate_icon:
 	flutter pub run flutter_launcher_icons
+
+flutter_test:
+	flutter test test/date_time_utils_test.dart
+	flutter test test/extension_test.dart
