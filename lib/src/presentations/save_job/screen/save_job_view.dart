@@ -125,7 +125,7 @@ class SaveJobView extends StatelessWidget {
               const SizedBox(height: 100),
               CustomButton(
                 title: AppLocal.text.save_job_page_find_job.toUpperCase(),
-                onPressed: () {},
+                onPressed: SaveJobCoordinator.showSearchJob,
               ),
               const Spacer(),
             ],

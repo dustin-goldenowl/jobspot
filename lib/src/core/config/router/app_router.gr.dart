@@ -59,8 +59,6 @@ import 'package:jobspot/src/presentations/company_profile/widgets/company_job_ta
     as _i17;
 import 'package:jobspot/src/presentations/company_profile/widgets/company_post_tab.dart'
     as _i18;
-import 'package:jobspot/src/presentations/company_profile/widgets/view_company_about_tab.dart'
-    as _i49;
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart'
     as _i72;
 import 'package:jobspot/src/presentations/connection/screen/connection_page.dart'
@@ -130,6 +128,8 @@ import 'package:jobspot/src/presentations/view_applicant_profile/widgets/view_ap
     as _i47;
 import 'package:jobspot/src/presentations/view_company_profile/screen/view_company_profile_page.dart'
     as _i52;
+import 'package:jobspot/src/presentations/view_company_profile/widgets/view_company_about_tab.dart'
+    as _i49;
 import 'package:jobspot/src/presentations/view_company_profile/widgets/view_company_job_tab.dart'
     as _i50;
 import 'package:jobspot/src/presentations/view_company_profile/widgets/view_company_post_tab.dart'
@@ -439,9 +439,15 @@ abstract class $AppRouter extends _i58.RootStackRouter {
       );
     },
     SearchJobRoute.name: (routeData) {
+      final args = routeData.argsAs<SearchJobRouteArgs>(
+          orElse: () => const SearchJobRouteArgs());
       return _i58.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i37.SearchJobPage(),
+        child: _i37.SearchJobPage(
+          key: args.key,
+          fulltime: args.fulltime,
+          isRemote: args.isRemote,
+        ),
       );
     },
     SearchLanguageRoute.name: (routeData) {
@@ -1478,16 +1484,45 @@ class SaveJobRoute extends _i58.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i37.SearchJobPage]
-class SearchJobRoute extends _i58.PageRouteInfo<void> {
-  const SearchJobRoute({List<_i58.PageRouteInfo>? children})
-      : super(
+class SearchJobRoute extends _i58.PageRouteInfo<SearchJobRouteArgs> {
+  SearchJobRoute({
+    _i59.Key? key,
+    int? fulltime,
+    bool? isRemote,
+    List<_i58.PageRouteInfo>? children,
+  }) : super(
           SearchJobRoute.name,
+          args: SearchJobRouteArgs(
+            key: key,
+            fulltime: fulltime,
+            isRemote: isRemote,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'SearchJobRoute';
 
-  static const _i58.PageInfo<void> page = _i58.PageInfo<void>(name);
+  static const _i58.PageInfo<SearchJobRouteArgs> page =
+      _i58.PageInfo<SearchJobRouteArgs>(name);
+}
+
+class SearchJobRouteArgs {
+  const SearchJobRouteArgs({
+    this.key,
+    this.fulltime,
+    this.isRemote,
+  });
+
+  final _i59.Key? key;
+
+  final int? fulltime;
+
+  final bool? isRemote;
+
+  @override
+  String toString() {
+    return 'SearchJobRouteArgs{key: $key, fulltime: $fulltime, isRemote: $isRemote}';
+  }
 }
 
 /// generated route for

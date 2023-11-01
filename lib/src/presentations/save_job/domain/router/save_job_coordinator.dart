@@ -13,4 +13,6 @@ class SaveJobCoordinator {
 
   static void showApplyJob(JobEntity job) =>
       rootRouter.push(ApplyJobRoute(job: job));
+
+  static void showSearchJob() => rootRouter.push(SearchJobRoute());
 }

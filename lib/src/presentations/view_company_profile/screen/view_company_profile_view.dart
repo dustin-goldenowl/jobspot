@@ -95,13 +95,14 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
     return BlocBuilder<ViewCompanyProfileCubit, ViewCompanyProfileState>(
       builder: (context, state) {
         return SliverAppBar(
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(FontAwesomeIcons.ellipsisVertical),
-            ),
-            const SizedBox(width: 5),
-          ],
+          ///TODO I don't think idea with this button
+          // actions: [
+          //   IconButton(
+          //     onPressed: () {},
+          //     icon: const Icon(FontAwesomeIcons.ellipsisVertical),
+          //   ),
+          //   const SizedBox(width: 5),
+          // ],
           leading: IconButton(
             onPressed: context.router.pop,
             icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
@@ -170,6 +171,8 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
           height: 120,
           width: double.infinity,
           decoration: const BoxDecoration(color: Color(0xFFF3F2F2)),
+          padding:
+              const EdgeInsets.symmetric(horizontal: AppDimens.smallPadding),
           child: Column(
             children: [
               const SizedBox(height: 28),
@@ -177,6 +180,8 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
                   ? Text(
                       state.user?.name ?? "",
                       style: AppStyles.boldTextNightBlue.copyWith(fontSize: 18),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     )
                   : const ItemLoading(width: 70, height: 20, radius: 5),
               const SizedBox(height: 16),
@@ -307,15 +312,26 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
     );
   }
 
-  Widget get _buildDotText =>
-      Text("•", style: AppStyles.boldTextNightBlue.copyWith(fontSize: 25));
+  Widget get _buildDotText => SizedBox(
+      width: 30,
+      child: Center(
+          child: Text(
+        "•",
+        style: AppStyles.boldTextNightBlue.copyWith(fontSize: 25),
+      )));
 
   Widget _buildText({required VoidCallback onTap, required String title}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Text(
-        title,
-        style: AppStyles.normalTextNightBlue.copyWith(fontSize: 16),
+    return Expanded(
+      child: Center(
+        child: GestureDetector(
+          onTap: onTap,
+          child: Text(
+            title,
+            style: AppStyles.normalTextNightBlue.copyWith(fontSize: 16),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ),
     );
   }

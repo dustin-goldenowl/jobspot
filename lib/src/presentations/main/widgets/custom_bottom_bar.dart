@@ -19,9 +19,19 @@ class CustomBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
       height: 72,
-      color: Colors.white,
+      duration: const Duration(milliseconds: 300),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.wildBlueYonder.withAlpha(18),
+            blurRadius: 62,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -39,7 +49,10 @@ class CustomBottomBar extends StatelessWidget {
             height: 50,
             width: 50,
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(padding: EdgeInsets.zero),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.zero,
+                elevation: 10,
+              ),
               onPressed: onTap,
               child: const Icon(FontAwesomeIcons.plus),
             ),

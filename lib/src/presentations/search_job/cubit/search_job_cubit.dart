@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jobspot/injection.dart';
+import 'package:jobspot/src/core/config/router/app_router.dart';
 import 'package:jobspot/src/core/function/get_location.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/filter/domain/entities/filter_entity.dart';
@@ -25,17 +27,7 @@ class SearchJobCubit extends Cubit<SearchJobState> {
   final SearchJobUseCase _searchJobUseCase;
 
   SearchJobCubit(this._searchJobUseCase) : super(SearchJobState.ds()) {
-    searchJob();
-    searchController.addListener(() {
-      _searchEntity = _searchEntity.copyWith(query: searchController.text);
-      emit(state.copyWith(
-        listJob: state.listJob,
-        query: searchController.text,
-      ));
-    });
-  }
-
-  void listenScroll(BuildContext context) {
+    final context = getIt<AppRouter>().navigatorKey.currentState!.context;
     scrollController.addListener(() {
       bool isTop = scrollController.position.pixels >=
           0.6 * MediaQuery.sizeOf(context).width -
@@ -46,6 +38,20 @@ class SearchJobCubit extends Cubit<SearchJobState> {
         searchJob(limit: _limit + 15, isLoading: false);
       }
     });
+    searchController.addListener(() {
+      _searchEntity = _searchEntity.copyWith(query: searchController.text);
+      emit(state.copyWith(
+        listJob: state.listJob,
+        query: searchController.text,
+      ));
+    });
+  }
+
+  void init({bool? isRemote, int? fulltime}) {
+    int? typeWorkplace = isRemote != null && isRemote ? 2 : null;
+    _searchEntity =
+        _searchEntity.copyWith(typeWorkplace: typeWorkplace, jobType: fulltime);
+    searchJob();
   }
 
   Future searchJob({int limit = 15, bool isLoading = true}) async {

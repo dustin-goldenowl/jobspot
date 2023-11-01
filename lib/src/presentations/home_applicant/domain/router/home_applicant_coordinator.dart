@@ -17,5 +17,6 @@ class HomeApplicantCoordinator {
   static void showApplicantProfile() =>
       rootRouter.push(const ApplicantProfileRoute());
 
-  static void showSearchJob() => rootRouter.push(const SearchJobRoute());
+  static void showSearchJob({bool? isRemote, int? fulltime}) =>
+      rootRouter.push(SearchJobRoute(fulltime: fulltime, isRemote: isRemote));
 }
