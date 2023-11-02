@@ -2,9 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobspot/injection.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/function/on_will_pop.dart';
+import 'package:jobspot/src/core/service/network_service.dart';
 import 'package:jobspot/src/presentations/on_boarding/domain/router/on_boarding_coordinator.dart';
 
 @RoutePage()
@@ -20,6 +22,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   @override
   Widget build(BuildContext context) {
+    getIt<NetworkService>().initialise(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: OnBoardingCoordinator.showSignIn,
