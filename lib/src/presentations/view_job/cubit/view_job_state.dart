@@ -10,11 +10,11 @@ class ViewJobState extends Equatable {
 
   final bool isTop;
   final bool isReadMore;
-  final DataState<JobEntity>? dataState;
+  final DataState<JobEntity?>? dataState;
   final String? error;
 
   ViewJobState copyWith({
-    DataState<JobEntity>? dataState,
+    DataState<JobEntity?>? dataState,
     bool? isReadMore,
     bool? isTop,
     String? error,

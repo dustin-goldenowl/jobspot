@@ -14,7 +14,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     getIt<NetworkService>().initialise(context);
-    FirebaseMessagingService.setupNotification(context);
+    FirebaseMessagingService.setupNotification();
     return BlocProvider(
       create: (_) => MainCubit(),
       child: const MainView(),
