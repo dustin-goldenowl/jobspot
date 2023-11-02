@@ -458,5 +458,8 @@
     "edit_company_profile_page_no_images": "There are no images here",
 
     "follow_page_no_follower": "No followers",
-    "follow_page_no_following": "No following"
+    "follow_page_no_following": "No following",
+
+    "internet_available": "Internet connection is available",
+    "no_internet": "No Internet connection"
 }

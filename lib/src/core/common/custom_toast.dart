@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 
-Widget toast(String text) {
+Widget toastWidget(String text) {
   return Card(
     elevation: 5,
     child: Container(
@@ -32,7 +32,7 @@ void customToast(BuildContext context, {required String text}) {
   FToast fToast = FToast();
   fToast.init(context);
   fToast.showToast(
-    child: toast(text),
+    child: toastWidget(text),
     toastDuration: const Duration(seconds: 3),
     gravity: ToastGravity.TOP,
     fadeDuration: const Duration(seconds: 1),

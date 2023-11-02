@@ -458,5 +458,8 @@
     "edit_company_profile_page_no_images": "Không có hình ảnh nào ở đây",
 
     "follow_page_no_follower": "Không có người theo dõi",
-    "follow_page_no_following": "Không theo dõi ai"
+    "follow_page_no_following": "Không theo dõi ai",
+
+    "internet_available": "Đã có kết nối internet",
+    "no_internet": "Không có kết nối Internet"
 }
