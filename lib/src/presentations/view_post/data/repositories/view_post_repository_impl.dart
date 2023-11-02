@@ -144,6 +144,17 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
       await XCollection.comment
           .doc(favourite.id)
           .update({"like": favourite.listFavourite});
+      final notification = SendNotificationEntity(
+        action: favourite.id,
+        to: favourite.uidTo,
+        type: AppTags.favouriteCmt,
+      );
+      final uid = FirebaseAuth.instance.currentUser!.uid;
+      if (favourite.listFavourite.contains(uid)) {
+        _sendNotificationUseCase.call(params: notification);
+      } else {
+        _deleteNotificationUseCase.call(params: notification);
+      }
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
@@ -234,8 +245,19 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
   @override
   Future<DataState<bool>> deleteComment(String id) async {
     try {
-      XCollection.comment.doc(id).delete();
-      //TODO còn phải xóa id của nó ra khỏi các mục khác @@
+      XCollection.comment.where("comment", isEqualTo: id).get().then((value) {
+        for (var element in value.docs) {
+          XCollection.comment.doc(element.id).delete();
+        }
+      });
+
+      XCollection.comment.where("highLevel", isEqualTo: id).get().then((value) {
+        for (var element in value.docs) {
+          XCollection.comment.doc(element.id).delete();
+        }
+      });
+
+      await XCollection.comment.doc(id).delete();
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());

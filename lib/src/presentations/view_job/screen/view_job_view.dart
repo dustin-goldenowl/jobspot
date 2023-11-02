@@ -24,23 +24,37 @@ class ViewJobView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: _buildBottomBar(context),
-      body: SafeArea(
-        child: NestedScrollView(
-          controller: context.read<ViewJobCubit>().scrollController,
-          physics: const BouncingScrollPhysics(),
-          headerSliverBuilder: (_, __) => [_buildAppBar()],
-          body: BlocListener<ViewJobCubit, ViewJobState>(
-            listener: (context, state) {
-              if (state.error != null) {
-                customToast(context, text: state.error ?? "");
-              }
-            },
-            child: _buildBody(),
+    return BlocConsumer<ViewJobCubit, ViewJobState>(
+      listener: (context, state) {
+        if (state.error != null) {
+          customToast(context, text: state.error ?? "");
+        }
+      },
+      buildWhen: (previous, current) => current.dataState is DataSuccess,
+      builder: (context, state) {
+        if (state.dataState is DataSuccess && state.dataState!.data == null) {
+          return Scaffold(
+            appBar: AppBar(),
+            body: Center(
+              child: Text(
+                AppLocal.text.view_post_page_job_not_exist,
+                style: AppStyles.boldTextHaiti.copyWith(fontSize: 18),
+              ),
+            ),
+          );
+        }
+        return Scaffold(
+          bottomNavigationBar: _buildBottomBar(context),
+          body: SafeArea(
+            child: NestedScrollView(
+              controller: context.read<ViewJobCubit>().scrollController,
+              physics: const BouncingScrollPhysics(),
+              headerSliverBuilder: (_, __) => [_buildAppBar()],
+              body: _buildBody(),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -68,7 +82,7 @@ class ViewJobView extends StatelessWidget {
     return BlocBuilder<ViewJobCubit, ViewJobState>(
       buildWhen: (previous, current) => current is! DataFailed,
       builder: (context, state) {
-        if (state.dataState is DataSuccess) {
+        if (state.dataState is DataSuccess && state.dataState?.data != null) {
           final data = state.dataState!.data!;
           return RefreshIndicator(
             onRefresh: context.read<ViewJobCubit>().fetchJobData,

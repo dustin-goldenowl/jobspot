@@ -3,18 +3,16 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:jobspot/injection.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
+import 'package:jobspot/src/core/config/router/app_router.dart';
+import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/constants/app_tags.dart';
-import 'package:jobspot/src/presentations/view_job/screen/view_job_page.dart';
-import 'package:jobspot/src/presentations/view_post/screen/view_post_page.dart';
 
 //TODO when change app icon => change @mipmap/ic_launcher => @drawable/ic_launcher
 class NotificationServices {
   NotificationServices._();
-
-  static BuildContext? _context;
 
   static final FlutterLocalNotificationsPlugin
       _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
@@ -50,8 +48,7 @@ class NotificationServices {
         presentSound: true,
       );
 
-  static Future init(BuildContext context) async {
-    _context = context;
+  static Future init() async {
     var androidInitializationSettings =
         const AndroidInitializationSettings('@mipmap/ic_launcher');
     var iosInitializationSettings = const DarwinInitializationSettings();
@@ -63,6 +60,13 @@ class NotificationServices {
       initializationSetting,
       onDidReceiveNotificationResponse: _clickNotification,
     );
+
+    final message = await _flutterLocalNotificationsPlugin
+        .getNotificationAppLaunchDetails();
+    final payload = message?.notificationResponse;
+    if (payload != null) {
+      _clickNotification(payload);
+    }
   }
 
   static void _clickNotification(NotificationResponse payload) {
@@ -73,23 +77,14 @@ class NotificationServices {
       case AppTags.comment:
       case AppTags.share:
       case AppTags.reply:
-        Navigator.push(
-          _context!,
-          MaterialPageRoute(
-            builder: (context) => ViewPostPage(postID: data["action"]),
-          ),
-        );
+        getIt<AppRouter>().push(ViewPostRoute(postID: data["action"]));
         break;
       case AppTags.accept:
       case AppTags.reject:
       case AppTags.apply:
-        Navigator.push(
-          _context!,
-          MaterialPageRoute(
-            builder: (context) => ViewJobPage(jobID: data["action"]),
-          ),
-        );
+        getIt<AppRouter>().push(ViewJobRoute(jobID: data["action"]));
       case AppTags.follow:
+        getIt<AppRouter>().push(ViewApplicantProfileRoute(uid: data["action"]));
       default:
     }
     ;

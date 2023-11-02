@@ -9,13 +9,17 @@ import 'package:jobspot/src/presentations/view_job/domain/repositories/view_job_
 @LazySingleton(as: ViewJobRepository)
 class ViewJobRepositoryImpl extends ViewJobRepository {
   @override
-  Future<DataState<JobEntity>> getJobData(String id) async {
+  Future<DataState<JobEntity?>> getJobData(String id) async {
     try {
       final jobSnapshot = await XCollection.job.doc(id).get();
-      JobModel job = JobModel.fromDocumentSnapshot(jobSnapshot);
-      final companySnapshot = await XCollection.user.doc(job.owner).get();
-      CompanyModel company = CompanyModel.fromDocumentSnapshot(companySnapshot);
-      return DataSuccess(job.copyWith(company: company).toJobEntity());
+      if (jobSnapshot.exists) {
+        JobModel job = JobModel.fromDocumentSnapshot(jobSnapshot);
+        final companySnapshot = await XCollection.user.doc(job.owner).get();
+        CompanyModel company =
+            CompanyModel.fromDocumentSnapshot(companySnapshot);
+        return DataSuccess(job.copyWith(company: company).toJobEntity());
+      }
+      return DataSuccess(null);
     } catch (e) {
       print(e);
       return DataFailed(e.toString());

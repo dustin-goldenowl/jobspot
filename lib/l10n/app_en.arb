@@ -219,6 +219,7 @@
     "view_post_page_send_to_friends": "Send to friends",
     "view_post_page_add_comment": "Add a comment",
     "view_post_page_post_not_exist": "The post does not exist",
+    "view_post_page_job_not_exist": "Job not exist",
 
     "custom_alert_dialog_cancel": "Cancel",
     "custom_alert_dialog_ok": "OK",

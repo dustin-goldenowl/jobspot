@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:jobspot/firebase_options.dart';
 import 'package:jobspot/src/core/service/notification_service.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
@@ -75,9 +74,9 @@ class FirebaseMessagingService {
     NotificationServices.showNotification(message);
   }
 
-  static Future setupNotification(BuildContext context) async {
+  static Future setupNotification() async {
     await Future.wait([
-      NotificationServices.init(context),
+      NotificationServices.init(),
       FirebaseMessaging.instance.requestPermission(
         alert: true,
         announcement: false,
