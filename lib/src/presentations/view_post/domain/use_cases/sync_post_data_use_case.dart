@@ -5,13 +5,14 @@ import 'package:jobspot/src/presentations/connection/domain/entities/post_entity
 import 'package:jobspot/src/presentations/view_post/domain/repositories/view_post_repository.dart';
 
 @lazySingleton
-class SyncPostDataUseCase extends StreamUseCase<DataState<PostEntity>, String> {
+class SyncPostDataUseCase
+    extends StreamUseCase<DataState<PostEntity?>, String> {
   final ViewPostRepository _repository;
 
   SyncPostDataUseCase(this._repository);
 
   @override
-  Stream<DataState<PostEntity>> call({required String params}) {
+  Stream<DataState<PostEntity?>> call({required String params}) {
     return _repository.syncPostData(params);
   }
 }

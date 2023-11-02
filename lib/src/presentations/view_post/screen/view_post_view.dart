@@ -26,27 +26,7 @@ class ViewPostView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(elevation: 0, scrolledUnderElevation: 0),
-      bottomSheet: Container(
-        height: 80,
-        padding: const EdgeInsets.all(10),
-        child: Row(
-          children: [
-            ClipOval(
-              child: CachedNetworkImage(
-                imageUrl: PrefsUtils.getUserInfo()!.avatar,
-                width: 50,
-                height: 50,
-                placeholder: (context, url) =>
-                    const ItemLoading(width: 50, height: 50, radius: 0),
-                errorWidget: (context, url, error) =>
-                    SvgPicture.asset(AppImages.logo, height: 50, width: 50),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(child: _writeCommentWidget()),
-          ],
-        ),
-      ),
+      bottomSheet: _buildBottomSheet(),
       body: RefreshIndicator(
         onRefresh: () async =>
             context.read<ViewPostBloc>().add(SyncPostDataEvent()),
@@ -67,13 +47,46 @@ class ViewPostView extends StatelessWidget {
     );
   }
 
+  Widget _buildBottomSheet() {
+    return BlocBuilder<ViewPostBloc, ViewPostState>(
+      buildWhen: (previous, current) =>
+          current is SyncPostDataSuccess && current.post == null,
+      builder: (context, state) {
+        if (state is SyncPostDataSuccess && state.post == null) {
+          return const SizedBox();
+        }
+        return Container(
+          height: 80,
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            children: [
+              ClipOval(
+                child: CachedNetworkImage(
+                  imageUrl: PrefsUtils.getUserInfo()!.avatar,
+                  width: 50,
+                  height: 50,
+                  placeholder: (context, url) =>
+                      const ItemLoading(width: 50, height: 50, radius: 0),
+                  errorWidget: (context, url, error) =>
+                      SvgPicture.asset(AppImages.logo, height: 50, width: 50),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(child: _writeCommentWidget()),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildBody(BuildContext context) {
     return Column(
       children: [
         BlocBuilder<ViewPostBloc, ViewPostState>(
           buildWhen: (previous, current) => current is SyncPostDataSuccess,
           builder: (context, state) {
-            if (state is SyncPostDataSuccess) {
+            if (state is SyncPostDataSuccess && state.post != null) {
               return Column(
                 children: [
                   const SizedBox(height: 25),
@@ -83,16 +96,27 @@ class ViewPostView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _buildHeaderPost(state.post),
+                        _buildHeaderPost(state.post!),
                         const SizedBox(height: 20),
-                        _buildContentPost(state.post),
+                        _buildContentPost(state.post!),
                       ],
                     ),
                   ),
                   const SizedBox(height: 30),
-                  if (state.post.images.isNotEmpty)
-                    ImageWidget(images: state.post.images),
+                  if (state.post!.images.isNotEmpty)
+                    ImageWidget(images: state.post!.images),
                 ],
+              );
+            }
+            if (state is SyncPostDataSuccess && state.post == null) {
+              return SizedBox(
+                height: MediaQuery.sizeOf(context).height - 80,
+                child: Center(
+                  child: Text(
+                    AppLocal.text.view_post_page_post_not_exist,
+                    style: AppStyles.boldTextHaiti.copyWith(fontSize: 18),
+                  ),
+                ),
               );
             }
             return const PostLoading();
@@ -163,8 +187,8 @@ class ViewPostView extends StatelessWidget {
     return BlocBuilder<ViewPostBloc, ViewPostState>(
       buildWhen: (previous, current) => current is SyncPostDataSuccess,
       builder: (context, state) {
-        if (state is SyncPostDataSuccess) {
-          PostEntity post = state.post;
+        if (state is SyncPostDataSuccess && state.post != null) {
+          PostEntity post = state.post!;
           return Container(
             decoration: BoxDecoration(
                 color: AppColors.interdimensionalBlue.withOpacity(0.1)),
@@ -273,8 +297,13 @@ class ViewPostView extends StatelessWidget {
   Widget _buildListComment() {
     return BlocBuilder<ViewPostBloc, ViewPostState>(
       buildWhen: (previous, current) =>
-          current is GetCommentDataSuccess || current is GetCommentDataLoading,
+          current is GetCommentDataSuccess ||
+          current is GetCommentDataLoading ||
+          current is SyncPostDataSuccess && current.post == null,
       builder: (context, state) {
+        if (state is SyncPostDataSuccess && state.post == null) {
+          return const SizedBox();
+        }
         if (state is GetCommentDataSuccess) {
           return state.listComment.isNotEmpty
               ? ListView.builder(

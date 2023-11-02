@@ -58,21 +58,24 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
   }
 
   @override
-  Stream<DataState<PostEntity>> syncPostData(String id) {
+  Stream<DataState<PostEntity?>> syncPostData(String id) {
     try {
       return XCollection.post.doc(id).snapshots().asyncMap((event) async {
-        PostModel postModel = PostModel.fromDocumentSnapshot(event);
-        final response = await Future.wait([
-          XCollection.user.doc(postModel.owner).get(),
-          XCollection.comment.where("post", isEqualTo: id).count().get()
-        ]);
-        final user = response.first as DocumentSnapshot<Map<String, dynamic>>;
-        final numberOfComments = response.last as AggregateQuerySnapshot;
-        postModel = postModel.copyWith(
-          user: UserModel.fromDocumentSnapshot(user),
-          numberOfComments: numberOfComments.count,
-        );
-        return DataSuccess(postModel.toPostEntity());
+        if (event.exists) {
+          PostModel postModel = PostModel.fromDocumentSnapshot(event);
+          final response = await Future.wait([
+            XCollection.user.doc(postModel.owner).get(),
+            XCollection.comment.where("post", isEqualTo: id).count().get()
+          ]);
+          final user = response.first as DocumentSnapshot<Map<String, dynamic>>;
+          final numberOfComments = response.last as AggregateQuerySnapshot;
+          postModel = postModel.copyWith(
+            user: UserModel.fromDocumentSnapshot(user),
+            numberOfComments: numberOfComments.count,
+          );
+          return DataSuccess(postModel.toPostEntity());
+        }
+        return DataSuccess(null);
       });
     } catch (e) {
       return Stream.value(DataFailed(e.toString()));

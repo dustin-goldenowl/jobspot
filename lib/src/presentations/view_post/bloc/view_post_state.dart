@@ -17,7 +17,7 @@ class ViewPostError extends ViewPostState {
 }
 
 class SyncPostDataSuccess extends ViewPostState {
-  final PostEntity post;
+  final PostEntity? post;
 
   SyncPostDataSuccess(this.post);
 

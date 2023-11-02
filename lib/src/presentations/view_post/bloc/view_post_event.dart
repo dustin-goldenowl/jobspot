@@ -13,7 +13,7 @@ class SyncPostDataEvent extends ViewPostEvent {
 }
 
 class SendPostDataEvent extends ViewPostEvent {
-  final PostEntity post;
+  final PostEntity? post;
 
   SendPostDataEvent(this.post);
 
