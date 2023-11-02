@@ -120,6 +120,8 @@ class NotificationRepositoryImpl extends NotificationRepository {
             .set(SendNotificationModel.fromEntity(entity).toJson()),
       ]);
       FirebaseMessagingService.sendNotification(
+        action: entity.action,
+        type: entity.type,
         token: (response.first as DocumentSnapshot<Map>).data()?["token"] ?? "",
         body: entity.type,
       );

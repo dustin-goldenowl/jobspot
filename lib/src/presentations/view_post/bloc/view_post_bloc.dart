@@ -115,9 +115,11 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     if (_postStream != null) _postStream!.cancel();
     _postStream = _syncPostDataUseCase.call(params: _postID!).listen((event) {
       if (event is DataSuccess) {
-        _owner ??= event.data!.owner;
-        add(SendPostDataEvent(event.data!));
-        add(GetListCommentEvent(listComment: event.data!.comment));
+        if (event.data != null) {
+          _owner ??= event.data!.owner;
+          add(GetListCommentEvent(listComment: event.data!.comment));
+        }
+        add(SendPostDataEvent(event.data));
       }
     });
   }

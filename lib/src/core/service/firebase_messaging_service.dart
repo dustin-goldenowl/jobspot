@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
+import 'package:jobspot/firebase_options.dart';
 import 'package:jobspot/src/core/service/notification_service.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 
@@ -21,12 +24,19 @@ class FirebaseMessagingService {
   static Future sendNotification({
     required String token,
     required String body,
+    required String action,
+    required String type,
   }) async {
     final user = PrefsUtils.getUserInfo();
     final data = {
       "to": token,
       "priority": "high",
-      "data": {"avatar": user?.avatar ?? ""},
+      "data": {
+        "avatar": user?.avatar ?? "",
+        "action": action,
+        "type": type,
+        "click_action": "FLUTTER_NOTIFICATION_CLICK",
+      },
       "notification": {"title": user?.name ?? "", "body": body},
     };
     try {
@@ -47,21 +57,37 @@ class FirebaseMessagingService {
 
   static void listenNotification() {
     FirebaseMessaging.onMessage.listen((event) {
+      print("onMessage");
       print(event.data);
       NotificationServices.showNotification(event);
     });
+
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   }
 
-  static Future setupNotification() async {
-    NotificationServices.init();
-    await FirebaseMessaging.instance.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
+  @pragma('vm:entry-point')
+  static Future<void> _firebaseMessagingBackgroundHandler(
+      RemoteMessage message) async {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+    print("onBackgroundMessage");
+    print(message.data);
+    NotificationServices.showNotification(message);
+  }
+
+  static Future setupNotification(BuildContext context) async {
+    await Future.wait([
+      NotificationServices.init(context),
+      FirebaseMessaging.instance.requestPermission(
+        alert: true,
+        announcement: false,
+        badge: true,
+        carPlay: false,
+        criticalAlert: false,
+        provisional: false,
+        sound: true,
+      ),
+    ]);
+    listenNotification();
   }
 }
