@@ -9,6 +9,7 @@ import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/config/router/app_router.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/constants/app_tags.dart';
+import 'package:jobspot/src/core/extension/string_extension.dart';
 
 //TODO when change app icon => change @mipmap/ic_launcher => @drawable/ic_launcher
 class NotificationServices {
@@ -21,13 +22,16 @@ class NotificationServices {
     required String id,
     required String avatar,
   }) async {
-    final response = await Dio()
-        .get(avatar, options: Options(responseType: ResponseType.bytes));
-    Uint8List bytes = Uint8List.fromList(response.data);
-    ByteArrayAndroidBitmap bitmap =
-        ByteArrayAndroidBitmap.fromBase64String(base64Encode(bytes));
-    BigPictureStyleInformation bigPictureStyleInformation =
-        BigPictureStyleInformation(bitmap, largeIcon: bitmap);
+    BigPictureStyleInformation? bigPictureStyleInformation;
+    if (avatar.isLink) {
+      final response = await Dio()
+          .get(avatar, options: Options(responseType: ResponseType.bytes));
+      Uint8List bytes = Uint8List.fromList(response.data);
+      ByteArrayAndroidBitmap bitmap =
+          ByteArrayAndroidBitmap.fromBase64String(base64Encode(bytes));
+      bigPictureStyleInformation =
+          BigPictureStyleInformation(bitmap, largeIcon: bitmap);
+    }
     return AndroidNotificationDetails(
       id,
       'jobspot_walter',
@@ -35,7 +39,9 @@ class NotificationServices {
       importance: Importance.high,
       priority: Priority.high,
       icon: '@mipmap/ic_launcher',
-      // largeIcon: const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
+      largeIcon: !avatar.isLink
+          ? const DrawableResourceAndroidBitmap('@mipmap/ic_launcher')
+          : null,
       styleInformation: bigPictureStyleInformation,
       playSound: true,
     );
