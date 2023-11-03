@@ -652,8 +652,10 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i118.DeleteAllSaveJobUseCase>(),
           gh<_i55.SaveJobUseCase>(),
         ));
-    gh.factory<_i153.SearchJobCubit>(
-        () => _i153.SearchJobCubit(gh<_i59.SearchJobUseCase>()));
+    gh.factory<_i153.SearchJobCubit>(() => _i153.SearchJobCubit(
+          gh<_i59.SearchJobUseCase>(),
+          gh<_i55.SaveJobUseCase>(),
+        ));
     gh.factory<_i154.SearchLanguageCubit>(
         () => _i154.SearchLanguageCubit(gh<_i131.GetCountriesUseCase>()));
     gh.factory<_i155.SettingCubit>(() => _i155.SettingCubit(

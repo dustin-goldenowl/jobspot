@@ -14,14 +14,6 @@ class MainCubit extends Cubit<MainState> {
 
   final UpdateTokenUseCase _updateTokenUseCase;
 
-  void deleteSaveJob(String jobID) {
-    emit(state.copyWith(jobID: jobID));
-  }
-
-  void deleteAllSaveJob() {
-    emit(state.copyWith(isDeleteAllSaveJob: true));
-  }
-
   Future updateToken() async {
     final token = await FirebaseMessagingService.getToken();
     _updateTokenUseCase.call(params: token ?? "");

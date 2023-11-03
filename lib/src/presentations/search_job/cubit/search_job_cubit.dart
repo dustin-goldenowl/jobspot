@@ -7,6 +7,7 @@ import 'package:jobspot/src/core/config/router/app_router.dart';
 import 'package:jobspot/src/core/function/get_location.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/filter/domain/entities/filter_entity.dart';
+import 'package:jobspot/src/presentations/home_applicant/domain/use_cases/save_job_use_case.dart';
 import 'package:jobspot/src/presentations/search_job/domain/entity/search_entity.dart';
 import 'package:jobspot/src/presentations/search_job/domain/use_cases/search_job_use_case.dart';
 import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart';
@@ -25,8 +26,12 @@ class SearchJobCubit extends Cubit<SearchJobState> {
       SearchEntity(limit: 15, query: "", lastUpdate: 3);
 
   final SearchJobUseCase _searchJobUseCase;
+  final SaveJobUseCase _saveJobUseCase;
 
-  SearchJobCubit(this._searchJobUseCase) : super(SearchJobState.ds()) {
+  SearchJobCubit(
+    this._searchJobUseCase,
+    this._saveJobUseCase,
+  ) : super(SearchJobState.ds()) {
     final context = getIt<AppRouter>().navigatorKey.currentState!.context;
     scrollController.addListener(() {
       bool isTop = scrollController.position.pixels >=
@@ -67,6 +72,13 @@ class SearchJobCubit extends Cubit<SearchJobState> {
         listJob: response.data!.listJob,
         isMore: response.data!.isMore,
       ));
+    }
+  }
+
+  Future saveJob(String jobID) async {
+    final response = await _saveJobUseCase.call(params: jobID);
+    if (response is DataSuccess) {
+      emit(state.copyWith(listJob: state.listJob, saveJobID: jobID));
     }
   }
 
