@@ -15,7 +15,7 @@ class ViewJobPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => getIt<ViewJobCubit>()..fetchJobData(jobID),
-      child: const ViewJobView(),
+      child: ViewJobView(jobID: jobID),
     );
   }
 }

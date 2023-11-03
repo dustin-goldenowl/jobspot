@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jobspot/src/core/bloc/app_bloc.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
-import 'package:jobspot/src/presentations/main/cubit/main_cubit.dart';
 import 'package:jobspot/src/presentations/save_job/cubit/save_job_cubit.dart';
 import 'package:jobspot/src/presentations/save_job/domain/router/save_job_coordinator.dart';
 import 'package:jobspot/src/presentations/save_job/widgets/custom_job_card.dart';
@@ -25,10 +25,10 @@ class SaveJobView extends StatelessWidget {
           customToast(context, text: state.error!);
         }
         if (state.deleteJobID != null) {
-          context.read<MainCubit>().deleteSaveJob(state.deleteJobID!);
+          context.read<AppBloc>().add(ChangeSaveJobEvent(state.deleteJobID!));
         }
         if (state.isDeleteAllSaveJob != null) {
-          context.read<MainCubit>().deleteAllSaveJob();
+          context.read<AppBloc>().add(DeleteAllSaveJob());
         }
       },
       buildWhen: (previous, current) =>
@@ -66,7 +66,7 @@ class SaveJobView extends StatelessWidget {
         ],
       ),
       body: RefreshIndicator(
-        onRefresh: () async {},
+        onRefresh: () async => context.read<SaveJobCubit>().listenSaveJob(),
         child: _buildListJob(context.read<SaveJobCubit>().state.listJob),
       ),
     );
@@ -85,11 +85,9 @@ class SaveJobView extends StatelessWidget {
           return CustomJobCard(
             job: listJob[index],
             button: IconButton(
-              onPressed: () {
-                context
-                    .read<SaveJobCubit>()
-                    .showBottomSheetOption(context, job: listJob[index]);
-              },
+              onPressed: () => context
+                  .read<SaveJobCubit>()
+                  .showBottomSheetOption(context, job: listJob[index]),
               icon: const Icon(FontAwesomeIcons.ellipsisVertical),
             ),
             onTap: () =>

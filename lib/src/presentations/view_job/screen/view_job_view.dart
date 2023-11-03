@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jobspot/src/core/bloc/app_bloc.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/function/get_location.dart';
@@ -8,7 +10,6 @@ import 'package:jobspot/src/core/utils/date_time_utils.dart';
 import 'package:jobspot/src/presentations/view_job/domain/router/view_job_coordinator.dart';
 import 'package:jobspot/src/presentations/view_job/widgets/app_bar_company_loading.dart';
 import 'package:jobspot/src/presentations/view_job/widgets/job_description_loading.dart';
-import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/save_job/widgets/tag_item.dart';
@@ -20,11 +21,19 @@ import 'package:jobspot/src/presentations/view_job/widgets/job_subtitle_info.dar
 import 'package:jobspot/src/presentations/view_job/widgets/job_title_info.dart';
 
 class ViewJobView extends StatelessWidget {
-  const ViewJobView({super.key});
+  const ViewJobView({super.key, required this.jobID});
+
+  final String jobID;
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ViewJobCubit, ViewJobState>(
+      listenWhen: (previous, current) {
+        if (previous.isSave != current.isSave) {
+          context.read<AppBloc>().add(ChangeSaveJobEvent(jobID));
+        }
+        return true;
+      },
       listener: (context, state) {
         if (state.error != null) {
           customToast(context, text: state.error ?? "");
@@ -154,27 +163,7 @@ class ViewJobView extends StatelessWidget {
       height: 80,
       child: Row(
         children: [
-          Container(
-            height: 50,
-            width: 50,
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
-                  blurRadius: 80,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: SvgPicture.asset(
-              AppImages.saveJob,
-              fit: BoxFit.fill,
-              colorFilter: ColorFilter.mode(AppColors.primary, BlendMode.srcIn),
-            ),
-          ),
+          _buildSaveButton(),
           const SizedBox(width: 15),
           Expanded(
             child: CustomButton(
@@ -190,6 +179,41 @@ class ViewJobView extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+
+  Widget _buildSaveButton() {
+    return BlocBuilder<ViewJobCubit, ViewJobState>(
+      buildWhen: (previous, current) => previous.isSave != current.isSave,
+      builder: (context, state) {
+        return GestureDetector(
+          onTap: context.read<ViewJobCubit>().saveJob,
+          child: Container(
+            height: 50,
+            width: 50,
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  blurRadius: 80,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: SvgPicture.asset(
+              state.isSave ? AppImages.saved : AppImages.saveJob,
+              fit: BoxFit.fill,
+              colorFilter: ColorFilter.mode(
+                state.isSave ? AppColors.deepSaffron : AppColors.primary,
+                BlendMode.srcIn,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
