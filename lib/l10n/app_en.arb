@@ -461,5 +461,8 @@
     "follow_page_no_following": "No following",
 
     "internet_available": "Internet connection is available",
-    "no_internet": "No Internet connection"
+    "no_internet": "No Internet connection",
+
+    "view_pdf_page_summary": "Summary",
+    "view_pdf_page_analyzing_data": "Analyzing data"
 }
