@@ -463,5 +463,8 @@
     "follow_page_no_following": "Không theo dõi ai",
 
     "internet_available": "Đã có kết nối internet",
-    "no_internet": "Không có kết nối Internet"
+    "no_internet": "Không có kết nối Internet",
+
+    "view_pdf_page_summary": "Summary",
+    "view_pdf_page_analyzing_data": "Đang phân tích dữ liệu"
 }

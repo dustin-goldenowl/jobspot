@@ -26,7 +26,8 @@ class ApplyJobCubit extends Cubit<ApplyJobState> {
     });
   }
 
-  void changeIsTop(bool isTop) => emit(state.copyWith(isTop: isTop));
+  void changeIsTop(bool isTop) =>
+      emit(state.copyWith(isTop: isTop, file: state.file, time: state.time));
 
   Future pickCVFile(BuildContext context) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
