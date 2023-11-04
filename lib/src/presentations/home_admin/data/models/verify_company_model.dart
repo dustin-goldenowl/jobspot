@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/home_admin/domain/entities/verify_company_entity.dart';
 import 'package:jobspot/src/presentations/view_job/data/models/company_model.dart';
 
@@ -19,8 +20,7 @@ class VerifyCompanyModel {
     required this.createAt,
   });
 
-  factory VerifyCompanyModel.fromDocumentSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory VerifyCompanyModel.fromDocumentSnapshot(MapSnapshot snapshot) {
     final data = snapshot.data()!;
     return VerifyCompanyModel(
       file: data["file"],

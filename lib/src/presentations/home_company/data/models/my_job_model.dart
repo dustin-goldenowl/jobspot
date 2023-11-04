@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/home_company/domain/entities/my_job_entity.dart';
 
 class MyJobModel {
@@ -26,8 +27,7 @@ class MyJobModel {
     this.applicants,
   });
 
-  factory MyJobModel.fromDocument(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory MyJobModel.fromDocument(MapSnapshot snapshot) {
     final data = snapshot.data()!;
     return MyJobModel(
       id: snapshot.id,

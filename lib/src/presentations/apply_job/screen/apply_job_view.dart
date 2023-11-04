@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -108,10 +109,31 @@ class ApplyJobView extends StatelessWidget {
             AppLocal.text.apply_job_page_successful_content,
             style: AppStyles.normalTextMulledWine,
           ),
+          const SizedBox(height: 20),
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: AppLocal.text.apply_job_page_test_iq_content,
+                  style: AppStyles.boldTextJacarta,
+                ),
+                TextSpan(
+                  text: AppLocal.text.apply_job_page_here,
+                  style: TextStyle(
+                    color: AppColors.deepSaffron,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = ApplyJobCoordinator.showTestIQ,
+                ),
+              ],
+            ),
+          ),
           const SizedBox(height: 40),
           CustomButton(
             width: 260,
-            onPressed: ApplyJobCoordinator.backToHome,
+            onPressed: ApplyJobCoordinator.showSearchJob,
             title: AppLocal.text.apply_job_page_find_similar_job,
             isElevated: false,
           ),

@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 typedef FirebaseCollection = CollectionReference<Map<String, dynamic>>;
 
+typedef MapSnapshot = DocumentSnapshot<Map<String, dynamic>>;
+
 class XCollection {
   XCollection._();
 
@@ -32,6 +34,8 @@ class XCollection {
   static FirebaseCollection appreciation = instance.collection("appreciations");
 
   static FirebaseCollection resume = instance.collection("resumes");
+
+  static FirebaseCollection question = instance.collection("questions");
 
   static FirebaseCollection verifyBusiness =
       instance.collection("verifyBusiness");

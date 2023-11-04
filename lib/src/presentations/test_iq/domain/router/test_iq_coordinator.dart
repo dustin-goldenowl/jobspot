@@ -3,14 +3,12 @@ import 'package:jobspot/src/core/config/router/app_router.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/constants/app_paths.dart';
 
-class ApplyJobCoordinator {
-  ApplyJobCoordinator._();
+class TestIQCoordinator {
+  TestIQCoordinator._();
 
   static AppRouter get rootRouter => getIt<AppRouter>();
 
   static void backToHome() => rootRouter.popUntilRouteWithPath("/main");
-
-  static void showTestIQ() => rootRouter.replace(const TestIQRoute());
 
   static void showSearchJob() {
     bool isHaveSearch =

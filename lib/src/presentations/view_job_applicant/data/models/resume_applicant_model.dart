@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jobspot/src/core/enum/application_status.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/resume_model.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/view_job_applicant/domain/entities/resume_applicant_entity.dart';
@@ -44,8 +45,7 @@ class ResumeApplicantModel {
     );
   }
 
-  factory ResumeApplicantModel.fromDocumentSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory ResumeApplicantModel.fromDocumentSnapshot(MapSnapshot snapshot) {
     final data = snapshot.data()!;
     return ResumeApplicantModel(
       id: snapshot.id,

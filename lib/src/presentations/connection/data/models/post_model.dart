@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jobspot/src/core/enum/user_role.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/add_post/domain/entities/update_post_entity.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
@@ -34,9 +35,8 @@ class PostModel {
     this.numberOfComments,
   });
 
-  factory PostModel.fromQueryDocumentSnapshot(
-      QueryDocumentSnapshot<Map<String, dynamic>> snapshot) {
-    final data = snapshot.data();
+  factory PostModel.fromQueryDocumentSnapshot(MapSnapshot snapshot) {
+    final data = snapshot.data()!;
     return PostModel(
       id: snapshot.id,
       title: data["title"],
@@ -51,8 +51,7 @@ class PostModel {
     );
   }
 
-  factory PostModel.fromDocumentSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory PostModel.fromDocumentSnapshot(MapSnapshot snapshot) {
     final data = snapshot.data()!;
     return PostModel(
       id: snapshot.id,

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jobspot/src/core/enum/user_role.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/user_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/comment_entity.dart';
@@ -25,8 +26,7 @@ class CommentModel {
     this.user,
   });
 
-  factory CommentModel.fromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory CommentModel.fromSnapshot(MapSnapshot snapshot) {
     final data = snapshot.data()!;
     return CommentModel(
       id: snapshot.id,
