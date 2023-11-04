@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:jobspot/src/core/bloc/app_bloc.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:jobspot/src/presentations/home_applicant/cubit/home_applicant_cubit.dart';
 import 'package:jobspot/src/presentations/home_applicant/domain/router/home_applicant_coordinator.dart';
 import 'package:jobspot/src/presentations/home_applicant/widgets/job_card_loading.dart';
 import 'package:jobspot/src/presentations/home_applicant/widgets/recent_job_card.dart';
-import 'package:jobspot/src/presentations/main/cubit/main_cubit.dart';
 import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart';
 
 class HomeApplicantView extends StatelessWidget {
@@ -89,9 +89,10 @@ class HomeApplicantView extends StatelessWidget {
   }
 
   Widget _buildJobItem(JobEntity job) {
-    return BlocBuilder<MainCubit, MainState>(
+    return BlocBuilder<AppBloc, AppState>(
       buildWhen: (previous, current) =>
-          current.jobID == job.id || (current.isDeleteAllSaveJob ?? false),
+          current is ChangeSaveJobState && current.jobID == job.id ||
+          current is DeleteAllSaveJobState,
       builder: (context, state) {
         return BlocBuilder<HomeApplicantCubit, HomeApplicantState>(
           buildWhen: (previous, current) => current.jobID == job.id,

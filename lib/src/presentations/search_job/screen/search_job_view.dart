@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobspot/src/core/bloc/app_bloc.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/save_job/widgets/custom_job_card.dart';
 import 'package:jobspot/src/presentations/save_job/widgets/custom_job_card_loading.dart';
 import 'package:jobspot/src/presentations/search_job/cubit/search_job_cubit.dart';
 import 'package:jobspot/src/presentations/search_job/domain/router/search_job_coordinator.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_input.dart';
+import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart';
 
 class SearchJobView extends StatelessWidget {
   const SearchJobView({super.key});
@@ -76,18 +79,42 @@ class SearchJobView extends StatelessWidget {
         itemCount: (state.listJob?.length ?? 9) + 1,
         itemBuilder: (context, index) {
           return state.listJob != null && index < state.listJob!.length
-              ? CustomJobCard(
-                  job: state.listJob![index],
-                  button: const SizedBox(),
-                  onTap: () => SearchJobCoordinator.showViewJob(
-                      state.listJob![index].id),
-                )
+              ? _buildJobItem(state.listJob![index])
               : state.isMore
                   ? const CustomJobCardLoading(isShowApply: false)
                   : _buildNoJob();
         },
         separatorBuilder: (context, index) => const SizedBox(height: 15),
       ),
+    );
+  }
+
+  Widget _buildJobItem(JobEntity job) {
+    return BlocBuilder<SearchJobCubit, SearchJobState>(
+      buildWhen: (previous, current) => current.saveJobID == job.id,
+      builder: (context, state) {
+        if (state.saveJobID == job.id) {
+          context.read<AppBloc>().add(ChangeSaveJobEvent(job.id));
+        }
+        final user = PrefsUtils.getUserInfo()!;
+        final isSave = user.saveJob?.contains(job.id) ?? false;
+        return CustomJobCard(
+          job: job,
+          button: IconButton(
+            icon: SvgPicture.asset(
+              isSave ? AppImages.saved : AppImages.saveJob,
+              width: 30,
+              height: 30,
+              colorFilter: ColorFilter.mode(
+                isSave ? AppColors.deepSaffron : AppColors.mulledWine,
+                BlendMode.srcIn,
+              ),
+            ),
+            onPressed: () => context.read<SearchJobCubit>().saveJob(job.id),
+          ),
+          onTap: () => SearchJobCoordinator.showViewJob(job.id),
+        );
+      },
     );
   }
 

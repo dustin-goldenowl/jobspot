@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jobspot/src/core/bloc/app_bloc.dart';
 import 'package:jobspot/src/core/enum/user_role.dart';
 import 'package:jobspot/src/core/enum/verify_status.dart';
 import 'package:jobspot/src/data/entities/user_entity.dart';
@@ -22,7 +23,10 @@ class JobspotApp extends StatelessWidget {
     timeago.setLocaleMessages("vi", timeago.ViMessages());
     timeago.setLocaleMessages("en", timeago.EnMessages());
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => LocalizationCubit())],
+      providers: [
+        BlocProvider(create: (context) => LocalizationCubit()),
+        BlocProvider(create: (context) => AppBloc())
+      ],
       child: BlocBuilder<LocalizationCubit, LocalizationState>(
         buildWhen: (previous, current) => previous.locale != current.locale,
         builder: (context, state) {
