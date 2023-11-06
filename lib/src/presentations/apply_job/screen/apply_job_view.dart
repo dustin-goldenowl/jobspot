@@ -158,35 +158,30 @@ class ApplyJobView extends StatelessWidget {
             color: AppColors.interdimensionalBlue.withOpacity(0.1)),
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+        child: Row(
           children: [
-            Row(
-              children: [
-                SvgPicture.asset(AppImages.pdf, height: 45),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        cubit.state.file!.name,
-                        style: AppStyles.normalTextHaiti,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        "${cubit.state.file!.size.getFileSizeString(decimals: 1)} - ${DateTimeUtils.formatCVTime(cubit.state.time!)}",
-                        style: AppStyles.normalTextSpunPearl,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    ],
+            SvgPicture.asset(AppImages.pdf, height: 45),
+            const SizedBox(width: 20),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    cubit.state.resume?.fileName ?? "",
+                    style: AppStyles.normalTextHaiti,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                )
-              ],
-            ),
+                  const SizedBox(height: 5),
+                  Text(
+                    "${cubit.state.resume!.size.getFileSizeString(decimals: 1)} - ${DateTimeUtils.formatCVTime(cubit.state.resume!.createAt)}",
+                    style: AppStyles.normalTextSpunPearl,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  )
+                ],
+              ),
+            )
           ],
         ),
       ),
@@ -201,7 +196,7 @@ class ApplyJobView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           JobTitleInfo(
-            title: AppLocal.text.apply_job_page_upload_CV,
+            title: AppLocal.text.apply_job_page_select_resumse,
             child: Text(
               AppLocal.text.apply_job_page_upload_CV_content,
               style: AppStyles.normalTextNightBlue,
@@ -240,11 +235,11 @@ class ApplyJobView extends StatelessWidget {
   Widget _buildCVWidget() {
     return BlocBuilder<ApplyJobCubit, ApplyJobState>(
       builder: (context, state) {
-        if (state.file != null) {
+        if (state.resume != null) {
           return UploadedCVFile(
-            fileName: state.file!.name,
-            size: state.file!.size,
-            time: state.time!,
+            fileName: state.resume!.fileName,
+            size: state.resume!.size,
+            time: state.resume!.createAt,
             onRemove: context.read<ApplyJobCubit>().removeCV,
           );
         } else {
@@ -256,7 +251,8 @@ class ApplyJobView extends StatelessWidget {
 
   Widget _buildPickCVFile(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.read<ApplyJobCubit>().pickCVFile(context),
+      // onTap: () => context.read<ApplyJobCubit>().pickCVFile(context),
+      onTap: () => context.read<ApplyJobCubit>().showPickResume(context),
       child: DottedBorder(
         borderType: BorderType.RRect,
         radius: const Radius.circular(12),
@@ -268,24 +264,14 @@ class ApplyJobView extends StatelessWidget {
           child: SizedBox(
             height: 75,
             width: double.infinity,
-            child: Column(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(AppImages.upload, width: 24),
-                    const SizedBox(width: 15),
-                    Text(
-                      AppLocal.text.apply_job_page_upload_resume,
-                      style: AppStyles.normalTextHaiti,
-                    )
-                  ],
-                ),
-                const SizedBox(height: 5),
+                SvgPicture.asset(AppImages.upload, width: 24),
+                const SizedBox(width: 15),
                 Text(
-                  AppLocal.text.apply_job_page_maximum_size,
-                  style: AppStyles.normalTextSpunPearl.copyWith(fontSize: 12),
+                  AppLocal.text.apply_job_page_select_resumse,
+                  style: AppStyles.normalTextHaiti,
                 )
               ],
             ),

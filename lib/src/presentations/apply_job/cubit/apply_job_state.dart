@@ -2,29 +2,25 @@ part of 'apply_job_cubit.dart';
 
 class ApplyJobState extends Equatable {
   const ApplyJobState({
-    this.file,
-    this.time,
+    this.resume,
     this.isLoading = false,
     this.dataState,
     required this.isTop,
   });
 
-  final PlatformFile? file;
-  final DateTime? time;
+  final ResumeEntity? resume;
   final bool isLoading;
   final DataState? dataState;
   final bool isTop;
 
   ApplyJobState copyWith({
-    PlatformFile? file,
-    DateTime? time,
+    ResumeEntity? resume,
     bool isLoading = false,
     DataState? dataState,
     bool? isTop,
   }) {
     return ApplyJobState(
-      file: file,
-      time: time,
+      resume: resume,
       dataState: dataState,
       isLoading: isLoading,
       isTop: isTop ?? this.isTop,
@@ -32,5 +28,5 @@ class ApplyJobState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [file, time, dataState, isLoading, isTop];
+  List<Object?> get props => [resume, dataState, isLoading, isTop];
 }

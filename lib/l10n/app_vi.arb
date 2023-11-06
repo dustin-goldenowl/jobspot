@@ -209,6 +209,7 @@
     "apply_job_page_test_iq_content": "Nếu bạn tham gia kiểm tra IQ, nhà tuyển dụng sẽ đặc biệt quan tâm đến bạn hơn. ",
     "apply_job_page_successful": "Thành công",
     "apply_job_page_successful_content": "Xin chúc mừng, đơn đăng ký của bạn đã được gửi",
+    "apply_job_page_select_resumse": "Chọn CV/Hồ sơ",
 
     "view_post_page_reply_to": "Trả lời @{name}",
     "view_post_page_see_more_comment": "Xem {number} câu trả lời",

@@ -1,24 +1,35 @@
 import 'package:equatable/equatable.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/entities/resume_entity.dart';
+import 'package:jobspot/src/presentations/apply_job/domain/entities/apply_job_entity.dart';
+import 'package:jobspot/src/presentations/apply_job/widgets/list_resume_bottom_sheet.dart';
+import 'package:jobspot/src/presentations/view_applicant_profile/domain/use_cases/get_resume_use_case.dart';
+import 'package:sliding_sheet2/sliding_sheet2.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
-import 'package:jobspot/src/presentations/apply_job/domain/entities/resume_entity.dart';
 import 'package:jobspot/src/presentations/apply_job/domain/use_cases/apply_job_use_case.dart';
 
 part 'apply_job_state.dart';
 
 @injectable
 class ApplyJobCubit extends Cubit<ApplyJobState> {
-  final ApplyJobUseCase _useCase;
   final ScrollController scrollController = ScrollController();
 
   TextEditingController controller = TextEditingController();
 
-  ApplyJobCubit(this._useCase) : super(const ApplyJobState(isTop: false)) {
+  final ApplyJobUseCase _applyJobUseCase;
+  final GetResumeUseCase _getResumeUseCase;
+
+  ApplyJobCubit(
+    this._applyJobUseCase,
+    this._getResumeUseCase,
+  ) : super(const ApplyJobState(isTop: false)) {
     scrollController.addListener(() {
       bool isTop = scrollController.position.pixels >=
           240 - 2 * AppBar().preferredSize.height;
@@ -27,7 +38,7 @@ class ApplyJobCubit extends Cubit<ApplyJobState> {
   }
 
   void changeIsTop(bool isTop) =>
-      emit(state.copyWith(isTop: isTop, file: state.file, time: state.time));
+      emit(state.copyWith(isTop: isTop, resume: state.resume));
 
   Future pickCVFile(BuildContext context) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -40,26 +51,88 @@ class ApplyJobCubit extends Cubit<ApplyJobState> {
         customToast(context,
             text: AppLocal.text.apply_job_page_file_size_larger);
       } else {
-        emit(state.copyWith(file: result.files.single, time: DateTime.now()));
+        final resume = ResumeEntity(
+          id: "",
+          fileName: result.files.single.name,
+          filePath: result.files.single.path ?? "",
+          size: result.files.single.size,
+          createAt: DateTime.now(),
+        );
+        emit(state.copyWith(resume: resume));
       }
     }
   }
 
   void removeCV() => emit(state.copyWith());
 
+  void showPickResume(BuildContext context) async {
+    final resume = await showSlidingBottomSheet<ResumeEntity>(
+      context,
+      builder: (context) {
+        return SlidingSheetDialog(
+          elevation: 8,
+          cornerRadius: 16,
+          avoidStatusBar: true,
+          snapSpec: const SnapSpec(
+            snap: true,
+            initialSnap: 0.4,
+            snappings: [0.4, 0.7, 0.95],
+            positioning: SnapPositioning.relativeToSheetHeight,
+          ),
+          scrollSpec: const ScrollSpec.bouncingScroll(),
+          headerBuilder: (context, state) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 25),
+                Container(
+                  height: 4,
+                  width: 40,
+                  decoration: BoxDecoration(
+                    color: AppColors.nightBlue,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                const SizedBox(height: 15),
+              ],
+            );
+          },
+          builder: (context, state) => FutureBuilder(
+            future: _getResumeUseCase.call(
+                params: FirebaseAuth.instance.currentUser!.uid),
+            builder: (context, snapshot) {
+              List<ResumeEntity>? listResume;
+              if (snapshot.hasData && snapshot.data is DataSuccess) {
+                listResume = snapshot.data?.data;
+              }
+              return ListResumeBottomSheet(
+                listResume: listResume,
+                onTap: Navigator.of(context).pop,
+                pickPDF: () {
+                  Navigator.of(context).pop();
+                  pickCVFile(context);
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+    if (resume != null) {
+      emit(state.copyWith(resume: resume));
+    }
+  }
+
   Future applyJob({required String jobID, required String uidJob}) async {
-    emit(state.copyWith(file: state.file, time: state.time, isLoading: true));
-    final response = await _useCase.call(
-        params: ResumeEntity(
+    emit(state.copyWith(resume: state.resume, isLoading: true));
+    final response = await _applyJobUseCase.call(
+        params: ApplyJobEntity(
       uidJob: uidJob,
-      fileName: state.file!.name,
-      path: state.file!.path!,
       description: controller.text,
       jobID: jobID,
-      size: state.file!.size,
+      resume: state.resume!,
     ));
-    emit(state.copyWith(
-        file: state.file, time: state.time, dataState: response));
+    emit(state.copyWith(resume: state.resume, dataState: response));
   }
 
   @override

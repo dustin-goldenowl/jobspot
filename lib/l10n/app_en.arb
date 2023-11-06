@@ -209,6 +209,7 @@
     "apply_job_page_test_iq_content": "If you participate in an IQ test, employers will pay special attention to you. ",
     "apply_job_page_successful": "Successful",
     "apply_job_page_successful_content": "Congratulations, your application has been sent",
+    "apply_job_page_select_resumse": "Select CV/Resume",
 
     "view_post_page_reply_to": "Reply @{name}",
     "view_post_page_see_more_comment": "See {number} more comments",

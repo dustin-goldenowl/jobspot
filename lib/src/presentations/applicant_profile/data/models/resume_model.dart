@@ -5,14 +5,14 @@ import 'package:jobspot/src/presentations/applicant_profile/domain/entities/resu
 class ResumeModel {
   final String id;
   final String fileName;
-  final String file;
+  final String filePath;
   final int size;
   final DateTime createAt;
 
   ResumeModel({
     required this.id,
     required this.fileName,
-    required this.file,
+    required this.filePath,
     required this.size,
     required this.createAt,
   });
@@ -22,7 +22,7 @@ class ResumeModel {
     return ResumeModel(
       id: snapshot.id,
       fileName: data["fileName"],
-      file: data["file"],
+      filePath: data["file"], //TODO rename file path
       size: data["size"],
       createAt: (data["createAt"] as Timestamp).toDate(),
     );
@@ -32,7 +32,7 @@ class ResumeModel {
     return ResumeEntity(
       id: id,
       fileName: fileName,
-      file: file,
+      filePath: filePath,
       size: size,
       createAt: createAt,
     );
