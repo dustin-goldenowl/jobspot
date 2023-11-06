@@ -1,9 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jobspot/src/core/constants/constants.dart';
-import 'package:jobspot/src/core/extension/string_extension.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jobspot/src/presentations/view_pdf/cubit/view_pdf_cubit.dart';
+import 'package:jobspot/src/presentations/view_pdf/screen/view_pdf_view.dart';
 
 @RoutePage()
 class ViewPDFPage extends StatelessWidget {
@@ -14,26 +13,9 @@ class ViewPDFPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        title: Text(title ?? ""),
-        titleTextStyle: AppStyles.boldTextHaiti.copyWith(fontSize: 18),
-        leading: IconButton(
-          onPressed: () => context.router.pop(),
-          icon: const Icon(FontAwesomeIcons.xmark),
-        ),
-      ),
-      body: SafeArea(
-        child: url.isLink
-            ? const PDF().cachedFromUrl(
-                url,
-                placeholder: (progress) => Center(child: Text('$progress %')),
-                errorWidget: (error) => Center(child: Text(error.toString())),
-              )
-            : const PDF().fromPath(url),
-      ),
+    return BlocProvider(
+      create: (context) => ViewPDFCubit(),
+      child: ViewPDFView(url: url, title: title),
     );
   }
 }
