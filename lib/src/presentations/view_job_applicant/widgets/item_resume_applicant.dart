@@ -47,6 +47,26 @@ class ItemResumeApplicant extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildHeader(),
+        if (resume.score != null) const SizedBox(height: 15),
+        if (resume.score != null)
+          Row(
+            children: [
+              Text(
+                AppLocal.text.view_job_applicant_test_iq(
+                    "${resume.score}/${resume.resultIQ?.length}"),
+                style: AppStyles.boldTextHaiti,
+              ),
+              const Spacer(),
+              GestureDetector(
+                onTap: () => ViewJobApplicantCoordinator.showTestIQ(
+                    resultIQ: resume.resultIQ ?? [], time: resume.time ?? 0),
+                child: Text(
+                  AppLocal.text.view_job_applicant_view_result,
+                  style: TextStyle(color: AppColors.deepSaffron),
+                ),
+              ),
+            ],
+          ),
         const SizedBox(height: 20),
         if (resume.description.isNotEmpty)
           Text(

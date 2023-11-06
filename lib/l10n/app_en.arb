@@ -442,6 +442,8 @@
     "view_job_applicant_rejected": "Rejected",
     "view_job_applicant_no_applications": "There are no job applications here",
     "view_job_applicant_consider": "Consider",
+    "view_job_applicant_view_result": "View Result",
+    "view_job_applicant_test_iq": "Test IQ {result}",
 
     "verify_business_page_upload": "Upload",
     "verify_business_page_back_to_login": "Back to login",
@@ -471,8 +473,14 @@
     "view_pdf_page_analyzing_data": "Analyzing data",
 
     "test_iq_page_iq_test_result": "Your IQ test results are:",
+    "test_iq_page_test_result": "IQ test results are:",
+    "test_iq_page_finished_in": "Finished in: {time}",
     "test_iq_page_next": "Next",
     "test_iq_page_finish": "Finish",
     "test_iq_page_question_title": "Question {number}: Choose the missing figure",
-    "test_iq_page_test_iq": "Test IQ"
+    "test_iq_page_test_iq": "Test IQ",
+    "test_iq_page_correct": "Correct",
+    "test_iq_page_wrong": "Wrong",
+    "test_iq_page_cancel_test": "Cancel Test IQ",
+    "test_iq_page_cancel_test_content": "Are you sure cancel this test IQ"
 }

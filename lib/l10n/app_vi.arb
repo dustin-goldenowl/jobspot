@@ -442,6 +442,8 @@
     "view_job_applicant_rejected": "Từ chối",
     "view_job_applicant_no_applications": "Không có hồ sơ nào ở đây",
     "view_job_applicant_consider": "Xem xét",
+    "view_job_applicant_view_result": "Xem kết quả",
+    "view_job_applicant_test_iq": "Kiểm tra IQ {result}",
 
     "verify_business_page_upload": "Tải lên",
     "verify_business_page_back_to_login": "Trở về đăng nhập",
@@ -471,8 +473,14 @@
     "view_pdf_page_analyzing_data": "Đang phân tích dữ liệu",
 
     "test_iq_page_iq_test_result": "Kết quả kiểm tra IQ của bạn là:",
+    "test_iq_page_test_result": "Kết quả kiểm tra IQ:",
+    "test_iq_page_finished_in": "Hoàn thành trong: {time}",
     "test_iq_page_next": "Tiếp theo",
     "test_iq_page_finish": "Hoàn thành",
     "test_iq_page_question_title": "Câu {number}: Chọn hình còn thiếu",
-    "test_iq_page_test_iq": "Kiểm tra IQ"
+    "test_iq_page_test_iq": "Kiểm tra IQ",
+    "test_iq_page_correct": "Chính xác",
+    "test_iq_page_wrong": "Sai",
+    "test_iq_page_cancel_test": "Hủy Kiểm Tra IQ",
+    "test_iq_page_cancel_test_content": "Bạn chắc chắn muốn hủy bỏ bài kiểm tra này?"
 }

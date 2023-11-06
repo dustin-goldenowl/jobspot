@@ -9,6 +9,9 @@ class ResumeApplicantEntity {
   final String jobID;
   final ResumeEntity resume;
   final UserEntity applicant;
+  final int? score;
+  final int? time;
+  final List<int?>? resultIQ;
   final DateTime createAt;
 
   ResumeApplicantEntity({
@@ -18,6 +21,9 @@ class ResumeApplicantEntity {
     required this.jobID,
     required this.resume,
     required this.applicant,
+    this.score,
+    this.resultIQ,
+    this.time,
     required this.createAt,
   });
 
@@ -30,6 +36,9 @@ class ResumeApplicantEntity {
       resume: resume,
       applicant: applicant,
       createAt: createAt,
+      resultIQ: resultIQ,
+      score: score,
+      time: time,
     );
   }
 }

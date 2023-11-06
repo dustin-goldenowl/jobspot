@@ -272,5 +272,10 @@ class AppRouter extends $AppRouter {
           page: TestIQRoute.page,
           transitionsBuilder: TransitionsBuilders.slideLeft,
         ),
+        CustomRoute(
+          path: AppPaths.viewTestIQ,
+          page: ViewTestIQRoute.page,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
+        ),
       ];
 }

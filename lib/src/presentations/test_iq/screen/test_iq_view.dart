@@ -8,6 +8,7 @@ import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/extension/int_extension.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
 import 'package:jobspot/src/presentations/test_iq/cubit/test_iq_cubit.dart';
 import 'package:jobspot/src/presentations/test_iq/domain/router/test_iq_coordinator.dart';
@@ -25,6 +26,22 @@ class TestIQView extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
         scrolledUnderElevation: 0,
+        actions: [
+          BlocBuilder<TestIQCubit, TestIQState>(
+            buildWhen: (previous, current) => previous.time != current.time,
+            builder: (context, state) {
+              return Text(
+                "${(state.time ~/ 60).digits()}:${(state.time % 60).digits()}",
+                style: TextStyle(
+                  color: AppColors.deepSaffron,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                ),
+              );
+            },
+          ),
+          const SizedBox(width: 15),
+        ],
         leading: IconButton(
           onPressed: () => context.read<TestIQCubit>().showAlertDialog(
             context,
@@ -49,7 +66,11 @@ class TestIQView extends StatelessWidget {
           if (state.questions != null) {
             bool isScroll = state.currentPage < state.questions!.length;
             if (!isScroll) {
-              context.read<TestIQCubit>().nextPage();
+              context.read<TestIQCubit>().controller.animateToPage(
+                    state.questions!.length,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.linear,
+                  );
             }
             return PageView.builder(
               physics: isScroll
@@ -156,6 +177,7 @@ class TestIQView extends StatelessWidget {
                           value: gridIndex,
                           groupValue: state.answers[index],
                           onChanged: (value) => onTap(index, value!),
+                          activeColor: AppColors.deepSaffron,
                         ),
                         customImage(
                           url: state.questions?[index].answer[gridIndex] ?? "",

@@ -1,6 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/firebase_collection.dart';
+import 'package:jobspot/src/presentations/test_iq/data/models/add_result_test_iq_model.dart';
 import 'package:jobspot/src/presentations/test_iq/data/models/question_model.dart';
 import 'package:jobspot/src/presentations/test_iq/domain/entities/add_result_test_iq_entity.dart';
 import 'package:jobspot/src/presentations/test_iq/domain/entities/question_entity.dart';
@@ -24,9 +25,8 @@ class TestIQRepositoryImpl extends TestIQRepository {
   @override
   Future<DataState<bool>> addResultIQTest(AddResultTestIQEntity result) async {
     try {
-      await XCollection.apply
-          .doc(result.applyID)
-          .update({"resultIQ": result.answers, "score": result.score});
+      final model = AddResultTestIQModel.fromEntity(result);
+      await XCollection.apply.doc(result.applyID).update(model.toMap());
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());

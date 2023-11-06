@@ -1,33 +1,25 @@
-part of 'test_iq_cubit.dart';
+part of 'view_test_iq_cubit.dart';
 
-class TestIQState extends Equatable {
-  const TestIQState({
+class ViewTestIQState extends Equatable {
+  const ViewTestIQState({
     this.questions,
     this.error,
     required this.answers,
-    required this.currentPage,
-    required this.time,
   });
 
   final List<QuestionEntity>? questions;
   final String? error;
   final List<int?> answers;
-  final int currentPage;
-  final int time;
 
-  TestIQState copyWith({
+  ViewTestIQState copyWith({
     List<QuestionEntity>? questions,
     String? error,
     List<int?>? answers,
-    int? currentPage,
-    int? time,
   }) {
-    return TestIQState(
+    return ViewTestIQState(
       error: error,
-      currentPage: currentPage ?? this.currentPage,
       questions: questions ?? this.questions,
       answers: answers ?? this.answers,
-      time: time ?? this.time,
     );
   }
 
@@ -42,5 +34,5 @@ class TestIQState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [questions, error, answers, currentPage, time];
+  List<Object?> get props => [questions, error, answers];
 }

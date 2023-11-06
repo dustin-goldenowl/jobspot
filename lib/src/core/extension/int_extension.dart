@@ -7,4 +7,6 @@ extension IntExtention on int {
     final i = (log(this) / log(1024)).floor();
     return ((this / pow(1024, i)).toStringAsFixed(decimals)) + suffixes[i];
   }
+
+  String digits([int number = 2]) => toString().padLeft(number, '0');
 }
