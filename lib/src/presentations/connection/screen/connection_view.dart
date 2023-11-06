@@ -72,10 +72,11 @@ class ConnectionView extends StatelessWidget {
                         onViewFullPost: () =>
                             ConnectionCoordinator.showFullPost(
                                 post: state.posts![index]),
-                        onViewProfile: () {
-                          ConnectionCoordinator.showViewProfile(
-                              uid: state.posts![index].user.id);
-                        },
+                        onViewProfile: () =>
+                            ConnectionCoordinator.showViewProfile(
+                          uid: state.posts![index].user.id,
+                          role: state.posts![index].user.role,
+                        ),
                       )
                     : state.isMore
                         ? const PostItemLoading()

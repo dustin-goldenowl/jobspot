@@ -10,6 +10,7 @@ import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/enum/verify_status.dart';
 import 'package:jobspot/src/presentations/view_company_profile/cubit/view_company_profile_cubit.dart';
 import 'package:jobspot/src/presentations/view_company_profile/domain/router/view_company_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/view_company_profile/widgets/custom_button_profile.dart';
@@ -177,11 +178,21 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
             children: [
               const SizedBox(height: 28),
               state.user != null
-                  ? Text(
-                      state.user?.name ?? "",
-                      style: AppStyles.boldTextNightBlue.copyWith(fontSize: 18),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          state.user?.name ?? "",
+                          style: AppStyles.boldTextNightBlue
+                              .copyWith(fontSize: 18),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        if (state.user?.verify == VerifyStatus.accept)
+                          const SizedBox(width: 5),
+                        if (state.user?.verify == VerifyStatus.accept)
+                          SvgPicture.asset(AppImages.verify, height: 18),
+                      ],
                     )
                   : const ItemLoading(width: 70, height: 20, radius: 5),
               const SizedBox(height: 16),

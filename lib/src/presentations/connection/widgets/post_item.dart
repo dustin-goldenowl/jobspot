@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/common/widgets/image_widget/widget/image_widget.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
+import 'package:jobspot/src/core/enum/verify_status.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/constants/constants.dart';
@@ -92,7 +93,15 @@ class PostItem extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: onViewProfile,
-                  child: Text(post.user.name, style: AppStyles.boldTextHaiti),
+                  child: Row(
+                    children: [
+                      Text(post.user.name, style: AppStyles.boldTextHaiti),
+                      if (post.user.verify == VerifyStatus.accept)
+                        const SizedBox(width: 5),
+                      if (post.user.verify == VerifyStatus.accept)
+                        SvgPicture.asset(AppImages.verify, height: 18),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 5),
                 Row(
