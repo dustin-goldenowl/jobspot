@@ -7,12 +7,14 @@ import 'package:jobspot/src/presentations/test_iq/screen/test_iq_view.dart';
 
 @RoutePage()
 class TestIQPage extends StatelessWidget {
-  const TestIQPage({super.key});
+  const TestIQPage({super.key, required this.applyID});
+
+  final String applyID;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<TestIQCubit>(),
+      create: (context) => getIt<TestIQCubit>()..init(applyID),
       child: const TestIQView(),
     );
   }

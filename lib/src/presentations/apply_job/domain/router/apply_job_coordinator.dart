@@ -10,7 +10,8 @@ class ApplyJobCoordinator {
 
   static void backToHome() => rootRouter.popUntilRouteWithPath("/main");
 
-  static void showTestIQ() => rootRouter.replace(const TestIQRoute());
+  static void showTestIQ(String applyID) =>
+      rootRouter.replace(TestIQRoute(applyID: applyID));
 
   static void showSearchJob() {
     bool isHaveSearch =

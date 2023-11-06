@@ -10,7 +10,9 @@ class MyJobModel {
   int level;
   int typeWorkplace;
   int? applicants;
+  int? score;
   String jobPosition;
+  List<int?>? resultIQ;
   DateTime startDate;
   DateTime endDate;
 
@@ -22,9 +24,11 @@ class MyJobModel {
     required this.position,
     required this.salary,
     required this.typeWorkplace,
+    required this.score,
     required this.endDate,
     required this.startDate,
     this.applicants,
+    this.resultIQ,
   });
 
   factory MyJobModel.fromDocument(MapSnapshot snapshot) {
@@ -37,6 +41,10 @@ class MyJobModel {
       position: data["position"],
       salary: data["salary"],
       typeWorkplace: data["typeWorkplace"],
+      score: data["score"],
+      resultIQ: data["resultIQ"] != null
+          ? List<int?>.from(data["resultIQ"].map((x) => x))
+          : null,
       endDate: (data["endDate"] as Timestamp).toDate(),
       startDate: (data["startDate"] as Timestamp).toDate(),
     );
@@ -54,6 +62,8 @@ class MyJobModel {
       endDate: endDate,
       startDate: startDate,
       applicants: applicants ?? this.applicants,
+      resultIQ: resultIQ,
+      score: score,
     );
   }
 
@@ -67,6 +77,8 @@ class MyJobModel {
       position: position,
       salary: salary,
       typeWorkplace: typeWorkplace,
+      score: score,
+      resultIQ: resultIQ,
       endDate: endDate,
       startDate: startDate,
     );

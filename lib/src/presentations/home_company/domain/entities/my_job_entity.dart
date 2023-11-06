@@ -6,7 +6,9 @@ class MyJobEntity {
   final int level;
   final int typeWorkplace;
   final int applicants;
+  final int? score;
   final String jobPosition;
+  final List<int?>? resultIQ;
   final DateTime startDate;
   final DateTime endDate;
 
@@ -19,6 +21,8 @@ class MyJobEntity {
     required this.salary,
     required this.applicants,
     required this.typeWorkplace,
+    this.score,
+    this.resultIQ,
     required this.endDate,
     required this.startDate,
   });

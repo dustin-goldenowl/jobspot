@@ -473,5 +473,6 @@
     "test_iq_page_iq_test_result": "Your IQ test results are:",
     "test_iq_page_next": "Next",
     "test_iq_page_finish": "Finish",
-    "test_iq_page_question_title": "Question {number}: Choose the missing figure"
+    "test_iq_page_question_title": "Question {number}: Choose the missing figure",
+    "test_iq_page_test_iq": "Test IQ"
 }

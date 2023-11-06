@@ -1,14 +1,17 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
 import 'package:jobspot/src/presentations/test_iq/cubit/test_iq_cubit.dart';
 import 'package:jobspot/src/presentations/test_iq/domain/router/test_iq_coordinator.dart';
+import 'package:jobspot/src/presentations/test_iq/widgets/question_loading.dart';
 
 class TestIQView extends StatelessWidget {
   const TestIQView({super.key});
@@ -16,7 +19,29 @@ class TestIQView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<TestIQCubit, TestIQState>(
+      appBar: AppBar(
+        title: Text(AppLocal.text.test_iq_page_test_iq),
+        titleTextStyle: AppStyles.boldTextHaiti.copyWith(fontSize: 20),
+        centerTitle: true,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        leading: IconButton(
+          onPressed: () => context.read<TestIQCubit>().showAlertDialog(
+            context,
+            onAccept: () async {
+              await context.router.pop();
+              if (context.mounted) context.router.pop();
+            },
+          ),
+          icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
+        ),
+      ),
+      body: BlocConsumer<TestIQCubit, TestIQState>(
+        listener: (context, state) {
+          if (state.error != null) {
+            customToast(context, text: state.error ?? "");
+          }
+        },
         buildWhen: (previous, current) =>
             current.currentPage >= (current.questions?.length ?? 0) ||
             previous.questions != current.questions,
@@ -26,27 +51,25 @@ class TestIQView extends StatelessWidget {
             if (!isScroll) {
               context.read<TestIQCubit>().nextPage();
             }
-            return SafeArea(
-              child: PageView.builder(
-                physics: isScroll
-                    ? const BouncingScrollPhysics()
-                    : const NeverScrollableScrollPhysics(),
-                controller: context.read<TestIQCubit>().controller,
-                onPageChanged: context.read<TestIQCubit>().onChangePage,
-                itemCount: state.questions!.length + (isScroll ? 0 : 1),
-                itemBuilder: (context, index) {
-                  if (index < state.questions!.length) {
-                    return _buildItemQuestion(
-                      index,
-                      onTap: context.read<TestIQCubit>().chooseAnswer,
-                    );
-                  }
-                  return _buildResult();
-                },
-              ),
+            return PageView.builder(
+              physics: isScroll
+                  ? const BouncingScrollPhysics()
+                  : const NeverScrollableScrollPhysics(),
+              controller: context.read<TestIQCubit>().controller,
+              onPageChanged: context.read<TestIQCubit>().onChangePage,
+              itemCount: state.questions!.length + (isScroll ? 0 : 1),
+              itemBuilder: (context, index) {
+                if (index < state.questions!.length) {
+                  return _buildItemQuestion(
+                    index,
+                    onTap: context.read<TestIQCubit>().chooseAnswer,
+                  );
+                }
+                return _buildResult();
+              },
             );
           }
-          return const CircularProgressIndicator();
+          return const QuestionLoading();
         },
       ),
     );

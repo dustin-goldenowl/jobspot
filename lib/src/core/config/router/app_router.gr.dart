@@ -481,9 +481,13 @@ abstract class $AppRouter extends _i59.RootStackRouter {
       );
     },
     TestIQRoute.name: (routeData) {
+      final args = routeData.argsAs<TestIQRouteArgs>();
       return _i59.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i42.TestIQPage(),
+        child: _i42.TestIQPage(
+          key: args.key,
+          applyID: args.applyID,
+        ),
       );
     },
     UpdatePasswordRoute.name: (routeData) {
@@ -1615,16 +1619,40 @@ class SignUpRoute extends _i59.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i42.TestIQPage]
-class TestIQRoute extends _i59.PageRouteInfo<void> {
-  const TestIQRoute({List<_i59.PageRouteInfo>? children})
-      : super(
+class TestIQRoute extends _i59.PageRouteInfo<TestIQRouteArgs> {
+  TestIQRoute({
+    _i60.Key? key,
+    required String applyID,
+    List<_i59.PageRouteInfo>? children,
+  }) : super(
           TestIQRoute.name,
+          args: TestIQRouteArgs(
+            key: key,
+            applyID: applyID,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'TestIQRoute';
 
-  static const _i59.PageInfo<void> page = _i59.PageInfo<void>(name);
+  static const _i59.PageInfo<TestIQRouteArgs> page =
+      _i59.PageInfo<TestIQRouteArgs>(name);
+}
+
+class TestIQRouteArgs {
+  const TestIQRouteArgs({
+    this.key,
+    required this.applyID,
+  });
+
+  final _i60.Key? key;
+
+  final String applyID;
+
+  @override
+  String toString() {
+    return 'TestIQRouteArgs{key: $key, applyID: $applyID}';
+  }
 }
 
 /// generated route for

@@ -473,5 +473,6 @@
     "test_iq_page_iq_test_result": "Kết quả kiểm tra IQ của bạn là:",
     "test_iq_page_next": "Tiếp theo",
     "test_iq_page_finish": "Hoàn thành",
-    "test_iq_page_question_title": "Câu {number}: Chọn hình còn thiếu"
+    "test_iq_page_question_title": "Câu {number}: Chọn hình còn thiếu",
+    "test_iq_page_test_iq": "Kiểm tra IQ"
 }

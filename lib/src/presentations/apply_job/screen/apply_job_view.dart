@@ -125,7 +125,8 @@ class ApplyJobView extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                   recognizer: TapGestureRecognizer()
-                    ..onTap = ApplyJobCoordinator.showTestIQ,
+                    ..onTap = () => ApplyJobCoordinator.showTestIQ(
+                        context.read<ApplyJobCubit>().state.dataState?.data),
                 ),
               ],
             ),
