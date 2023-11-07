@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/extension/int_extension.dart';
 import 'package:jobspot/src/core/function/get_location.dart';
 import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
@@ -138,7 +139,7 @@ class AddJobView extends StatelessWidget {
       builder: (context, state) {
         return _buildJobInfo(
           title: AppLocal.text.add_job_page_salary,
-          content: state.salary != -1 ? "${state.salary}\$" : null,
+          content: state.salary != -1 ? "${state.salary.toCurrency}\$" : null,
           onTap: () {
             context.read<AddJobCubit>().showBottomSheetSalary(context);
           },

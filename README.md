@@ -59,10 +59,8 @@
   * [Running Tests](#test_tube-running-tests)
   * [Run Locally](#running-run-locally)
   * [Deployment](#triangular_flag_on_post-deployment)
-- [Usage](#eyes-usage)
-- [Roadmap](#compass-roadmap)
+- [Usage](#eyes-directory-structure)
 - [Contributing](#wave-contributing)
-  * [Code of Conduct](#scroll-code-of-conduct)
 - [FAQ](#grey_question-faq)
 - [License](#warning-license)
 - [Contact](#handshake-contact)
@@ -87,6 +85,26 @@
 | --- | --- | --- |
 | <img src="screenshots/home_screen.png" width=250> | <img src="screenshots/add_job_screen.png" width=250> | <img src="screenshots/view_job_screen.png" width=250> |
 
+| Apply Job  | Apply Job | Apply Job |
+| --- | --- | --- |
+| <img src="screenshots/apply_job_screen_1.png" width=250> | <img src="screenshots/apply_job_screen_2.png" width=250> | <img src="screenshots/apply_job_screen_3.png" width=250> |
+
+| View Post  | Save Job | Applicant Profile |
+| --- | --- | --- |
+| <img src="screenshots/view_post_screen.png" width=250> | <img src="screenshots/save_job_screen.png" width=250> | <img src="screenshots/applicant_profile_screen.png" width=250> |
+
+| Setting  | Change Password | View Applicant Profile |
+| --- | --- | --- |
+| <img src="screenshots/setting_screen.png" width=250> | <img src="screenshots/change_password_screen.png" width=250> | <img src="screenshots/view_applicant_profile_screen.png" width=250> |
+
+| Search Job  | Filter Screen | Home for Business |
+| --- | --- | --- |
+| <img src="screenshots/search_job_screen.png" width=250> | <img src="screenshots/filter_screen.png" width=250> | <img src="screenshots/home_business_screen.png" width=250> |
+
+| View Resumse Apply | Home for Admin | Test IQ |
+| --- | --- | --- |
+| <img src="screenshots/view_resume_apply_screen.png" width=250> | <img src="screenshots/home_admin_screen.png" width=250> | <img src="screenshots/test_iq_screen.png" width=250> |
+
 <!-- TechStack -->
 ### :space_invader: Tech Stack
 
@@ -102,6 +120,20 @@
   <summary>Serverless</summary>
   <ul>
     <li><a href="https://console.firebase.google.com/">Firebase</a></li>
+  </ul>
+</details>
+
+<details>
+  <summary>Server</summary>
+  <ul>
+    <li><a href="https://readthedocs.org/projects/flask/">Flask</a></li>
+  </ul>
+</details>
+
+<details>
+  <summary>Chat GPT API</summary>
+  <ul>
+    <li><a href="https://chat.openai.com/">Chat GPT API</a></li>
   </ul>
 </details>
 
@@ -212,6 +244,12 @@ Install dependencies
   flutter pub get
 ```
 
+Set up Multiple Language
+
+```bash
+  flutter gen-l10n
+```
+
 Start the project
 
 ```bash
@@ -235,29 +273,105 @@ To deploy this project to CH Play
 ```
 
 <!-- Usage -->
-## :eyes: Usage
+## :eyes: Directory structure
 
-Coming soon
-
-<!-- Use this space to tell a little more about your project and how it can be used. Show additional screenshots, code samples, demos or link to other resources.
-
-
-```javascript
-import Component from 'my-project'
-
-function App() {
-  return <Component />
-}
-``` -->
-
-<!-- Roadmap -->
-## :compass: Roadmap
-
-Coming soon
-
-<!-- * [x] Todo 1
-* [ ] Todo 2 -->
-
+```bash
+jobspot
+├───android
+├───assets
+│   ├───fonts
+│   └───images
+├───ios
+├───lib
+│   ├───l10n
+│   └───src
+│       ├───core
+│       │   ├───bloc
+│       │   ├───common
+│       │   │   └───widgets
+│       │   │       └───image_widget
+│       │   │           ├───cubit
+│       │   │           └───widget
+│       │   ├───config
+│       │   │   ├───localization
+│       │   │   │   └───cubit
+│       │   │   └───router
+│       │   ├───constants
+│       │   ├───enum
+│       │   ├───extension
+│       │   ├───function
+│       │   ├───resources
+│       │   ├───service
+│       │   │   └───api
+│       │   └───utils
+│       ├───data
+│       │   ├───entities
+│       │   └───models
+│       └───presentations
+│           ├───add_appreciation
+│           │   ├───cubit
+│           │   ├───data
+│           │   │   ├───models
+│           │   │   └───repositories
+│           │   ├───domain
+│           │   │   ├───entities
+│           │   │   ├───repositories
+│           │   │   ├───router
+│           │   │   └───use_cases
+│           │   ├───screen
+│           │   └───widgets
+│           ├───add_education
+│           ├───add_job
+│           ├───add_language
+│           ├───add_post
+│           ├───add_resume
+│           ├───add_skill
+│           ├───add_work_experience
+│           ├───applicant_profile
+│           ├───apply_job
+│           ├───check_email
+│           ├───company_profile
+│           ├───connection
+│           ├───edit_applicant_profile
+│           ├───edit_company_profile
+│           ├───filter
+│           ├───follow
+│           ├───forgot_password
+│           ├───home_admin
+│           ├───home_applicant
+│           ├───home_company
+│           ├───job_description
+│           ├───job_position
+│           ├───location
+│           ├───main
+│           ├───notification
+│           ├───on_boarding
+│           ├───register_google
+│           ├───save_job
+│           ├───search_job
+│           ├───search_language
+│           ├───setting
+│           ├───sign_in
+│           ├───sign_up
+│           ├───test_iq
+│           ├───update_password
+│           ├───verify_business
+│           ├───verify_email
+│           ├───verify_success
+│           ├───view_applicant_profile
+│           ├───view_company_profile
+│           ├───view_job
+│           ├───view_job_applicant
+│           ├───view_pdf
+│           ├───view_post
+│           └───view_test_iq
+├───linux
+├───macos
+├───screenshots
+├───test
+├───web
+└───windows
+```
 
 <!-- Contributing -->
 ## :wave: Contributing
@@ -268,14 +382,6 @@ Coming soon
 
 
 Contributions are always welcome!
-
-See `contributing.md` for ways to get started.
-
-
-<!-- Code of Conduct -->
-### :scroll: Code of Conduct
-coming soon
-<!-- Please read the [Code of Conduct](https://github.com/dustin-goldenowl/jobspot/blob/master/CODE_OF_CONDUCT.md) -->
 
 <!-- FAQ -->
 ## :grey_question: FAQ
@@ -307,10 +413,12 @@ Project Link: [https://github.com/dustin-goldenowl/jobspot](https://github.com/d
 
 <!-- Acknowledgments -->
 ## :gem: Acknowledgements
+In Jobspot project, I used some useful resources and libraries to aid the development process.
 
-Use this section to mention useful resources and libraries that you have used in your projects.
-
- - [Shields.io](https://shields.io/)
- - [Awesome README](https://github.com/matiassingers/awesome-readme)
- - [Emoji Cheat Sheet](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md#travel--places)
- - [Readme Template](https://github.com/othneildrew/Best-README-Template)
+ - [Desgin Figma](https://www.figma.com/file/2sMOWSroKFDsthE6Nn10ov/Job-Finder-Ui-App-Kit-(Community)?type=design&node-id=0%3A1&mode=design&t=yOVRg0VfUB2TVE5I-1)
+ - [Firebase and related packages](https://firebase.google.com/)
+ - [Flutter Bloc](https://pub.dev/packages/flutter_bloc)
+ - [Auto Route](https://pub.dev/packages/auto_route)
+ - [GetIt](https://pub.dev/packages/get_it)
+ - [Flutter SVG](https://pub.dev/packages/flutter_svg)
+ - [Shared Preferences](https://pub.dev/packages/shared_preferences)
