@@ -1,4 +1,5 @@
 import 'package:jobspot/src/core/enum/user_role.dart';
+import 'package:jobspot/src/core/enum/verify_status.dart';
 
 class UserEntity {
   final String id;
@@ -6,6 +7,7 @@ class UserEntity {
   final String avatar;
   final String address;
   final UserRole role;
+  final VerifyStatus? verify;
 
   UserEntity({
     required this.id,
@@ -13,5 +15,6 @@ class UserEntity {
     required this.avatar,
     required this.address,
     required this.role,
+    this.verify,
   });
 }

@@ -45,4 +45,5 @@ class AppImages {
   static String filter = "assets/images/filter.svg";
   static String noResult = "assets/images/no_results.svg";
   static String noNotification = "assets/images/no_notification.svg";
+  static String verify = "assets/images/verify.svg";
 }

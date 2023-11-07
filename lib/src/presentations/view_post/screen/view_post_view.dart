@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
+import 'package:jobspot/src/core/enum/verify_status.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_input.dart';
@@ -148,7 +149,8 @@ class ViewPostView extends StatelessWidget {
     return Row(
       children: [
         GestureDetector(
-          onTap: () => ViewPostCoordinator.showViewProfile(uid: post.user.id),
+          onTap: () => ViewPostCoordinator.showViewProfile(
+              uid: post.user.id, role: post.user.role),
           child: ClipOval(
             child: CachedNetworkImage(
               imageUrl: post.user.avatar,
@@ -165,7 +167,15 @@ class ViewPostView extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(post.user.name, style: AppStyles.boldTextHaiti),
+            Row(
+              children: [
+                Text(post.user.name, style: AppStyles.boldTextHaiti),
+                if (post.user.verify == VerifyStatus.accept)
+                  const SizedBox(width: 5),
+                if (post.user.verify == VerifyStatus.accept)
+                  SvgPicture.asset(AppImages.verify, height: 18, width: 18),
+              ],
+            ),
             const SizedBox(height: 5),
             Row(
               children: [
@@ -430,8 +440,8 @@ class ViewPostView extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           GestureDetector(
-            onTap: () =>
-                ViewPostCoordinator.showViewProfile(uid: comment.user.id),
+            onTap: () => ViewPostCoordinator.showViewProfile(
+                uid: comment.user.id, role: comment.user.role),
             child: ClipOval(
               child: CachedNetworkImage(
                   imageUrl: comment.user.avatar,
@@ -451,10 +461,17 @@ class ViewPostView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GestureDetector(
-                  onTap: () =>
-                      ViewPostCoordinator.showViewProfile(uid: comment.user.id),
-                  child:
+                  onTap: () => ViewPostCoordinator.showViewProfile(
+                      uid: comment.user.id, role: comment.user.role),
+                  child: Row(
+                    children: [
                       Text(comment.user.name, style: AppStyles.boldTextHaiti),
+                      if (comment.user.verify == VerifyStatus.accept)
+                        const SizedBox(width: 5),
+                      if (comment.user.verify == VerifyStatus.accept)
+                        SvgPicture.asset(AppImages.verify, height: 18),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 5),
                 Text(comment.content, style: AppStyles.normalTextMulledWine),
