@@ -38,7 +38,7 @@ class SignInView extends StatelessWidget {
           }
 
           if (state.dataState is DataSuccess) {
-            if (!state.isLoginGoogle!) {
+            if (!state.isRegisterGoogle!) {
               customToast(context, text: AppLocal.text.logged_in_successfully);
               UserEntity? user = PrefsUtils.getUserInfo();
               if (user?.role == UserRole.admin) {

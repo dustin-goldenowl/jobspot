@@ -45,7 +45,7 @@ class SignInCubit extends Cubit<SignInState> {
         email: emailController.text,
         password: passwordController.text,
       ));
-      emit(state.copyWith(dataState: response, isLoginGoogle: false));
+      emit(state.copyWith(dataState: response, isRegisterGoogle: false));
       if (response is DataSuccess) {
         if (state.isRememberMe) {
           PrefsUtils.setRemember(
@@ -64,7 +64,10 @@ class SignInCubit extends Cubit<SignInState> {
     if (googleUser != null) {
       emit(state.copyWith(isLoading: true));
       final response = await _signInGoogleUseCase.call(params: googleUser);
-      emit(state.copyWith(dataState: response, isLoginGoogle: true));
+      emit(state.copyWith(
+        dataState: response,
+        isRegisterGoogle: !(response.data ?? false),
+      ));
     } else {
       emit(state.copyWith(
         dataState: DataFailed(AppLocal.text.cancel_google_login),

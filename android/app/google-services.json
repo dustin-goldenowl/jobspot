@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "126210642252-aik9l63pmgop201rpfrvd2bi6ttua590.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.walter.jobspot",
+            "certificate_hash": "22aac882d70532e959c02af3a3ac29a7fad144fa"
+          }
+        },
+        {
+          "client_id": "126210642252-vc1c1jmjotj68n09ng0i3aa20eubmf97.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.walter.jobspot",
+            "certificate_hash": "fd641b374d20fcc922eb38a37f3e525bbdfcbdd5"
+          }
+        },
+        {
           "client_id": "126210642252-vdnr9mgm5qda7k52r4cuqajcrqet9vf0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
