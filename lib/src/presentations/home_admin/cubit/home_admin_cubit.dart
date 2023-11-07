@@ -40,7 +40,7 @@ class HomeAdminCubit extends Cubit<HomeAdminState> {
     if (response is DataSuccess) {
       _limit = response.data!.limit;
       emit(state.copyWith(
-        listVerify: response.data!.companies,
+        listVerify: response.data!.listData,
         isMore: response.data!.isMore,
       ));
     } else {

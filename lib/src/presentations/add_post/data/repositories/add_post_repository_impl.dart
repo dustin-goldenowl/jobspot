@@ -4,14 +4,14 @@ import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/core/utils/firebase_utils.dart';
 import 'package:jobspot/src/presentations/add_post/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/add_post/data/models/update_post_model.dart';
-import 'package:jobspot/src/presentations/add_post/domain/entities/post_entity.dart';
+import 'package:jobspot/src/presentations/add_post/domain/entities/add_post_entity.dart';
 import 'package:jobspot/src/presentations/add_post/domain/entities/update_post_entity.dart';
 import 'package:jobspot/src/presentations/add_post/domain/repositories/add_post_repository.dart';
 
 @LazySingleton(as: AddPostRepository)
 class AddPostRepositoryImpl extends AddPostRepository {
   @override
-  Future<DataState> addPost(PostEntity post) async {
+  Future<DataState> addPost(AddPostEntity post) async {
     try {
       final firestore = XCollection.post.doc();
       final images = await Future.wait(post.images

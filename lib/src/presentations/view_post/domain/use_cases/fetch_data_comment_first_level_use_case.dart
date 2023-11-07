@@ -8,6 +8,7 @@ import 'package:jobspot/src/presentations/view_post/domain/repositories/view_pos
 class FetchDataCommentFirstLevelUseCase
     extends UseCase<DataState<List<CommentEntity>>, List<String>> {
   FetchDataCommentFirstLevelUseCase(this._repository);
+
   final ViewPostRepository _repository;
 
   @override

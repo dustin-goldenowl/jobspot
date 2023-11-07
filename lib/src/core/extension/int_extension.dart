@@ -13,7 +13,7 @@ extension IntExtention on int {
   String digits([int number = 2]) => toString().padLeft(number, '0');
 
   String get toCurrency {
-    final fomater = NumberFormat("#,##0.0", "en_US");
+    final fomater = NumberFormat("#,##0.00", "en_US");
     return fomater.format(this);
   }
 }

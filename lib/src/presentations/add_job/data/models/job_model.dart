@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:jobspot/src/presentations/add_job/domain/entities/job_entity.dart';
+import 'package:jobspot/src/presentations/add_job/domain/entities/add_job_entity.dart';
 
 class JobModel {
   final int typeWorkplace;
@@ -26,7 +26,7 @@ class JobModel {
     required this.endDate,
   });
 
-  factory JobModel.fromJobEntity(JobEntity entity) {
+  factory JobModel.fromJobEntity(AddJobEntity entity) {
     return JobModel(
       description: entity.description,
       jobLocation: entity.jobLocation,

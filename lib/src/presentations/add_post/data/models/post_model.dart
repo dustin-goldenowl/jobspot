@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:jobspot/src/presentations/add_post/domain/entities/post_entity.dart';
+import 'package:jobspot/src/presentations/add_post/domain/entities/add_post_entity.dart';
 
 class PostModel {
   String title;
@@ -12,7 +12,7 @@ class PostModel {
     required this.images,
   });
 
-  factory PostModel.fromPostEntity(PostEntity entity) {
+  factory PostModel.fromPostEntity(AddPostEntity entity) {
     return PostModel(
       title: entity.title,
       description: entity.description,

@@ -56,7 +56,7 @@ class JobspotApp extends StatelessWidget {
             ),
             routerConfig: getIt<AppRouter>().config(
               deepLinkBuilder: (deepLink) {
-                if (PrefsUtils.isFirstOpen) {
+                if (!PrefsUtils.isFirstOpen) {
                   PrefsUtils.openedApp();
                   return const DeepLink([OnBoardingRoute()]);
                 } else {

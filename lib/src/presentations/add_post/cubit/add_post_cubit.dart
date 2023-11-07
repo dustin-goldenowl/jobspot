@@ -7,7 +7,7 @@ import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/permission_service.dart';
-import 'package:jobspot/src/presentations/add_post/domain/entities/post_entity.dart';
+import 'package:jobspot/src/presentations/add_post/domain/entities/add_post_entity.dart';
 import 'package:jobspot/src/presentations/add_post/domain/entities/update_post_entity.dart';
 import 'package:jobspot/src/presentations/add_post/domain/use_cases/add_post_use_case.dart';
 import 'package:jobspot/src/presentations/add_post/domain/use_cases/update_post_use_case.dart';
@@ -44,7 +44,7 @@ class AddPostCubit extends Cubit<AddPostState> {
     emit(state.copyWith(isLoading: true));
     if (_validate() == null) {
       final response = await _addPostUseCase.call(
-          params: PostEntity(
+          params: AddPostEntity(
         title: titleController.text,
         description: descriptionController.text,
         images: state.images,
