@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jobspot/src/core/enum/application_status.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/resume_model.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/view_job_applicant/domain/entities/resume_applicant_entity.dart';
@@ -13,6 +14,9 @@ class ResumeApplicantModel {
   ApplicationStatus status;
   ResumeModel? resume;
   UserModel? applicant;
+  final int? score;
+  final int? time;
+  final List<int?>? resultIQ;
   DateTime createAt;
 
   ResumeApplicantModel({
@@ -24,6 +28,9 @@ class ResumeApplicantModel {
     required this.jobID,
     this.resume,
     this.applicant,
+    this.resultIQ,
+    this.score,
+    this.time,
     required this.createAt,
   });
 
@@ -41,11 +48,13 @@ class ResumeApplicantModel {
       jobID: jobID,
       applicant: applicant ?? this.applicant,
       resume: resume ?? this.resume,
+      resultIQ: resultIQ,
+      time: time,
+      score: score,
     );
   }
 
-  factory ResumeApplicantModel.fromDocumentSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory ResumeApplicantModel.fromDocumentSnapshot(MapSnapshot snapshot) {
     final data = snapshot.data()!;
     return ResumeApplicantModel(
       id: snapshot.id,
@@ -59,6 +68,11 @@ class ResumeApplicantModel {
       owner: data["owner"],
       resumeID: data["resumeID"],
       jobID: data["jobID"],
+      score: data["score"],
+      time: data["time"],
+      resultIQ: data["resultIQ"] != null
+          ? List<int?>.from(data["resultIQ"].map((x) => x))
+          : null,
     );
   }
 
@@ -71,6 +85,9 @@ class ResumeApplicantModel {
       applicant: applicant!.toUserEntity(),
       createAt: createAt,
       jobID: jobID,
+      resultIQ: resultIQ,
+      score: score,
+      time: time,
     );
   }
 }

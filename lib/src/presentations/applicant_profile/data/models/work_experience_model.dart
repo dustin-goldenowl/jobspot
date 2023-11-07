@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/add_work_experience/domain/entities/update_work_experience_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/work_experience_entity.dart';
 
@@ -21,8 +22,7 @@ class WorkExperienceModel {
     required this.isWorkNow,
   });
 
-  factory WorkExperienceModel.fromDocumentSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory WorkExperienceModel.fromDocumentSnapshot(MapSnapshot snapshot) {
     final data = snapshot.data()!;
     return WorkExperienceModel(
       id: snapshot.id,

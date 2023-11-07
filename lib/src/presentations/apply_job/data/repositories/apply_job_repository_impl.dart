@@ -18,7 +18,7 @@ class ApplyJobRepositoryImpl extends ApplyJobRepository {
   ApplyJobRepositoryImpl(this._sendNotificationUseCase, this._addResumeUseCase);
 
   @override
-  Future<DataState<bool>> applyJob(ResumeEntity resume) async {
+  Future<DataState<String>> applyJob(ResumeEntity resume) async {
     try {
       final resumeResponse = await _addResumeUseCase.call(
           params: AddResumeEntity(
@@ -38,8 +38,9 @@ class ApplyJobRepositoryImpl extends ApplyJobRepository {
           to: resume.uidJob,
           type: AppTags.apply,
         ));
-        await XCollection.apply.doc().set(model.toJson());
-        return DataSuccess(true);
+        final doc = XCollection.apply.doc();
+        await doc.set(model.toJson());
+        return DataSuccess(doc.id);
       }
       return DataFailed(resumeResponse.error ?? "");
     } catch (e) {

@@ -67,7 +67,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
             XCollection.user.doc(postModel.owner).get(),
             XCollection.comment.where("post", isEqualTo: id).count().get()
           ]);
-          final user = response.first as DocumentSnapshot<Map<String, dynamic>>;
+          final user = response.first as MapSnapshot;
           final numberOfComments = response.last as AggregateQuerySnapshot;
           postModel = postModel.copyWith(
             user: UserModel.fromDocumentSnapshot(user),
@@ -92,7 +92,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
         commentStore.set(commentModel.toJson()),
         postStore.get(),
       ]);
-      final snapshot = response.last as DocumentSnapshot<Map<String, dynamic>>;
+      final snapshot = response.last as MapSnapshot;
       List<String> comments =
           List<String>.from(snapshot.data()!["comment"].map((x) => x));
       _sendNotificationUseCase.call(
@@ -171,7 +171,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
         replyCommentStore.set(replyCommentModel.toJson()),
         commentStore.get(),
       ]);
-      final snapshot = response.last as DocumentSnapshot<Map<String, dynamic>>;
+      final snapshot = response.last as MapSnapshot;
       List<String> listReply =
           List<String>.from(snapshot.data()!["reply"].map((x) => x));
       String? highLevel = snapshot.data()!["highLevel"];

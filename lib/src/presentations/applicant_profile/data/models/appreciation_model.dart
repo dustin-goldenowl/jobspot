@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/add_appreciation/domain/entities/update_appreciation_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/appreciation_entity.dart';
 
@@ -17,8 +18,7 @@ class AppreciationModel {
     required this.endDate,
   });
 
-  factory AppreciationModel.fromDocumentSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory AppreciationModel.fromDocumentSnapshot(MapSnapshot snapshot) {
     final data = snapshot.data()!;
     return AppreciationModel(
       id: snapshot.id,

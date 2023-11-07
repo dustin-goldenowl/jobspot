@@ -283,8 +283,10 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
         });
   }
 
-  Future _showAlertDialog(BuildContext context,
-      {required VoidCallback onOK}) async {
+  Future _showAlertDialog(
+    BuildContext context, {
+    required VoidCallback onOK,
+  }) async {
     return showDialog(
       context: context,
       builder: (BuildContext context) {

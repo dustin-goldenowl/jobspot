@@ -205,6 +205,8 @@
     "apply_job_page_upload_CV_content": "Add your CV/Resume to apply for a job",
     "apply_job_page_back_to_home": "Back to home",
     "apply_job_page_find_similar_job": "Find a similar job",
+    "apply_job_page_here": "Here",
+    "apply_job_page_test_iq_content": "If you participate in an IQ test, employers will pay special attention to you. ",
     "apply_job_page_successful": "Successful",
     "apply_job_page_successful_content": "Congratulations, your application has been sent",
 
@@ -440,6 +442,8 @@
     "view_job_applicant_rejected": "Rejected",
     "view_job_applicant_no_applications": "There are no job applications here",
     "view_job_applicant_consider": "Consider",
+    "view_job_applicant_view_result": "View Result",
+    "view_job_applicant_test_iq": "Test IQ {result}",
 
     "verify_business_page_upload": "Upload",
     "verify_business_page_back_to_login": "Back to login",
@@ -466,5 +470,17 @@
     "no_internet": "No Internet connection",
 
     "view_pdf_page_summary": "Summary",
-    "view_pdf_page_analyzing_data": "Analyzing data"
+    "view_pdf_page_analyzing_data": "Analyzing data",
+
+    "test_iq_page_iq_test_result": "Your IQ test results are:",
+    "test_iq_page_test_result": "IQ test results are:",
+    "test_iq_page_finished_in": "Finished in: {time}",
+    "test_iq_page_next": "Next",
+    "test_iq_page_finish": "Finish",
+    "test_iq_page_question_title": "Question {number}: Choose the missing figure",
+    "test_iq_page_test_iq": "Test IQ",
+    "test_iq_page_correct": "Correct",
+    "test_iq_page_wrong": "Wrong",
+    "test_iq_page_cancel_test": "Cancel Test IQ",
+    "test_iq_page_cancel_test_content": "Are you sure cancel this test IQ"
 }

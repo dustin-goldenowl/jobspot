@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/add_job/domain/entities/update_job_entity.dart';
 import 'package:jobspot/src/presentations/view_job/data/models/company_model.dart';
 import 'package:jobspot/src/presentations/view_job/domain/entities/company_entity.dart';
@@ -37,8 +38,7 @@ class JobModel {
     this.company,
   });
 
-  factory JobModel.fromDocumentSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory JobModel.fromDocumentSnapshot(MapSnapshot snapshot) {
     final data = snapshot.data()!;
     return JobModel(
       id: snapshot.id,

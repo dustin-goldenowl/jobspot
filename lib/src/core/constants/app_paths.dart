@@ -42,6 +42,8 @@ class AppPaths {
   static const String companyProfile = "/companyProfile";
   static const String editCompanyProfile = "/editCompanyProfile";
   static const String follow = "/follow";
+  static const String testIQ = "/testIQ";
+  static const String viewTestIQ = "/viewTestIQ";
 
   //tab
   static const String applicantTab = "applicant";

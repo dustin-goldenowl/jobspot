@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/view_job/domain/entities/company_entity.dart';
 
 class CompanyModel {
@@ -14,8 +14,7 @@ class CompanyModel {
     required this.name,
   });
 
-  factory CompanyModel.fromDocumentSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory CompanyModel.fromDocumentSnapshot(MapSnapshot snapshot) {
     final data = snapshot.data()!;
     return CompanyModel(
       id: snapshot.id,

@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/add_skill/domain/entities/skill_entity.dart';
 
 class SkillModel {
@@ -8,8 +8,7 @@ class SkillModel {
 
   SkillModel({this.id, required this.title});
 
-  factory SkillModel.fromDocumentSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory SkillModel.fromDocumentSnapshot(MapSnapshot snapshot) {
     final data = snapshot.data()!;
     return SkillModel(id: snapshot.id, title: data["title"]);
   }

@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/add_language/domain/entities/update_language_entity.dart';
 import 'package:jobspot/src/presentations/view_language/domain/entities/language_entity.dart';
 
@@ -19,8 +19,7 @@ class LanguageModel {
     required this.writtenLevel,
   });
 
-  factory LanguageModel.fromDocumentSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory LanguageModel.fromDocumentSnapshot(MapSnapshot snapshot) {
     final data = snapshot.data()!;
     return LanguageModel(
       id: snapshot.id,

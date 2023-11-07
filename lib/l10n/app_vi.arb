@@ -205,6 +205,8 @@
     "apply_job_page_upload_CV_content": "Thêm CV/Hồ sơ của bạn để xin việc",
     "apply_job_page_back_to_home": "Trở về trang chủ",
     "apply_job_page_find_similar_job": "Tìm công việc tương tự",
+    "apply_job_page_here": "Tại đây",
+    "apply_job_page_test_iq_content": "Nếu bạn tham gia kiểm tra IQ, nhà tuyển dụng sẽ đặc biệt quan tâm đến bạn hơn. ",
     "apply_job_page_successful": "Thành công",
     "apply_job_page_successful_content": "Xin chúc mừng, đơn đăng ký của bạn đã được gửi",
 
@@ -440,6 +442,8 @@
     "view_job_applicant_rejected": "Từ chối",
     "view_job_applicant_no_applications": "Không có hồ sơ nào ở đây",
     "view_job_applicant_consider": "Xem xét",
+    "view_job_applicant_view_result": "Xem kết quả",
+    "view_job_applicant_test_iq": "Kiểm tra IQ {result}",
 
     "verify_business_page_upload": "Tải lên",
     "verify_business_page_back_to_login": "Trở về đăng nhập",
@@ -466,5 +470,17 @@
     "no_internet": "Không có kết nối Internet",
 
     "view_pdf_page_summary": "Summary",
-    "view_pdf_page_analyzing_data": "Đang phân tích dữ liệu"
+    "view_pdf_page_analyzing_data": "Đang phân tích dữ liệu",
+
+    "test_iq_page_iq_test_result": "Kết quả kiểm tra IQ của bạn là:",
+    "test_iq_page_test_result": "Kết quả kiểm tra IQ:",
+    "test_iq_page_finished_in": "Hoàn thành trong: {time}",
+    "test_iq_page_next": "Tiếp theo",
+    "test_iq_page_finish": "Hoàn thành",
+    "test_iq_page_question_title": "Câu {number}: Chọn hình còn thiếu",
+    "test_iq_page_test_iq": "Kiểm tra IQ",
+    "test_iq_page_correct": "Chính xác",
+    "test_iq_page_wrong": "Sai",
+    "test_iq_page_cancel_test": "Hủy Kiểm Tra IQ",
+    "test_iq_page_cancel_test_content": "Bạn chắc chắn muốn hủy bỏ bài kiểm tra này?"
 }

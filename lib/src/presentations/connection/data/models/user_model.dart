@@ -1,5 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:jobspot/src/core/enum/user_role.dart';
+import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/user_entity.dart';
 
 class UserModel {
@@ -17,8 +17,7 @@ class UserModel {
     required this.role,
   });
 
-  factory UserModel.fromDocumentSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory UserModel.fromDocumentSnapshot(MapSnapshot snapshot) {
     final data = snapshot.data()!;
     return UserModel(
       id: snapshot.id,

@@ -5,13 +5,13 @@ import 'package:jobspot/src/presentations/apply_job/domain/entities/resume_entit
 import 'package:jobspot/src/presentations/apply_job/domain/repositories/apply_job_repository.dart';
 
 @lazySingleton
-class ApplyJobUseCase extends UseCase<DataState<bool>, ResumeEntity> {
+class ApplyJobUseCase extends UseCase<DataState<String>, ResumeEntity> {
   final ApplyJobRepository _repository;
 
   ApplyJobUseCase(this._repository);
 
   @override
-  Future<DataState<bool>> call({required ResumeEntity params}) {
+  Future<DataState<String>> call({required ResumeEntity params}) {
     return _repository.applyJob(params);
   }
 }

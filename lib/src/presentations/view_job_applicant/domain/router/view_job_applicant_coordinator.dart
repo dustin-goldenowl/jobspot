@@ -11,4 +11,7 @@ class ViewJobApplicantCoordinator {
 
   static void showApplicantProfile(String uid) =>
       rootRouter.push(ViewApplicantProfileRoute(uid: uid));
+
+  static void showTestIQ({required List<int?> resultIQ, required int time}) =>
+      rootRouter.push(ViewTestIQRoute(resultIQ: resultIQ, time: time));
 }
