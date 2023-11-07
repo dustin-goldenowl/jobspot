@@ -30,7 +30,7 @@ class ResumeRepositoryImpl extends ResumeRepository {
   Future<DataState<bool>> deleteResume(ResumeEntity resume) async {
     try {
       await Future.wait([
-        FirebaseUtils.deleteImage(resume.file),
+        FirebaseUtils.deleteImage(resume.filePath),
         XCollection.resume.doc(resume.id).delete(),
       ]);
       return DataSuccess(true);

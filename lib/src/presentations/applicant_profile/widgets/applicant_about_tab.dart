@@ -296,7 +296,7 @@ class ApplicantAboutTab extends StatelessWidget {
   }) {
     return GestureDetector(
       onTap: () => ApplicantProfileCoordinator.viewPDF(
-          url: resume.file, title: resume.fileName),
+          url: resume.filePath, title: resume.fileName),
       child: Row(
         children: [
           SvgPicture.asset(AppImages.pdf),

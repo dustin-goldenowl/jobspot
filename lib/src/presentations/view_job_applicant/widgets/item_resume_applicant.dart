@@ -149,7 +149,7 @@ class ItemResumeApplicant extends StatelessWidget {
 
   Widget _buildResumeFile() {
     return GestureDetector(
-      onTap: () => ViewJobApplicantCoordinator.viewPDF(resume.resume.file),
+      onTap: () => ViewJobApplicantCoordinator.viewPDF(resume.resume.filePath),
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.interdimensionalBlue.withOpacity(0.1),

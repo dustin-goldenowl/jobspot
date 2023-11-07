@@ -752,8 +752,10 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i85.UpdateExperienceUseCase>(),
           gh<_i123.DeleteExperienceUseCase>(),
         ));
-    gh.factory<_i182.ApplyJobCubit>(
-        () => _i182.ApplyJobCubit(gh<_i116.ApplyJobUseCase>()));
+    gh.factory<_i182.ApplyJobCubit>(() => _i182.ApplyJobCubit(
+          gh<_i116.ApplyJobUseCase>(),
+          gh<_i142.GetResumeUseCase>(),
+        ));
     gh.lazySingleton<_i183.DeleteCommentUseCase>(
         () => _i183.DeleteCommentUseCase(gh<_i173.ViewPostRepository>()));
     gh.lazySingleton<_i184.FavouriteCommentUseCase>(

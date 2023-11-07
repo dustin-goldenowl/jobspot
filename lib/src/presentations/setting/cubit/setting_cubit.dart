@@ -6,6 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/service/firebase_messaging_service.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/notification/domain/use_cases/update_token_use_case.dart';
 import 'package:jobspot/src/presentations/setting/domain/router/setting_coordinator.dart';
@@ -23,8 +24,14 @@ class SettingCubit extends Cubit<SettingState> {
   SettingCubit(this._deleteAccountUseCase, this._updateTokenUseCase)
       : super(SettingState.ds());
 
-  void changeNotification(bool value) =>
-      emit(state.copyWith(isNotification: value));
+  Future changeNotification(bool value) async {
+    emit(state.copyWith(isNotification: value));
+    String token = "";
+    if (value) {
+      token = (await FirebaseMessagingService.getToken()) ?? "";
+    }
+    await _updateTokenUseCase.call(params: token);
+  }
 
   void changeLanguage(bool value) => emit(state.copyWith(isVietNam: value));
 

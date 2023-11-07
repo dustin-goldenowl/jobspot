@@ -262,7 +262,7 @@ class ViewApplicantAboutTab extends StatelessWidget {
   Widget _buildItemResume({required ResumeEntity resume}) {
     return GestureDetector(
       onTap: () => ViewApplicantProfileCoordinator.viewPDF(
-          url: resume.file, title: resume.fileName),
+          url: resume.filePath, title: resume.fileName),
       child: Row(
         children: [
           SvgPicture.asset(AppImages.pdf),
