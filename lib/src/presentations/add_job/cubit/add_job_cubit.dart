@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
-import 'package:jobspot/src/presentations/add_job/domain/entities/job_entity.dart';
+import 'package:jobspot/src/presentations/add_job/domain/entities/add_job_entity.dart';
 import 'package:jobspot/src/presentations/add_job/domain/entities/update_job_entity.dart';
 import 'package:jobspot/src/presentations/add_job/domain/use_cases/add_job_use_case.dart';
 import 'package:jobspot/src/core/extension/date_time_extension.dart';
@@ -42,7 +42,7 @@ class AddJobCubit extends Cubit<AddJobState> {
   Future addJob() async {
     if (_validate() == null) {
       emit(state.copyWith(isLoading: true));
-      final response = await _addJobUseCase.call(params: state.getJobEntity);
+      final response = await _addJobUseCase.call(params: state.getAddJobEntity);
       emit(state.copyWith(dataState: response));
     } else {
       emit(state.copyWith(dataState: DataFailed(_validate()!)));

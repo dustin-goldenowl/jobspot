@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
+import 'package:jobspot/src/core/extension/int_extension.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/home_company/domain/entities/my_job_entity.dart';
@@ -50,22 +51,12 @@ class ItemMyJob extends StatelessWidget {
           style: AppStyles.boldTextMulledWine,
         ),
         const SizedBox(height: 20),
-        RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: "\$${myJob.salary}",
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16,
-                ),
-              ),
-              TextSpan(
-                text: "/Mo",
-                style: AppStyles.normalTextSpunPearl,
-              )
-            ],
+        Text(
+          "\$${myJob.salary.toCurrency}",
+          style: const TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w700,
+            fontSize: 16,
           ),
         ),
         const SizedBox(height: 10),

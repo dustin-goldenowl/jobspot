@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/extension/int_extension.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:jobspot/src/core/function/get_location.dart';
 import 'package:jobspot/src/presentations/save_job/widgets/tag_item.dart';
@@ -49,22 +50,12 @@ class RecentJobCard extends StatelessWidget {
           children: [
             _buildHeader(location),
             const SizedBox(height: 20),
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: "\$${job.salary}",
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16,
-                    ),
-                  ),
-                  TextSpan(
-                    text: "/Mo",
-                    style: AppStyles.normalTextSpunPearl,
-                  )
-                ],
+            Text(
+              "\$${job.salary.toCurrency}",
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w700,
+                fontSize: 16,
               ),
             ),
             const SizedBox(height: 10),

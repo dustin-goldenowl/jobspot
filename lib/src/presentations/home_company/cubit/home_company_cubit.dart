@@ -33,7 +33,7 @@ class HomeCompanyCubit extends Cubit<HomeCompanyState> {
     if (response is DataSuccess) {
       _limit = response.data!.limit;
       emit(state.copyWith(
-        jobs: response.data!.jobs,
+        jobs: response.data!.listData,
         isMore: response.data!.isMore,
       ));
     } else {

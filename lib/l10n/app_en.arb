@@ -81,6 +81,8 @@
     "home_page_remote_job": "Remote Job",
     "home_page_hello": "Hello\n{name}",
     "home_page_apply": "Apply",
+    "home_page_find_job": "You want to find a job?",
+    "home_page_find_job_content": "Application position",
 
     "main_page_what_would_you_like_to_add": "What would you like to add?",
     "main_page_content_bottom_sheet": "Would you like to post your tips and experiences or create a job?",

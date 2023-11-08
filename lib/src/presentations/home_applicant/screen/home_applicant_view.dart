@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/bloc/app_bloc.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
@@ -28,29 +29,78 @@ class HomeApplicantView extends StatelessWidget {
         width: width,
         onTap: HomeApplicantCoordinator.showApplicantProfile,
       ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          context.read<HomeApplicantCubit>().fetchJobData();
-        },
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(
-            parent: AlwaysScrollableScrollPhysics(),
+      body: Column(
+        children: [
+          _buildSearch(),
+          const SizedBox(height: 16),
+          Expanded(child: _bulildBody(context, width)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSearch() {
+    return GestureDetector(
+      onTap: HomeApplicantCoordinator.showSearchJob,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: AppDimens.smallPadding),
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: Colors.white,
+            boxShadow: const [
+              BoxShadow(
+                color: Color.fromARGB(18, 153, 171, 198),
+                blurRadius: 62,
+                offset: Offset(0, 4),
+              ),
+            ],
           ),
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: AppDimens.smallPadding),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 16),
-                _buildFindYourJob(
-                  width: (width - 3 * AppDimens.smallPadding) / 2,
-                ),
-                const SizedBox(height: 20),
-                _buildRecentJobList(),
-              ],
-            ),
+          child: Row(
+            children: [
+              Icon(
+                FontAwesomeIcons.magnifyingGlass,
+                color: AppColors.haiti,
+              ),
+              const SizedBox(width: 15),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppLocal.text.home_page_find_job,
+                    style: AppStyles.boldTextHaiti,
+                  ),
+                  Text(
+                    AppLocal.text.home_page_find_job_content,
+                    style: AppStyles.normalTextMulledWine,
+                  ),
+                ],
+              )
+            ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _bulildBody(BuildContext context, double width) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<HomeApplicantCubit>().fetchJobData();
+      },
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: AppDimens.smallPadding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildFindYourJob(width: (width - 3 * AppDimens.smallPadding) / 2),
+            const SizedBox(height: 20),
+            _buildRecentJobList(),
+          ],
         ),
       ),
     );

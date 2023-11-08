@@ -1,4 +1,4 @@
-class JobEntity {
+class AddJobEntity {
   final int typeWorkplace;
   final int jobType;
   final int jobLocation;
@@ -10,7 +10,7 @@ class JobEntity {
   final DateTime startDate;
   final DateTime endDate;
 
-  JobEntity({
+  AddJobEntity({
     required this.description,
     required this.jobLocation,
     required this.jobPosition,

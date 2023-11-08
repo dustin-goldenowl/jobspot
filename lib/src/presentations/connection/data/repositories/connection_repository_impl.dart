@@ -4,16 +4,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/resources/fetch_lazy_data.dart';
 import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
-import 'package:jobspot/src/presentations/connection/domain/entities/fetch_post_data.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 import 'package:jobspot/src/presentations/connection/domain/repositories/connection_repository.dart';
 
 @LazySingleton(as: ConnectionRepository)
 class ConnectionRepositoryImpl extends ConnectionRepository {
   @override
-  Stream<DataState<FetchPostData>> fetchPostData(int limit) {
+  Stream<DataState<FetchLazyData<PostEntity>>> fetchPostData(int limit) {
     try {
       final myPostCollection = XCollection.post
           .where("owner", isNotEqualTo: FirebaseAuth.instance.currentUser!.uid);
@@ -37,9 +38,9 @@ class ConnectionRepositoryImpl extends ConnectionRepository {
                       (data[index++] as AggregateQuerySnapshot).count,
                 ))
             .toList();
-        return DataSuccess(FetchPostData(
+        return DataSuccess(FetchLazyData(
           isMore: limit < count,
-          posts: posts.map((e) => e.toPostEntity()).toList(),
+          listData: posts.map((e) => e.toPostEntity()).toList(),
           limit: limit < count ? limit : count,
         ));
       });

@@ -2,15 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/resources/fetch_lazy_data.dart';
 import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/home_company/data/models/my_job_model.dart';
-import 'package:jobspot/src/presentations/home_company/domain/entities/fetch_my_job_data.dart';
+import 'package:jobspot/src/presentations/home_company/domain/entities/my_job_entity.dart';
 import 'package:jobspot/src/presentations/home_company/domain/repositories/home_company_repository.dart';
 
 @LazySingleton(as: HomeCompanyRepository)
 class HomeCompanyRepositoryImpl extends HomeCompanyRepository {
   @override
-  Future<DataState<FetchMyJobData>> getListMyJob(int limit) async {
+  Future<DataState<FetchLazyData<MyJobEntity>>> getListMyJob(int limit) async {
     try {
       final myJobCollection = XCollection.job
           .where("owner", isEqualTo: FirebaseAuth.instance.currentUser!.uid);
@@ -30,9 +31,9 @@ class HomeCompanyRepositoryImpl extends HomeCompanyRepository {
               .copyWith(applicants: listApplicant[index++]))
           .toList();
       int count = (response[1] as AggregateQuerySnapshot).count;
-      return DataSuccess(FetchMyJobData(
+      return DataSuccess(FetchLazyData(
         isMore: limit < count,
-        jobs: listJob.map((e) => e.toMyJobEntity()).toList(),
+        listData: listJob.map((e) => e.toMyJobEntity()).toList(),
         limit: limit < count ? limit : count,
       ));
     } catch (e) {

@@ -38,7 +38,7 @@ class ConnectionCubit extends Cubit<ConnectionState> {
       if (event is DataSuccess) {
         _limit = event.data!.limit;
         emit(state.copyWith(
-          posts: event.data!.posts,
+          posts: event.data!.listData,
           isMore: event.data!.isMore,
         ));
       } else {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/bloc/app_bloc.dart';
+import 'package:jobspot/src/core/extension/int_extension.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
@@ -124,19 +125,9 @@ class ViewJobView extends StatelessWidget {
   Widget _buildSalary(JobEntity data) {
     return Row(
       children: [
-        RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: "\$${data.salary}",
-                style: AppStyles.boldTextHaiti.copyWith(fontSize: 25),
-              ),
-              TextSpan(
-                text: "/Mo",
-                style: AppStyles.normalTextSpunPearl.copyWith(fontSize: 20),
-              )
-            ],
-          ),
+        Text(
+          "\$${data.salary.toCurrency}",
+          style: AppStyles.boldTextHaiti.copyWith(fontSize: 25),
         ),
         const Spacer(),
         Text(

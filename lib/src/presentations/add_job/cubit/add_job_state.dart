@@ -91,7 +91,7 @@ class AddJobState extends Equatable {
     );
   }
 
-  JobEntity get getJobEntity => JobEntity(
+  AddJobEntity get getAddJobEntity => AddJobEntity(
         description: description,
         jobLocation: jobLocation,
         jobPosition: jobPosition,
