@@ -25,7 +25,9 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
   final DeleteNotificationUseCase _deleteNotificationUseCase;
 
   ViewPostRepositoryImpl(
-      this._sendNotificationUseCase, this._deleteNotificationUseCase);
+    this._sendNotificationUseCase,
+    this._deleteNotificationUseCase,
+  );
 
   @override
   Future<DataState<List<CommentEntity>>> getCommentFirstLevel(
@@ -65,13 +67,16 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
           PostModel postModel = PostModel.fromDocumentSnapshot(event);
           final response = await Future.wait([
             XCollection.user.doc(postModel.owner).get(),
+            getSharePost(postModel.sharePostID),
             XCollection.comment.where("post", isEqualTo: id).count().get()
           ]);
           final user = response.first as MapSnapshot;
+          final sharePost = response[1] as PostModel;
           final numberOfComments = response.last as AggregateQuerySnapshot;
           postModel = postModel.copyWith(
             user: UserModel.fromDocumentSnapshot(user),
             numberOfComments: numberOfComments.count,
+            sharePost: sharePost,
           );
           return DataSuccess(postModel.toPostEntity());
         }
@@ -80,6 +85,16 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
     } catch (e) {
       return Stream.value(DataFailed(e.toString()));
     }
+  }
+
+  Future<PostModel?> getSharePost(String? sharePostID) async {
+    if (sharePostID != null) {
+      final response = await XCollection.post.doc(sharePostID).get();
+      PostModel post = PostModel.fromDocumentSnapshot(response);
+      final user = await XCollection.user.doc(post.owner).get();
+      return post.copyWith(user: UserModel.fromDocumentSnapshot(user));
+    }
+    return null;
   }
 
   @override

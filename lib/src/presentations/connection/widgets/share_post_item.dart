@@ -15,11 +15,13 @@ class SharePostItem extends StatelessWidget {
     required this.post,
     required this.onViewFullPost,
     required this.onViewProfile,
+    required this.padding,
   });
 
   final PostEntity post;
   final Function(PostEntity post) onViewFullPost;
   final Function({required String uid, required UserRole role}) onViewProfile;
+  final double padding;
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +57,7 @@ class SharePostItem extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           if (post.images.isNotEmpty)
-            ImageWidget(
-                images: post.images, padding: AppDimens.smallPadding + 10),
+            ImageWidget(images: post.images, padding: padding),
         ],
       ),
     );

@@ -8,10 +8,12 @@ class CompanyProfileState extends Equatable {
     this.listPost,
     this.user,
     this.error,
+    this.saveJobID,
   });
 
   final bool isLoading;
   final bool isTop;
+  final String? saveJobID;
   final List<JobEntity>? listJob;
   final List<PostEntity>? listPost;
   final UserEntity? user;
@@ -24,6 +26,7 @@ class CompanyProfileState extends Equatable {
     List<PostEntity>? listPost,
     UserEntity? user,
     String? error,
+    String? saveJobID,
   }) {
     return CompanyProfileState(
       isLoading: isLoading,
@@ -32,9 +35,11 @@ class CompanyProfileState extends Equatable {
       listPost: listPost ?? this.listPost,
       user: user ?? this.user,
       error: error,
+      saveJobID: saveJobID,
     );
   }
 
   @override
-  List<Object?> get props => [isTop, listJob, listPost, user, error, isLoading];
+  List<Object?> get props =>
+      [isTop, listJob, listPost, user, error, isLoading, saveJobID];
 }

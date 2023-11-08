@@ -7,8 +7,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/enum/verify_status.dart';
+import 'package:jobspot/src/core/function/show_share_bottom_sheet.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
+import 'package:jobspot/src/presentations/connection/widgets/share_post_item.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_input.dart';
 import 'package:jobspot/src/presentations/view_post/bloc/view_post_bloc.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/comment_entity.dart';
@@ -39,6 +41,10 @@ class ViewPostView extends StatelessWidget {
             listener: (context, state) {
               if (state is ViewPostError) {
                 customToast(context, text: state.error);
+              }
+              if (state is SharePostSuccess) {
+                customToast(context,
+                    text: AppLocal.text.connection_page_share_post_success);
               }
             },
             child: _buildBody(context),
@@ -103,9 +109,19 @@ class ViewPostView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  SizedBox(height: state.post!.sharePost != null ? 10 : 30),
                   if (state.post!.images.isNotEmpty)
                     ImageWidget(images: state.post!.images),
+                  if (state.post?.sharePost != null)
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: SharePostItem(
+                        post: state.post!.sharePost!,
+                        padding: 16,
+                        onViewFullPost: ViewPostCoordinator.showFullPost,
+                        onViewProfile: ViewPostCoordinator.showViewProfile,
+                      ),
+                    ),
                 ],
               );
             }
@@ -237,9 +253,13 @@ class ViewPostView extends StatelessWidget {
                 ),
                 const Spacer(),
                 _buildItemReaction(
-                  onTap: () {
-                    // TODO: tap to share post
-                  },
+                  onTap: () => showShareBottomSheet(
+                    context,
+                    post: post.sharePost ?? post,
+                    onShare: (entity) => context
+                        .read<ViewPostBloc>()
+                        .add(SharePostEvent(entity)),
+                  ),
                   icon: SvgPicture.asset(AppImages.share),
                   quantity: post.share.length,
                 )

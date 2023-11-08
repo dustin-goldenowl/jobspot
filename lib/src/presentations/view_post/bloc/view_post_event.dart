@@ -113,3 +113,12 @@ class DeleteCommentEvent extends ViewPostEvent {
   @override
   List<Object?> get props => [commentID];
 }
+
+class SharePostEvent extends ViewPostEvent {
+  final SharePostEntity entity;
+
+  SharePostEvent(this.entity);
+
+  @override
+  List<Object?> get props => [entity];
+}

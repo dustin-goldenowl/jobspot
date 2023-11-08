@@ -100,3 +100,10 @@ class ViewReplyCommentSuccess extends ViewPostState {
   @override
   List<Object?> get props => [listComment, commentID];
 }
+
+class SharePostSuccess extends ViewPostState
+{
+  @override
+  List<Object?> get props => [identityHashCode(this)];
+
+}

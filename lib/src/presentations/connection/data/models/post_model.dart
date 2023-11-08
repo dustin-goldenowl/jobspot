@@ -39,30 +39,12 @@ class PostModel {
     this.numberOfComments,
   });
 
-  factory PostModel.fromQueryDocumentSnapshot(MapSnapshot snapshot) {
-    final data = snapshot.data()!;
-    return PostModel(
-      id: snapshot.id,
-      title: data["title"],
-      sharePostID: data["sharePostID"],
-      description: data["description"],
-      owner: data["owner"],
-      images: data["images"] != null
-          ? List<String>.from(data["images"].map((x) => x))
-          : [],
-      like: List<String>.from(data["like"].map((x) => x)),
-      comment: List<String>.from(data["comment"].map((x) => x)),
-      share: List<String>.from(data["share"].map((x) => x)),
-      createAt: (data["createAt"] as Timestamp).toDate(),
-      updateAt: (data["updateAt"] as Timestamp).toDate(),
-    );
-  }
-
   factory PostModel.fromDocumentSnapshot(MapSnapshot snapshot) {
     final data = snapshot.data()!;
     return PostModel(
       id: snapshot.id,
       title: data["title"],
+      sharePostID: data["sharePostID"],
       description: data["description"],
       owner: data["owner"],
       images: data["images"] != null

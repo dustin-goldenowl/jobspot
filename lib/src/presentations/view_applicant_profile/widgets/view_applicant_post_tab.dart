@@ -27,9 +27,7 @@ class ViewApplicantPostTab extends StatelessWidget {
                     post: post, isComment: true),
                 onFavourite:
                     context.read<ViewApplicantProfileCubit>().favouritePost,
-                onShare: (post) {
-                  //TODO tab to share post
-                },
+                onShare: context.read<ViewApplicantProfileCubit>().sharePost,
                 onViewFullPost: (post) =>
                     ViewApplicantProfileCoordinator.showFullPost(post: post),
                 onViewProfile: ViewApplicantProfileCoordinator.showViewProfile,

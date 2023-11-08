@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/enum/user_role.dart';
+import 'package:jobspot/src/core/function/show_share_bottom_sheet.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/share_post_entity.dart';
 import 'package:jobspot/src/presentations/connection/widgets/share_post_item.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -29,7 +31,7 @@ class PostItem extends StatelessWidget {
   final PostEntity post;
   final Function(FavouriteEntity entity) onFavourite;
   final Function(PostEntity post) onComment;
-  final Function(PostEntity post) onShare;
+  final Function(SharePostEntity entity) onShare;
   final Function(PostEntity post) onViewFullPost;
   final Function({required String uid, required UserRole role}) onViewProfile;
   final bool isViewProfile;
@@ -70,12 +72,13 @@ class PostItem extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8),
               child: SharePostItem(
+                padding: AppDimens.smallPadding + 16,
                 post: post.sharePost!,
                 onViewFullPost: onViewFullPost,
                 onViewProfile: onViewProfile,
               ),
             ),
-          _buildBottomPost(),
+          _buildBottomPost(context),
         ],
       ),
     );
@@ -144,7 +147,7 @@ class PostItem extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomPost() {
+  Widget _buildBottomPost(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.interdimensionalBlue.withOpacity(0.1),
@@ -176,7 +179,8 @@ class PostItem extends StatelessWidget {
           ),
           const Spacer(),
           _buildItemReaction(
-            onTap: () => onShare(post.sharePost ?? post),
+            onTap: () =>
+                showShareBottomSheet(context, post: post, onShare: onShare),
             icon: SvgPicture.asset(AppImages.share),
             quantity: post.share.length,
           )

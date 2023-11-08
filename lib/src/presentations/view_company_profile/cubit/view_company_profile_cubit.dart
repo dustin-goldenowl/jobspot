@@ -5,6 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/share_post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/use_cases/share_post_use_case.dart';
+import 'package:jobspot/src/presentations/home_applicant/domain/use_cases/save_job_use_case.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/data/entities/user_entity.dart';
@@ -32,6 +35,8 @@ class ViewCompanyProfileCubit extends Cubit<ViewCompanyProfileState> {
   final FavouritePostUseCase _favouritePostUseCase;
   final FollowUserUseCase _followUserUseCase;
   final StreamListPostUseCase _streamListPostUseCase;
+  final SharePostUseCase _sharePostUseCase;
+  final SaveJobUseCase _saveJobUseCase;
 
   ViewCompanyProfileCubit(
     this._getListJobUseCase,
@@ -39,6 +44,8 @@ class ViewCompanyProfileCubit extends Cubit<ViewCompanyProfileState> {
     this._getUserInfoUseCase,
     this._favouritePostUseCase,
     this._followUserUseCase,
+    this._sharePostUseCase,
+    this._saveJobUseCase,
   ) : super(const ViewCompanyProfileState(isTop: false)) {
     scrollController.addListener(() {
       bool isTop = scrollController.position.pixels >=
@@ -117,6 +124,20 @@ class ViewCompanyProfileCubit extends Cubit<ViewCompanyProfileState> {
     if (response is DataFailed) {
       isFollow ? user.follower.add(uid) : user.follower.remove(uid);
       emit(state.copyWith(user: user.toUserEntity()));
+    }
+  }
+
+  Future sharePost(SharePostEntity entity) async {
+    final response = await _sharePostUseCase.call(params: entity);
+    if (response is DataFailed) {
+      emit(state.copyWith(error: response.error));
+    }
+  }
+
+  Future saveJob(String jobID) async {
+    final response = await _saveJobUseCase.call(params: jobID);
+    if (response is DataSuccess) {
+      emit(state.copyWith(saveJobID: jobID));
     }
   }
 }

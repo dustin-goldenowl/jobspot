@@ -34,9 +34,7 @@ class CompanyPostTab extends StatelessWidget {
                 onFavourite: context.read<CompanyProfileCubit>().favouritePost,
                 onComment: (post) => ViewCompanyProfileCoordinator.showFullPost(
                     post: post, isComment: true),
-                onShare: (post) {
-                  //TODO tab to share post
-                },
+                onShare: context.read<CompanyProfileCubit>().sharePost,
                 onViewFullPost: (post) =>
                     ViewCompanyProfileCoordinator.showFullPost(post: post),
                 moreWidget: PopupMenuButton<int>(

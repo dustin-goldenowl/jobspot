@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
@@ -61,19 +62,21 @@ class _BottomSheetSharePostState extends State<BottomSheetSharePost> {
                   controller: controller,
                   keyboardType: TextInputType.multiline,
                   textInputAction: TextInputAction.newline,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: "Hãy viết gì đó về nội dung này",
+                    hintText: AppLocal.text.connection_page_share_hint_content,
                   ),
                 ),
                 const SizedBox(height: 20),
                 _buildPostItem(),
                 const SizedBox(height: 20),
                 CustomButton(
-                  title: "Chia sẻ ngay",
+                  title: AppLocal.text.connection_page_share_now,
                   onPressed: () => widget.onShare(SharePostEntity(
                     description: controller.text,
                     postID: widget.post.id,
+                    share: widget.post.share,
+                    toUid: widget.post.owner,
                   )),
                 )
               ],

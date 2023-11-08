@@ -22,7 +22,7 @@ class ResumeModel {
     return ResumeModel(
       id: snapshot.id,
       fileName: data["fileName"],
-      filePath: data["file"], //TODO rename file path
+      filePath: data["file"],
       size: data["size"],
       createAt: (data["createAt"] as Timestamp).toDate(),
     );

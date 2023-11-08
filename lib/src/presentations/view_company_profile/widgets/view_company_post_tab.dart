@@ -30,9 +30,7 @@ class ViewCompanyPostTab extends StatelessWidget {
                     context.read<ViewCompanyProfileCubit>().favouritePost,
                 onComment: (post) => ViewCompanyProfileCoordinator.showFullPost(
                     post: post, isComment: true),
-                onShare: (post) {
-                  //TODO tab to share post
-                },
+                onShare: context.read<ViewCompanyProfileCubit>().sharePost,
                 onViewFullPost: (post) =>
                     ViewCompanyProfileCoordinator.showFullPost(post: post),
                 onViewProfile: ViewCompanyProfileCoordinator.showViewProfile,

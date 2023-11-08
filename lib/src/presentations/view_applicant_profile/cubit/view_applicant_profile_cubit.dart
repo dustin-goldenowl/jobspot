@@ -15,6 +15,8 @@ import 'package:jobspot/src/presentations/applicant_profile/domain/entities/work
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_skill_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/stream_list_post_use_case.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/share_post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/use_cases/share_post_use_case.dart';
 import 'package:jobspot/src/presentations/view_applicant_profile/domain/use_cases/get_appreciation_use_case.dart';
 import 'package:jobspot/src/presentations/view_applicant_profile/domain/use_cases/get_education_use_case.dart';
 import 'package:jobspot/src/presentations/view_applicant_profile/domain/use_cases/get_language_use_case.dart';
@@ -42,6 +44,7 @@ class ViewApplicantProfileCubit extends Cubit<ViewApplicantProfileState> {
   final GetUserInfoUseCase _getUserInfoUseCase;
   final GetSkillUseCase _getSkillUseCase;
   final FavouritePostUseCase _favouritePostUseCase;
+  final SharePostUseCase _sharePostUseCase;
 
   ViewApplicantProfileCubit(
     this._getAppreciationUseCase,
@@ -53,6 +56,7 @@ class ViewApplicantProfileCubit extends Cubit<ViewApplicantProfileState> {
     this._getWorkExperienceUseCase,
     this._streamListPostUseCase,
     this._favouritePostUseCase,
+    this._sharePostUseCase,
   ) : super(const ViewApplicantProfileState(isTop: false, isLoading: false));
 
   void changeIsTop(bool isTop) => emit(state.copyWith(isTop: isTop));
@@ -134,6 +138,13 @@ class ViewApplicantProfileCubit extends Cubit<ViewApplicantProfileState> {
     final response = await _favouritePostUseCase.call(params: entity);
     if (response is DataFailed) {
       print(response.error);
+    }
+  }
+
+  Future sharePost(SharePostEntity entity) async {
+    final response = await _sharePostUseCase.call(params: entity);
+    if (response is DataSuccess) {
+      emit(state.copyWith(error: response.error));
     }
   }
 

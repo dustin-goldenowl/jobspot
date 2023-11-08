@@ -74,6 +74,8 @@
     "connection_page_connection": "Kết nối",
     "connection_page_no_new_posts": "Không có bài viết mới",
     "connection_page_share_post_success": "Chia sẻ bài viết thành công",
+    "connection_page_share_now": "Chia sẻ ngay",
+    "connection_page_share_hint_content": "Hãy viết gì đó về nội dung này",
 
     "home_page_recent_job_list": "Công Việc Gần Đây",
     "home_page_find_your_job": "Tìm Kiếm Việc Làm Của Bạn",

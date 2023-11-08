@@ -24,6 +24,8 @@ import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/str
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/stream_work_experience_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/update_about_me_use_case.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/share_post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/use_cases/share_post_use_case.dart';
 import 'package:jobspot/src/presentations/view_language/domain/entities/language_entity.dart';
 import 'package:jobspot/src/presentations/view_language/domain/use_cases/stream_language_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
@@ -55,6 +57,7 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
   final DeletePostUseCase _deletePostUseCase;
   final DeleteResumeUseCase _deleteResumeUseCase;
   final FavouritePostUseCase _favouritePostUseCase;
+  final SharePostUseCase _sharePostUseCase;
 
   ApplicantProfileCubit(
     this._deletePostUseCase,
@@ -69,6 +72,7 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
     this._streamLanguagesUseCase,
     this._updateAboutMeUseCase,
     this._favouritePostUseCase,
+    this._sharePostUseCase,
   ) : super(ApplicantProfileState.ds()) {
     _init();
   }
@@ -196,6 +200,13 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
 
   Future favouritePost(FavouriteEntity entity) async {
     final response = await _favouritePostUseCase.call(params: entity);
+    if (response is DataFailed) {
+      emit(state.copyWith(error: response.error));
+    }
+  }
+
+  Future sharePost(SharePostEntity entity) async {
+    final response = await _sharePostUseCase.call(params: entity);
     if (response is DataFailed) {
       emit(state.copyWith(error: response.error));
     }

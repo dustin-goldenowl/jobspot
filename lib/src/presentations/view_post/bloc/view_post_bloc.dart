@@ -13,6 +13,8 @@ import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/share_post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/use_cases/share_post_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/comment_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/reply_comment_entity.dart';
@@ -39,6 +41,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
   final ReplyCommentUseCase _replyCommentUseCase;
   final GetReplyCommentUseCase _getReplyCommentUseCase;
   final DeleteCommentUseCase _deleteCommentUseCase;
+  final SharePostUseCase _sharePostUseCase;
 
   final TextEditingController commentController = TextEditingController();
   final FocusNode commentFocusNode = FocusNode();
@@ -57,6 +60,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     this._replyCommentUseCase,
     this._getReplyCommentUseCase,
     this._deleteCommentUseCase,
+    this._sharePostUseCase,
   ) : super(ViewPostInitial()) {
     commentController.addListener(() => add(ChangeTextCommentEvent()));
 
@@ -89,6 +93,8 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     on<FavouriteCommentEvent>(_favouriteComment);
 
     on<DeleteCommentEvent>(_deleteComment);
+
+    on<SharePostEvent>(_sharePost);
   }
 
   void _requestComment(RequestCommentEvent event, _) {
@@ -225,6 +231,13 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
   Future _deleteComment(DeleteCommentEvent event, Emitter emit) async {
     final response = await _deleteCommentUseCase.call(params: event.commentID);
     if (response is DataSuccess) {}
+  }
+
+  Future _sharePost(SharePostEvent event, Emitter emit) async {
+    final response = await _sharePostUseCase.call(params: event.entity);
+    if (response is DataSuccess) {
+      emit(SharePostSuccess());
+    }
   }
 
   Future showSimpleDialog(BuildContext context, CommentEntity comment) async {

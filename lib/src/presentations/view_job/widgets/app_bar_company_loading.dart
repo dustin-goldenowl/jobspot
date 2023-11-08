@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 
@@ -15,13 +14,6 @@ class AppBarCompanyLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     Random random = Random();
     return SliverAppBar(
-      actions: [
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(FontAwesomeIcons.ellipsisVertical),
-        ),
-        const SizedBox(width: 5),
-      ],
       leading: IconButton(
         onPressed: context.router.pop,
         icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),

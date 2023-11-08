@@ -4,13 +4,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/share_post_entity.dart';
 import 'package:jobspot/src/presentations/connection/domain/use_cases/fetch_post_use_case.dart';
 import 'package:jobspot/src/presentations/connection/domain/use_cases/share_post_use_case.dart';
-import 'package:jobspot/src/presentations/connection/widgets/bottom_sheet_share_post.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/use_cases/favourite_post_use_case.dart';
 
@@ -60,18 +58,6 @@ class ConnectionCubit extends Cubit<ConnectionState> {
     if (response is DataFailed) {
       print(response.error);
     }
-  }
-
-  void showShareBottomSheet(BuildContext context, {required PostEntity post}) {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      isScrollControlled: true,
-      backgroundColor: AppColors.scaffoldBackground,
-      builder: (_) => BottomSheetSharePost(onShare: sharePost, post: post),
-    );
   }
 
   Future sharePost(SharePostEntity entity) async {

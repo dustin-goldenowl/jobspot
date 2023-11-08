@@ -58,9 +58,9 @@ class ConnectionView extends StatelessWidget {
             context.read<cubit.ConnectionCubit>().fetchPostData(),
         child: BlocBuilder<cubit.ConnectionCubit, cubit.ConnectionState>(
           builder: (context, state) {
+            final myCubit = context.read<cubit.ConnectionCubit>();
             return ListView.separated(
-              controller:
-                  context.read<cubit.ConnectionCubit>().scrollController,
+              controller: myCubit.scrollController,
               itemCount: (state.posts?.length ?? 9) + 1,
               physics: const BouncingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics(),
@@ -73,11 +73,8 @@ class ConnectionView extends StatelessWidget {
                         post: state.posts![index],
                         onComment: (post) => ConnectionCoordinator.showFullPost(
                             post: post, isComment: true),
-                        onFavourite:
-                            context.read<cubit.ConnectionCubit>().favouritePost,
-                        onShare: (post) => context
-                            .read<cubit.ConnectionCubit>()
-                            .showShareBottomSheet(context, post: post),
+                        onFavourite: myCubit.favouritePost,
+                        onShare: myCubit.sharePost,
                         onViewFullPost: (post) =>
                             ConnectionCoordinator.showFullPost(post: post),
                         onViewProfile: ConnectionCoordinator.showViewProfile,
