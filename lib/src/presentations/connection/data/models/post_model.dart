@@ -8,11 +8,13 @@ import 'package:jobspot/src/presentations/connection/domain/entities/user_entity
 
 class PostModel {
   String id;
-  String title;
+  String? title;
+  String? sharePostID;
   String description;
   String owner;
   int? numberOfComments;
   UserModel? user;
+  PostModel? sharePost;
   List<String> images;
   List<String> like;
   List<String> comment;
@@ -23,7 +25,9 @@ class PostModel {
   PostModel({
     this.user,
     required this.id,
-    required this.title,
+    this.title,
+    this.sharePostID,
+    this.sharePost,
     required this.description,
     required this.images,
     required this.like,
@@ -40,9 +44,12 @@ class PostModel {
     return PostModel(
       id: snapshot.id,
       title: data["title"],
+      sharePostID: data["sharePostID"],
       description: data["description"],
       owner: data["owner"],
-      images: List<String>.from(data["images"].map((x) => x)),
+      images: data["images"] != null
+          ? List<String>.from(data["images"].map((x) => x))
+          : [],
       like: List<String>.from(data["like"].map((x) => x)),
       comment: List<String>.from(data["comment"].map((x) => x)),
       share: List<String>.from(data["share"].map((x) => x)),
@@ -58,7 +65,9 @@ class PostModel {
       title: data["title"],
       description: data["description"],
       owner: data["owner"],
-      images: List<String>.from(data["images"].map((x) => x)),
+      images: data["images"] != null
+          ? List<String>.from(data["images"].map((x) => x))
+          : [],
       like: List<String>.from(data["like"].map((x) => x)),
       comment: List<String>.from(data["comment"].map((x) => x)),
       share: List<String>.from(data["share"].map((x) => x)),
@@ -86,6 +95,7 @@ class PostModel {
     String? title,
     String? description,
     UserModel? user,
+    PostModel? sharePost,
     int? numberOfComments,
     List<String>? images,
     List<String>? like,
@@ -105,6 +115,8 @@ class PostModel {
       numberOfComments: numberOfComments,
       createAt: createAt,
       updateAt: updateAt,
+      sharePostID: sharePostID,
+      sharePost: sharePost ?? this.sharePost,
     );
   }
 
@@ -137,13 +149,14 @@ class PostModel {
       share: share,
       owner: owner,
       createAt: createAt,
+      sharePost: sharePost?.toPostEntity(),
     );
   }
 
   UpdatePostEntity toUpdatePostEntity() {
     return UpdatePostEntity(
       id: id,
-      title: title,
+      title: title ?? "",
       images: images,
       description: description,
       removeImages: [],

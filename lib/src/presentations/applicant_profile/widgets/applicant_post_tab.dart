@@ -10,7 +10,6 @@ import 'package:jobspot/src/presentations/applicant_profile/cubit/applicant_prof
 import 'package:jobspot/src/presentations/applicant_profile/domain/router/applicant_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/connection/widgets/post_item.dart';
 import 'package:jobspot/src/presentations/connection/widgets/post_item_loading.dart';
-import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 
 @RoutePage()
 class ApplicantPostTab extends StatelessWidget {
@@ -28,20 +27,15 @@ class ApplicantPostTab extends StatelessWidget {
             if (state.listPost != null) {
               return PostItem(
                 post: state.listPost![index],
-                onComment: () => ApplicantProfileCoordinator.showFullPost(
-                  post: state.listPost![index],
-                  isComment: true,
-                ),
-                onFavourite: () => context
-                    .read<ApplicantProfileCubit>()
-                    .favouritePost(FavouriteEntity(
-                      uidTo: state.listPost![index].user.id,
-                      id: state.listPost![index].id,
-                      listFavourite: state.listPost![index].like,
-                    )),
-                onShare: () {},
-                onViewFullPost: () => ApplicantProfileCoordinator.showFullPost(
-                    post: state.listPost![index]),
+                onComment: (post) => ApplicantProfileCoordinator.showFullPost(
+                    post: post, isComment: true),
+                onFavourite:
+                    context.read<ApplicantProfileCubit>().favouritePost,
+                onShare: (post) {
+                  //TODO tab to share post
+                },
+                onViewFullPost: (post) =>
+                    ApplicantProfileCoordinator.showFullPost(post: post),
                 moreWidget: PopupMenuButton<int>(
                   color: Colors.white,
                   icon: Icon(
@@ -72,6 +66,8 @@ class ApplicantPostTab extends StatelessWidget {
                     ),
                   ],
                 ),
+                onViewProfile: ApplicantProfileCoordinator.showViewProfile,
+                isViewProfile: false,
               );
             }
             return const PostItemLoading();

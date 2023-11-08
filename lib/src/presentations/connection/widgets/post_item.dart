@@ -3,11 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobspot/src/core/enum/user_role.dart';
+import 'package:jobspot/src/presentations/connection/widgets/share_post_item.dart';
+import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/common/widgets/image_widget/widget/image_widget.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/enum/verify_status.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
-import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/constants/constants.dart';
 
 class PostItem extends StatelessWidget {
@@ -18,16 +21,18 @@ class PostItem extends StatelessWidget {
     required this.onComment,
     required this.onShare,
     required this.onViewFullPost,
-    this.onViewProfile,
+    required this.onViewProfile,
     this.moreWidget,
+    this.isViewProfile = true,
   });
 
   final PostEntity post;
-  final VoidCallback onFavourite;
-  final VoidCallback onComment;
-  final VoidCallback onShare;
-  final VoidCallback onViewFullPost;
-  final VoidCallback? onViewProfile;
+  final Function(FavouriteEntity entity) onFavourite;
+  final Function(PostEntity post) onComment;
+  final Function(PostEntity post) onShare;
+  final Function(PostEntity post) onViewFullPost;
+  final Function({required String uid, required UserRole role}) onViewProfile;
+  final bool isViewProfile;
   final Widget? moreWidget;
 
   @override
@@ -48,8 +53,9 @@ class PostItem extends StatelessWidget {
               children: [
                 _buildHeaderPost(context),
                 const SizedBox(height: 20),
-                Text(post.title, style: AppStyles.boldTextHaiti),
-                const SizedBox(height: 15),
+                if (post.title != null)
+                  Text(post.title!, style: AppStyles.boldTextHaiti),
+                if (post.title != null) const SizedBox(height: 15),
                 Text(
                   post.description,
                   style: AppStyles.normalTextMulledWine,
@@ -57,9 +63,18 @@ class PostItem extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: post.sharePost != null ? 10 : 30),
           if (post.images.isNotEmpty)
             ImageWidget(images: post.images, padding: AppDimens.smallPadding),
+          if (post.sharePost != null)
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: SharePostItem(
+                post: post.sharePost!,
+                onViewFullPost: onViewFullPost,
+                onViewProfile: onViewProfile,
+              ),
+            ),
           _buildBottomPost(),
         ],
       ),
@@ -69,11 +84,13 @@ class PostItem extends StatelessWidget {
   Widget _buildHeaderPost(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: onViewFullPost,
+      onTap: () => onViewFullPost(post),
       child: Row(
         children: [
           GestureDetector(
-            onTap: onViewProfile,
+            onTap: () => isViewProfile
+                ? onViewProfile(uid: post.user.id, role: post.user.role)
+                : null,
             child: ClipOval(
               child: CachedNetworkImage(
                 imageUrl: post.user.avatar,
@@ -92,7 +109,9 @@ class PostItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GestureDetector(
-                  onTap: onViewProfile,
+                  onTap: () => isViewProfile
+                      ? onViewProfile(uid: post.user.id, role: post.user.role)
+                      : null,
                   child: Row(
                     children: [
                       Text(post.user.name, style: AppStyles.boldTextHaiti),
@@ -136,7 +155,8 @@ class PostItem extends StatelessWidget {
       child: Row(
         children: [
           _buildItemReaction(
-            onTap: onFavourite,
+            onTap: () => onFavourite(FavouriteEntity(
+                id: post.id, uidTo: post.owner, listFavourite: post.like)),
             icon: Icon(
               post.like.contains(FirebaseAuth.instance.currentUser!.uid)
                   ? FontAwesomeIcons.solidHeart
@@ -150,13 +170,13 @@ class PostItem extends StatelessWidget {
           ),
           const SizedBox(width: 28),
           _buildItemReaction(
-            onTap: onComment,
+            onTap: () => onComment(post),
             icon: SvgPicture.asset(AppImages.comment),
             quantity: post.numberOfComments,
           ),
           const Spacer(),
           _buildItemReaction(
-            onTap: onShare,
+            onTap: () => onShare(post.sharePost ?? post),
             icon: SvgPicture.asset(AppImages.share),
             quantity: post.share.length,
           )

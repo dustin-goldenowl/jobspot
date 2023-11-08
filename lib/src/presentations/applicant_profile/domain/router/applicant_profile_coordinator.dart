@@ -1,6 +1,7 @@
 import 'package:jobspot/injection.dart';
 import 'package:jobspot/src/core/config/router/app_router.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
+import 'package:jobspot/src/core/enum/user_role.dart';
 import 'package:jobspot/src/presentations/add_skill/domain/entities/skill_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/education_model.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/work_experience_model.dart';
@@ -85,4 +86,12 @@ class ApplicantProfileCoordinator {
         title: title,
         index: index,
       ));
+
+  static void showViewProfile({required String uid, required UserRole role}) {
+    if (role == UserRole.applicant) {
+      rootRouter.push(ViewApplicantProfileRoute(uid: uid));
+    } else {
+      rootRouter.push(ViewCompanyProfileRoute(uid: uid));
+    }
+  }
 }

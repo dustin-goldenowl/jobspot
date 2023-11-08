@@ -2,9 +2,10 @@ import 'package:jobspot/src/presentations/connection/domain/entities/user_entity
 
 class PostEntity {
   final String id;
-  final String title;
+  final String? title;
   final String description;
   final String owner;
+  final PostEntity? sharePost;
   final int numberOfComments;
   final UserEntity user;
   final List<String> images;
@@ -16,7 +17,8 @@ class PostEntity {
   PostEntity({
     required this.user,
     required this.id,
-    required this.title,
+    this.title,
+    this.sharePost,
     required this.description,
     required this.images,
     required this.like,

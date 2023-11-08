@@ -135,8 +135,9 @@ class ViewPostView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(post.title, style: AppStyles.boldTextHaiti),
-        const SizedBox(height: 15),
+        if (post.title != null)
+          Text(post.title!, style: AppStyles.boldTextHaiti),
+        if (post.title != null) const SizedBox(height: 15),
         Text(
           post.description,
           style: AppStyles.normalTextMulledWine,

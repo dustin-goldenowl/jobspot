@@ -10,7 +10,6 @@ import 'package:jobspot/src/presentations/company_profile/domain/router/company_
 import 'package:jobspot/src/presentations/connection/widgets/post_item.dart';
 import 'package:jobspot/src/presentations/connection/widgets/post_item_loading.dart';
 import 'package:jobspot/src/presentations/view_company_profile/domain/router/view_company_profile_coordinator.dart';
-import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 
 @RoutePage()
 class CompanyPostTab extends StatelessWidget {
@@ -31,20 +30,15 @@ class CompanyPostTab extends StatelessWidget {
             if (state.listPost != null) {
               return PostItem(
                 post: state.listPost![index],
-                onFavourite: () => context
-                    .read<CompanyProfileCubit>()
-                    .favouritePost(FavouriteEntity(
-                      uidTo: state.listPost![index].user.id,
-                      id: state.listPost![index].id,
-                      listFavourite: state.listPost![index].like,
-                    )),
-                onComment: () => ViewCompanyProfileCoordinator.showFullPost(
-                    post: state.listPost![index], isComment: true),
-                onShare: () {},
-                onViewFullPost: () =>
-                    ViewCompanyProfileCoordinator.showFullPost(
-                        post: state.listPost![index]),
-                onViewProfile: () {},
+                isViewProfile: false,
+                onFavourite: context.read<CompanyProfileCubit>().favouritePost,
+                onComment: (post) => ViewCompanyProfileCoordinator.showFullPost(
+                    post: post, isComment: true),
+                onShare: (post) {
+                  //TODO tab to share post
+                },
+                onViewFullPost: (post) =>
+                    ViewCompanyProfileCoordinator.showFullPost(post: post),
                 moreWidget: PopupMenuButton<int>(
                   color: Colors.white,
                   icon: Icon(
@@ -75,6 +69,7 @@ class CompanyPostTab extends StatelessWidget {
                     ),
                   ],
                 ),
+                onViewProfile: CompanyProfileCoordinator.showViewProfile,
               );
             }
             return const PostItemLoading();

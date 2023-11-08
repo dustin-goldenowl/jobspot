@@ -73,6 +73,7 @@
 
     "connection_page_connection": "Connection",
     "connection_page_no_new_posts": "There are no new posts",
+    "connection_page_share_post_success": "Share post successful",
 
     "home_page_recent_job_list": "Recent Job List",
     "home_page_find_your_job": "Find Your Job",
