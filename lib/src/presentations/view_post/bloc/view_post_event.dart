@@ -115,10 +115,19 @@ class DeleteCommentEvent extends ViewPostEvent {
 }
 
 class SharePostEvent extends ViewPostEvent {
-  final SharePostEntity entity;
+  final SharePostBase entity;
 
   SharePostEvent(this.entity);
 
   @override
   List<Object?> get props => [entity];
+}
+
+class DeletePostEvent extends ViewPostEvent {
+  final PostEntity post;
+
+  DeletePostEvent(this.post);
+
+  @override
+  List<Object?> get props => [post];
 }

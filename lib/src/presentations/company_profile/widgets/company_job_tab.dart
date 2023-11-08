@@ -50,8 +50,11 @@ class CompanyJobTab extends StatelessWidget {
         final isSave = user.saveJob?.contains(job.id) ?? false;
         return CustomJobCard(
           button: IconButton(
-            icon:
-                SvgPicture.asset(isSave ? AppImages.saved : AppImages.saveJob),
+            icon: SvgPicture.asset(
+              isSave ? AppImages.saved : AppImages.saveJob,
+              width: 30,
+              height: 30,
+            ),
             onPressed: () =>
                 context.read<CompanyProfileCubit>().saveJob(job.id),
           ),

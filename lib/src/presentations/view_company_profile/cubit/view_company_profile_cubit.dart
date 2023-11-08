@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:jobspot/src/presentations/connection/domain/entities/share_post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/share_post_base.dart';
 import 'package:jobspot/src/presentations/connection/domain/use_cases/share_post_use_case.dart';
 import 'package:jobspot/src/presentations/home_applicant/domain/use_cases/save_job_use_case.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -127,7 +127,7 @@ class ViewCompanyProfileCubit extends Cubit<ViewCompanyProfileState> {
     }
   }
 
-  Future sharePost(SharePostEntity entity) async {
+  Future sharePost(SharePostBase entity) async {
     final response = await _sharePostUseCase.call(params: entity);
     if (response is DataFailed) {
       emit(state.copyWith(error: response.error));

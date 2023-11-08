@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/enum/user_role.dart';
 import 'package:jobspot/src/core/function/show_share_bottom_sheet.dart';
-import 'package:jobspot/src/presentations/connection/domain/entities/share_post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/share_post_base.dart';
 import 'package:jobspot/src/presentations/connection/widgets/share_post_item.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -31,7 +31,7 @@ class PostItem extends StatelessWidget {
   final PostEntity post;
   final Function(FavouriteEntity entity) onFavourite;
   final Function(PostEntity post) onComment;
-  final Function(SharePostEntity entity) onShare;
+  final Function(SharePostBase entity) onShare;
   final Function(PostEntity post) onViewFullPost;
   final Function({required String uid, required UserRole role}) onViewProfile;
   final bool isViewProfile;

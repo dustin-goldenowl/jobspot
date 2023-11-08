@@ -11,7 +11,7 @@ import 'package:jobspot/src/presentations/connection/data/models/post_model.dart
 import 'package:jobspot/src/presentations/connection/data/models/share_post_model.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
-import 'package:jobspot/src/presentations/connection/domain/entities/share_post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/share_post_base.dart';
 import 'package:jobspot/src/presentations/connection/domain/repositories/connection_repository.dart';
 import 'package:jobspot/src/presentations/notification/domain/entities/send_notification_entity.dart';
 import 'package:jobspot/src/presentations/notification/domain/use_cases/send_notification_use_case.dart';
@@ -92,22 +92,28 @@ class ConnectionRepositoryImpl extends ConnectionRepository {
   }
 
   @override
-  Future<DataState<bool>> sharePost(SharePostEntity entity) async {
+  Future<DataState<bool>> sharePost(SharePostBase entity) async {
     try {
-      final model = SharePostModel.fromEntity(entity);
-      final myCollection = XCollection.post.doc();
-      await Future.wait([
-        XCollection.post.doc(entity.postID).update({
-          "share": [...entity.share, FirebaseAuth.instance.currentUser!.uid]
-        }),
-        myCollection.set(model.toMap()),
-      ]);
-      _sendNotificationUseCase.call(
-          params: SendNotificationEntity(
-        action: myCollection.id,
-        to: entity.toUid,
-        type: AppTags.share,
-      ));
+      if (entity is SharePostEntity) {
+        final model = SharePostModel.fromEntity(entity);
+        final myCollection = XCollection.post.doc();
+        await Future.wait([
+          XCollection.post.doc(entity.postID).update({
+            "share": [...entity.share, FirebaseAuth.instance.currentUser!.uid]
+          }),
+          myCollection.set(model.toMap()),
+        ]);
+        _sendNotificationUseCase.call(
+            params: SendNotificationEntity(
+          action: myCollection.id,
+          to: entity.toUid,
+          type: AppTags.share,
+        ));
+      } else if (entity is UpdateSharePostEntity) {
+        await XCollection.post
+            .doc(entity.postID)
+            .update({"description": entity.description});
+      }
       return DataSuccess(true);
     } catch (e) {
       print(e.toString());

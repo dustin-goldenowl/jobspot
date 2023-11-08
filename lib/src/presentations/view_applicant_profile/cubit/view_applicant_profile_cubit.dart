@@ -15,7 +15,7 @@ import 'package:jobspot/src/presentations/applicant_profile/domain/entities/work
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_skill_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/stream_list_post_use_case.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
-import 'package:jobspot/src/presentations/connection/domain/entities/share_post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/share_post_base.dart';
 import 'package:jobspot/src/presentations/connection/domain/use_cases/share_post_use_case.dart';
 import 'package:jobspot/src/presentations/view_applicant_profile/domain/use_cases/get_appreciation_use_case.dart';
 import 'package:jobspot/src/presentations/view_applicant_profile/domain/use_cases/get_education_use_case.dart';
@@ -141,7 +141,7 @@ class ViewApplicantProfileCubit extends Cubit<ViewApplicantProfileState> {
     }
   }
 
-  Future sharePost(SharePostEntity entity) async {
+  Future sharePost(SharePostBase entity) async {
     final response = await _sharePostUseCase.call(params: entity);
     if (response is DataSuccess) {
       emit(state.copyWith(error: response.error));

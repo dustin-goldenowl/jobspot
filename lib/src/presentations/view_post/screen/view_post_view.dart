@@ -10,6 +10,7 @@ import 'package:jobspot/src/core/enum/verify_status.dart';
 import 'package:jobspot/src/core/function/show_share_bottom_sheet.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/share_post_base.dart';
 import 'package:jobspot/src/presentations/connection/widgets/share_post_item.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_input.dart';
 import 'package:jobspot/src/presentations/view_post/bloc/view_post_bloc.dart';
@@ -205,7 +206,63 @@ class ViewPostView extends StatelessWidget {
               ],
             )
           ],
-        )
+        ),
+        const Spacer(),
+        if (FirebaseAuth.instance.currentUser!.uid == post.owner)
+          _buildMoreWidget(post),
+      ],
+    );
+  }
+
+  Widget _buildMoreWidget(PostEntity post) {
+    return PopupMenuButton<int>(
+      color: Colors.white,
+      icon: Icon(
+        FontAwesomeIcons.ellipsisVertical,
+        color: AppColors.haiti,
+        size: 18,
+      ),
+      shadowColor: Colors.black,
+      itemBuilder: (BuildContext context) => [
+        PopupMenuItem<int>(
+          value: 0,
+          child: _buildItemPopup(
+            icon: AppImages.edit,
+            title: AppLocal.text.applicant_profile_page_edit,
+          ),
+          onTap: () => post.sharePost == null
+              ? ViewPostCoordinator.showEditPost(post: post)
+              : showShareBottomSheet(
+                  context,
+                  post: post.sharePost!,
+                  update: UpdateSharePostEntity(
+                      description: post.description, postID: post.id),
+                  onShare: (share) =>
+                      context.read<ViewPostBloc>().add(SharePostEvent(share)),
+                ),
+        ),
+        PopupMenuItem<int>(
+          value: 1,
+          child: _buildItemPopup(
+            icon: AppImages.trash,
+            title: AppLocal.text.applicant_profile_page_delete,
+          ),
+          onTap: () => context.read<ViewPostBloc>().add(DeletePostEvent(post)),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildItemPopup({required String title, required String icon}) {
+    return Row(
+      children: [
+        SvgPicture.asset(
+          icon,
+          colorFilter: ColorFilter.mode(AppColors.haiti, BlendMode.srcIn),
+          width: 20,
+        ),
+        const SizedBox(width: 10),
+        Text(title, style: AppStyles.normalTextHaiti),
       ],
     );
   }

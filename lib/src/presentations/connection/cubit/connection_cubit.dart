@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
-import 'package:jobspot/src/presentations/connection/domain/entities/share_post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/share_post_base.dart';
 import 'package:jobspot/src/presentations/connection/domain/use_cases/fetch_post_use_case.dart';
 import 'package:jobspot/src/presentations/connection/domain/use_cases/share_post_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
@@ -60,7 +60,7 @@ class ConnectionCubit extends Cubit<ConnectionState> {
     }
   }
 
-  Future sharePost(SharePostEntity entity) async {
+  Future sharePost(SharePostBase entity) async {
     emit(state.copyWith(isLoading: true, posts: state.posts));
     final response = await _sharePostUseCase.call(params: entity);
     if (response is DataSuccess) {

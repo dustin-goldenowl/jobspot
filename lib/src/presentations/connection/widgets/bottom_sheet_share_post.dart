@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/share_post_base.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
@@ -9,7 +10,6 @@ import 'package:jobspot/src/core/enum/verify_status.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/data/entities/user_entity.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
-import 'package:jobspot/src/presentations/connection/domain/entities/share_post_entity.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
 
 class BottomSheetSharePost extends StatefulWidget {
@@ -17,17 +17,27 @@ class BottomSheetSharePost extends StatefulWidget {
     super.key,
     required this.onShare,
     required this.post,
+    this.update,
   });
 
-  final Function(SharePostEntity entity) onShare;
+  final Function(SharePostBase entity) onShare;
   final PostEntity post;
+  final UpdateSharePostEntity? update;
 
   @override
   State<BottomSheetSharePost> createState() => _BottomSheetSharePostState();
 }
 
 class _BottomSheetSharePostState extends State<BottomSheetSharePost> {
-  TextEditingController controller = TextEditingController();
+  final TextEditingController controller = TextEditingController();
+
+  @override
+  void initState() {
+    if (widget.update != null) {
+      controller.text = widget.update!.description;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,13 +81,23 @@ class _BottomSheetSharePostState extends State<BottomSheetSharePost> {
                 _buildPostItem(),
                 const SizedBox(height: 20),
                 CustomButton(
-                  title: AppLocal.text.connection_page_share_now,
-                  onPressed: () => widget.onShare(SharePostEntity(
-                    description: controller.text,
-                    postID: widget.post.id,
-                    share: widget.post.share,
-                    toUid: widget.post.owner,
-                  )),
+                  title: widget.update == null
+                      ? AppLocal.text.connection_page_share_now
+                      : AppLocal.text.add_post_page_update,
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    widget.update == null
+                        ? widget.onShare(SharePostEntity(
+                            description: controller.text,
+                            postID: widget.post.id,
+                            share: widget.post.share,
+                            toUid: widget.post.owner,
+                          ))
+                        : widget.onShare(UpdateSharePostEntity(
+                            description: controller.text,
+                            postID: widget.update!.postID,
+                          ));
+                  },
                 )
               ],
             ),
@@ -200,5 +220,11 @@ class _BottomSheetSharePostState extends State<BottomSheetSharePost> {
         ),
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }

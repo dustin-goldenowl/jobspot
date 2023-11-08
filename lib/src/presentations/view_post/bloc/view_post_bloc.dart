@@ -12,8 +12,9 @@ import 'package:jobspot/src/core/common/widgets/custom_alert_dialog.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/delete_post_use_case.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
-import 'package:jobspot/src/presentations/connection/domain/entities/share_post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/share_post_base.dart';
 import 'package:jobspot/src/presentations/connection/domain/use_cases/share_post_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/comment_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
@@ -42,6 +43,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
   final GetReplyCommentUseCase _getReplyCommentUseCase;
   final DeleteCommentUseCase _deleteCommentUseCase;
   final SharePostUseCase _sharePostUseCase;
+  final DeletePostUseCase _deletePostUseCase;
 
   final TextEditingController commentController = TextEditingController();
   final FocusNode commentFocusNode = FocusNode();
@@ -61,6 +63,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     this._getReplyCommentUseCase,
     this._deleteCommentUseCase,
     this._sharePostUseCase,
+    this._deletePostUseCase,
   ) : super(ViewPostInitial()) {
     commentController.addListener(() => add(ChangeTextCommentEvent()));
 
@@ -95,6 +98,8 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     on<DeleteCommentEvent>(_deleteComment);
 
     on<SharePostEvent>(_sharePost);
+
+    on<DeletePostEvent>(_deletePost);
   }
 
   void _requestComment(RequestCommentEvent event, _) {
@@ -231,6 +236,15 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
   Future _deleteComment(DeleteCommentEvent event, Emitter emit) async {
     final response = await _deleteCommentUseCase.call(params: event.commentID);
     if (response is DataSuccess) {}
+  }
+
+  Future _deletePost(DeletePostEvent event, Emitter emit) async {
+    final response = await _deletePostUseCase.call(params: event.post);
+    if (response is DataSuccess) {
+      emit(DeletePostSuccess());
+    } else {
+      emit(ViewPostError(response.error ?? ""));
+    }
   }
 
   Future _sharePost(SharePostEvent event, Emitter emit) async {

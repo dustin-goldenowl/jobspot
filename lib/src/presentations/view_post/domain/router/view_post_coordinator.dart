@@ -2,6 +2,7 @@ import 'package:jobspot/injection.dart';
 import 'package:jobspot/src/core/config/router/app_router.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/enum/user_role.dart';
+import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 
 class ViewPostCoordinator {
@@ -19,4 +20,7 @@ class ViewPostCoordinator {
 
   static void showFullPost(PostEntity post) =>
       rootRouter.push(ViewPostRoute(post: post, isComment: false));
+
+  static void showEditPost({required PostEntity post}) => rootRouter.push(
+      AddPostRoute(post: PostModel.fromEntity(post).toUpdatePostEntity()));
 }

@@ -196,6 +196,8 @@ class ViewJobView extends StatelessWidget {
             ),
             child: SvgPicture.asset(
               state.isSave ? AppImages.saved : AppImages.saveJob,
+              width: 30,
+              height: 30,
               fit: BoxFit.fill,
               colorFilter: ColorFilter.mode(
                 state.isSave ? AppColors.deepSaffron : AppColors.primary,

@@ -12,9 +12,10 @@ import 'package:jobspot/src/presentations/applicant_profile/domain/entities/get_
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/delete_post_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/stream_list_post_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/stream_user_info_use_case.dart';
+import 'package:jobspot/src/presentations/company_profile/domain/router/company_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/company_profile/domain/use_cases/delete_job_use_case.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
-import 'package:jobspot/src/presentations/connection/domain/entities/share_post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/share_post_base.dart';
 import 'package:jobspot/src/presentations/connection/domain/use_cases/share_post_use_case.dart';
 import 'package:jobspot/src/presentations/home_applicant/domain/use_cases/save_job_use_case.dart';
 import 'package:jobspot/src/presentations/view_company_profile/domain/use_cases/get_list_job_use_case.dart';
@@ -137,8 +138,9 @@ class CompanyProfileCubit extends Cubit<CompanyProfileState> {
     }
   }
 
-  Future sharePost(SharePostEntity entity) async {
+  Future sharePost(SharePostBase entity) async {
     final response = await _sharePostUseCase.call(params: entity);
+    CompanyProfileCoordinator.rootRouter.pop();
     if (response is DataFailed) {
       emit(state.copyWith(error: response.error));
     }

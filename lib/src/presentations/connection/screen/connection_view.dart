@@ -30,7 +30,6 @@ class ConnectionView extends StatelessWidget {
           if (previous.isLoading) Navigator.of(context).pop();
 
           if (previous.isLoading && current.error == null) {
-            Navigator.of(context).pop();
             customToast(
               context,
               text: AppLocal.text.connection_page_share_post_success,
