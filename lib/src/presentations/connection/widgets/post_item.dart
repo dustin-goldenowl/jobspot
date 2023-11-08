@@ -179,8 +179,8 @@ class PostItem extends StatelessWidget {
           ),
           const Spacer(),
           _buildItemReaction(
-            onTap: () =>
-                showShareBottomSheet(context, post: post, onShare: onShare),
+            onTap: () => showShareBottomSheet(context,
+                post: post.sharePost ?? post, onShare: onShare),
             icon: SvgPicture.asset(AppImages.share),
             quantity: post.share.length,
           )

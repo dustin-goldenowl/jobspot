@@ -31,6 +31,7 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
       return XCollection.post
           .where("owner",
               isEqualTo: entity.uid ?? FirebaseAuth.instance.currentUser!.uid)
+          .orderBy("createAt", descending: true)
           .limit(entity.limit)
           .snapshots()
           .asyncMap((event) async {
