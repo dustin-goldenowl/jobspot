@@ -57,8 +57,6 @@ class ViewCompanyJobTab extends StatelessWidget {
                 context.read<ViewCompanyProfileCubit>().saveJob(job.id),
           ),
           onTap: () => ViewCompanyProfileCoordinator.showFullJob(job.id),
-          isShowApply: true,
-          onApply: () => ViewCompanyProfileCoordinator.showApplyJob(job: job),
           job: job,
         );
       },

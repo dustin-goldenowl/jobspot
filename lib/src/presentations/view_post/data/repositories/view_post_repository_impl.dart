@@ -71,7 +71,8 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
             XCollection.comment.where("post", isEqualTo: id).count().get()
           ]);
           final user = response.first as MapSnapshot;
-          final sharePost = response[1] as PostModel;
+          final sharePost =
+              postModel.sharePostID != null ? response[1] as PostModel : null;
           final numberOfComments = response.last as AggregateQuerySnapshot;
           postModel = postModel.copyWith(
             user: UserModel.fromDocumentSnapshot(user),

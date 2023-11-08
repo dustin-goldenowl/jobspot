@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,80 +18,108 @@ class TestIQView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocal.text.test_iq_page_test_iq),
-        titleTextStyle: AppStyles.boldTextHaiti.copyWith(fontSize: 20),
-        centerTitle: true,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        actions: [
-          BlocBuilder<TestIQCubit, TestIQState>(
-            buildWhen: (previous, current) => previous.time != current.time,
-            builder: (context, state) {
-              return Text(
-                "${(state.time ~/ 60).digits()}:${(state.time % 60).digits()}",
-                style: TextStyle(
-                  color: AppColors.deepSaffron,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
+    return BlocConsumer<TestIQCubit, TestIQState>(
+      listener: (context, state) {
+        if (state.error != null) {
+          customToast(context, text: state.error ?? "");
+        }
+      },
+      buildWhen: (previous, current) =>
+          current.currentPage >= (current.questions?.length ?? 0) ||
+          previous.questions != current.questions,
+      builder: (context, state) {
+        if (state.questions != null) {
+          bool isScroll = state.currentPage < state.questions!.length;
+          if (!isScroll) {
+            context.read<TestIQCubit>().controller.animateToPage(
+                  state.questions!.length,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.linear,
+                );
+          }
+          return Scaffold(
+            bottomNavigationBar: isScroll ? _buildBottomBar() : null,
+            appBar: AppBar(
+              title: Text(AppLocal.text.test_iq_page_test_iq),
+              titleTextStyle: AppStyles.boldTextHaiti.copyWith(fontSize: 20),
+              centerTitle: true,
+              elevation: 0,
+              scrolledUnderElevation: 0,
+              actions: [
+                BlocBuilder<TestIQCubit, TestIQState>(
+                  buildWhen: (previous, current) =>
+                      previous.time != current.time,
+                  builder: (context, state) {
+                    return Text(
+                      "${(state.time ~/ 60).digits()}:${(state.time % 60).digits()}",
+                      style: TextStyle(
+                        color: AppColors.deepSaffron,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
-          const SizedBox(width: 15),
-        ],
-        leading: IconButton(
-          onPressed: () => context.read<TestIQCubit>().showAlertDialog(
-            context,
-            onAccept: () async {
-              await context.router.pop();
-              if (context.mounted) context.router.pop();
-            },
-          ),
-          icon: const Icon(Icons.arrow_back_rounded, color: Colors.black),
-        ),
-      ),
-      body: BlocConsumer<TestIQCubit, TestIQState>(
-        listener: (context, state) {
-          if (state.error != null) {
-            customToast(context, text: state.error ?? "");
-          }
-        },
-        buildWhen: (previous, current) =>
-            current.currentPage >= (current.questions?.length ?? 0) ||
-            previous.questions != current.questions,
-        builder: (context, state) {
-          if (state.questions != null) {
-            bool isScroll = state.currentPage < state.questions!.length;
-            if (!isScroll) {
-              context.read<TestIQCubit>().controller.animateToPage(
-                    state.questions!.length,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.linear,
-                  );
-            }
-            return PageView.builder(
-              physics: isScroll
-                  ? const BouncingScrollPhysics()
-                  : const NeverScrollableScrollPhysics(),
-              controller: context.read<TestIQCubit>().controller,
-              onPageChanged: context.read<TestIQCubit>().onChangePage,
-              itemCount: state.questions!.length + (isScroll ? 0 : 1),
-              itemBuilder: (context, index) {
-                if (index < state.questions!.length) {
-                  return _buildItemQuestion(
-                    index,
-                    onTap: context.read<TestIQCubit>().chooseAnswer,
-                  );
-                }
-                return _buildResult();
+                const SizedBox(width: 15),
+              ],
+            ),
+            body: WillPopScope(
+              onWillPop: () async {
+                if (!isScroll) return true;
+                return await context
+                    .read<TestIQCubit>()
+                    .showAlertDialog(context);
               },
-            );
-          }
-          return const QuestionLoading();
-        },
-      ),
+              child: PageView.builder(
+                physics: isScroll
+                    ? const BouncingScrollPhysics()
+                    : const NeverScrollableScrollPhysics(),
+                controller: context.read<TestIQCubit>().controller,
+                onPageChanged: context.read<TestIQCubit>().onChangePage,
+                itemCount: state.questions!.length + (isScroll ? 0 : 1),
+                itemBuilder: (context, index) {
+                  if (index < state.questions!.length) {
+                    return _buildItemQuestion(
+                      index,
+                      onTap: context.read<TestIQCubit>().chooseAnswer,
+                    );
+                  }
+                  return _buildResult();
+                },
+              ),
+            ),
+          );
+        }
+        return const QuestionLoading();
+      },
+    );
+  }
+
+  Widget _buildBottomBar() {
+    return BlocBuilder<TestIQCubit, TestIQState>(
+      buildWhen: (previous, current) =>
+          previous.currentPage != current.currentPage,
+      builder: (context, state) {
+        bool isFinish = state.currentPage >= state.questions!.length - 1;
+
+        return Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: 15,
+            horizontal: AppDimens.smallPadding,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 80),
+            child: CustomButton(
+              title: isFinish
+                  ? AppLocal.text.test_iq_page_finish
+                  : AppLocal.text.test_iq_page_next,
+              onPressed: isFinish
+                  ? context.read<TestIQCubit>().finish
+                  : context.read<TestIQCubit>().nextPage,
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -145,14 +172,15 @@ class TestIQView extends StatelessWidget {
           previous.questions != current.questions,
       builder: (context, state) {
         double width = MediaQuery.sizeOf(context).width;
-        bool isFinish = index >= state.questions!.length - 1;
+
         return SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
               const SizedBox(height: 50),
               Text(
-                AppLocal.text.test_iq_page_question_title(index + 1),
+                AppLocal.text.test_iq_page_question_title(
+                    "${index + 1}/${state.answers.length}"),
                 style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
               ),
               const SizedBox(height: 20),
@@ -187,17 +215,6 @@ class TestIQView extends StatelessWidget {
                     ),
                   );
                 },
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
-                child: CustomButton(
-                  title: isFinish
-                      ? AppLocal.text.test_iq_page_finish
-                      : AppLocal.text.test_iq_page_next,
-                  onPressed: isFinish
-                      ? context.read<TestIQCubit>().finish
-                      : context.read<TestIQCubit>().nextPage,
-                ),
               ),
               const SizedBox(height: 50),
             ],

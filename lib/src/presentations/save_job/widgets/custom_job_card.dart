@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
-import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/extension/int_extension.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:jobspot/src/core/function/get_location.dart';
@@ -17,15 +16,11 @@ class CustomJobCard extends StatelessWidget {
     required this.job,
     required this.button,
     required this.onTap,
-    this.isShowApply = false,
-    this.onApply,
     this.moreWidget,
   });
 
   final Widget button;
   final VoidCallback onTap;
-  final bool isShowApply;
-  final VoidCallback? onApply;
   final JobEntity job;
   final Widget? moreWidget;
 
@@ -125,16 +120,8 @@ class CustomJobCard extends StatelessWidget {
               title: AppLists.listTypeWorkplace[job.typeWorkplace]["title"]!),
           const SizedBox(width: 8),
           TagItem(title: AppLists.listLevel[job.level]),
-          SizedBox(width: !isShowApply ? 8 : 15),
-          isShowApply
-              ? GestureDetector(
-                  onTap: onApply,
-                  child: TagItem(
-                    title: AppLocal.text.save_job_page_apply,
-                    backgroundColor: AppColors.orangeRed.withOpacity(0.2),
-                  ),
-                )
-              : TagItem(title: AppLists.listJobType[job.jobType]),
+          const SizedBox(width: 8),
+          TagItem(title: AppLists.listJobType[job.jobType]),
         ],
       ),
     );

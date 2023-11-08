@@ -59,7 +59,6 @@ class CompanyJobTab extends StatelessWidget {
                 context.read<CompanyProfileCubit>().saveJob(job.id),
           ),
           onTap: () => CompanyProfileCoordinator.showFullJob(job.id),
-          onApply: () => CompanyProfileCoordinator.showApplyJob(job: job),
           job: job,
           moreWidget: PopupMenuButton<int>(
             color: Colors.white,

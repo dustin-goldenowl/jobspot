@@ -167,6 +167,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
   Future _replyComment(ReplyCommentEvent event, Emitter emit) async {
     String comment = commentController.text;
     String commentID = replyComment!.id;
+    String? hightLevel = replyComment?.hightLevel;
     replyComment = null;
     commentController.clear();
     commentFocusNode.unfocus();
@@ -181,13 +182,16 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     ));
     if (response is DataSuccess) {
       add(SyncPostDataEvent());
+      if (hightLevel != null) {
+        add(ViewReplyCommentEvent(commentID: hightLevel, isLoading: false));
+      }
     } else {
       emit(ViewPostError(response.error ?? ""));
     }
   }
 
   Future _getReplyComment(ViewReplyCommentEvent event, Emitter emit) async {
-    emit(ViewReplyCommentLoading(event.commentID));
+    if (event.isLoading) emit(ViewReplyCommentLoading(event.commentID));
     final response =
         await _getReplyCommentUseCase.call(params: event.commentID);
     if (response is DataSuccess) {

@@ -29,6 +29,9 @@ class ListResumeBottomSheet extends StatelessWidget {
         padding: const EdgeInsets.all(AppDimens.smallPadding),
         itemBuilder: (context, index) {
           if (index == 0) {
+            if ((listResume?.length ?? 0) > 2) {
+              return const SizedBox();
+            }
             return _buildPickCVFile();
           }
           if (listResume != null) {

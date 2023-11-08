@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
@@ -54,7 +55,14 @@ class ApplicantAboutTab extends StatelessWidget {
         return ProfileItem(
           icon: AppImages.resume,
           title: AppLocal.text.applicant_profile_page_resume,
-          onAdd: ApplicantProfileCoordinator.showAddResume,
+          onAdd: () {
+            if ((state.listResume?.length ?? 0) > 2) {
+              customToast(context,
+                  text: AppLocal.text.applicant_profile_page_limit_resume);
+            } else {
+              ApplicantProfileCoordinator.showAddResume();
+            }
+          },
           child: state.listResume == null
               ? _buildListLoading()
               : state.listResume != null && state.listResume!.isEmpty

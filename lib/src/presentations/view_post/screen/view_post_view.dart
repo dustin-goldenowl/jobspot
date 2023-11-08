@@ -185,14 +185,18 @@ class ViewPostView extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Text(post.user.name, style: AppStyles.boldTextHaiti),
-                if (post.user.verify == VerifyStatus.accept)
-                  const SizedBox(width: 5),
-                if (post.user.verify == VerifyStatus.accept)
-                  SvgPicture.asset(AppImages.verify, height: 18, width: 18),
-              ],
+            GestureDetector(
+              onTap: () => ViewPostCoordinator.showViewProfile(
+                  uid: post.user.id, role: post.user.role),
+              child: Row(
+                children: [
+                  Text(post.user.name, style: AppStyles.boldTextHaiti),
+                  if (post.user.verify == VerifyStatus.accept)
+                    const SizedBox(width: 5),
+                  if (post.user.verify == VerifyStatus.accept)
+                    SvgPicture.asset(AppImages.verify, height: 18, width: 18),
+                ],
+              ),
             ),
             const SizedBox(height: 5),
             Row(
@@ -454,11 +458,9 @@ class ViewPostView extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      context
-                          .read<ViewPostBloc>()
-                          .add(ViewReplyCommentEvent(comment.id));
-                    },
+                    onTap: () => context
+                        .read<ViewPostBloc>()
+                        .add(ViewReplyCommentEvent(commentID: comment.id)),
                     child: Text(
                       AppLocal.text.view_post_page_see_more_comment(
                           comment.reply.length),

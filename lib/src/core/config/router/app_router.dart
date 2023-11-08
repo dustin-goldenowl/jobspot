@@ -192,7 +192,7 @@ class AppRouter extends $AppRouter {
         CustomRoute(
           path: AppPaths.viewCompanyProfile,
           page: ViewCompanyProfileRoute.page,
-          transitionsBuilder: TransitionsBuilders.slideBottom,
+          transitionsBuilder: TransitionsBuilders.slideLeft,
           children: [
             AutoRoute(
               path: AppPaths.viewCompanyAboutTab,

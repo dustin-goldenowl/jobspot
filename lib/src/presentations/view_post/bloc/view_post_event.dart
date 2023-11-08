@@ -98,8 +98,9 @@ class ReplyCommentEvent extends ViewPostEvent {
 
 class ViewReplyCommentEvent extends ViewPostEvent {
   final String commentID;
+  final bool isLoading;
 
-  ViewReplyCommentEvent(this.commentID);
+  ViewReplyCommentEvent({required this.commentID, this.isLoading = true});
 
   @override
   List<Object?> get props => [commentID];

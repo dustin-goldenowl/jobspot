@@ -21,9 +21,6 @@ class CompanyProfileCoordinator {
   static void showFullJob(String jobID) =>
       rootRouter.push(ViewJobRoute(jobID: jobID));
 
-  static void showApplyJob({required JobEntity job}) =>
-      rootRouter.push(ApplyJobRoute(job: job));
-
   static void showEditCompanyProfile() =>
       rootRouter.push(const EditCompanyProfileRoute());
 

@@ -8,6 +8,7 @@ import 'package:jobspot/src/core/extension/int_extension.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:jobspot/src/core/function/get_location.dart';
 import 'package:jobspot/src/presentations/save_job/widgets/tag_item.dart';
+import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
 import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart';
 
 class RecentJobCard extends StatelessWidget {
@@ -59,23 +60,26 @@ class RecentJobCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            Row(
-              children: [
-                TagItem(
-                    title: AppLists.listTypeWorkplace[job.typeWorkplace]
-                        ["title"]!),
-                const SizedBox(width: 8),
-                TagItem(title: AppLists.listLevel[job.level]),
-                const Spacer(),
-                GestureDetector(
-                  onTap: onApply,
-                  child: TagItem(
-                    title: AppLocal.text.home_page_apply,
-                    backgroundColor: AppColors.orangeRed.withOpacity(0.2),
-                  ),
-                ),
-              ],
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  TagItem(
+                      title: AppLists.listTypeWorkplace[job.typeWorkplace]
+                          ["title"]!),
+                  const SizedBox(width: 8),
+                  TagItem(title: AppLists.listLevel[job.level]),
+                  const SizedBox(width: 8),
+                  const SizedBox(width: 8),
+                  TagItem(title: AppLists.listJobType[job.jobType]),
+                ],
+              ),
             ),
+            const SizedBox(height: 20),
+            CustomButton(
+              title: AppLocal.text.home_page_apply,
+              onPressed: onApply,
+            )
           ],
         ),
       ),
