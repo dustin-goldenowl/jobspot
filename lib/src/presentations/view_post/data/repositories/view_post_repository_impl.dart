@@ -193,7 +193,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
       String? highLevel = snapshot.data()!["highLevel"];
       _sendNotificationUseCase.call(
           params: SendNotificationEntity(
-        action: comment.commentID,
+        action: comment.postID,
         to: comment.uidComment,
         type: AppTags.reply,
       ));

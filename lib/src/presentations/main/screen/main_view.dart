@@ -15,7 +15,7 @@ class MainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = PrefsUtils.getUserInfo();
-
+    context.read<MainCubit>().updateToken();
     return AutoTabsRouter.pageView(
       routes: [
         user?.role == UserRole.business

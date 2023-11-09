@@ -2,7 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:jobspot/firebase_options.dart';
+import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/service/notification_service.dart';
+import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 
 class FirebaseMessagingService {
@@ -31,12 +33,13 @@ class FirebaseMessagingService {
       "to": token,
       "priority": "high",
       "data": {
+        "title": user?.name ?? "",
+        "body": _getContentNotify(body),
         "avatar": user?.avatar ?? "",
         "action": action,
         "type": type,
         "click_action": "FLUTTER_NOTIFICATION_CLICK",
       },
-      "notification": {"title": user?.name ?? "", "body": body},
     };
     try {
       await Dio()
@@ -46,6 +49,22 @@ class FirebaseMessagingService {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  static String _getContentNotify(String? type) {
+    final content = switch (type) {
+      AppTags.favourite => AppLocal.text.notification_push_favourite,
+      AppTags.favouriteCmt => AppLocal.text.notification_push_favourite_cmt,
+      AppTags.accept => AppLocal.text.notification_push_accept,
+      AppTags.reject => AppLocal.text.notification_push_reject,
+      AppTags.apply => AppLocal.text.notification_push_apply,
+      AppTags.comment => AppLocal.text.notification_push_comment,
+      AppTags.reply => AppLocal.text.notification_push_reply,
+      AppTags.share => AppLocal.text.notification_push_share,
+      AppTags.follow => AppLocal.text.notification_push_follow,
+      _ => "",
+    };
+    return content;
   }
 
   static Future<String?> getToken() async {

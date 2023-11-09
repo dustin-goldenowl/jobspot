@@ -14,9 +14,10 @@ class SettingState extends Equatable {
   final String? error;
 
   factory SettingState.ds() {
+    final isNotification = PrefsUtils.isNotification;
     return SettingState(
       isLoading: false,
-      isNotification: false,
+      isNotification: isNotification,
       isVietNam: PrefsUtils.isVietnamese ?? true,
     );
   }
