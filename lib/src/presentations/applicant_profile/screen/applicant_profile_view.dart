@@ -60,6 +60,8 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
                   centerTitle: true,
                   automaticallyImplyLeading: false,
                   expandedHeight: 0,
+                  elevation: 0,
+                  scrolledUnderElevation: 0,
                   title: _buildTabBar(onTap: tabsRouter.setActiveIndex),
                 ),
               ],
