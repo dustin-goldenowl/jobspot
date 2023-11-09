@@ -10,6 +10,8 @@ part 'main_state.dart';
 
 @injectable
 class MainCubit extends Cubit<MainState> {
+  DateTime? currentBackPressTime;
+
   MainCubit(this._updateTokenUseCase) : super(const MainState());
 
   final UpdateTokenUseCase _updateTokenUseCase;

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/enum/user_role.dart';
 import 'package:jobspot/src/core/enum/verify_status.dart';
+import 'package:jobspot/src/core/function/on_will_pop.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/main/cubit/main_cubit.dart';
 import 'package:jobspot/src/presentations/main/domain/router/main_coordinator.dart';
@@ -30,7 +31,16 @@ class MainView extends StatelessWidget {
       builder: (context, child, pageController) {
         final tabsRouter = AutoTabsRouter.of(context);
         return Scaffold(
-          body: child,
+          body: WillPopScope(
+            onWillPop: () => onWillPop(
+              context: context,
+              action: (now) =>
+                  context.read<MainCubit>().currentBackPressTime = now,
+              currentBackPressTime:
+                  context.read<MainCubit>().currentBackPressTime,
+            ),
+            child: child,
+          ),
           bottomNavigationBar: SafeArea(
             child: CustomBottomBar(
               changeTab: tabsRouter.setActiveIndex,

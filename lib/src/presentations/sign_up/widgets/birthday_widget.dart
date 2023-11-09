@@ -48,6 +48,7 @@ class BirthdayWidget extends StatelessWidget {
       initialDate: selectedDate,
       firstDate: DateTime(1900),
       lastDate: lastDate,
+      keyboardType: TextInputType.datetime,
     );
     if (picked != null && picked != selectedDate) onChange(picked);
   }

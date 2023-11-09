@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/enum/user_role.dart';
@@ -76,13 +77,21 @@ class _FollowViewState extends State<FollowView>
             state.listFollowing != null &&
             state.listFollowing!.isEmpty;
         if (checkFollower || checkFollowing) {
-          return Center(
-            child: Text(
-              currentTab == 0
-                  ? AppLocal.text.follow_page_no_following
-                  : AppLocal.text.follow_page_no_follower,
-              style: AppStyles.boldTextHaiti.copyWith(fontSize: 16),
-            ),
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                currentTab == 0
+                    ? AppLocal.text.follow_page_no_following
+                    : AppLocal.text.follow_page_no_follower,
+                style: AppStyles.boldTextHaiti.copyWith(fontSize: 18),
+              ),
+              const SizedBox(height: 50),
+              SvgPicture.asset(
+                AppImages.follow,
+                width: MediaQuery.sizeOf(context).width / 2,
+              ),
+            ],
           );
         }
         return RefreshIndicator(

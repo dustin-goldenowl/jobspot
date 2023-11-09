@@ -9,5 +9,8 @@ class RegisterGoogleCoordinator {
 
   static void back() => rootRouter.pop();
 
-  static void showMain() => rootRouter.replace(const MainRoute());
+  static void showMain() => rootRouter.pushAndPopUntil(
+        const MainRoute(),
+        predicate: (route) => false,
+      );
 }

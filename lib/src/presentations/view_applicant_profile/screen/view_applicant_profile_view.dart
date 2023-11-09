@@ -59,6 +59,8 @@ class _ViewApplicantProfileViewState extends State<ViewApplicantProfileView>
                   pinned: true,
                   centerTitle: true,
                   automaticallyImplyLeading: false,
+                  elevation: 0,
+                  scrolledUnderElevation: 0,
                   expandedHeight: 0,
                   title: _buildTabBar(onTap: tabsRouter.setActiveIndex),
                 ),

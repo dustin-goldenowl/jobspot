@@ -138,7 +138,7 @@ class ApplicantAboutTab extends StatelessWidget {
               state.listLanguage ?? []),
           onEdit: () => ApplicantProfileCoordinator.showViewLanguage(
               state.listLanguage ?? []),
-          child: state.listResume == null
+          child: state.listLanguage == null
               ? _buildListLoading()
               : state.listLanguage != null && state.listLanguage!.isNotEmpty
                   ? Wrap(
