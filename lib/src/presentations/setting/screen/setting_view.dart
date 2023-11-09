@@ -36,6 +36,8 @@ class SettingView extends StatelessWidget {
           listenWhen: (previous, current) {
             if (previous.isLoading) Navigator.of(context).pop();
 
+            if (current.isLogout) SettingCoordinator.logOut();
+
             return true;
           },
           listener: (context, state) {

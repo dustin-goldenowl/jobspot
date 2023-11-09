@@ -107,7 +107,7 @@ class SearchLanguageView extends StatelessWidget {
                 placeholder: (context, url) =>
                     const ItemLoading(width: 40, height: 40, radius: 90),
                 errorWidget: (context, url, error) =>
-                    SvgPicture.asset(AppImages.logo),
+                    SvgPicture.asset(AppImages.logo, width: 40, height: 40),
               ),
             ),
             const SizedBox(width: 10),

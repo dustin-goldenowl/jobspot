@@ -120,7 +120,7 @@ class TestIQCubit extends Cubit<TestIQState> {
       applyID: _applyID ?? "",
       answers: state.answers,
       score: state.score,
-      time: 3600 - state.time,
+      time: 300 - state.time,
     ));
     if (response is DataFailed) {
       emit(state.copyWith(error: response.error));

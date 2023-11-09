@@ -54,14 +54,16 @@ class PostItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildHeaderPost(context),
-                const SizedBox(height: 20),
-                if (post.title != null)
+                if (post.title != null && post.title!.isNotEmpty)
+                  const SizedBox(height: 20),
+                if (post.title != null && post.title!.isNotEmpty)
                   Text(post.title!, style: AppStyles.boldTextHaiti),
-                if (post.title != null) const SizedBox(height: 15),
-                Text(
-                  post.description,
-                  style: AppStyles.normalTextMulledWine,
-                ),
+                if (post.description.isNotEmpty) const SizedBox(height: 15),
+                if (post.description.isNotEmpty)
+                  Text(
+                    post.description,
+                    style: AppStyles.normalTextMulledWine,
+                  ),
               ],
             ),
           ),

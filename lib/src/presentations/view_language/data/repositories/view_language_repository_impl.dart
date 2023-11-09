@@ -15,10 +15,15 @@ class ViewLanguageRepositoryImpl extends ViewLanguageRepository {
           .where("owner", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
           .snapshots()
           .asyncMap((event) {
-        return DataSuccess(event.docs
-            .map(
-                (e) => LanguageModel.fromDocumentSnapshot(e).toLanguageEntity())
-            .toList());
+        List<LanguageModel> listLang = event.docs
+            .map((e) => LanguageModel.fromDocumentSnapshot(e))
+            .toList();
+        final model = listLang.where((element) => element.isFirst).toList();
+        if (model.isNotEmpty) {
+          listLang.removeWhere((element) => element.isFirst);
+          listLang.insert(0, model.first);
+        }
+        return DataSuccess(listLang.map((e) => e.toLanguageEntity()).toList());
       });
     } catch (e) {
       return Stream.value(DataFailed(e.toString()));
