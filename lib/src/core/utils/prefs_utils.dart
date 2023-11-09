@@ -10,6 +10,14 @@ class PrefsUtils {
 
   static SharedPreferences get prefs => getIt<SharedPreferences>();
 
+  static bool get isNotification => prefs.getBool("isNotification") ?? true;
+
+  static Future setIsNotification(bool value) async =>
+      await prefs.setBool("isNotification", value);
+
+  static Future removeNotification() async =>
+      await prefs.remove("isNotification");
+
   static bool get isRemember => prefs.getBool("isRemember") ?? false;
 
   static Future setIsRemember(bool value) async =>

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:jobspot/firebase_options.dart';
 import 'package:jobspot/injection.dart';
 import 'package:jobspot/jobspot_app.dart';
+import 'package:jobspot/src/core/service/firebase_messaging_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +13,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  FirebaseMessagingService.setupNotification();
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };

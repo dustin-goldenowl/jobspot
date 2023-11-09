@@ -25,6 +25,7 @@ class SettingCubit extends Cubit<SettingState> {
       : super(SettingState.ds());
 
   Future changeNotification(bool value) async {
+    PrefsUtils.setIsNotification(value);
     emit(state.copyWith(isNotification: value));
     String token = "";
     if (value) {
@@ -38,6 +39,7 @@ class SettingCubit extends Cubit<SettingState> {
   void logOut() {
     _updateTokenUseCase.call(params: "");
     PrefsUtils.removeUserInfo();
+    PrefsUtils.removeNotification();
     FirebaseAuth.instance.signOut();
     GoogleSignIn().signOut();
     SettingCoordinator.logOut();

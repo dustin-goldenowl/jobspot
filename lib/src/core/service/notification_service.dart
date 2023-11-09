@@ -5,13 +5,11 @@ import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:jobspot/injection.dart';
-import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/config/router/app_router.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
-import 'package:jobspot/src/core/constants/app_tags.dart';
+import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
 
-//TODO when change app icon => change @mipmap/ic_launcher => @drawable/ic_launcher
 class NotificationServices {
   NotificationServices._();
 
@@ -38,9 +36,9 @@ class NotificationServices {
       channelDescription: 'my channel notification jobspot',
       importance: Importance.high,
       priority: Priority.high,
-      icon: '@mipmap/ic_launcher',
+      icon: '@drawable/ic_launcher',
       largeIcon: !avatar.isLink
-          ? const DrawableResourceAndroidBitmap('@mipmap/ic_launcher')
+          ? const DrawableResourceAndroidBitmap('@drawable/ic_launcher')
           : null,
       styleInformation: bigPictureStyleInformation,
       playSound: true,
@@ -56,7 +54,7 @@ class NotificationServices {
 
   static Future init() async {
     var androidInitializationSettings =
-        const AndroidInitializationSettings('@mipmap/ic_launcher');
+        const AndroidInitializationSettings('@drawable/ic_launcher');
     var iosInitializationSettings = const DarwinInitializationSettings();
 
     var initializationSetting = InitializationSettings(
@@ -106,26 +104,10 @@ class NotificationServices {
 
     await _flutterLocalNotificationsPlugin.show(
       message.messageId.hashCode,
-      message.notification?.title,
-      _getContentNotify(message.notification?.body),
+      message.data["title"],
+      message.data["body"],
       notificationDetails,
       payload: jsonEncode(message.data),
     );
-  }
-
-  static String _getContentNotify(String? type) {
-    final content = switch (type) {
-      AppTags.favourite => AppLocal.text.notification_push_favourite,
-      AppTags.favouriteCmt => AppLocal.text.notification_push_favourite_cmt,
-      AppTags.accept => AppLocal.text.notification_push_accept,
-      AppTags.reject => AppLocal.text.notification_push_reject,
-      AppTags.apply => AppLocal.text.notification_push_apply,
-      AppTags.comment => AppLocal.text.notification_push_comment,
-      AppTags.reply => AppLocal.text.notification_push_reply,
-      AppTags.share => AppLocal.text.notification_push_share,
-      AppTags.follow => AppLocal.text.notification_push_follow,
-      _ => "",
-    };
-    return content;
   }
 }
