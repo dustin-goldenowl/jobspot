@@ -73,6 +73,9 @@
 
     "connection_page_connection": "Connection",
     "connection_page_no_new_posts": "There are no new posts",
+    "connection_page_share_post_success": "Share post successful",
+    "connection_page_share_now": "Share now",
+    "connection_page_share_hint_content": "Please write something about this content",
 
     "home_page_recent_job_list": "Recent Job List",
     "home_page_find_your_job": "Find Your Job",
@@ -244,6 +247,7 @@
     "applicant_profile_page_edit_profile": "Edit profile",
     "applicant_profile_page_edit": "Edit",
     "applicant_profile_page_delete": "Delete",
+    "applicant_profile_page_limit_resume": "You have reached the limit for the number of records for the free version!",
 
     "add_work_experience_page_add_work_experience": "Add work experience",
     "add_work_experience_page_update_work_experience": "Update work experience",
@@ -484,6 +488,8 @@
     "test_iq_page_test_iq": "Test IQ",
     "test_iq_page_correct": "Correct",
     "test_iq_page_wrong": "Wrong",
+    "test_iq_page_yes": "Yes",
+    "test_iq_page_no": "No",
     "test_iq_page_cancel_test": "Cancel Test IQ",
     "test_iq_page_cancel_test_content": "Are you sure cancel this test IQ"
 }

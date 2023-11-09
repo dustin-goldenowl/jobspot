@@ -7,7 +7,6 @@ import 'package:jobspot/src/presentations/connection/widgets/post_item.dart';
 import 'package:jobspot/src/presentations/connection/widgets/post_item_loading.dart';
 import 'package:jobspot/src/presentations/view_applicant_profile/cubit/view_applicant_profile_cubit.dart';
 import 'package:jobspot/src/presentations/view_applicant_profile/domain/router/view_applicant_profile_coordinator.dart';
-import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 
 @RoutePage()
 class ViewApplicantPostTab extends StatelessWidget {
@@ -24,21 +23,15 @@ class ViewApplicantPostTab extends StatelessWidget {
             if (state.listPost != null) {
               return PostItem(
                 post: state.listPost![index],
-                onComment: () => ApplicantProfileCoordinator.showFullPost(
-                  post: state.listPost![index],
-                  isComment: true,
-                ),
-                onFavourite: () => context
-                    .read<ViewApplicantProfileCubit>()
-                    .favouritePost(FavouriteEntity(
-                      uidTo: state.listPost![index].user.id,
-                      id: state.listPost![index].id,
-                      listFavourite: state.listPost![index].like,
-                    )),
-                onShare: () {},
-                onViewFullPost: () =>
-                    ViewApplicantProfileCoordinator.showFullPost(
-                        post: state.listPost![index]),
+                onComment: (post) => ApplicantProfileCoordinator.showFullPost(
+                    post: post, isComment: true),
+                onFavourite:
+                    context.read<ViewApplicantProfileCubit>().favouritePost,
+                onShare: context.read<ViewApplicantProfileCubit>().sharePost,
+                onViewFullPost: (post) =>
+                    ViewApplicantProfileCoordinator.showFullPost(post: post),
+                onViewProfile: ViewApplicantProfileCoordinator.showViewProfile,
+                isViewProfile: false,
               );
             }
             return const PostItemLoading();

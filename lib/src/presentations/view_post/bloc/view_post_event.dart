@@ -98,8 +98,9 @@ class ReplyCommentEvent extends ViewPostEvent {
 
 class ViewReplyCommentEvent extends ViewPostEvent {
   final String commentID;
+  final bool isLoading;
 
-  ViewReplyCommentEvent(this.commentID);
+  ViewReplyCommentEvent({required this.commentID, this.isLoading = true});
 
   @override
   List<Object?> get props => [commentID];
@@ -112,4 +113,22 @@ class DeleteCommentEvent extends ViewPostEvent {
 
   @override
   List<Object?> get props => [commentID];
+}
+
+class SharePostEvent extends ViewPostEvent {
+  final SharePostBase entity;
+
+  SharePostEvent(this.entity);
+
+  @override
+  List<Object?> get props => [entity];
+}
+
+class DeletePostEvent extends ViewPostEvent {
+  final PostEntity post;
+
+  DeletePostEvent(this.post);
+
+  @override
+  List<Object?> get props => [post];
 }

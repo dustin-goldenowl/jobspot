@@ -30,7 +30,7 @@ class SearchJobState extends Equatable {
       isMore: isMore ?? this.isMore,
       listJob: listJob ?? this.listJob,
       query: query ?? this.query,
-      saveJobID: saveJobID ?? this.saveJobID,
+      saveJobID: saveJobID,
     );
   }
 

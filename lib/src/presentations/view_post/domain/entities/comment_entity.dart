@@ -4,6 +4,7 @@ class CommentEntity {
   final String id;
   final String post;
   final String content;
+  final String? hightLevel;
   final List<String> reply;
   final List<String> like;
   final UserEntity user;
@@ -17,5 +18,6 @@ class CommentEntity {
     required this.reply,
     required this.createAt,
     required this.user,
+    this.hightLevel,
   });
 }

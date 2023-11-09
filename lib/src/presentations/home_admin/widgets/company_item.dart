@@ -25,56 +25,51 @@ class CompanyItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.wildBlueYonder.withAlpha(18),
-              blurRadius: 62,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        padding: const EdgeInsets.all(AppDimens.smallPadding),
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(),
-            const SizedBox(height: 20),
-            Text(
-              verify.description,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const SizedBox(height: 20),
-            _buildResumeFile(),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: CustomButton(
-                    onPressed: () => onConsider(VerifyStatus.accept),
-                    title:
-                        AppLocal.text.view_job_applicant_accept.toUpperCase(),
-                  ),
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.wildBlueYonder.withAlpha(18),
+            blurRadius: 62,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.all(AppDimens.smallPadding),
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildHeader(),
+          const SizedBox(height: 20),
+          Text(
+            verify.description,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 20),
+          _buildResumeFile(),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                child: CustomButton(
+                  onPressed: () => onConsider(VerifyStatus.accept),
+                  title: AppLocal.text.view_job_applicant_accept.toUpperCase(),
                 ),
-                const SizedBox(width: 15),
-                Expanded(
-                  child: CustomButton(
-                    isElevated: false,
-                    onPressed: () => onConsider(VerifyStatus.decline),
-                    title:
-                        AppLocal.text.view_job_applicant_reject.toUpperCase(),
-                  ),
-                )
-              ],
-            ),
-          ],
-        ),
+              ),
+              const SizedBox(width: 15),
+              Expanded(
+                child: CustomButton(
+                  isElevated: false,
+                  onPressed: () => onConsider(VerifyStatus.decline),
+                  title: AppLocal.text.view_job_applicant_reject.toUpperCase(),
+                ),
+              )
+            ],
+          ),
+        ],
       ),
     );
   }

@@ -6,7 +6,6 @@ import 'package:jobspot/src/presentations/connection/widgets/post_item.dart';
 import 'package:jobspot/src/presentations/connection/widgets/post_item_loading.dart';
 import 'package:jobspot/src/presentations/view_company_profile/cubit/view_company_profile_cubit.dart';
 import 'package:jobspot/src/presentations/view_company_profile/domain/router/view_company_profile_coordinator.dart';
-import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 
 @RoutePage()
 class ViewCompanyPostTab extends StatelessWidget {
@@ -27,20 +26,15 @@ class ViewCompanyPostTab extends StatelessWidget {
             if (state.listPost != null) {
               return PostItem(
                 post: state.listPost![index],
-                onFavourite: () => context
-                    .read<ViewCompanyProfileCubit>()
-                    .favouritePost(FavouriteEntity(
-                      uidTo: state.listPost![index].user.id,
-                      id: state.listPost![index].id,
-                      listFavourite: state.listPost![index].like,
-                    )),
-                onComment: () => ViewCompanyProfileCoordinator.showFullPost(
-                    post: state.listPost![index], isComment: true),
-                onShare: () {},
-                onViewFullPost: () =>
-                    ViewCompanyProfileCoordinator.showFullPost(
-                        post: state.listPost![index]),
-                onViewProfile: () {},
+                onFavourite:
+                    context.read<ViewCompanyProfileCubit>().favouritePost,
+                onComment: (post) => ViewCompanyProfileCoordinator.showFullPost(
+                    post: post, isComment: true),
+                onShare: context.read<ViewCompanyProfileCubit>().sharePost,
+                onViewFullPost: (post) =>
+                    ViewCompanyProfileCoordinator.showFullPost(post: post),
+                onViewProfile: ViewCompanyProfileCoordinator.showViewProfile,
+                isViewProfile: false,
               );
             }
             return const PostItemLoading();

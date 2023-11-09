@@ -4,12 +4,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/function/loading_animation.dart';
 import 'package:jobspot/src/presentations/connection/cubit/connection_cubit.dart'
     as cubit;
 import 'package:jobspot/src/presentations/connection/domain/router/connection_coordinator.dart';
 import 'package:jobspot/src/presentations/connection/widgets/post_item.dart';
 import 'package:jobspot/src/presentations/connection/widgets/post_item_loading.dart';
-import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 
 class ConnectionView extends StatelessWidget {
   const ConnectionView({super.key});
@@ -26,8 +26,21 @@ class ConnectionView extends StatelessWidget {
         scrolledUnderElevation: 0,
       ),
       body: BlocListener<cubit.ConnectionCubit, cubit.ConnectionState>(
-        listenWhen: (previous, current) => current.error != null,
+        listenWhen: (previous, current) {
+          if (previous.isLoading) Navigator.of(context).pop();
+
+          if (previous.isLoading && current.error == null) {
+            customToast(
+              context,
+              text: AppLocal.text.connection_page_share_post_success,
+            );
+          }
+
+          return true;
+        },
         listener: (context, state) {
+          if (state.isLoading) loadingAnimation(context);
+
           if (state.error != null) {
             customToast(context, text: state.error ?? "");
           }
@@ -44,9 +57,9 @@ class ConnectionView extends StatelessWidget {
             context.read<cubit.ConnectionCubit>().fetchPostData(),
         child: BlocBuilder<cubit.ConnectionCubit, cubit.ConnectionState>(
           builder: (context, state) {
+            final myCubit = context.read<cubit.ConnectionCubit>();
             return ListView.separated(
-              controller:
-                  context.read<cubit.ConnectionCubit>().scrollController,
+              controller: myCubit.scrollController,
               itemCount: (state.posts?.length ?? 9) + 1,
               physics: const BouncingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics(),
@@ -57,26 +70,13 @@ class ConnectionView extends StatelessWidget {
                 return state.posts != null && index < state.posts!.length
                     ? PostItem(
                         post: state.posts![index],
-                        onComment: () => ConnectionCoordinator.showFullPost(
-                            post: state.posts![index], isComment: true),
-                        onFavourite: () => context
-                            .read<cubit.ConnectionCubit>()
-                            .favouritePost(FavouriteEntity(
-                              uidTo: state.posts![index].owner,
-                              id: state.posts![index].id,
-                              listFavourite: state.posts![index].like,
-                            )),
-                        onShare: () {
-                          //TODO tap to share post
-                        },
-                        onViewFullPost: () =>
-                            ConnectionCoordinator.showFullPost(
-                                post: state.posts![index]),
-                        onViewProfile: () =>
-                            ConnectionCoordinator.showViewProfile(
-                          uid: state.posts![index].user.id,
-                          role: state.posts![index].user.role,
-                        ),
+                        onComment: (post) => ConnectionCoordinator.showFullPost(
+                            post: post, isComment: true),
+                        onFavourite: myCubit.favouritePost,
+                        onShare: myCubit.sharePost,
+                        onViewFullPost: (post) =>
+                            ConnectionCoordinator.showFullPost(post: post),
+                        onViewProfile: ConnectionCoordinator.showViewProfile,
                       )
                     : state.isMore
                         ? const PostItemLoading()

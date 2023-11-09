@@ -93,7 +93,6 @@ class NotificationServices {
         getIt<AppRouter>().push(ViewApplicantProfileRoute(uid: data["action"]));
       default:
     }
-    ;
   }
 
   static Future showNotification(RemoteMessage message) async {

@@ -12,8 +12,12 @@ import 'package:jobspot/src/presentations/applicant_profile/domain/entities/get_
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/delete_post_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/stream_list_post_use_case.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/stream_user_info_use_case.dart';
+import 'package:jobspot/src/presentations/company_profile/domain/router/company_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/company_profile/domain/use_cases/delete_job_use_case.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/share_post_base.dart';
+import 'package:jobspot/src/presentations/connection/domain/use_cases/share_post_use_case.dart';
+import 'package:jobspot/src/presentations/home_applicant/domain/use_cases/save_job_use_case.dart';
 import 'package:jobspot/src/presentations/view_company_profile/domain/use_cases/get_list_job_use_case.dart';
 import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
@@ -35,6 +39,8 @@ class CompanyProfileCubit extends Cubit<CompanyProfileState> {
   final StreamUserInfoUseCase _streamUserInfoUseCase;
   final DeletePostUseCase _deletePostUseCase;
   final DeleteJobUseCase _deleteJobUseCase;
+  final SharePostUseCase _sharePostUseCase;
+  final SaveJobUseCase _saveJobUseCase;
 
   CompanyProfileCubit(
     this._favouritePostUseCase,
@@ -43,6 +49,8 @@ class CompanyProfileCubit extends Cubit<CompanyProfileState> {
     this._getListJobUseCase,
     this._deletePostUseCase,
     this._deleteJobUseCase,
+    this._sharePostUseCase,
+    this._saveJobUseCase,
   ) : super(const CompanyProfileState(isTop: false, isLoading: false)) {
     scrollController.addListener(() {
       bool isTop = scrollController.position.pixels >=
@@ -127,6 +135,21 @@ class CompanyProfileCubit extends Cubit<CompanyProfileState> {
   Future openWebsite() async {
     if (await canLaunchUrlString(state.user?.website ?? "")) {
       await launchUrlString(state.user?.website ?? "");
+    }
+  }
+
+  Future sharePost(SharePostBase entity) async {
+    final response = await _sharePostUseCase.call(params: entity);
+    CompanyProfileCoordinator.rootRouter.pop();
+    if (response is DataFailed) {
+      emit(state.copyWith(error: response.error));
+    }
+  }
+
+  Future saveJob(String jobID) async {
+    final response = await _saveJobUseCase.call(params: jobID);
+    if (response is DataSuccess) {
+      emit(state.copyWith(saveJobID: jobID));
     }
   }
 

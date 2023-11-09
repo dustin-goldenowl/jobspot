@@ -132,7 +132,11 @@ class ApplyJobCubit extends Cubit<ApplyJobState> {
       jobID: jobID,
       resume: state.resume!,
     ));
-    emit(state.copyWith(resume: state.resume, dataState: response));
+    emit(state.copyWith(
+      resume: state.resume,
+      dataState: response,
+      applyID: response.data,
+    ));
   }
 
   @override

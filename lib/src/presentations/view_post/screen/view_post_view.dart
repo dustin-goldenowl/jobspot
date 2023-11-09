@@ -7,8 +7,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/enum/verify_status.dart';
+import 'package:jobspot/src/core/function/show_share_bottom_sheet.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
+import 'package:jobspot/src/presentations/connection/domain/entities/share_post_base.dart';
+import 'package:jobspot/src/presentations/connection/widgets/share_post_item.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_title_text_input.dart';
 import 'package:jobspot/src/presentations/view_post/bloc/view_post_bloc.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/comment_entity.dart';
@@ -39,6 +42,10 @@ class ViewPostView extends StatelessWidget {
             listener: (context, state) {
               if (state is ViewPostError) {
                 customToast(context, text: state.error);
+              }
+              if (state is SharePostSuccess) {
+                customToast(context,
+                    text: AppLocal.text.connection_page_share_post_success);
               }
             },
             child: _buildBody(context),
@@ -103,9 +110,19 @@ class ViewPostView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  SizedBox(height: state.post!.sharePost != null ? 10 : 30),
                   if (state.post!.images.isNotEmpty)
                     ImageWidget(images: state.post!.images),
+                  if (state.post?.sharePost != null)
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: SharePostItem(
+                        post: state.post!.sharePost!,
+                        padding: 16,
+                        onViewFullPost: ViewPostCoordinator.showFullPost,
+                        onViewProfile: ViewPostCoordinator.showViewProfile,
+                      ),
+                    ),
                 ],
               );
             }
@@ -135,8 +152,9 @@ class ViewPostView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(post.title, style: AppStyles.boldTextHaiti),
-        const SizedBox(height: 15),
+        if (post.title != null)
+          Text(post.title!, style: AppStyles.boldTextHaiti),
+        if (post.title != null) const SizedBox(height: 15),
         Text(
           post.description,
           style: AppStyles.normalTextMulledWine,
@@ -167,14 +185,18 @@ class ViewPostView extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Text(post.user.name, style: AppStyles.boldTextHaiti),
-                if (post.user.verify == VerifyStatus.accept)
-                  const SizedBox(width: 5),
-                if (post.user.verify == VerifyStatus.accept)
-                  SvgPicture.asset(AppImages.verify, height: 18, width: 18),
-              ],
+            GestureDetector(
+              onTap: () => ViewPostCoordinator.showViewProfile(
+                  uid: post.user.id, role: post.user.role),
+              child: Row(
+                children: [
+                  Text(post.user.name, style: AppStyles.boldTextHaiti),
+                  if (post.user.verify == VerifyStatus.accept)
+                    const SizedBox(width: 5),
+                  if (post.user.verify == VerifyStatus.accept)
+                    SvgPicture.asset(AppImages.verify, height: 18, width: 18),
+                ],
+              ),
             ),
             const SizedBox(height: 5),
             Row(
@@ -188,7 +210,63 @@ class ViewPostView extends StatelessWidget {
               ],
             )
           ],
-        )
+        ),
+        const Spacer(),
+        if (FirebaseAuth.instance.currentUser!.uid == post.owner)
+          _buildMoreWidget(post),
+      ],
+    );
+  }
+
+  Widget _buildMoreWidget(PostEntity post) {
+    return PopupMenuButton<int>(
+      color: Colors.white,
+      icon: Icon(
+        FontAwesomeIcons.ellipsisVertical,
+        color: AppColors.haiti,
+        size: 18,
+      ),
+      shadowColor: Colors.black,
+      itemBuilder: (BuildContext context) => [
+        PopupMenuItem<int>(
+          value: 0,
+          child: _buildItemPopup(
+            icon: AppImages.edit,
+            title: AppLocal.text.applicant_profile_page_edit,
+          ),
+          onTap: () => post.sharePost == null
+              ? ViewPostCoordinator.showEditPost(post: post)
+              : showShareBottomSheet(
+                  context,
+                  post: post.sharePost!,
+                  update: UpdateSharePostEntity(
+                      description: post.description, postID: post.id),
+                  onShare: (share) =>
+                      context.read<ViewPostBloc>().add(SharePostEvent(share)),
+                ),
+        ),
+        PopupMenuItem<int>(
+          value: 1,
+          child: _buildItemPopup(
+            icon: AppImages.trash,
+            title: AppLocal.text.applicant_profile_page_delete,
+          ),
+          onTap: () => context.read<ViewPostBloc>().add(DeletePostEvent(post)),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildItemPopup({required String title, required String icon}) {
+    return Row(
+      children: [
+        SvgPicture.asset(
+          icon,
+          colorFilter: ColorFilter.mode(AppColors.haiti, BlendMode.srcIn),
+          width: 20,
+        ),
+        const SizedBox(width: 10),
+        Text(title, style: AppStyles.normalTextHaiti),
       ],
     );
   }
@@ -236,9 +314,13 @@ class ViewPostView extends StatelessWidget {
                 ),
                 const Spacer(),
                 _buildItemReaction(
-                  onTap: () {
-                    // TODO: tap to share post
-                  },
+                  onTap: () => showShareBottomSheet(
+                    context,
+                    post: post.sharePost ?? post,
+                    onShare: (entity) => context
+                        .read<ViewPostBloc>()
+                        .add(SharePostEvent(entity)),
+                  ),
                   icon: SvgPicture.asset(AppImages.share),
                   quantity: post.share.length,
                 )
@@ -376,11 +458,9 @@ class ViewPostView extends StatelessWidget {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {
-                      context
-                          .read<ViewPostBloc>()
-                          .add(ViewReplyCommentEvent(comment.id));
-                    },
+                    onTap: () => context
+                        .read<ViewPostBloc>()
+                        .add(ViewReplyCommentEvent(commentID: comment.id)),
                     child: Text(
                       AppLocal.text.view_post_page_see_more_comment(
                           comment.reply.length),

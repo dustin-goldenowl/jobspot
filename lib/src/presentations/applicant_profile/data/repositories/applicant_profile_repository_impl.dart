@@ -31,13 +31,16 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
       return XCollection.post
           .where("owner",
               isEqualTo: entity.uid ?? FirebaseAuth.instance.currentUser!.uid)
+          .orderBy("createAt", descending: true)
           .limit(entity.limit)
           .snapshots()
           .asyncMap((event) async {
         List<PostModel> listPost =
             event.docs.map((e) => PostModel.fromDocumentSnapshot(e)).toList();
-        final response = await Future.wait(
-            getListCommentPost(listPost.map((e) => e.id).toList()));
+        final response = await Future.wait([
+          getListSharePost(listPost.map((e) => e.sharePostID).toSet()),
+          ...getListCommentPost(listPost.map((e) => e.id).toList())
+        ]);
         UserModel? userModel;
         if (entity.uid != null) {
           final response = await XCollection.user.doc(entity.uid).get();
@@ -52,16 +55,49 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
             role: user.role,
           );
         }
-        int index = 0;
+        int index = 1;
+        final listSharePost = response[0] as List<PostModel>;
         listPost = listPost
             .map((e) => e.copyWith(
-                user: userModel, numberOfComments: response[index++].count))
+                  user: userModel,
+                  numberOfComments:
+                      (response[index++] as AggregateQuerySnapshot).count,
+                  sharePost: e.sharePostID != null
+                      ? listSharePost
+                          .firstWhere((element) => element.id == e.sharePostID)
+                      : null,
+                ))
             .toList();
         return DataSuccess(listPost.map((e) => e.toPostEntity()).toList());
       });
     } catch (e) {
       return Stream.value(DataFailed(e.toString()));
     }
+  }
+
+  Future<List<PostModel>> getListSharePost(Set<String?> sharePost) async {
+    final list = [...sharePost];
+    list.remove(null);
+    final response =
+        await Future.wait(list.map((e) => XCollection.post.doc(e).get()));
+    List<PostModel> listPost =
+        response.map((e) => PostModel.fromDocumentSnapshot(e)).toList();
+    final listUser = await getListUser(listPost);
+    listPost = listPost
+        .map((e) => e.copyWith(
+            user: listUser.firstWhere((element) => element.id == e.owner)))
+        .toList();
+    return listPost;
+  }
+
+  Future<List<UserModel>> getListUser(List<PostModel> datas) async {
+    Set<String> listUserId = {};
+    for (var data in datas) {
+      listUserId.add(data.owner);
+    }
+    final userData = await Future.wait(
+        listUserId.map((id) => XCollection.user.doc(id).get()).toList());
+    return userData.map((e) => UserModel.fromDocumentSnapshot(e)).toList();
   }
 
   List<Future<AggregateQuerySnapshot>> getListCommentPost(List<String> listID) {

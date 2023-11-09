@@ -15,9 +15,9 @@ abstract class NotificationEntity {
   final String action;
   final bool isRead;
   final DateTime createAt;
-  CommentEntity? comment;
-  PostEntity? post;
-  JobEntity? job;
+  final CommentEntity? comment;
+  final PostEntity? post;
+  final JobEntity? job;
 
   NotificationEntity({
     required this.id,
