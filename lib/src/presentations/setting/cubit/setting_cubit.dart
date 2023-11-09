@@ -9,7 +9,6 @@ import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/firebase_messaging_service.dart';
 import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/notification/domain/use_cases/update_token_use_case.dart';
-import 'package:jobspot/src/presentations/setting/domain/router/setting_coordinator.dart';
 import 'package:jobspot/src/presentations/setting/domain/use_cases/delete_account_use_case.dart';
 import 'package:jobspot/src/presentations/setting/widgets/bottom_sheet_language.dart';
 import 'package:jobspot/src/presentations/setting/widgets/bottom_sheet_setting.dart';
@@ -36,13 +35,18 @@ class SettingCubit extends Cubit<SettingState> {
 
   void changeLanguage(bool value) => emit(state.copyWith(isVietNam: value));
 
-  void logOut() {
-    _updateTokenUseCase.call(params: "");
-    PrefsUtils.removeUserInfo();
-    PrefsUtils.removeNotification();
-    FirebaseAuth.instance.signOut();
-    GoogleSignIn().signOut();
-    SettingCoordinator.logOut();
+  Future logOut() async {
+    emit(state.copyWith(isLoading: true));
+    await Future.wait([
+      _updateTokenUseCase.call(params: ""),
+      PrefsUtils.removeUserInfo(),
+      PrefsUtils.removeNotification(),
+    ]);
+    await Future.wait([
+      FirebaseAuth.instance.signOut(),
+      GoogleSignIn().signOut(),
+    ]);
+    emit(state.copyWith(isLogout: true));
   }
 
   Future deleteAccount() async {
@@ -66,7 +70,10 @@ class SettingCubit extends Cubit<SettingState> {
       builder: (context) => BottomSheetSetting(
         title: AppLocal.text.setting_page_log_out,
         content: AppLocal.text.setting_page_log_out_content,
-        onAccept: logOut,
+        onAccept: () {
+          Navigator.of(context).pop();
+          logOut();
+        },
       ),
     );
   }

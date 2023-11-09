@@ -3,12 +3,14 @@ part of 'setting_cubit.dart';
 class SettingState extends Equatable {
   const SettingState({
     required this.isLoading,
+    required this.isLogout,
     required this.isNotification,
     required this.isVietNam,
     this.error,
   });
 
   final bool isLoading;
+  final bool isLogout;
   final bool isNotification;
   final bool isVietNam;
   final String? error;
@@ -17,6 +19,7 @@ class SettingState extends Equatable {
     final isNotification = PrefsUtils.isNotification;
     return SettingState(
       isLoading: false,
+      isLogout: false,
       isNotification: isNotification,
       isVietNam: PrefsUtils.isVietnamese ?? true,
     );
@@ -24,6 +27,7 @@ class SettingState extends Equatable {
 
   SettingState copyWith({
     bool isLoading = false,
+    bool isLogout = false,
     bool? isNotification,
     bool? isVietNam,
     String? error,
@@ -33,9 +37,11 @@ class SettingState extends Equatable {
       isNotification: isNotification ?? this.isNotification,
       isVietNam: isVietNam ?? this.isVietNam,
       error: error,
+      isLogout: isLogout,
     );
   }
 
   @override
-  List<Object?> get props => [isNotification, isVietNam, error, isLoading];
+  List<Object?> get props =>
+      [isNotification, isVietNam, error, isLoading, isLogout];
 }

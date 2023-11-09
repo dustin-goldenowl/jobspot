@@ -60,7 +60,7 @@ class _ChooseLevelLanguageDialogState extends State<ChooseLevelLanguageDialog> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(AppLocal.text.add_language_page_level(level)),
+                  Text(AppLocal.text.add_language_page_level(index)),
                   Radio(
                     value: index,
                     groupValue: level,
