@@ -17,8 +17,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      VERSION_NAME: "1.0.8"
-      VERSION_CODE: 9
+      VERSION_NAME: "1.0.9"
+      VERSION_CODE: 10
 
     steps:
       - name: Checkout code

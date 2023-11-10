@@ -57,12 +57,20 @@ class PostItem extends StatelessWidget {
                 if (post.title != null && post.title!.isNotEmpty)
                   const SizedBox(height: 20),
                 if (post.title != null && post.title!.isNotEmpty)
-                  Text(post.title!, style: AppStyles.boldTextHaiti),
+                  GestureDetector(
+                    onTap: () => onViewFullPost(post),
+                    child: Text(post.title!, style: AppStyles.boldTextHaiti),
+                  ),
                 if (post.description.isNotEmpty) const SizedBox(height: 15),
                 if (post.description.isNotEmpty)
-                  Text(
-                    post.description,
-                    style: AppStyles.normalTextMulledWine,
+                  GestureDetector(
+                    onTap: () => onViewFullPost(post),
+                    child: Text(
+                      post.description,
+                      style: AppStyles.normalTextMulledWine,
+                      maxLines: 5,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
               ],
             ),
