@@ -58,48 +58,55 @@ class _BottomSheetSharePostState extends State<BottomSheetSharePost> {
             ),
           ),
           const SizedBox(height: 25),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-            child: Column(
-              children: [
-                _buildHeader(user),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: controller,
-                  keyboardType: TextInputType.multiline,
-                  textInputAction: TextInputAction.newline,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: AppLocal.text.connection_page_share_hint_content,
-                  ),
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                const SizedBox(height: 20),
-                _buildPostItem(),
-                const SizedBox(height: 20),
-                CustomButton(
-                  title: widget.update == null
-                      ? AppLocal.text.connection_page_share_now
-                      : AppLocal.text.add_post_page_update,
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    widget.update == null
-                        ? widget.onShare(SharePostEntity(
-                            description: controller.text,
-                            postID: widget.post.id,
-                            share: widget.post.share,
-                            toUid: widget.post.owner,
-                          ))
-                        : widget.onShare(UpdateSharePostEntity(
-                            description: controller.text,
-                            postID: widget.update!.postID,
-                          ));
-                  },
-                )
-              ],
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                child: Column(
+                  children: [
+                    _buildHeader(user),
+                    const SizedBox(height: 10),
+                    TextField(
+                      controller: controller,
+                      keyboardType: TextInputType.multiline,
+                      textInputAction: TextInputAction.newline,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText:
+                            AppLocal.text.connection_page_share_hint_content,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    _buildPostItem(),
+                    const SizedBox(height: 20),
+                    CustomButton(
+                      title: widget.update == null
+                          ? AppLocal.text.connection_page_share_now
+                          : AppLocal.text.add_post_page_update,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        widget.update == null
+                            ? widget.onShare(SharePostEntity(
+                                description: controller.text,
+                                postID: widget.post.id,
+                                share: widget.post.share,
+                                toUid: widget.post.owner,
+                              ))
+                            : widget.onShare(UpdateSharePostEntity(
+                                description: controller.text,
+                                postID: widget.update!.postID,
+                              ));
+                      },
+                    )
+                  ],
+                ),
+              ),
             ),
           ),
         ],
@@ -166,6 +173,8 @@ class _BottomSheetSharePostState extends State<BottomSheetSharePost> {
                 Text(
                   widget.post.description,
                   style: AppStyles.normalTextMulledWine,
+                  maxLines: 5,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 15),
               ],

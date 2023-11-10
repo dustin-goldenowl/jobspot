@@ -52,7 +52,7 @@ class ViewCompanyAboutTab extends StatelessWidget {
                     : null,
                 onTap: () {
                   if ((state.user?.website ?? "").isNotEmpty) {
-                    context.read<ViewCompanyProfileCubit>().openWebsite;
+                    context.read<ViewCompanyProfileCubit>().openWebsite();
                   }
                 },
               ),

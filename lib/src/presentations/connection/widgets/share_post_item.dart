@@ -46,12 +46,21 @@ class SharePostItem extends StatelessWidget {
                 _buildHeaderPost(context),
                 const SizedBox(height: 20),
                 if (post.title != null)
-                  Text(post.title!, style: AppStyles.boldTextHaiti),
+                  GestureDetector(
+                    onTap: () => onViewFullPost(post),
+                    child: Text(post.title!, style: AppStyles.boldTextHaiti),
+                  ),
                 if (post.title != null) const SizedBox(height: 15),
-                Text(
-                  post.description,
-                  style: AppStyles.normalTextMulledWine,
-                ),
+                if (post.description.isNotEmpty)
+                  GestureDetector(
+                    onTap: () => onViewFullPost(post),
+                    child: Text(
+                      post.description,
+                      style: AppStyles.normalTextMulledWine,
+                      maxLines: 5,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
               ],
             ),
           ),

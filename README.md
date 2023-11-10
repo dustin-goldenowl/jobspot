@@ -59,7 +59,8 @@
   * [Running Tests](#test_tube-running-tests)
   * [Run Locally](#running-run-locally)
   * [Deployment](#triangular_flag_on_post-deployment)
-- [Usage](#eyes-directory-structure)
+- [Directory Structure](#eyes-directory-structure)
+- [Architecture Diagram](#chart-architecture-diagram)
 - [Contributing](#wave-contributing)
 - [FAQ](#grey_question-faq)
 - [License](#warning-license)
@@ -67,11 +68,11 @@
 - [Acknowledgements](#gem-acknowledgements)
 
 <!-- About the Project -->
-## :star2: About the Project
+## :star2: About the Project <a name="star2-about-the-project"></a>
 
 
 <!-- Screenshots -->
-### :camera: Screenshots
+### :camera: Screenshots <a name="camera-screenshots"></a>
 
 | On Boarding  | Sign in | Sign up |
 | --- | --- | --- |
@@ -106,7 +107,7 @@
 | <img src="screenshots/view_resume_apply_screen.png" width=250> | <img src="screenshots/home_admin_screen.png" width=250> | <img src="screenshots/test_iq_screen.png" width=250> |
 
 <!-- TechStack -->
-### :space_invader: Tech Stack
+### :space_invader: Tech Stack <a name="space_invader-tech-stack"></a>
 
 <details>
   <summary>Mobile</summary>
@@ -148,7 +149,7 @@
 <summary>DevOps</summary>
   <ul>
     <li><a href="https://www.gtihub.com/">Github</a></li>
-    <li><a href="https://www.gtihub.com/">Github ACtion</a></li>
+    <li><a href="https://www.gtihub.com/">Github Action</a></li>
     <li><a href="https://fastlane.tools/">Fastlane</a></li>
     <li><a href="https://firebase.google.com/docs/crashlytics/">Firebase Crashlytics</a></li>
   </ul>
@@ -168,6 +169,8 @@
 - Job seeking
 - Manage notifications
 - Multi language
+- Summary PDF
+- Test IQ
 
 <!-- Color Reference -->
 ### :art: Color Reference
@@ -272,8 +275,8 @@ To deploy this project to CH Play
   fastlane deploy_ch_play version_name: version_name version_code: version_code
 ```
 
-<!-- Usage -->
-## :eyes: Directory structure
+<!-- Directory structure -->
+## :eyes: Directory Structure
 
 ```bash
 jobspot
@@ -372,6 +375,13 @@ jobspot
 ├───web
 └───windows
 ```
+
+<!-- Architecture Diagram -->
+## :chart: Architecture Diagram
+
+<a href="https://edrawcloudpublicus.s3.amazonaws.com/viewer/self/4383336/share/2023-11-10/1699584802/main.svg">
+  <img src="https://edrawcloudpublicus.s3.amazonaws.com/viewer/self/4383336/share/2023-11-10/1699584802/main.svg">
+</a>
 
 <!-- Contributing -->
 ## :wave: Contributing
