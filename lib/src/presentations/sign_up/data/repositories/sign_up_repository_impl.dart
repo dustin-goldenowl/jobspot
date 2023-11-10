@@ -12,7 +12,7 @@ import 'package:jobspot/src/presentations/sign_up/domain/repositories/sign_up_re
 @LazySingleton(as: SignUpRepository)
 class SignUpRepositoryImpl extends SignUpRepository {
   @override
-  Future<DataState<UserCredential>> signUpApplicant(
+  Future<DataState<bool>> signUpApplicant(
       RegisterApplicantEntity entity) async {
     return signUpWithEmailPassword(
       email: entity.email,
@@ -22,7 +22,7 @@ class SignUpRepositoryImpl extends SignUpRepository {
   }
 
   @override
-  Future<DataState<UserCredential>> signUpWithGoogle(
+  Future<DataState<bool>> signUpWithGoogle(
       GoogleSignInAccount googleUser) async {
     try {
       final GoogleSignInAuthentication googleAuth =
@@ -31,17 +31,15 @@ class SignUpRepositoryImpl extends SignUpRepository {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      final credential =
-          await FirebaseAuth.instance.signInWithCredential(googleCredential);
-      return DataSuccess(credential);
+      await FirebaseAuth.instance.signInWithCredential(googleCredential);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
   }
 
   @override
-  Future<DataState<UserCredential>> signUpBusiness(
-      RegisterBusinessEntity entity) {
+  Future<DataState<bool>> signUpBusiness(RegisterBusinessEntity entity) {
     return signUpWithEmailPassword(
       email: entity.email,
       password: entity.password,
@@ -49,7 +47,7 @@ class SignUpRepositoryImpl extends SignUpRepository {
     );
   }
 
-  Future<DataState<UserCredential>> signUpWithEmailPassword({
+  Future<DataState<bool>> signUpWithEmailPassword({
     required String email,
     required String password,
     required Map<String, dynamic> data,
@@ -61,7 +59,7 @@ class SignUpRepositoryImpl extends SignUpRepository {
         password: password,
       );
       await XCollection.user.doc(credential.user!.uid).set(data);
-      return DataSuccess(credential);
+      return DataSuccess(true);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         return DataFailed('The password provided is too weak.');

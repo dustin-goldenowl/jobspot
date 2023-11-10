@@ -9,7 +9,7 @@ class SignUpState extends Equatable {
   final bool isLoading;
   final DateTime birthday;
   final DateTime founding;
-  final DataState? dataState;
+  final DataState<bool>? dataState;
   final bool isGoogle;
 
   const SignUpState({
@@ -34,7 +34,7 @@ class SignUpState extends Equatable {
       isHideRepassBusiness: true,
       isLoading: false,
       isGoogle: false,
-      founding: DateTime.now(),
+      founding: DateTime.now().getDate,
       birthday: DateTime(
         DateTime.now().year - 18,
         DateTime.now().month,
@@ -53,7 +53,7 @@ class SignUpState extends Equatable {
     DateTime? birthday,
     DateTime? founding,
     bool isLoading = false,
-    DataState? dataState,
+    DataState<bool>? dataState,
   }) {
     return SignUpState(
       isHideApplicant: isHideApplicant ?? this.isHideApplicant,
@@ -64,8 +64,8 @@ class SignUpState extends Equatable {
       isMale: isMale ?? this.isMale,
       isLoading: isLoading,
       isGoogle: isGoogle ?? this.isGoogle,
-      birthday: birthday ?? this.birthday,
-      founding: founding ?? this.founding,
+      birthday: (birthday ?? this.birthday).getDate,
+      founding: (founding ?? this.founding).getDate,
       dataState: dataState,
     );
   }
@@ -80,6 +80,7 @@ class SignUpState extends Equatable {
         founding,
         isLoading,
         dataState,
+        isGoogle,
         isMale,
       ];
 }
