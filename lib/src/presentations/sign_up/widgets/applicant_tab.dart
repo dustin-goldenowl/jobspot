@@ -31,14 +31,12 @@ class ApplicantTab extends StatelessWidget {
               const SizedBox(height: 20),
               CustomButton(
                 title: AppLocal.text.sign_up.toUpperCase(),
-                onPressed: context.read<SignUpCubit>().registerApplicant,
+                onPressed: context.read<SignUpCubit>().validateApplicant,
               ),
               const SizedBox(height: 20),
               CustomButton(
                 isElevated: false,
-                onPressed: () {
-                  context.read<SignUpCubit>().registerGoogle();
-                },
+                onPressed: context.read<SignUpCubit>().chooseGoogleAccount,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
