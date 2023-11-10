@@ -114,7 +114,7 @@ class ConnectionRepositoryImpl extends ConnectionRepository {
             .doc(entity.postID)
             .update({"description": entity.description});
       }
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       print(e.toString());
       return DataFailed(e.toString());

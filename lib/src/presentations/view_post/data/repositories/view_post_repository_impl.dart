@@ -81,7 +81,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
           );
           return DataSuccess(postModel.toPostEntity());
         }
-        return DataSuccess(null);
+        return const DataSuccess(null);
       });
     } catch (e) {
       return Stream.value(DataFailed(e.toString()));
@@ -120,7 +120,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
       await postStore.update({
         "comment": [...comments, commentStore.id]
       });
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -148,7 +148,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
         _deleteNotificationUseCase.call(params: notification);
       }
       await XCollection.post.doc(favourite.id).update({"like": listFavourite});
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -171,7 +171,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
       } else {
         _deleteNotificationUseCase.call(params: notification);
       }
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -211,7 +211,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
           "reply": [...listReply, replyCommentStore.id]
         }),
       ]);
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -274,7 +274,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
       });
 
       await XCollection.comment.doc(id).delete();
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }

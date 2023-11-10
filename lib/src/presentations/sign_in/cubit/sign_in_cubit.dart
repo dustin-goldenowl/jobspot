@@ -37,25 +37,33 @@ class SignInCubit extends Cubit<SignInState> {
   void rememberMe(bool isRememberMe) =>
       emit(state.copyWith(isRememberMe: isRememberMe));
 
-  Future signInWithEmailAndPassword() async {
+  void validateEmailPassword() async {
     if (formKey.currentState!.validate()) {
-      emit(state.copyWith(isLoading: true));
-      final response = await _signInEmailPasswordUseCase.call(
-          params: AuthenticationEntity(
+      signInWithEmailAndPassword();
+    }
+  }
+
+  Future signInWithEmailAndPassword() async {
+    emit(state.copyWith(isLoading: true));
+    final response = await _signInEmailPasswordUseCase.call(
+        params: AuthenticationEntity(
+      email: emailController.text,
+      password: passwordController.text,
+    ));
+    emit(state.copyWith(dataState: response, isRegisterGoogle: false));
+    if (response is DataSuccess) {
+      rememberUser();
+    }
+  }
+
+  Future rememberUser() async {
+    if (state.isRememberMe) {
+      PrefsUtils.setRemember(
         email: emailController.text,
         password: passwordController.text,
-      ));
-      emit(state.copyWith(dataState: response, isRegisterGoogle: false));
-      if (response is DataSuccess) {
-        if (state.isRememberMe) {
-          PrefsUtils.setRemember(
-            email: emailController.text,
-            password: passwordController.text,
-          );
-        } else {
-          PrefsUtils.removeRemember();
-        }
-      }
+      );
+    } else {
+      PrefsUtils.removeRemember();
     }
   }
 

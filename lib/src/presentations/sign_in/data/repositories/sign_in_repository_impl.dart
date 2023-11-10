@@ -11,7 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 @LazySingleton(as: SignInRepository)
 class LoginRepositoryImpl extends SignInRepository {
   @override
-  Future<DataState<UserCredential>> signInWithEmailPassword(
+  Future<DataState<bool>> signInWithEmailPassword(
       AuthenticationEntity entity) async {
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -19,12 +19,12 @@ class LoginRepositoryImpl extends SignInRepository {
         password: entity.password,
       );
       await saveUserInfo(credential.user!.uid);
-      return DataSuccess(credential);
+      return const DataSuccess(true);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        return DataFailed('No user found for that email.');
+        return const DataFailed('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        return DataFailed('Wrong password provided for that user.');
+        return const DataFailed('Wrong password provided for that user.');
       }
       return DataFailed(e.message ?? e.toString());
     } catch (e) {

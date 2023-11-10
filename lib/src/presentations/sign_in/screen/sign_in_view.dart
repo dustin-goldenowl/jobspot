@@ -102,8 +102,7 @@ class SignInView extends StatelessWidget {
                 const SizedBox(height: 36),
                 CustomButton(
                   title: AppLocal.text.sign_in.toUpperCase(),
-                  onPressed:
-                      context.read<SignInCubit>().signInWithEmailAndPassword,
+                  onPressed: context.read<SignInCubit>().validateEmailPassword,
                 ),
                 const SizedBox(height: 20),
                 CustomButton(

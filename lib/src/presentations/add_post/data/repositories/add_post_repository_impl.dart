@@ -24,7 +24,7 @@ class AddPostRepositoryImpl extends AddPostRepository {
       PostModel postModel = PostModel.fromPostEntity(post);
       postModel.images.addAll(images);
       await firestore.set(postModel.toJson());
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       print(e.toString());
       return DataFailed(e.toString());
@@ -48,7 +48,7 @@ class AddPostRepositoryImpl extends AddPostRepository {
       UpdatePostModel postModel = UpdatePostModel.fromEntity(post);
       postModel.images.addAll(images);
       await firestorePost.update(postModel.toJson());
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       print(e.toString());
       return DataFailed(e.toString());

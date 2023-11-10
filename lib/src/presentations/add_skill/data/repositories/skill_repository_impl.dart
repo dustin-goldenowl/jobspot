@@ -48,7 +48,7 @@ class SkillRepositoryImpl extends SkillRepository {
       await XCollection.user
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({"skill": skills.map((e) => e.id).toList()});
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }

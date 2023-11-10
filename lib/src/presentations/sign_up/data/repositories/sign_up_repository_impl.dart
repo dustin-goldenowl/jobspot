@@ -59,12 +59,12 @@ class SignUpRepositoryImpl extends SignUpRepository {
         password: password,
       );
       await XCollection.user.doc(credential.user!.uid).set(data);
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        return DataFailed('The password provided is too weak.');
+        return const DataFailed('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        return DataFailed('The account already exists for that email.');
+        return const DataFailed('The account already exists for that email.');
       }
       return DataFailed(e.toString());
     } catch (e) {

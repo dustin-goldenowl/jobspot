@@ -18,7 +18,7 @@ class EditApplicantProfileRepositoryImpl
       user.avatar = await FirebaseUtils.uploadImage(
           folder: "users", name: uid, image: user.avatar);
       await XCollection.user.doc(uid).update(user.toJson());
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }

@@ -27,7 +27,7 @@ class TestIQRepositoryImpl extends TestIQRepository {
     try {
       final model = AddResultTestIQModel.fromEntity(result);
       await XCollection.apply.doc(result.applyID).update(model.toMap());
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }

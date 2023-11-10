@@ -15,7 +15,7 @@ class EducationRepositoryImpl extends EducationRepository {
       await XCollection.education
           .doc()
           .set(AddEducationModel.fromEntity(education).toJson());
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -28,7 +28,7 @@ class EducationRepositoryImpl extends EducationRepository {
       await XCollection.education
           .doc(education.id)
           .update(UpdateEducationModel.fromEntity(education).toJson());
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -38,7 +38,7 @@ class EducationRepositoryImpl extends EducationRepository {
   Future<DataState<bool>> deleteEducation(String id) async {
     try {
       await XCollection.education.doc(id).delete();
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }

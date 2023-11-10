@@ -19,7 +19,7 @@ class ViewJobRepositoryImpl extends ViewJobRepository {
             CompanyModel.fromDocumentSnapshot(companySnapshot);
         return DataSuccess(job.copyWith(company: company).toJobEntity());
       }
-      return DataSuccess(null);
+      return const DataSuccess(null);
     } catch (e) {
       print(e);
       return DataFailed(e.toString());

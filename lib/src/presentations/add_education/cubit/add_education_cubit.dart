@@ -122,7 +122,7 @@ class AddEducationCubit extends Cubit<AddEducationState> {
     emit(state.copyWith(isLoading: true));
     final response = await _updateEducationUseCase.call(
         params: UpdateEducationEntity(
-      id: _educationID!,
+      id: _educationID ?? "",
       levelEdu: levelEducationController.text,
       institutionName: institutionNameController.text,
       fieldStudy: fieldStudyController.text,
@@ -140,7 +140,8 @@ class AddEducationCubit extends Cubit<AddEducationState> {
 
   Future deleteEducation() async {
     emit(state.copyWith(isLoading: true));
-    final response = await _deleteEducationUseCase.call(params: _educationID!);
+    final response =
+        await _deleteEducationUseCase.call(params: _educationID ?? "");
     if (response is DataSuccess) {
       emit(state.copyWith(isLoading: false));
     } else {

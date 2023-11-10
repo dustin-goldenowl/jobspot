@@ -13,7 +13,7 @@ class SearchLanguageRepositoryImpl extends SearchLanguageRepository {
       if (response != null) {
         return DataSuccess(response.data.map((e) => e.toEntity()).toList());
       }
-      return DataSuccess([]);
+      return const DataSuccess([]);
     } catch (e) {
       print(e);
       return DataFailed(e.toString());

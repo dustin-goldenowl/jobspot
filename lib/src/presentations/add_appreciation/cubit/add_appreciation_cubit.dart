@@ -103,7 +103,7 @@ class AddAppreciationCubit extends Cubit<AddAppreciationState> {
     emit(state.copyWith(isLoading: true));
     final response = await _updateAppreciationUseCase.call(
         params: UpdateAppreciationEntity(
-      id: _appreciationID!,
+      id: _appreciationID ?? "",
       awardName: awardNameController.text,
       achievement: achievementController.text,
       description: descriptionController.text,
@@ -119,7 +119,7 @@ class AddAppreciationCubit extends Cubit<AddAppreciationState> {
   Future deleteAppreciation() async {
     emit(state.copyWith(isLoading: true));
     final response =
-        await _deleteAppreciationUseCase.call(params: _appreciationID!);
+        await _deleteAppreciationUseCase.call(params: _appreciationID ?? "");
     if (response is DataSuccess) {
       emit(state.copyWith(isLoading: false));
     } else {

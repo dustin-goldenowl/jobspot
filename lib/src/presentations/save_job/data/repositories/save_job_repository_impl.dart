@@ -60,7 +60,7 @@ class SaveJobRepositoryImpl extends SaveJobRepository {
             .update({"saveJob": []}),
         PrefsUtils.saveUserInfo(user.toJson()),
       ]);
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
