@@ -10,5 +10,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         (event, emit) => emit(ChangeSaveJobState(event.jobID)));
 
     on<DeleteAllSaveJob>((event, emit) => emit(DeleteAllSaveJobState()));
+
+    on<ChangeJobEvent>((event, emit) => emit(ChangeJobState()));
+
+    on<ChangeUserInfoEvent>((event, emit) => emit(ChangeUserInfoState()));
   }
 }

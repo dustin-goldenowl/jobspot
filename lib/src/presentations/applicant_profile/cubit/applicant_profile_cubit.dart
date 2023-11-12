@@ -78,17 +78,21 @@ class ApplicantProfileCubit extends Cubit<ApplicantProfileState> {
   }
 
   void _init() {
+    getListPost();
+    getUserInfo();
+    _getListSkill(state.user.skill ?? []);
+  }
+
+  void getUserInfo() {
     _getUserInfo();
-    _getListPost();
     _getWorkExperience();
     _getEducation();
     _getAppreciation();
     _getResume();
     _getLanguage();
-    _getListSkill(state.user.skill ?? []);
   }
 
-  void _getListPost() {
+  void getListPost() {
     if (_postSubscription != null) _postSubscription!.cancel();
     _postSubscription = _streamListPostUseCase
         .call(params: GetPostEntity(limit: 15))

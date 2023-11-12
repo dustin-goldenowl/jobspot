@@ -11,7 +11,7 @@ class FirebaseUtils {
     required String name,
     required String image,
   }) async {
-    if (!image.isLink) {
+    if (!image.isLink && image.isNotEmpty) {
       Reference upload = FirebaseStorage.instance.ref().child("$folder/$name");
       await upload.putFile(File(image));
       return await upload.getDownloadURL();

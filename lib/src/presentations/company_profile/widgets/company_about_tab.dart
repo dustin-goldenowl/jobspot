@@ -17,11 +17,16 @@ class CompanyAboutTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Padding(
-        padding: const EdgeInsets.all(AppDimens.smallPadding),
-        child: _buildBody(),
+    return RefreshIndicator(
+      onRefresh: () async => context.read<CompanyProfileCubit>().getUserInfo(),
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(AppDimens.smallPadding),
+          child: _buildBody(),
+        ),
       ),
     );
   }

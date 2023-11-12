@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jobspot/src/core/bloc/app_bloc.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
@@ -91,6 +92,7 @@ class _ApplicantProfileViewState extends State<ApplicantProfileView>
     double width = MediaQuery.sizeOf(context).width;
     return BlocBuilder<ApplicantProfileCubit, ApplicantProfileState>(
       builder: (context, state) {
+        context.read<AppBloc>().add(ChangeUserInfoEvent());
         return SliverAppBar(
           actions: [
             IconButton(

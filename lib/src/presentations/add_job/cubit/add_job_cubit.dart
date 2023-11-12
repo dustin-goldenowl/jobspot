@@ -24,9 +24,9 @@ class AddJobCubit extends Cubit<AddJobState> {
   final UpdateJobUseCase _updateJobUseCase;
 
   String? _jobID;
-  bool _isEdit = false;
+  bool _isUpdate = false;
 
-  bool get isEdit => _isEdit;
+  bool get isUpdate => _isUpdate;
 
   AddJobCubit(this._addJobUseCase, this._updateJobUseCase)
       : super(AddJobState.ds());
@@ -34,7 +34,7 @@ class AddJobCubit extends Cubit<AddJobState> {
   void initUpdateJob(UpdateJobEntity? job) {
     if (job != null) {
       _jobID = job.id;
-      _isEdit = true;
+      _isUpdate = true;
       emit(AddJobState.fromUpdateJobEntity(job));
     }
   }

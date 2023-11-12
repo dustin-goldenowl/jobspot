@@ -23,18 +23,24 @@ class CompanyPostTab extends StatelessWidget {
     return BlocBuilder<CompanyProfileCubit, CompanyProfileState>(
       buildWhen: (previous, current) => previous.listPost != current.listPost,
       builder: (context, state) {
-        return ListView.separated(
-          itemCount: state.listPost?.length ?? 10,
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          separatorBuilder: (context, index) => const SizedBox(height: 20),
-          padding: const EdgeInsets.all(AppDimens.smallPadding),
-          itemBuilder: (context, index) {
-            if (state.listPost != null) {
-              return _buildPostItem(context, post: state.listPost![index]);
-            }
-            return const PostItemLoading();
-          },
+        return RefreshIndicator(
+          onRefresh: () async =>
+              context.read<CompanyProfileCubit>().getListPost(),
+          child: ListView.separated(
+            itemCount: state.listPost?.length ?? 10,
+            physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics(),
+            ),
+            shrinkWrap: true,
+            separatorBuilder: (context, index) => const SizedBox(height: 20),
+            padding: const EdgeInsets.all(AppDimens.smallPadding),
+            itemBuilder: (context, index) {
+              if (state.listPost != null) {
+                return _buildPostItem(context, post: state.listPost![index]);
+              }
+              return const PostItemLoading();
+            },
+          ),
         );
       },
     );

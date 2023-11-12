@@ -20,3 +20,13 @@ class DeleteAllSaveJobState extends AppState {
   @override
   List<Object?> get props => [identityHashCode(this)];
 }
+
+class ChangeJobState extends AppState {
+  @override
+  List<Object?> get props => [identityHashCode(this)];
+}
+
+class ChangeUserInfoState extends AppState {
+  @override
+  List<Object?> get props => [identityHashCode(this)];
+}
