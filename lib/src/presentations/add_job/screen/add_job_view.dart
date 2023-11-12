@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:jobspot/src/core/bloc/app_bloc.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
@@ -20,6 +21,8 @@ class AddJobView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isUpdate = context.read<AddJobCubit>().isUpdate;
+
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -30,12 +33,12 @@ class AddJobView extends StatelessWidget {
         scrolledUnderElevation: 0,
         actions: [
           TextButton(
-            onPressed: context.read<AddJobCubit>().isEdit
+            onPressed: isUpdate
                 ? context.read<AddJobCubit>().updateJob
                 : context.read<AddJobCubit>().addJob,
             style: TextButton.styleFrom(foregroundColor: AppColors.deepSaffron),
             child: Text(
-              context.read<AddJobCubit>().isEdit
+              isUpdate
                   ? AppLocal.text.add_post_page_update
                   : AppLocal.text.add_post_page_post,
             ),
@@ -51,8 +54,13 @@ class AddJobView extends StatelessWidget {
           if (state.isLoading) loadingAnimation(context);
 
           if (state.dataState is DataSuccess) {
-            customToast(context,
-                text: AppLocal.text.add_job_page_create_successful_jobs);
+            customToast(
+              context,
+              text: isUpdate
+                  ? AppLocal.text.add_job_page_update_successful_jobs
+                  : AppLocal.text.add_job_page_create_successful_jobs,
+            );
+            context.read<AppBloc>().add(ChangeJobEvent());
             context.router.pop();
           }
 

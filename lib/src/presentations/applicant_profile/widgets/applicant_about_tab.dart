@@ -21,27 +21,33 @@ class ApplicantAboutTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Padding(
-        padding: const EdgeInsets.all(AppDimens.smallPadding),
-        key: Key(AppLocalizations.of(context)!.key),
-        child: Column(
-          children: [
-            _buildAboutMe(),
-            const SizedBox(height: 10),
-            _buildWorkExperience(),
-            const SizedBox(height: 10),
-            _buildEducation(),
-            const SizedBox(height: 10),
-            _buildListSkill(),
-            const SizedBox(height: 10),
-            _buildListLanguage(),
-            const SizedBox(height: 10),
-            _buildListAppreciation(),
-            const SizedBox(height: 10),
-            _buildListResume(),
-          ],
+    return RefreshIndicator(
+      onRefresh: () async =>
+          context.read<ApplicantProfileCubit>().getUserInfo(),
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(AppDimens.smallPadding),
+          key: Key(AppLocalizations.of(context)!.key),
+          child: Column(
+            children: [
+              _buildAboutMe(),
+              const SizedBox(height: 10),
+              _buildWorkExperience(),
+              const SizedBox(height: 10),
+              _buildEducation(),
+              const SizedBox(height: 10),
+              _buildListSkill(),
+              const SizedBox(height: 10),
+              _buildListLanguage(),
+              const SizedBox(height: 10),
+              _buildListAppreciation(),
+              const SizedBox(height: 10),
+              _buildListResume(),
+            ],
+          ),
         ),
       ),
     );

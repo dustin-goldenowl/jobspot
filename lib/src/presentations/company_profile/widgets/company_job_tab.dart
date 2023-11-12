@@ -22,18 +22,24 @@ class CompanyJobTab extends StatelessWidget {
     return BlocBuilder<CompanyProfileCubit, CompanyProfileState>(
       buildWhen: (previous, current) => previous.listJob != current.listJob,
       builder: (context, state) {
-        return ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.all(AppDimens.smallPadding),
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            if (state.listJob != null) {
-              return _buildJobItem(context, job: state.listJob![index]);
-            }
-            return const CustomJobCardLoading(isShowApply: false);
-          },
-          separatorBuilder: (context, index) => const SizedBox(height: 10),
-          itemCount: state.listJob?.length ?? 10,
+        return RefreshIndicator(
+          onRefresh: () async =>
+              context.read<CompanyProfileCubit>().getListJob(),
+          child: ListView.separated(
+            physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics(),
+            ),
+            padding: const EdgeInsets.all(AppDimens.smallPadding),
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              if (state.listJob != null) {
+                return _buildJobItem(context, job: state.listJob![index]);
+              }
+              return const CustomJobCardLoading(isShowApply: false);
+            },
+            separatorBuilder: (context, index) => const SizedBox(height: 10),
+            itemCount: state.listJob?.length ?? 10,
+          ),
         );
       },
     );

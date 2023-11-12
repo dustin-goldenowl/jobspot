@@ -160,6 +160,7 @@
     "add_job_page_salary_greater_than": "Salary must be greater than 0",
     "add_job_page_ok": "OK",
     "add_job_page_create_successful_jobs": "Create successful jobs",
+    "add_job_page_update_successful_jobs": "Update successful jobs",
     "add_job_page_please_enter_job_position": "Please enter job position",
     "add_job_page_please_select_employee_level": "Please select employee level",
     "add_job_page_please_select_type_workplace": "Please select type of workplace",

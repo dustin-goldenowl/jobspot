@@ -22,18 +22,24 @@ class ApplicantPostTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ApplicantProfileCubit, ApplicantProfileState>(
       builder: (context, state) {
-        return ListView.separated(
-          key: Key(AppLocalizations.of(context)!.key),
-          physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.all(AppDimens.smallPadding),
-          itemBuilder: (context, index) {
-            if (state.listPost != null) {
-              return _buildPostItem(context, post: state.listPost![index]);
-            }
-            return const PostItemLoading();
-          },
-          separatorBuilder: (context, index) => const SizedBox(height: 15),
-          itemCount: state.listPost?.length ?? 10,
+        return RefreshIndicator(
+          onRefresh: () async =>
+              context.read<ApplicantProfileCubit>().getListPost(),
+          child: ListView.separated(
+            key: Key(AppLocalizations.of(context)!.key),
+            physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics(),
+            ),
+            padding: const EdgeInsets.all(AppDimens.smallPadding),
+            itemBuilder: (context, index) {
+              if (state.listPost != null) {
+                return _buildPostItem(context, post: state.listPost![index]);
+              }
+              return const PostItemLoading();
+            },
+            separatorBuilder: (context, index) => const SizedBox(height: 15),
+            itemCount: state.listPost?.length ?? 10,
+          ),
         );
       },
     );

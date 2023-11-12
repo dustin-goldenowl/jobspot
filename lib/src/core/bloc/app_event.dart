@@ -15,3 +15,13 @@ class DeleteAllSaveJob extends AppEvent {
   @override
   List<Object?> get props => [identityHashCode(this)];
 }
+
+class ChangeJobEvent extends AppEvent {
+  @override
+  List<Object?> get props => [identityHashCode(this)];
+}
+
+class ChangeUserInfoEvent extends AppEvent {
+  @override
+  List<Object?> get props => [identityHashCode(this)];
+}

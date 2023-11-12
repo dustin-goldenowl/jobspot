@@ -14,10 +14,12 @@ class SettingRepositoryImpl extends SettingRepository {
       await Future.wait([
         deletePost(),
         deleteComment(),
+        deleteJob(),
+        deleteApply(),
         XCollection.user.doc(FirebaseAuth.instance.currentUser!.uid).delete(),
         FirebaseUtils.deleteImage(PrefsUtils.getUserInfo()?.avatar ?? ""),
-        FirebaseAuth.instance.currentUser!.delete(),
       ]);
+      await FirebaseAuth.instance.currentUser!.delete();
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
@@ -39,6 +41,24 @@ class SettingRepositoryImpl extends SettingRepository {
         .get();
     await Future.wait(collection.docs
         .map((e) => XCollection.comment.doc(e.id).delete())
+        .toList());
+  }
+
+  Future deleteJob() async {
+    final collection = await XCollection.job
+        .where("owner", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    await Future.wait(collection.docs
+        .map((e) => XCollection.job.doc(e.id).delete())
+        .toList());
+  }
+
+  Future deleteApply() async {
+    final collection = await XCollection.apply
+        .where("owner", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    await Future.wait(collection.docs
+        .map((e) => XCollection.apply.doc(e.id).delete())
         .toList());
   }
 }

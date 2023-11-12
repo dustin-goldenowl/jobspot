@@ -166,7 +166,6 @@ class HomeApplicantView extends StatelessWidget {
     required double width,
     required VoidCallback onTap,
   }) {
-    final user = PrefsUtils.getUserInfo();
     return PreferredSize(
       preferredSize: Size(width, 90),
       child: SafeArea(
@@ -175,31 +174,37 @@ class HomeApplicantView extends StatelessWidget {
             horizontal: AppDimens.smallPadding,
             vertical: 10,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                AppLocal.text.home_page_hello(user?.name ?? ""),
-                style: AppStyles.boldTextNightBlue.copyWith(fontSize: 22),
-              ),
-              GestureDetector(
-                onTap: onTap,
-                child: Hero(
-                  tag: AppTags.avatar,
-                  child: ClipOval(
-                    child: CachedNetworkImage(
-                      imageUrl: user?.avatar ?? "",
-                      placeholder: (_, __) =>
-                          const ItemLoading(width: 40, height: 40, radius: 0),
-                      errorWidget: (_, __, ___) =>
-                          SvgPicture.asset(AppImages.logo),
-                      height: 40,
-                      width: 40,
-                    ),
+          child: BlocBuilder<AppBloc, AppState>(
+            buildWhen: (previous, current) => current is ChangeUserInfoState,
+            builder: (context, state) {
+              final user = PrefsUtils.getUserInfo();
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    AppLocal.text.home_page_hello(user?.name ?? ""),
+                    style: AppStyles.boldTextNightBlue.copyWith(fontSize: 22),
                   ),
-                ),
-              )
-            ],
+                  GestureDetector(
+                    onTap: onTap,
+                    child: Hero(
+                      tag: AppTags.avatar,
+                      child: ClipOval(
+                        child: CachedNetworkImage(
+                          imageUrl: user?.avatar ?? "",
+                          placeholder: (_, __) => const ItemLoading(
+                              width: 40, height: 40, radius: 0),
+                          errorWidget: (_, __, ___) =>
+                              SvgPicture.asset(AppImages.logo),
+                          height: 40,
+                          width: 40,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              );
+            },
           ),
         ),
       ),

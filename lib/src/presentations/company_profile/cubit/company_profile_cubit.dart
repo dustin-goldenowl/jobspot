@@ -57,9 +57,9 @@ class CompanyProfileCubit extends Cubit<CompanyProfileState> {
           240 - 2 * AppBar().preferredSize.height;
       changeIsTop(isTop);
     });
-    _getUserInfo();
-    _getListJob();
-    _getListPost();
+    getUserInfo();
+    getListJob();
+    getListPost();
   }
 
   void changeIsTop(bool isTop) => emit(state.copyWith(isTop: isTop));
@@ -73,7 +73,7 @@ class CompanyProfileCubit extends Cubit<CompanyProfileState> {
     }
   }
 
-  Future _getListJob() async {
+  Future getListJob() async {
     final response = await _getListJobUseCase.call(
         params: FirebaseAuth.instance.currentUser!.uid);
     if (response is DataSuccess) {
@@ -83,7 +83,7 @@ class CompanyProfileCubit extends Cubit<CompanyProfileState> {
     }
   }
 
-  void _getListPost() {
+  void getListPost() {
     if (_postSubscription != null) _postSubscription!.cancel();
     _postSubscription = _streamListPostUseCase
         .call(
@@ -98,7 +98,7 @@ class CompanyProfileCubit extends Cubit<CompanyProfileState> {
     });
   }
 
-  void _getUserInfo() {
+  void getUserInfo() {
     if (_userInfoSubscription != null) _userInfoSubscription!.cancel();
     emit(state.copyWith(user: PrefsUtils.getUserInfo()));
     _userInfoSubscription = _streamUserInfoUseCase.call().listen((event) {
@@ -158,6 +158,7 @@ class CompanyProfileCubit extends Cubit<CompanyProfileState> {
     tabController.dispose();
     scrollController.dispose();
     if (_postSubscription != null) _postSubscription!.cancel();
+    if (_userInfoSubscription != null) _userInfoSubscription!.cancel();
     return super.close();
   }
 }
