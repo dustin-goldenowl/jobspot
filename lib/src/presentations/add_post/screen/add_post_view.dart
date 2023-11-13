@@ -32,9 +32,7 @@ class AddPostView extends StatelessWidget {
         scrolledUnderElevation: 0,
         actions: [
           TextButton(
-            onPressed: context.read<AddPostCubit>().isEdit
-                ? context.read<AddPostCubit>().updatePost
-                : context.read<AddPostCubit>().addPost,
+            onPressed: context.read<AddPostCubit>().validateInfo,
             style: TextButton.styleFrom(foregroundColor: AppColors.deepSaffron),
             child: Text(
               context.read<AddPostCubit>().isEdit

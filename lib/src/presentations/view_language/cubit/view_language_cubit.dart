@@ -18,9 +18,7 @@ class ViewLanguageCubit extends Cubit<ViewLanguageState> {
   StreamSubscription? _subscription;
 
   ViewLanguageCubit(this._streamLanguagesUseCase, this._deleteLanguageUseCase)
-      : super(const ViewLanguageState()) {
-    getLanguage();
-  }
+      : super(const ViewLanguageState());
 
   void getLanguage() {
     if (_subscription != null) _subscription!.cancel();

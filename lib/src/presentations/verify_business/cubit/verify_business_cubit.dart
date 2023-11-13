@@ -40,22 +40,26 @@ class VerifyBusinessCubit extends Cubit<VerifyBusinessState> {
   void removeFile() => emit(state.copyWith());
 
   Future uploadFile() async {
-    if (formKey.currentState!.validate() && state.file != null) {
-      emit(state.copyWith(file: state.file, time: state.time, isLoading: true));
-      final response = await _uploadFileVerifyBusinessUseCase.call(
-          params: VerifyBusinessEntity(
-        description: controller.text,
-        file: state.file!,
+    emit(state.copyWith(file: state.file, time: state.time, isLoading: true));
+    final response = await _uploadFileVerifyBusinessUseCase.call(
+        params: VerifyBusinessEntity(
+      description: controller.text,
+      file: state.file ?? PlatformFile(name: "", size: 0),
+    ));
+    if (response is DataFailed) {
+      emit(state.copyWith(
+        error: response.error,
+        file: state.file,
+        time: state.time,
       ));
-      if (response is DataFailed) {
-        emit(state.copyWith(
-          error: response.error,
-          file: state.file,
-          time: state.time,
-        ));
-      } else {
-        emit(state.copyWith());
-      }
+    } else {
+      emit(state.copyWith());
+    }
+  }
+
+  void validateInfo() {
+    if (formKey.currentState!.validate() && state.file != null) {
+      uploadFile();
     } else if (state.file == null) {
       emit(state.copyWith(
         error: "Vui lòng chọn tệp để xác thực",

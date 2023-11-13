@@ -42,14 +42,22 @@ class AddPostCubit extends Cubit<AddPostState> {
 
   Future addPost() async {
     emit(state.copyWith(isLoading: true));
+    final response = await _addPostUseCase.call(
+        params: AddPostEntity(
+      title: titleController.text,
+      description: descriptionController.text,
+      images: state.images,
+    ));
+    emit(state.copyWith(dataState: response));
+  }
+
+  void validateInfo() {
     if (_validate() == null) {
-      final response = await _addPostUseCase.call(
-          params: AddPostEntity(
-        title: titleController.text,
-        description: descriptionController.text,
-        images: state.images,
-      ));
-      emit(state.copyWith(dataState: response));
+      if (_isEdit) {
+        updatePost();
+      } else {
+        addPost();
+      }
     } else {
       emit(state.copyWith(dataState: DataFailed(_validate()!)));
     }
@@ -69,7 +77,7 @@ class AddPostCubit extends Cubit<AddPostState> {
     emit(state.copyWith(isLoading: true));
     final response = await _updatePostUseCase.call(
         params: UpdatePostEntity(
-      id: _postID!,
+      id: _postID ?? "",
       title: titleController.text,
       description: descriptionController.text,
       images: state.images,

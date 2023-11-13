@@ -16,7 +16,7 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
     emit(state.copyWith(isLoading: true));
     await FirebaseAuth.instance
         .sendPasswordResetEmail(email: emailController.text)
-        .then((value) => emit(state.copyWith(dataState: DataSuccess(true))))
+        .then((_) => emit(state.copyWith(dataState: const DataSuccess(true))))
         .catchError(
             (e) => emit(state.copyWith(dataState: DataFailed(e.toString()))));
   }

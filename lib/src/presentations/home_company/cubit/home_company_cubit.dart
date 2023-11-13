@@ -18,7 +18,6 @@ class HomeCompanyCubit extends Cubit<HomeCompanyState> {
 
   HomeCompanyCubit(this._useCase)
       : super(const HomeCompanyState(isMore: true)) {
-    getListMyJob();
     scrollController.addListener(() {
       if (scrollController.position.pixels ==
           scrollController.position.maxScrollExtent) {

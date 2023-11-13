@@ -12,7 +12,7 @@ class HomeCompanyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<HomeCompanyCubit>(),
+      create: (context) => getIt<HomeCompanyCubit>()..getListMyJob(),
       child: const HomeCompanyView(),
     );
   }

@@ -12,7 +12,7 @@ class HomeAdminPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<HomeAdminCubit>(),
+      create: (context) => getIt<HomeAdminCubit>()..getListCompany(),
       child: const HomeAdminView(),
     );
   }

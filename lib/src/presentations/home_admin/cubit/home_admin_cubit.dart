@@ -28,7 +28,6 @@ class HomeAdminCubit extends Cubit<HomeAdminState> {
         getListCompany(limit: _limit + 15, isLoading: false);
       }
     });
-    getListCompany();
   }
 
   Future getListCompany({int limit = 15, bool isLoading = true}) async {
@@ -49,8 +48,8 @@ class HomeAdminCubit extends Cubit<HomeAdminState> {
   }
 
   Future considerCompany(ConsiderCompany consider) async {
-    final listVerify = [...state.listVerify!];
-    final temptList = [...state.listVerify!];
+    final listVerify = [...(state.listVerify ?? <VerifyCompanyEntity>[])];
+    final temptList = [...(state.listVerify ?? <VerifyCompanyEntity>[])];
     temptList.removeWhere((element) => element.company.id == consider.toUserID);
     emit(state.copyWith(listVerify: temptList));
     final response = await _considerCompanyUseCase.call(params: consider);

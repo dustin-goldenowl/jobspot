@@ -74,7 +74,8 @@ class FavouriteCommentSuccess extends ViewPostState {
 
 class ChangeTextCommentState extends ViewPostState {
   @override
-  List<Object?> get props => [identityHashCode(this)];
+  // List<Object?> get props => [identityHashCode(this)];
+  List<Object?> get props => [];
 }
 
 class ReplyCommentClickState extends ViewPostState {
@@ -103,10 +104,12 @@ class ViewReplyCommentSuccess extends ViewPostState {
 
 class SharePostSuccess extends ViewPostState {
   @override
-  List<Object?> get props => [identityHashCode(this)];
+  // List<Object?> get props => [identityHashCode(this)];
+  List<Object?> get props => [];
 }
 
 class DeletePostSuccess extends ViewPostState {
   @override
-  List<Object?> get props => [identityHashCode(this)];
+  // List<Object?> get props => [identityHashCode(this)];
+  List<Object?> get props => [];
 }

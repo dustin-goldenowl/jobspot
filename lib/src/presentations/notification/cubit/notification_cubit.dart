@@ -26,9 +26,7 @@ class NotificationCubit extends Cubit<NotificationState> {
     this._readNotificationUseCase,
     this._readAllNotificationUseCase,
     this._deleteNotificationUseCase,
-  ) : super(const NotificationState()) {
-    getNotification();
-  }
+  ) : super(const NotificationState());
 
   void getNotification() {
     if (_notificationSubscription != null) _notificationSubscription!.cancel();

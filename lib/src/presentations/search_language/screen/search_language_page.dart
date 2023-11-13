@@ -15,7 +15,7 @@ class SearchLanguagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<SearchLanguageCubit>(),
+      create: (context) => getIt<SearchLanguageCubit>()..getCountries(),
       child: SearchLanguageView(onBack: onBack),
     );
   }

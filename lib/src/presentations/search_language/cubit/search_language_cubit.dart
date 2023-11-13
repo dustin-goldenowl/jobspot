@@ -17,7 +17,6 @@ class SearchLanguageCubit extends Cubit<SearchLanguageState> {
   final List<CountryEntity> countries = [];
 
   SearchLanguageCubit(this._useCase) : super(const SearchLanguageState()) {
-    getCountries();
     searchController.addListener(() => _search());
   }
 

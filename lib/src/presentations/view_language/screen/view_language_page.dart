@@ -15,7 +15,9 @@ class ViewLanguagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<ViewLanguageCubit>()..initLanguage(languages),
+      create: (context) => getIt<ViewLanguageCubit>()
+        ..initLanguage(languages)
+        ..getLanguage(),
       child: const ViewLanguageView(),
     );
   }

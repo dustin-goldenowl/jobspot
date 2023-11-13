@@ -26,9 +26,7 @@ class TestIQCubit extends Cubit<TestIQState> {
   String? _applyID;
 
   TestIQCubit(this._getListQuestionUseCase, this._addResultTestIQUseCase)
-      : super(const TestIQState(answers: [], currentPage: 0, time: 300)) {
-    getListQuestion();
-  }
+      : super(const TestIQState(answers: [], currentPage: 0, time: 300));
 
   void init(String id) => _applyID = id;
 

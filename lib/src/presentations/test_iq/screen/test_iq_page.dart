@@ -14,7 +14,9 @@ class TestIQPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<TestIQCubit>()..init(applyID),
+      create: (context) => getIt<TestIQCubit>()
+        ..init(applyID)
+        ..getListQuestion(),
       child: const TestIQView(),
     );
   }

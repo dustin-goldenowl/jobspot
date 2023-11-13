@@ -130,7 +130,14 @@ class ApplyJobCubit extends Cubit<ApplyJobState> {
       uidJob: uidJob,
       description: controller.text,
       jobID: jobID,
-      resume: state.resume!,
+      resume: state.resume ??
+          ResumeEntity(
+            id: "",
+            fileName: "",
+            filePath: "",
+            size: 0,
+            createAt: DateTime.now(),
+          ),
     ));
     emit(state.copyWith(
       resume: state.resume,

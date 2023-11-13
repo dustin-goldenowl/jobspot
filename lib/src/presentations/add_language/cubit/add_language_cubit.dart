@@ -43,27 +43,31 @@ class AddLanguageCubit extends Cubit<AddLanguageState> {
   void changeFirstLanguage(bool isFirst) =>
       emit(state.copyWith(isFirst: isFirst));
 
-  void save() => isUpdate ? updateLanguage() : addLanguage();
+  void save() => isUpdate ? updateLanguage() : checkCounttry();
 
-  Future addLanguage() async {
+  void checkCounttry() {
     if (state.country != null) {
-      emit(state.copyWith(isLoading: true));
-      final response = await _addLanguageUseCase.call(
-          params: AddLanguageEntity(
-        name: state.country!.name,
-        code: state.country!.code,
-        isFirst: state.isFirst,
-        oralLevel: state.oralLevel,
-        writtenLevel: state.writtenLevel,
-      ));
-      if (response is DataFailed) {
-        emit(state.copyWith(error: response.error));
-      } else {
-        emit(state.copyWith(isLoading: false));
-      }
+      addLanguage();
     } else {
       emit(state.copyWith(
           error: AppLocal.text.add_language_page_language_validate));
+    }
+  }
+
+  Future addLanguage() async {
+    emit(state.copyWith(isLoading: true));
+    final response = await _addLanguageUseCase.call(
+        params: AddLanguageEntity(
+      name: state.country?.name ?? "",
+      code: state.country?.code ?? "",
+      isFirst: state.isFirst,
+      oralLevel: state.oralLevel,
+      writtenLevel: state.writtenLevel,
+    ));
+    if (response is DataFailed) {
+      emit(state.copyWith(error: response.error));
+    } else {
+      emit(state.copyWith(isLoading: false));
     }
   }
 
@@ -71,9 +75,9 @@ class AddLanguageCubit extends Cubit<AddLanguageState> {
     emit(state.copyWith(isLoading: true));
     final response = await _updateLanguageUseCase.call(
         params: UpdateLanguageEntity(
-      id: _languageID!,
-      name: state.country!.name,
-      code: state.country!.code,
+      id: _languageID ?? "",
+      name: state.country?.name ?? "",
+      code: state.country?.code ?? "",
       isFirst: state.isFirst,
       oralLevel: state.oralLevel,
       writtenLevel: state.writtenLevel,

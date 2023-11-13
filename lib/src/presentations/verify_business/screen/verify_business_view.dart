@@ -58,7 +58,7 @@ class VerifyBusinessView extends StatelessWidget {
             _buildInfomation(context),
             const SizedBox(height: 50),
             CustomButton(
-              onPressed: context.read<VerifyBusinessCubit>().uploadFile,
+              onPressed: context.read<VerifyBusinessCubit>().validateInfo,
               title: AppLocal.text.verify_business_page_upload.toUpperCase(),
             ),
             const SizedBox(height: 15),

@@ -23,10 +23,7 @@ void main() {
     build: () => JobPositionCubit(mockSearchJobPositionUseCase),
     act: (bloc) => bloc.searchJobPosition(),
     expect: () => [
-      const JobPositionState(
-        text: "",
-        dataState: DataSuccess(["a", "b"]),
-      )
+      const JobPositionState(text: "", dataState: DataSuccess(["a", "b"]))
     ],
   );
 }

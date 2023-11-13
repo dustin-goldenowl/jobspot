@@ -124,7 +124,8 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     }
     _postID ??= event.postID;
     if (_postStream != null) _postStream!.cancel();
-    _postStream = _syncPostDataUseCase.call(params: _postID!).listen((event) {
+    _postStream =
+        _syncPostDataUseCase.call(params: _postID ?? "").listen((event) {
       if (event is DataSuccess) {
         if (event.data != null) {
           _owner ??= event.data!.owner;
@@ -157,7 +158,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
         params: SendCommentEntity(
       owner: _owner ?? "",
       content: comment,
-      post: _postID!,
+      post: _postID ?? "",
     ));
     if (response is DataFailed) {
       emit(ViewPostError(response.error ?? ""));
@@ -166,7 +167,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
 
   Future _replyComment(ReplyCommentEvent event, Emitter emit) async {
     String comment = commentController.text;
-    String commentID = replyComment!.id;
+    String commentID = replyComment?.id ?? "";
     String? hightLevel = replyComment?.hightLevel;
     replyComment = null;
     commentController.clear();
@@ -176,7 +177,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
         params: ReplyCommentEntity(
       uidComment: event.uidComment,
       uidPost: _owner ?? "",
-      postID: _postID!,
+      postID: _postID ?? "",
       commentID: commentID,
       content: comment,
     ));
@@ -207,7 +208,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
   Future _favouritePost(FavouritePostEvent event, Emitter emit) async {
     final response = await _favouritePostUseCase.call(
       params: FavouriteEntity(
-        id: _postID!,
+        id: _postID ?? "",
         listFavourite: event.listFavourist,
         uidTo: _owner ?? "",
       ),

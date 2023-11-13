@@ -120,7 +120,7 @@ class AddWorkExperienceCubit extends Cubit<AddWorkExperienceState> {
     emit(state.copyWith(isLoading: true));
     final response = await _updateExperienceUseCase.call(
         params: UpdateWorkExperienceEntity(
-      id: _experienceID!,
+      id: _experienceID ?? "",
       jobTitle: jobTitleController.text,
       companyName: companyNameController.text,
       description: descriptionController.text,
@@ -138,7 +138,7 @@ class AddWorkExperienceCubit extends Cubit<AddWorkExperienceState> {
   Future deleteWorkExperience() async {
     emit(state.copyWith(isLoading: true));
     final response =
-        await _deleteExperienceUseCase.call(params: _experienceID!);
+        await _deleteExperienceUseCase.call(params: _experienceID ?? "");
     if (response is DataSuccess) {
       emit(state.copyWith(isLoading: false));
     } else {
