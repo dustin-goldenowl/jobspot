@@ -14,6 +14,7 @@ import 'package:jobspot/src/presentations/view_post/data/models/comment_model.da
 import 'package:jobspot/src/presentations/view_post/data/models/reply_comment_model.dart';
 import 'package:jobspot/src/presentations/view_post/data/models/send_comment_model.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/comment_entity.dart';
+import 'package:jobspot/src/presentations/view_post/domain/entities/delete_comment_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/reply_comment_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/send_comment_entity.dart';
@@ -259,24 +260,55 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
   }
 
   @override
-  Future<DataState<bool>> deleteComment(String id) async {
+  Future<DataState<bool>> deleteComment(DeleteCommentEntity entity) async {
     try {
-      XCollection.comment.where("comment", isEqualTo: id).get().then((value) {
-        for (var element in value.docs) {
-          XCollection.comment.doc(element.id).delete();
-        }
-      });
-
-      XCollection.comment.where("highLevel", isEqualTo: id).get().then((value) {
-        for (var element in value.docs) {
-          XCollection.comment.doc(element.id).delete();
-        }
-      });
-
-      await XCollection.comment.doc(id).delete();
+      await Future.wait([
+        updateListCommentPost(entity),
+        updateReplyComment(
+            commentID: entity.commentID, replyCommentID: entity.highComment),
+        updateReplyComment(
+            commentID: entity.commentID, replyCommentID: entity.replyCommentID),
+        deleteChildComment(field: "comment", commentID: entity.commentID),
+        deleteChildComment(field: "highLevel", commentID: entity.commentID),
+        XCollection.comment.doc(entity.commentID).delete(),
+      ]);
       return DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
+  }
+
+  Future updateReplyComment({
+    required String commentID,
+    String? replyCommentID,
+  }) async {
+    if (replyCommentID != null) {
+      final docs = XCollection.comment.doc(replyCommentID);
+      final response = await docs.get();
+      final comment = CommentModel.fromSnapshot(response);
+      final list = [...comment.reply];
+      list.remove(commentID);
+      await docs.update({"reply": list});
+    }
+  }
+
+  Future updateListCommentPost(DeleteCommentEntity entity) async {
+    final response = await XCollection.post.doc(entity.postID).get();
+    final post = PostModel.fromDocumentSnapshot(response);
+    if (post.comment.contains(entity.commentID)) {
+      final list = [...post.comment];
+      list.remove(entity.commentID);
+      await XCollection.post.doc(entity.postID).update({"comment": list});
+    }
+  }
+
+  Future deleteChildComment({
+    required String field,
+    required String commentID,
+  }) async {
+    final response =
+        await XCollection.comment.where(field, isEqualTo: commentID).get();
+    await Future.wait(
+        response.docs.map((e) => XCollection.comment.doc(e.id).delete()));
   }
 }

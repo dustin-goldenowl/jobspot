@@ -1,6 +1,7 @@
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/comment_entity.dart';
+import 'package:jobspot/src/presentations/view_post/domain/entities/delete_comment_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/reply_comment_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/send_comment_entity.dart';
@@ -21,5 +22,5 @@ abstract class ViewPostRepository {
 
   Future<DataState<bool>> favouriteComment(FavouriteEntity favourite);
 
-  Future<DataState<bool>> deleteComment(String id);
+  Future<DataState<bool>> deleteComment(DeleteCommentEntity entity);
 }

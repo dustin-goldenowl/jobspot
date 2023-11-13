@@ -110,3 +110,12 @@ class DeletePostSuccess extends ViewPostState {
   @override
   List<Object?> get props => [identityHashCode(this)];
 }
+
+class DeleteCommentSuccess extends ViewPostState {
+  final String id;
+
+  DeleteCommentSuccess(this.id);
+
+  @override
+  List<Object?> get props => [id];
+}

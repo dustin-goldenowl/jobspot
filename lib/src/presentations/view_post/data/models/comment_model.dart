@@ -10,6 +10,7 @@ class CommentModel {
   final String owner;
   final String post;
   final String? higthLevel;
+  final String? comment;
   final List<String> reply;
   final List<String> like;
   final UserModel? user;
@@ -25,14 +26,16 @@ class CommentModel {
     required this.createAt,
     required this.post,
     this.higthLevel,
+    this.comment,
     this.user,
   });
 
   factory CommentModel.fromSnapshot(MapSnapshot snapshot) {
     final data = snapshot.data()!;
     return CommentModel(
-      higthLevel: data["highLevel"],
       id: snapshot.id,
+      higthLevel: data["highLevel"],
+      comment: data["comment"],
       owner: data["owner"],
       post: data["post"],
       content: data["content"],
@@ -53,6 +56,7 @@ class CommentModel {
       user: user,
       post: post,
       higthLevel: higthLevel,
+      comment: comment,
     );
   }
 
@@ -68,6 +72,7 @@ class CommentModel {
       createAt: createAt,
       hightLevel: higthLevel,
       user: user?.toUserEntity() ?? temptUser,
+      comment: comment,
     );
   }
 }

@@ -16,6 +16,7 @@ class SettingRepositoryImpl extends SettingRepository {
         deleteComment(),
         deleteJob(),
         deleteApply(),
+        deleteNotification(),
         XCollection.user.doc(FirebaseAuth.instance.currentUser!.uid).delete(),
         FirebaseUtils.deleteImage(PrefsUtils.getUserInfo()?.avatar ?? ""),
       ]);
@@ -60,5 +61,19 @@ class SettingRepositoryImpl extends SettingRepository {
     await Future.wait(collection.docs
         .map((e) => XCollection.apply.doc(e.id).delete())
         .toList());
+  }
+
+  Future deleteNotification() async {
+    final response = await Future.wait([
+      XCollection.notification
+          .where("from", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .get(),
+      XCollection.notification
+          .where("to", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .get(),
+    ]);
+    final list = [...response[0].docs, ...response[1].docs];
+    await Future.wait(
+        list.map((e) => XCollection.notification.doc(e.id).delete()));
   }
 }
