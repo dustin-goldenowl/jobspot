@@ -107,12 +107,12 @@ class ViewReplyCommentEvent extends ViewPostEvent {
 }
 
 class DeleteCommentEvent extends ViewPostEvent {
-  final String commentID;
+  final DeleteCommentEntity entity;
 
-  DeleteCommentEvent(this.commentID);
+  DeleteCommentEvent(this.entity);
 
   @override
-  List<Object?> get props => [commentID];
+  List<Object?> get props => [entity];
 }
 
 class SharePostEvent extends ViewPostEvent {

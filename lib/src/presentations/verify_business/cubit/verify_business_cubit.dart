@@ -25,7 +25,7 @@ class VerifyBusinessCubit extends Cubit<VerifyBusinessState> {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf'],
-      dialogTitle: "Chọn file PDF xác thực doanh nghiệp",
+      dialogTitle: AppLocal.text.verify_business_page_select_file,
     );
     if (result != null) {
       if (result.files.single.size > 3000000 && context.mounted) {
@@ -58,7 +58,7 @@ class VerifyBusinessCubit extends Cubit<VerifyBusinessState> {
       }
     } else if (state.file == null) {
       emit(state.copyWith(
-        error: "Vui lòng chọn tệp để xác thực",
+        error: AppLocal.text.verify_business_page_select_file_error,
         file: state.file,
         time: state.time,
       ));

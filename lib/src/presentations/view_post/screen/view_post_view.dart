@@ -510,82 +510,97 @@ class ViewPostView extends StatelessWidget {
     required CommentEntity comment,
     double size = 50,
   }) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onLongPress: () {
-        context.read<ViewPostBloc>().showSimpleDialog(context, comment);
-      },
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          GestureDetector(
-            onTap: () => ViewPostCoordinator.showViewProfile(
-                uid: comment.user.id, role: comment.user.role),
-            child: ClipOval(
-              child: CachedNetworkImage(
-                  imageUrl: comment.user.avatar,
-                  height: size,
-                  width: size,
-                  placeholder: (context, url) =>
-                      ItemLoading(width: size, height: size, radius: 90),
-                  errorWidget: (context, url, error) => SvgPicture.asset(
-                      AppImages.logo,
+    return BlocBuilder<ViewPostBloc, ViewPostState>(
+      buildWhen: (previous, current) =>
+          current is DeleteCommentSuccess &&
+          [comment.comment, comment.id, comment.hightLevel]
+              .contains(current.id),
+      builder: (context, state) {
+        if (state is DeleteCommentSuccess &&
+            [comment.comment, comment.id, comment.hightLevel]
+                .contains(state.id)) {
+          return const SizedBox();
+        }
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onLongPress: () {
+            context.read<ViewPostBloc>().showSimpleDialog(context, comment);
+          },
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              GestureDetector(
+                onTap: () => ViewPostCoordinator.showViewProfile(
+                    uid: comment.user.id, role: comment.user.role),
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                      imageUrl: comment.user.avatar,
+                      height: size,
                       width: size,
-                      height: size)),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                GestureDetector(
-                  onTap: () => ViewPostCoordinator.showViewProfile(
-                      uid: comment.user.id, role: comment.user.role),
-                  child: Row(
-                    children: [
-                      Text(comment.user.name, style: AppStyles.boldTextHaiti),
-                      if (comment.user.verify == VerifyStatus.accept)
-                        const SizedBox(width: 5),
-                      if (comment.user.verify == VerifyStatus.accept)
-                        SvgPicture.asset(AppImages.verify, height: 18),
-                    ],
-                  ),
+                      placeholder: (context, url) =>
+                          ItemLoading(width: size, height: size, radius: 90),
+                      errorWidget: (context, url, error) => SvgPicture.asset(
+                          AppImages.logo,
+                          width: size,
+                          height: size)),
                 ),
-                const SizedBox(height: 5),
-                Text(comment.content, style: AppStyles.normalTextMulledWine),
-                const SizedBox(height: 5),
-                Row(
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      timeago.format(comment.createAt),
-                      overflow: TextOverflow.ellipsis,
-                      style:
-                          AppStyles.normalTextSpunPearl.copyWith(fontSize: 12),
-                    ),
-                    const SizedBox(width: 10),
                     GestureDetector(
-                      onTap: () {
-                        context
-                            .read<ViewPostBloc>()
-                            .add(ReplyCommentClickEvent(comment));
-                      },
-                      child: Text(
-                        AppLocal.text.view_post_page_reply,
-                        style: AppStyles.normalTextNightBlue,
+                      onTap: () => ViewPostCoordinator.showViewProfile(
+                          uid: comment.user.id, role: comment.user.role),
+                      child: Row(
+                        children: [
+                          Text(comment.user.name,
+                              style: AppStyles.boldTextHaiti),
+                          if (comment.user.verify == VerifyStatus.accept)
+                            const SizedBox(width: 5),
+                          if (comment.user.verify == VerifyStatus.accept)
+                            SvgPicture.asset(AppImages.verify, height: 18),
+                        ],
                       ),
                     ),
-                    const Spacer(),
-                    _buildFavouriteComment(comment),
-                    const SizedBox(width: 25),
+                    const SizedBox(height: 5),
+                    Text(comment.content,
+                        style: AppStyles.normalTextMulledWine),
+                    const SizedBox(height: 5),
+                    Row(
+                      children: [
+                        Text(
+                          timeago.format(comment.createAt),
+                          overflow: TextOverflow.ellipsis,
+                          style: AppStyles.normalTextSpunPearl
+                              .copyWith(fontSize: 12),
+                        ),
+                        const SizedBox(width: 10),
+                        GestureDetector(
+                          onTap: () {
+                            context
+                                .read<ViewPostBloc>()
+                                .add(ReplyCommentClickEvent(comment));
+                          },
+                          child: Text(
+                            AppLocal.text.view_post_page_reply,
+                            style: AppStyles.normalTextNightBlue,
+                          ),
+                        ),
+                        const Spacer(),
+                        _buildFavouriteComment(comment),
+                        const SizedBox(width: 25),
+                      ],
+                    ),
                   ],
                 ),
-              ],
-            ),
-          )
-        ],
-      ),
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 

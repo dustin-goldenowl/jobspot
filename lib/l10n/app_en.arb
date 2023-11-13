@@ -461,6 +461,8 @@
     "verify_business_page_information_validate": "Please describe a little about your business",
     "verify_business_page_verify_business": "Verify Business",
     "verify_business_page_verify_business_content": "Upload a file proving you are a business",
+    "verify_business_page_select_file": "Select the business authentication PDF file",
+    "verify_business_page_select_file_error": "Please select a file to verify",
 
     "edit_company_profile_page_name_validate": "Name cannot be blank",
     "edit_company_profile_page_website_blank": "The website cannot be blank",

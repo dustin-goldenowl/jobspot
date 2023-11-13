@@ -17,6 +17,7 @@ import 'package:jobspot/src/presentations/connection/domain/entities/post_entity
 import 'package:jobspot/src/presentations/connection/domain/entities/share_post_base.dart';
 import 'package:jobspot/src/presentations/connection/domain/use_cases/share_post_use_case.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/comment_entity.dart';
+import 'package:jobspot/src/presentations/view_post/domain/entities/delete_comment_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/reply_comment_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/send_comment_entity.dart';
@@ -238,8 +239,10 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
   }
 
   Future _deleteComment(DeleteCommentEvent event, Emitter emit) async {
-    final response = await _deleteCommentUseCase.call(params: event.commentID);
-    if (response is DataSuccess) {}
+    final response = await _deleteCommentUseCase.call(params: event.entity);
+    if (response is DataSuccess) {
+      emit(DeleteCommentSuccess(event.entity.commentID));
+    }
   }
 
   Future _deletePost(DeletePostEvent event, Emitter emit) async {
@@ -296,13 +299,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
                 SimpleDialogOption(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    _showAlertDialog(
-                      context,
-                      onOK: () {
-                        add(DeleteCommentEvent(comment.id));
-                        context.router.pop();
-                      },
-                    );
+                    _showAlertDialog(context, comment: comment);
                   },
                   child: Text(
                     AppLocal.text.view_post_page_delete,
@@ -316,7 +313,7 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
 
   Future _showAlertDialog(
     BuildContext context, {
-    required VoidCallback onOK,
+    required CommentEntity comment,
   }) async {
     return showDialog(
       context: context,
@@ -325,7 +322,15 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
           context,
           title: AppLocal.text.view_post_page_delete_comment,
           content: AppLocal.text.view_post_page_delete_comment_content,
-          onAccept: onOK,
+          onAccept: () {
+            add(DeleteCommentEvent(DeleteCommentEntity(
+              postID: _postID ?? "",
+              commentID: comment.id,
+              highComment: comment.hightLevel,
+              replyCommentID: comment.comment,
+            )));
+            Navigator.of(context).pop();
+          },
         );
       },
     );

@@ -461,6 +461,8 @@
     "verify_business_page_information_validate": "Vui lòng mô tả một ít về doanh nghiệp của bạn",
     "verify_business_page_verify_business": "Xác Thực Doanh Nghiệp",
     "verify_business_page_verify_business_content": "Tải lên tệp chứng minh bạn là một doanh nghiệp",
+    "verify_business_page_select_file": "Chọn file PDF xác thực doanh nghiệp",
+    "verify_business_page_select_file_error": "Vui lòng chọn tệp để xác thực",
 
     "edit_company_profile_page_name_validate": "Tên không được để trống",
     "edit_company_profile_page_website_blank": "Trang web không được để trống",
