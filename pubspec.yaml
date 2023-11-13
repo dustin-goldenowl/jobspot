@@ -74,6 +74,8 @@ dependencies:
   connectivity_plus: ^5.0.1
   path_provider: ^2.1.1
   sliding_sheet2: ^2.0.1
+  firebase_dynamic_links: ^5.4.4
+  share_plus: ^7.2.1
 
 dev_dependencies:
   flutter_test:

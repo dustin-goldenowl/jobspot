@@ -49,6 +49,8 @@
     "now": "Now",
     "app_title": "Jobspot",
     "key": "key_en",
+    "share_out_app": "Share out app",
+    "view_full_post_at_jobspot": "View full post at Jobspot",
 
     "forgot_password_page_forgot_password": "Forgot password",
     "forgot_password_page_reset_password": "Reset password",
