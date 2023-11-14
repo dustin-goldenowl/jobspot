@@ -22,9 +22,9 @@ class LoginRepositoryImpl extends SignInRepository {
       return DataSuccess(credential);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        return DataFailed('No user found for that email.');
+        return const DataFailed('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        return DataFailed('Wrong password provided for that user.');
+        return const DataFailed('Wrong password provided for that user.');
       }
       return DataFailed(e.message ?? e.toString());
     } catch (e) {

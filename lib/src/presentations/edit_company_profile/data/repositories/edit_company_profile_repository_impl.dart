@@ -29,7 +29,7 @@ class EditCompanyProfileRepositoryImpl extends EditCompanyProfileRepository {
       images.removeLast();
       user.images = images;
       await XCollection.user.doc(uid).update(user.toJson());
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }

@@ -16,7 +16,7 @@ class AppreciationRepositoryImpl extends AppreciationRepository {
       await XCollection.appreciation
           .doc()
           .set(AddAppreciationModel.fromEntity(appreciation).toJson());
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -29,7 +29,7 @@ class AppreciationRepositoryImpl extends AppreciationRepository {
       await XCollection.appreciation
           .doc(appreciation.id)
           .update(UpdateAppreciationModel.fromEntity(appreciation).toJson());
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -39,7 +39,7 @@ class AppreciationRepositoryImpl extends AppreciationRepository {
   Future<DataState<bool>> deleteAppreciation(String id) async {
     try {
       await XCollection.appreciation.doc(id).delete();
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }

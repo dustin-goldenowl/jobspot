@@ -75,8 +75,9 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
     }
   }
 
-  Future<List<PostModel>> getListSharePost(Set<String?> sharePost) async {
-    final list = [...sharePost];
+  @override
+  Future<List<PostModel>> getListSharePost(Set<String?> listPostID) async {
+    final list = [...listPostID];
     list.remove(null);
     final response =
         await Future.wait(list.map((e) => XCollection.post.doc(e).get()));
@@ -116,7 +117,7 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
         FirebaseUtils.deleteImage(element);
       }
       await XCollection.post.doc(post.id).delete();
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -228,7 +229,7 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
       await XCollection.user
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({"description": description});
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }

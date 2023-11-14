@@ -9,7 +9,7 @@ class CompanyProfileRepositoryImpl extends CompanyProfileRepository {
   Future<DataState<bool>> deleteJob(String id) async {
     try {
       await XCollection.job.doc(id).delete();
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }

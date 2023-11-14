@@ -21,7 +21,7 @@ class RegisterGoogleRepositoryImpl extends RegisterGoogleRepository {
       final response = await myDoc.get();
       await PrefsUtils.saveUserInfo(
           UserModel.fromDocumentSnapshot(response).toJson());
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       log(e.toString());
       return DataFailed(e.toString());

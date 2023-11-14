@@ -26,7 +26,7 @@ class LanguageRepositoryImpl extends LanguageRepository {
       await XCollection.language
           .doc()
           .set(AddLanguageModel.fromEntity(language).toJson());
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -48,7 +48,7 @@ class LanguageRepositoryImpl extends LanguageRepository {
       await XCollection.language
           .doc(language.id)
           .update(UpdateLanguageModel.fromEntity(language).toJson());
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -58,7 +58,7 @@ class LanguageRepositoryImpl extends LanguageRepository {
   Future<DataState<bool>> deleteLanguage(String id) async {
     try {
       await XCollection.language.doc(id).delete();
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }

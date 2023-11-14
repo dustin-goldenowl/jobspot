@@ -108,7 +108,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
       SendNotificationEntity entity) async {
     try {
       if (entity.to == FirebaseAuth.instance.currentUser!.uid) {
-        return DataSuccess(true);
+        return const DataSuccess(true);
       }
 
       final response = await Future.wait([
@@ -123,7 +123,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
         token: (response.first as DocumentSnapshot<Map>).data()?["token"] ?? "",
         body: entity.type,
       );
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -133,7 +133,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
   Future<DataState<bool>> readNotification(String id) async {
     try {
       await XCollection.notification.doc(id).update({"isRead": true});
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -147,7 +147,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
           .get();
       await Future.wait(
           response.docs.map((e) => readNotification(e.id)).toList());
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -157,7 +157,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
   Future<DataState<bool>> deleteNotificationFromID(String id) async {
     try {
       await XCollection.notification.doc(id).delete();
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -176,7 +176,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
       if (response.docs.isNotEmpty) {
         deleteNotificationFromID(response.docs[0].id);
       }
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -188,7 +188,7 @@ class NotificationRepositoryImpl extends NotificationRepository {
       await XCollection.token
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .set({"token": token});
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }

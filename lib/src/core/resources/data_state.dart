@@ -1,14 +1,22 @@
-abstract class DataState<T> {
+import 'package:equatable/equatable.dart';
+
+abstract class DataState<T> extends Equatable {
   final T? data;
   final String? error;
 
-  DataState({this.data, this.error});
+  const DataState({this.data, this.error});
 }
 
 class DataSuccess<T> extends DataState<T> {
-  DataSuccess(T data) : super(data: data);
+  const DataSuccess(T data) : super(data: data);
+
+  @override
+  List<Object?> get props => [data];
 }
 
 class DataFailed<T> extends DataState<T> {
-  DataFailed(String error) : super(error: error);
+  const DataFailed(String error) : super(error: error);
+
+  @override
+  List<Object?> get props => [error];
 }

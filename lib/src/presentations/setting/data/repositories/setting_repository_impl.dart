@@ -21,7 +21,7 @@ class SettingRepositoryImpl extends SettingRepository {
         FirebaseUtils.deleteImage(PrefsUtils.getUserInfo()?.avatar ?? ""),
       ]);
       await FirebaseAuth.instance.currentUser!.delete();
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }

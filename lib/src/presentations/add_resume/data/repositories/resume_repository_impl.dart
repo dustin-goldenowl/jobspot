@@ -33,7 +33,7 @@ class ResumeRepositoryImpl extends ResumeRepository {
         FirebaseUtils.deleteImage(resume.filePath),
         XCollection.resume.doc(resume.id).delete(),
       ]);
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
