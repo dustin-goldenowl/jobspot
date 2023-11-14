@@ -31,6 +31,9 @@ class CompanyProfileCoordinator {
   static void showEditJob({required JobEntity job}) => rootRouter
       .push(AddJobRoute(job: JobModel.fromJobEntity(job).toUpdateJobEntity()));
 
+  static void showApplyJob(JobEntity job) =>
+      rootRouter.push(ApplyJobRoute(job: job));
+
   static void viewFollow({
     List<String>? following,
     List<String>? follower,

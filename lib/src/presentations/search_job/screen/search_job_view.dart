@@ -99,6 +99,9 @@ class SearchJobView extends StatelessWidget {
         final user = PrefsUtils.getUserInfo()!;
         final isSave = user.saveJob?.contains(job.id) ?? false;
         return CustomJobCard(
+          onLongPress: () => context
+              .read<SearchJobCubit>()
+              .showBottomSheetOption(context, job: job),
           job: job,
           button: IconButton(
             icon: SvgPicture.asset(

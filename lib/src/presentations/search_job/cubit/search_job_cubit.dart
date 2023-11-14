@@ -6,9 +6,12 @@ import 'package:jobspot/injection.dart';
 import 'package:jobspot/src/core/config/router/app_router.dart';
 import 'package:jobspot/src/core/function/get_location.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
+import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/filter/domain/entities/filter_entity.dart';
 import 'package:jobspot/src/presentations/home_applicant/domain/use_cases/save_job_use_case.dart';
+import 'package:jobspot/src/presentations/home_applicant/widgets/bottom_sheet_job_option_view.dart';
 import 'package:jobspot/src/presentations/search_job/domain/entity/search_entity.dart';
+import 'package:jobspot/src/presentations/search_job/domain/router/search_job_coordinator.dart';
 import 'package:jobspot/src/presentations/search_job/domain/use_cases/search_job_use_case.dart';
 import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart';
 
@@ -78,8 +81,27 @@ class SearchJobCubit extends Cubit<SearchJobState> {
   Future saveJob(String jobID) async {
     final response = await _saveJobUseCase.call(params: jobID);
     if (response is DataSuccess) {
-      emit(state.copyWith(listJob: state.listJob, saveJobID: jobID));
+      emit(state.copyWith(
+        listJob: state.listJob,
+        saveJobID: jobID,
+        isSave: PrefsUtils.getUserInfo()?.saveJob?.contains(jobID),
+      ));
     }
+  }
+
+  void showBottomSheetOption(BuildContext context, {required JobEntity job}) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      backgroundColor: Colors.white,
+      builder: (_) => BottomSheetJobOptionView(
+        job: job,
+        onSave: () => saveJob(job.id),
+        onApply: () => SearchJobCoordinator.showApplyJob(job),
+      ),
+    );
   }
 
   void changeFilter(FilterEntity filter) {

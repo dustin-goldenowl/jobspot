@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/extension/int_extension.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:jobspot/src/core/function/get_location.dart';
-import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/presentations/save_job/widgets/tag_item.dart';
 import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart';
@@ -16,18 +16,21 @@ class CustomJobCard extends StatelessWidget {
     required this.job,
     required this.button,
     required this.onTap,
+    this.onLongPress,
     this.moreWidget,
   });
 
-  final Widget button;
   final VoidCallback onTap;
+  final VoidCallback? onLongPress;
   final JobEntity job;
+  final Widget button;
   final Widget? moreWidget;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      onLongPress: onLongPress,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,

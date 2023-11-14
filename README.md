@@ -179,7 +179,7 @@
 | ----------------- | ------------------------------------------------------------------ |
 | Primary Color | ![#130160](https://via.placeholder.com/10/130160?text=+) #130160 |
 | Secondary Color | ![#D6CDFE](https://via.placeholder.com/10/D6CDFE?text=+) #D6CDFE |
-| Accent Color | ![#FF9228](https://via.placeholder.com/10/FF9228?text=+) #00ADB5 |
+| Accent Color | ![#FF9228](https://via.placeholder.com/10/FF9228?text=+) #FF9228 |
 | Text Color | ![#150B3D](https://via.placeholder.com/10/150B3D?text=+) #150B3D |
 
 
