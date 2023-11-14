@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,7 +29,7 @@ class VerifyEmailCubit extends Cubit<VerifyEmailState> {
         if (state.timeResend == 0) countdown?.cancel();
       });
     } catch (e) {
-      print(e);
+      log(e.toString());
     }
   }
 

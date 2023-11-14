@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
@@ -21,7 +23,7 @@ class RegisterGoogleRepositoryImpl extends RegisterGoogleRepository {
           UserModel.fromDocumentSnapshot(response).toJson());
       return DataSuccess(true);
     } catch (e) {
-      print(e);
+      log(e.toString());
       return DataFailed(e.toString());
     }
   }

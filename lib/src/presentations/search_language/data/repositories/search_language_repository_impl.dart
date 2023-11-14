@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/api/country_api_service.dart';
@@ -15,7 +17,7 @@ class SearchLanguageRepositoryImpl extends SearchLanguageRepository {
       }
       return DataSuccess([]);
     } catch (e) {
-      print(e);
+      log(e.toString());
       return DataFailed(e.toString());
     }
   }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:jobspot/firebase_options.dart';
 import 'package:jobspot/injection.dart';
 import 'package:jobspot/jobspot_app.dart';
+import 'package:jobspot/src/core/service/dynamic_link_service.dart';
 import 'package:jobspot/src/core/service/firebase_messaging_service.dart';
 
 void main() async {
@@ -13,6 +14,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  DynamicLinkService.initUniLinks();
+  DynamicLinkService.initDynamicLink();
   FirebaseMessagingService.setupNotification();
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);

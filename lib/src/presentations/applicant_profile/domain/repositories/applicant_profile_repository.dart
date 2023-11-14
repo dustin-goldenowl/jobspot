@@ -6,6 +6,7 @@ import 'package:jobspot/src/presentations/applicant_profile/domain/entities/appr
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/get_post_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/resume_entity.dart';
 import 'package:jobspot/src/presentations/applicant_profile/domain/entities/work_experience_entity.dart';
+import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
 
 abstract class ApplicantProfileRepository {
@@ -26,4 +27,6 @@ abstract class ApplicantProfileRepository {
   Future<DataState<bool>> deletePost(PostEntity post);
 
   Future<DataState<bool>> updateAboutMe(String description);
+
+  Future<List<UserModel>> getListUser(Set<String> listID);
 }

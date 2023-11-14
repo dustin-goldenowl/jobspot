@@ -58,7 +58,6 @@ class _SignUpViewState extends State<SignUpView>
                 } else {
                   SignUpCoordinator.showVerifyEmail();
                 }
-                print(state.dataState!.data);
               }
             },
             child: WillPopScope(

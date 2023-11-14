@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:path_provider/path_provider.dart';
@@ -20,7 +22,7 @@ class PDFSummaryApiService {
       Response summary = await dio.post(_pdfSummaryUrl, data: formData);
       return DataSuccess(summary.data["summary"]);
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
       return DataFailed(e.toString());
     }
   }

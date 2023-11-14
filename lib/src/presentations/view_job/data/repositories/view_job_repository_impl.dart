@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/firebase_collection.dart';
@@ -21,7 +23,7 @@ class ViewJobRepositoryImpl extends ViewJobRepository {
       }
       return DataSuccess(null);
     } catch (e) {
-      print(e);
+      log(e.toString());
       return DataFailed(e.toString());
     }
   }

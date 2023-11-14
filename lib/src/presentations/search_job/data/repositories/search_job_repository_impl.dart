@@ -1,15 +1,21 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/firebase_collection.dart';
+import 'package:jobspot/src/presentations/home_applicant/domain/use_cases/get_list_company_use_case.dart';
 import 'package:jobspot/src/presentations/search_job/domain/entity/search_entity.dart';
 import 'package:jobspot/src/presentations/search_job/domain/entity/search_job_data.dart';
 import 'package:jobspot/src/presentations/search_job/domain/repositories/search_job_repository.dart';
-import 'package:jobspot/src/presentations/view_job/data/models/company_model.dart';
 import 'package:jobspot/src/presentations/view_job/data/models/job_model.dart';
 
 @LazySingleton(as: SearchJobRepository)
 class SearchJobRepositoryImpl extends SearchJobRepository {
+  final GetListCompanyUseCase _getListCompanyUseCase;
+
+  SearchJobRepositoryImpl(this._getListCompanyUseCase);
+
   @override
   Future<DataState<SearchJobData>> searchJob(SearchEntity entity) async {
     try {
@@ -33,7 +39,8 @@ class SearchJobRepositoryImpl extends SearchJobRepository {
       }
       listJob = filterDate(listJob: listJob, index: entity.lastUpdate);
       final count = (response.last as AggregateQuerySnapshot).count;
-      final listCompany = await getListCompany(listJob);
+      final listCompany = await _getListCompanyUseCase.call(
+          params: listJob.map((e) => e.owner).toSet());
       listJob = listJob
           .map(
             (e) => e.copyWith(
@@ -48,7 +55,7 @@ class SearchJobRepositoryImpl extends SearchJobRepository {
         limit: entity.limit < count ? entity.limit : count,
       ));
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
       return DataFailed(e.toString());
     }
   }
@@ -104,17 +111,5 @@ class SearchJobRepositoryImpl extends SearchJobRepository {
           jobQuery.where("typeWorkplace", isEqualTo: entity.typeWorkplace);
     }
     return jobQuery;
-  }
-
-  Future<List<CompanyModel>> getListCompany(List<JobModel> datas) async {
-    Set<String> listCompanyId = {};
-    for (var data in datas) {
-      listCompanyId.add(data.owner);
-    }
-    final companyData = await Future.wait(
-        listCompanyId.map((id) => XCollection.user.doc(id).get()).toList());
-    return companyData
-        .map((e) => CompanyModel.fromDocumentSnapshot(e))
-        .toList();
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
@@ -45,7 +47,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
           .toList();
       return DataSuccess(comments.map((e) => e.toCommentEntity()).toList());
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
       return DataFailed(e.toString());
     }
   }
@@ -254,7 +256,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
           .toList();
       return DataSuccess(listComment.map((e) => e.toCommentEntity()).toList());
     } catch (e) {
-      print(e);
+      log(e.toString());
       return DataFailed(e.toString());
     }
   }

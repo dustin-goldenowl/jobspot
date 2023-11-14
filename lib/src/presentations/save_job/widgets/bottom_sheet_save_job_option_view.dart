@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jobspot/src/core/extension/string_extension.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:jobspot/src/core/service/dynamic_link_service.dart';
 import 'package:jobspot/src/core/common/custom_toast.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
@@ -48,12 +51,12 @@ class BottomSheetSaveJobOptionView extends StatelessWidget {
           ),
           const SizedBox(height: 30),
           _buildOption(
-            onTap: () {
-              context.router.pop();
-              customToast(
-                context,
-                text: AppLocal.text.save_job_page_feature_not_yet_released,
-              );
+            onTap: () async {
+              final link = await DynamicLinkService.createDynamicLink(
+                  type: "job", id: job.id);
+              await Share.share(AppLocal.text
+                  .share_job_content(link, job.jobPosition.capitalizedString));
+              if (context.mounted) context.router.pop();
             },
             title: AppLocal.text.save_job_page_share,
             icon: AppImages.share,

@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
+import 'package:jobspot/src/core/service/dynamic_link_service.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/share_post_base.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
@@ -45,7 +47,7 @@ class _BottomSheetSharePostState extends State<BottomSheetSharePost> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       width: double.infinity,
-      height: 500,
+      height: MediaQuery.sizeOf(context).height * 0.7,
       child: Column(
         children: [
           const SizedBox(height: 25),
@@ -102,6 +104,18 @@ class _BottomSheetSharePostState extends State<BottomSheetSharePost> {
                                 description: controller.text,
                                 postID: widget.update!.postID,
                               ));
+                      },
+                    ),
+                    const SizedBox(height: 15),
+                    CustomButton(
+                      title: AppLocal.text.share_out_app,
+                      isElevated: false,
+                      onPressed: () async {
+                        final link = await DynamicLinkService.createDynamicLink(
+                            type: "post", id: widget.post.id);
+                        await Share.share(AppLocal.text
+                            .share_post_content(link, widget.post.title ?? ""));
+                        if (mounted) Navigator.of(context).pop();
                       },
                     )
                   ],

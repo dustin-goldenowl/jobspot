@@ -31,7 +31,7 @@ class HomeApplicantRepositoryImpl extends HomeApplicantRepository {
           if (jobs.length > 20) break;
         }
         final response = await Future.wait([
-          getListCompany(jobs),
+          getListCompany(jobs.map((e) => e.owner).toSet()),
           fulltime(time),
           parttime(time),
           remote(time),
@@ -75,13 +75,10 @@ class HomeApplicantRepositoryImpl extends HomeApplicantRepository {
       .count()
       .get();
 
-  Future<List<CompanyModel>> getListCompany(List<JobModel> datas) async {
-    Set<String> listCompanyId = {};
-    for (var data in datas) {
-      listCompanyId.add(data.owner);
-    }
+  @override
+  Future<List<CompanyModel>> getListCompany(Set<String> listID) async {
     final companyData = await Future.wait(
-        listCompanyId.map((id) => XCollection.user.doc(id).get()).toList());
+        listID.map((id) => XCollection.user.doc(id).get()).toList());
     return companyData
         .map((e) => CompanyModel.fromDocumentSnapshot(e))
         .toList();
@@ -97,9 +94,9 @@ class HomeApplicantRepositoryImpl extends HomeApplicantRepository {
         user.saveJob!.add(jobID);
       }
       await Future.wait([
-        XCollection.user.doc(FirebaseAuth.instance.currentUser!.uid).update({
-          "saveJob": user.saveJob!,
-        }),
+        XCollection.user
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update({"saveJob": user.saveJob!}),
         PrefsUtils.saveUserInfo(user.toJson()),
       ]);
       return DataSuccess(!user.saveJob!.contains(jobID));
