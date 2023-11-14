@@ -5,9 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/share_post_base.dart';
 import 'package:jobspot/src/presentations/connection/domain/use_cases/share_post_use_case.dart';
 import 'package:jobspot/src/presentations/home_applicant/domain/use_cases/save_job_use_case.dart';
+import 'package:jobspot/src/presentations/home_applicant/widgets/bottom_sheet_job_option_view.dart';
+import 'package:jobspot/src/presentations/view_company_profile/domain/router/view_company_profile_coordinator.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/data/entities/user_entity.dart';
@@ -137,7 +140,33 @@ class ViewCompanyProfileCubit extends Cubit<ViewCompanyProfileState> {
   Future saveJob(String jobID) async {
     final response = await _saveJobUseCase.call(params: jobID);
     if (response is DataSuccess) {
-      emit(state.copyWith(saveJobID: jobID));
+      emit(state.copyWith(
+        saveJobID: jobID,
+        isSave: PrefsUtils.getUserInfo()?.saveJob?.contains(jobID),
+      ));
     }
+  }
+
+  void showBottomSheetOption(BuildContext context, {required JobEntity job}) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      backgroundColor: Colors.white,
+      builder: (_) => BottomSheetJobOptionView(
+        job: job,
+        onSave: () => saveJob(job.id),
+        onApply: () => ViewCompanyProfileCoordinator.showApplyJob(job),
+      ),
+    );
+  }
+
+  @override
+  Future<void> close() {
+    scrollController.dispose();
+    tabController.dispose();
+    if (_postSubscription != null) _postSubscription!.cancel();
+    return super.close();
   }
 }

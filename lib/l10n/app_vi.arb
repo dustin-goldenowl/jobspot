@@ -49,6 +49,8 @@
     "now": "Hiện tại",
     "app_title": "Jobspot",
     "key": "key_vi",
+    "save": "Lưu",
+    "unsave": "Hủy lưu",
     "share_out_app": "Chia sẻ bên ngoài",
     "share_job_content": "{position}\n\nXem mô tả công việc tại Jobspot 👇\n\n{link}",
     "share_post_content": "{title}\n\nXem bài viết đầy đủ tại Jobspot 👇\n\n{link}",

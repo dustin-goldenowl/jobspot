@@ -189,12 +189,13 @@ class AddPostView extends StatelessWidget {
             imageUrl: image,
             width: 100,
             height: 100,
-            fit: BoxFit.fill,
+            fit: BoxFit.fitHeight,
             placeholder: (context, url) =>
                 const ItemLoading(width: 100, height: 100, radius: 0),
           )
         else
-          Image.file(File(image), width: 100, height: 100, fit: BoxFit.fill),
+          Image.file(File(image),
+              width: 100, height: 100, fit: BoxFit.fitHeight),
         Positioned(
           right: 0,
           child: GestureDetector(

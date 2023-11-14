@@ -49,6 +49,8 @@
     "now": "Now",
     "app_title": "Jobspot",
     "key": "key_en",
+    "save": "Save",
+    "unsave": "Unsave",
     "share_out_app": "Share out app",
     "share_job_content": "{position}\n\nView job description at Jobspot 👇\n\n{link}",
     "share_post_content": "{title}\n\nView full post at Jobspot 👇\n\n{link}",

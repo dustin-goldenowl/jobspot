@@ -7,6 +7,7 @@ import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/extension/int_extension.dart';
 import 'package:jobspot/src/core/extension/string_extension.dart';
 import 'package:jobspot/src/core/function/get_location.dart';
+import 'package:jobspot/src/presentations/home_applicant/widgets/bottom_sheet_job_option_view.dart';
 import 'package:jobspot/src/presentations/save_job/widgets/tag_item.dart';
 import 'package:jobspot/src/presentations/sign_in/widgets/custom_button.dart';
 import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart';
@@ -32,6 +33,7 @@ class RecentJobCard extends StatelessWidget {
     final location = getLocation(job.location);
     return GestureDetector(
       onTap: onTap,
+      onLongPress: () => showBottomSheetOption(context),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -131,6 +133,18 @@ class RecentJobCard extends StatelessWidget {
           onPressed: onSave,
         ),
       ],
+    );
+  }
+
+  void showBottomSheetOption(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      backgroundColor: Colors.white,
+      builder: (_) =>
+          BottomSheetJobOptionView(job: job, onSave: onSave, onApply: onApply),
     );
   }
 }

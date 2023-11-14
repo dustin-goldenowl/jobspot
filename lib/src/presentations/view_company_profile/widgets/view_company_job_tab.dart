@@ -47,6 +47,9 @@ class ViewCompanyJobTab extends StatelessWidget {
         final user = PrefsUtils.getUserInfo()!;
         final isSave = user.saveJob?.contains(job.id) ?? false;
         return CustomJobCard(
+          onLongPress: () => context
+              .read<ViewCompanyProfileCubit>()
+              .showBottomSheetOption(context, job: job),
           button: IconButton(
             icon: SvgPicture.asset(
               isSave ? AppImages.saved : AppImages.saveJob,

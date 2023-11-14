@@ -18,6 +18,7 @@ import 'package:jobspot/src/presentations/connection/domain/entities/post_entity
 import 'package:jobspot/src/presentations/connection/domain/entities/share_post_base.dart';
 import 'package:jobspot/src/presentations/connection/domain/use_cases/share_post_use_case.dart';
 import 'package:jobspot/src/presentations/home_applicant/domain/use_cases/save_job_use_case.dart';
+import 'package:jobspot/src/presentations/home_applicant/widgets/bottom_sheet_job_option_view.dart';
 import 'package:jobspot/src/presentations/view_company_profile/domain/use_cases/get_list_job_use_case.dart';
 import 'package:jobspot/src/presentations/view_job/domain/entities/job_entity.dart';
 import 'package:jobspot/src/presentations/view_post/domain/entities/favourite_entity.dart';
@@ -149,8 +150,26 @@ class CompanyProfileCubit extends Cubit<CompanyProfileState> {
   Future saveJob(String jobID) async {
     final response = await _saveJobUseCase.call(params: jobID);
     if (response is DataSuccess) {
-      emit(state.copyWith(saveJobID: jobID));
+      emit(state.copyWith(
+        saveJobID: jobID,
+        isSave: PrefsUtils.getUserInfo()?.saveJob?.contains(jobID),
+      ));
     }
+  }
+
+  void showBottomSheetOption(BuildContext context, {required JobEntity job}) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      backgroundColor: Colors.white,
+      builder: (_) => BottomSheetJobOptionView(
+        job: job,
+        onSave: () => saveJob(job.id),
+        onApply: () => CompanyProfileCoordinator.showApplyJob(job),
+      ),
+    );
   }
 
   @override

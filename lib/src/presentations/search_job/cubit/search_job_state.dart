@@ -4,13 +4,15 @@ class SearchJobState extends Equatable {
   const SearchJobState({
     required this.isTop,
     required this.isMore,
+    required this.query,
     this.listJob,
     this.saveJobID,
-    required this.query,
+    this.isSave,
   });
 
   final bool isTop;
   final bool isMore;
+  final bool? isSave;
   final String query;
   final String? saveJobID;
   final List<JobEntity>? listJob;
@@ -24,6 +26,7 @@ class SearchJobState extends Equatable {
     List<JobEntity>? listJob,
     String? query,
     String? saveJobID,
+    bool? isSave,
   }) {
     return SearchJobState(
       isTop: isTop ?? this.isTop,
@@ -31,9 +34,10 @@ class SearchJobState extends Equatable {
       listJob: listJob ?? this.listJob,
       query: query ?? this.query,
       saveJobID: saveJobID,
+      isSave: isSave,
     );
   }
 
   @override
-  List<Object?> get props => [isTop, listJob, query, isMore, saveJobID];
+  List<Object?> get props => [isTop, listJob, query, isMore, saveJobID, isSave];
 }
