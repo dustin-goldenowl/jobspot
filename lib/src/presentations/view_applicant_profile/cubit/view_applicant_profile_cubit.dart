@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -137,7 +138,7 @@ class ViewApplicantProfileCubit extends Cubit<ViewApplicantProfileState> {
   Future favouritePost(FavouriteEntity entity) async {
     final response = await _favouritePostUseCase.call(params: entity);
     if (response is DataFailed) {
-      print(response.error);
+      log(response.error.toString());
     }
   }
 

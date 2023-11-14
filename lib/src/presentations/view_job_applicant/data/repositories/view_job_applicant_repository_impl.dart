@@ -4,6 +4,7 @@ import 'package:jobspot/src/core/enum/application_status.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/presentations/applicant_profile/data/models/resume_model.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_list_user_use_case.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/notification/domain/entities/send_notification_entity.dart';
 import 'package:jobspot/src/presentations/notification/domain/use_cases/send_notification_use_case.dart';
@@ -15,8 +16,12 @@ import 'package:jobspot/src/presentations/view_job_applicant/domain/repositories
 @LazySingleton(as: ViewJobApplicantRepository)
 class ViewJobApplicantRepositoryImpl extends ViewJobApplicantRepository {
   final SendNotificationUseCase _sendNotificationUseCase;
+  final GetListUserUseCase _getListUserUseCase;
 
-  ViewJobApplicantRepositoryImpl(this._sendNotificationUseCase);
+  ViewJobApplicantRepositoryImpl(
+    this._sendNotificationUseCase,
+    this._getListUserUseCase,
+  );
 
   @override
   Future<DataState<List<ResumeApplicantEntity>>> getListApplicant(
@@ -32,7 +37,8 @@ class ViewJobApplicantRepositoryImpl extends ViewJobApplicantRepository {
 
       final myResponse = await Future.wait([
         getListResume(listResume.map((e) => e.resumeID).toList()),
-        getListUser(listResume.map((e) => e.owner).toList()),
+        _getListUserUseCase.call(
+            params: listResume.map((e) => e.owner).toSet()),
       ]);
       final listApplicantResume = (myResponse.first as List<ResumeModel>);
       final listApplicant = (myResponse.last as List<UserModel>);
@@ -57,12 +63,6 @@ class ViewJobApplicantRepositoryImpl extends ViewJobApplicantRepository {
     final response =
         await Future.wait(list.map((e) => XCollection.resume.doc(e).get()));
     return response.map((e) => ResumeModel.fromDocumentSnapshot(e)).toList();
-  }
-
-  Future<List<UserModel>> getListUser(List<String> list) async {
-    final response =
-        await Future.wait(list.map((e) => XCollection.user.doc(e).get()));
-    return response.map((e) => UserModel.fromDocumentSnapshot(e)).toList();
   }
 
   @override

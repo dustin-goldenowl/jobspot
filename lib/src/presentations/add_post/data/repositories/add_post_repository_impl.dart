@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/firebase_collection.dart';
@@ -26,7 +28,7 @@ class AddPostRepositoryImpl extends AddPostRepository {
       await firestore.set(postModel.toJson());
       return DataSuccess(true);
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
       return DataFailed(e.toString());
     }
   }
@@ -50,7 +52,7 @@ class AddPostRepositoryImpl extends AddPostRepository {
       await firestorePost.update(postModel.toJson());
       return DataSuccess(true);
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
       return DataFailed(e.toString());
     }
   }

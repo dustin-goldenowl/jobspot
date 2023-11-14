@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
@@ -5,6 +7,7 @@ import 'package:jobspot/src/core/constants/app_tags.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/firebase_collection.dart';
 import 'package:jobspot/src/core/service/firebase_messaging_service.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_list_user_use_case.dart';
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/notification/data/models/notification_model.dart';
@@ -17,6 +20,10 @@ import 'package:jobspot/src/presentations/view_post/data/models/comment_model.da
 
 @LazySingleton(as: NotificationRepository)
 class NotificationRepositoryImpl extends NotificationRepository {
+  final GetListUserUseCase _getListUserUseCase;
+
+  NotificationRepositoryImpl(this._getListUserUseCase);
+
   @override
   Stream<DataState<List<NotificationEntity>>> streamNotification() {
     try {
@@ -30,7 +37,8 @@ class NotificationRepositoryImpl extends NotificationRepository {
           notifications.add(NotificationModel.fromDocumentSnapshot(element));
         }
         final response = await Future.wait([
-          getListUser(notifications),
+          _getListUserUseCase.call(
+              params: notifications.map((e) => e.from).toSet()),
           getListComment(notifications),
           getListJob(notifications),
           getListPost(notifications),
@@ -56,19 +64,9 @@ class NotificationRepositoryImpl extends NotificationRepository {
         return DataSuccess(notifications.map((e) => e.toEntity()!).toList());
       });
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
       return Stream.value(DataFailed(e.toString()));
     }
-  }
-
-  Future<List<UserModel>> getListUser(List<NotificationModel> datas) async {
-    Set<String> listUserId = {};
-    for (var data in datas) {
-      listUserId.add(data.from);
-    }
-    final userData = await Future.wait(
-        listUserId.map((id) => XCollection.user.doc(id).get()).toList());
-    return userData.map((e) => UserModel.fromDocumentSnapshot(e)).toList();
   }
 
   Future<List<PostModel>> getListPost(List<NotificationModel> datas) async {

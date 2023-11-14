@@ -15,6 +15,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   DynamicLinkService.initUniLinks();
+  DynamicLinkService.initDynamicLink();
   FirebaseMessagingService.setupNotification();
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);

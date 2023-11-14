@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -45,9 +48,9 @@ class FirebaseMessagingService {
       await Dio()
           .post(_baseURL, data: data, options: Options(headers: _header));
     } on DioException catch (e) {
-      print(e.toString());
+      log(e.toString());
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
     }
   }
 
@@ -69,14 +72,14 @@ class FirebaseMessagingService {
 
   static Future<String?> getToken() async {
     final token = await _fcm.getToken();
-    print(token);
+    log(token.toString());
     return token;
   }
 
   static void listenNotification() {
     FirebaseMessaging.onMessage.listen((event) {
-      print("onMessage");
-      print(event.data);
+      log("onMessage");
+      log(jsonEncode(event.data));
       NotificationServices.showNotification(event);
     });
 
@@ -88,8 +91,8 @@ class FirebaseMessagingService {
       RemoteMessage message) async {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
-    print("onBackgroundMessage");
-    print(message.data);
+    log("onBackgroundMessage");
+    log(jsonEncode(message.data));
     NotificationServices.showNotification(message);
   }
 

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
@@ -56,7 +58,8 @@ class DynamicLinkService {
         }
       }
     } catch (e) {
-      print('No deepLink found');
+      log("No deepLink found");
+      log(e.toString());
     }
   }
 }

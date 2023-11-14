@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +8,7 @@ import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/resources/fetch_lazy_data.dart';
 import 'package:jobspot/src/core/service/firebase_collection.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_list_user_use_case.dart';
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/connection/data/models/share_post_model.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
@@ -19,8 +21,12 @@ import 'package:jobspot/src/presentations/notification/domain/use_cases/send_not
 @LazySingleton(as: ConnectionRepository)
 class ConnectionRepositoryImpl extends ConnectionRepository {
   final SendNotificationUseCase _sendNotificationUseCase;
+  final GetListUserUseCase _getListUserUseCase;
 
-  ConnectionRepositoryImpl(this._sendNotificationUseCase);
+  ConnectionRepositoryImpl(
+    this._sendNotificationUseCase,
+    this._getListUserUseCase,
+  );
 
   @override
   Stream<DataState<FetchLazyData<PostEntity>>> fetchPostData(int limit) {
@@ -31,7 +37,7 @@ class ConnectionRepositoryImpl extends ConnectionRepository {
         List<PostModel> posts =
             event.docs.map((e) => PostModel.fromDocumentSnapshot(e)).toList();
         final data = await Future.wait([
-          getListUser(posts),
+          _getListUserUseCase.call(params: posts.map((e) => e.owner).toSet()),
           myPostCollection.count().get(),
           getListSharePost(posts.map((e) => e.sharePostID).toSet()),
           ...getListCommentPost(posts.map((e) => e.id).toList()),
@@ -69,19 +75,13 @@ class ConnectionRepositoryImpl extends ConnectionRepository {
         await Future.wait(list.map((e) => XCollection.post.doc(e).get()));
     List<PostModel> listPost =
         response.map((e) => PostModel.fromDocumentSnapshot(e)).toList();
-    final listUser = await getListUser(listPost);
+    final listUser = await _getListUserUseCase.call(
+        params: listPost.map((e) => e.owner).toSet());
     listPost = listPost
         .map((e) => e.copyWith(
             user: listUser.firstWhere((element) => element.id == e.owner)))
         .toList();
     return listPost;
-  }
-
-  Future<List<UserModel>> getListUser(List<PostModel> datas) async {
-    Set<String> listUserId = datas.map((e) => e.owner).toSet();
-    final userData = await Future.wait(
-        listUserId.map((id) => XCollection.user.doc(id).get()).toList());
-    return userData.map((e) => UserModel.fromDocumentSnapshot(e)).toList();
   }
 
   List<Future<AggregateQuerySnapshot>> getListCommentPost(List<String> listID) {
@@ -116,7 +116,7 @@ class ConnectionRepositoryImpl extends ConnectionRepository {
       }
       return DataSuccess(true);
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
       return DataFailed(e.toString());
     }
   }

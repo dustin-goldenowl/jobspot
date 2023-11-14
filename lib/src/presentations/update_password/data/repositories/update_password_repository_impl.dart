@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
@@ -27,7 +29,7 @@ class UpdatePasswordRepositoryImpl extends UpdatePasswordRepository {
           await user!.reauthenticateWithCredential(authCredentials);
       return DataSuccess(authResult.user != null);
     } catch (e) {
-      print(e);
+      log(e.toString());
       return DataSuccess(false);
     }
   }

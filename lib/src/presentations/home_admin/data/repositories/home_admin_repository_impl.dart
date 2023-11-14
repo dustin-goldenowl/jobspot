@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/enum/user_role.dart';
@@ -41,7 +43,7 @@ class HomeAdminRepositoryImpl extends HomeAdminRepository {
         limit: limit < count ? limit : count,
       ));
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
       return DataFailed(e.toString());
     }
   }

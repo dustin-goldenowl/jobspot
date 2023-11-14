@@ -6,7 +6,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:jobspot/src/core/bloc/app_bloc.dart';
 import 'package:jobspot/src/core/enum/user_role.dart';
 import 'package:jobspot/src/core/enum/verify_status.dart';
-import 'package:jobspot/src/core/service/dynamic_link_service.dart';
 import 'package:jobspot/src/data/entities/user_entity.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:jobspot/injection.dart';
@@ -23,7 +22,6 @@ class JobspotApp extends StatelessWidget {
   Widget build(BuildContext context) {
     timeago.setLocaleMessages("vi", timeago.ViMessages());
     timeago.setLocaleMessages("en", timeago.EnMessages());
-    DynamicLinkService.initDynamicLink();
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => LocalizationCubit()),

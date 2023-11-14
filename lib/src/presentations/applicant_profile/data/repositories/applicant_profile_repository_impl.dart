@@ -82,7 +82,7 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
         await Future.wait(list.map((e) => XCollection.post.doc(e).get()));
     List<PostModel> listPost =
         response.map((e) => PostModel.fromDocumentSnapshot(e)).toList();
-    final listUser = await getListUser(listPost);
+    final listUser = await getListUser(listPost.map((e) => e.owner).toSet());
     listPost = listPost
         .map((e) => e.copyWith(
             user: listUser.firstWhere((element) => element.id == e.owner)))
@@ -90,13 +90,10 @@ class ApplicantProfileRepositoryImpl extends ApplicantProfileRepository {
     return listPost;
   }
 
-  Future<List<UserModel>> getListUser(List<PostModel> datas) async {
-    Set<String> listUserId = {};
-    for (var data in datas) {
-      listUserId.add(data.owner);
-    }
+  @override
+  Future<List<UserModel>> getListUser(Set<String> listID) async {
     final userData = await Future.wait(
-        listUserId.map((id) => XCollection.user.doc(id).get()).toList());
+        listID.map((id) => XCollection.user.doc(id).get()).toList());
     return userData.map((e) => UserModel.fromDocumentSnapshot(e)).toList();
   }
 

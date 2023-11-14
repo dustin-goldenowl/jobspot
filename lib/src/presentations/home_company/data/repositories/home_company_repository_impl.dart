@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:injectable/injectable.dart';
@@ -37,7 +39,7 @@ class HomeCompanyRepositoryImpl extends HomeCompanyRepository {
         limit: limit < count ? limit : count,
       ));
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
       return DataFailed(e.toString());
     }
   }

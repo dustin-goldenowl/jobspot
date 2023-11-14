@@ -10,7 +10,9 @@ import 'package:jobspot/src/core/common/widgets/item_loading.dart';
 import 'package:jobspot/src/core/config/localization/app_local.dart';
 import 'package:jobspot/src/core/config/router/app_router.gr.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
+import 'package:jobspot/src/core/enum/user_role.dart';
 import 'package:jobspot/src/core/enum/verify_status.dart';
+import 'package:jobspot/src/core/utils/prefs_utils.dart';
 import 'package:jobspot/src/presentations/view_company_profile/cubit/view_company_profile_cubit.dart';
 import 'package:jobspot/src/presentations/view_company_profile/domain/router/view_company_profile_coordinator.dart';
 import 'package:jobspot/src/presentations/view_company_profile/widgets/custom_button_profile.dart';
@@ -237,7 +239,9 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
       buildWhen: (previous, current) => previous.user != current.user,
       builder: (context, state) {
         if (state.user == null ||
-            state.user != null && (state.user!.website ?? "").isNotEmpty) {
+            state.user != null &&
+                (state.user?.website ?? "").isNotEmpty &&
+                PrefsUtils.getUserInfo()?.role != UserRole.business) {
           return Row(
             children: [
               Expanded(
@@ -256,15 +260,30 @@ class _ViewCompanyProfileViewState extends State<ViewCompanyProfileView>
             ],
           );
         }
-        return Center(
-          child: SizedBox(
-            width: 170,
-            child: _buildButtonFollow(
-              context,
-              follower: state.user?.follower ?? [],
+        if (PrefsUtils.getUserInfo()?.role != UserRole.business) {
+          return Center(
+            child: SizedBox(
+              width: 170,
+              child: CustomButtonProfile(
+                onTap: context.read<ViewCompanyProfileCubit>().openWebsite,
+                icon: SvgPicture.asset(AppImages.openBrowser),
+                title: AppLocal.text.view_company_profile_page_visit_website,
+              ),
             ),
-          ),
-        );
+          );
+        }
+        if ((state.user?.website ?? "").isNotEmpty) {
+          return Center(
+            child: SizedBox(
+              width: 170,
+              child: _buildButtonFollow(
+                context,
+                follower: state.user?.follower ?? [],
+              ),
+            ),
+          );
+        }
+        return const SizedBox();
       },
     );
   }

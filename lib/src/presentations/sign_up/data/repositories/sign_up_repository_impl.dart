@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
@@ -70,7 +72,7 @@ class SignUpRepositoryImpl extends SignUpRepository {
       }
       return DataFailed(e.toString());
     } catch (e) {
-      print(e);
+      log(e.toString());
       return DataFailed(e.toString());
     }
   }

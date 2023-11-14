@@ -50,7 +50,8 @@
     "app_title": "Jobspot",
     "key": "key_vi",
     "share_out_app": "Chia sẻ bên ngoài",
-    "view_full_post_at_jobspot": "Xem bài viết đầy đủ tại Jobspot",
+    "share_job_content": "{position}\n\nXem mô tả công việc tại Jobspot 👇\n\n{link}",
+    "share_post_content": "{title}\n\nXem bài viết đầy đủ tại Jobspot 👇\n\n{link}",
 
     "forgot_password_page_forgot_password": "Quên mật khẩu?",
     "forgot_password_page_reset_password": "Đặt lại mật khẩu",

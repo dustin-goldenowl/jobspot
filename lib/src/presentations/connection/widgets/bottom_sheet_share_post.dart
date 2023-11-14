@@ -106,17 +106,15 @@ class _BottomSheetSharePostState extends State<BottomSheetSharePost> {
                               ));
                       },
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 15),
                     CustomButton(
                       title: AppLocal.text.share_out_app,
                       isElevated: false,
                       onPressed: () async {
                         final link = await DynamicLinkService.createDynamicLink(
                             type: "post", id: widget.post.id);
-                        await Share.share('''${widget.post.title ?? ""}
-
-${AppLocal.text.view_full_post_at_jobspot} 👇
-                        $link''');
+                        await Share.share(AppLocal.text
+                            .share_post_content(link, widget.post.title ?? ""));
                         if (mounted) Navigator.of(context).pop();
                       },
                     )
