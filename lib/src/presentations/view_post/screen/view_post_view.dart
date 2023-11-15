@@ -632,10 +632,11 @@ class ViewPostView extends StatelessWidget {
         }
 
         return _buildItemReaction(
-          onTap: () {
-            context.read<ViewPostBloc>().add(FavouriteCommentEvent(
-                id: comment.id, listFavourite: comment.like));
-          },
+          onTap: () => context.read<ViewPostBloc>().add(FavouriteCommentEvent(
+                commentID: comment.id,
+                ownerComment: comment.user.id,
+                listFavourite: comment.like,
+              )),
           icon: Icon(
             listFavourite.contains(uid)
                 ? FontAwesomeIcons.solidHeart

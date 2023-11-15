@@ -159,6 +159,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
           .update({"like": favourite.listFavourite});
       final notification = SendNotificationEntity(
         action: favourite.id,
+        navigationAction: favourite.navigationAction,
         to: favourite.uidTo,
         type: AppTags.favouriteCmt,
       );
@@ -190,7 +191,8 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
       String? highLevel = snapshot.data()!["highLevel"];
       _sendNotificationUseCase.call(
           params: SendNotificationEntity(
-        action: comment.postID,
+        action: comment.commentID,
+        navigationAction: comment.postID,
         to: comment.uidComment,
         type: AppTags.reply,
       ));

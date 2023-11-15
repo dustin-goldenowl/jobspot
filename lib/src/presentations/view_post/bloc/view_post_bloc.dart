@@ -224,15 +224,18 @@ class ViewPostBloc extends Bloc<ViewPostEvent, ViewPostState> {
     listFavourite.contains(uid)
         ? listFavourite.remove(uid)
         : listFavourite.add(uid);
-    emit(FavouriteCommentLoading(id: event.id, listFavoutite: listFavourite));
+    emit(FavouriteCommentLoading(
+        id: event.commentID, listFavoutite: listFavourite));
     final response = await _favouriteCommentUseCase.call(
         params: FavouriteEntity(
-      id: event.id,
+      id: event.commentID,
       listFavourite: listFavourite,
-      uidTo: _owner ?? "",
+      uidTo: event.ownerComment,
+      navigationAction: _postID,
     ));
     if (response is DataSuccess) {
-      emit(FavouriteCommentSuccess(id: event.id, listFavoutite: listFavourite));
+      emit(FavouriteCommentSuccess(
+          id: event.commentID, listFavoutite: listFavourite));
     } else {
       emit(ViewPostError(response.error ?? ""));
     }
