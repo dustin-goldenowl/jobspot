@@ -16,7 +16,7 @@ class ExperienceRepositoryImpl extends ExperienceRepository {
       await XCollection.workExperience
           .doc()
           .set(AddWorkExperienceModel.fromEntity(experience).toJson());
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -29,7 +29,7 @@ class ExperienceRepositoryImpl extends ExperienceRepository {
       await XCollection.workExperience
           .doc(experience.id)
           .update(UpdateWorkExperienceModel.fromEntity(experience).toJson());
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -39,7 +39,7 @@ class ExperienceRepositoryImpl extends ExperienceRepository {
   Future<DataState<bool>> deleteWorkExperience(String id) async {
     try {
       await XCollection.workExperience.doc(id).delete();
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }

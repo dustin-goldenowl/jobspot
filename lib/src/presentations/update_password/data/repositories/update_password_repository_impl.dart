@@ -11,7 +11,7 @@ class UpdatePasswordRepositoryImpl extends UpdatePasswordRepository {
   Future<DataState<bool>> changePassword(String newPassword) async {
     try {
       await FirebaseAuth.instance.currentUser!.updatePassword(newPassword);
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -30,7 +30,7 @@ class UpdatePasswordRepositoryImpl extends UpdatePasswordRepository {
       return DataSuccess(authResult.user != null);
     } catch (e) {
       log(e.toString());
-      return DataSuccess(false);
+      return const DataSuccess(false);
     }
   }
 }

@@ -34,7 +34,7 @@ class VerifyBusinessRepositoryImpl extends VerifyBusinessRepository {
         XCollection.verifyBusiness.doc(uid).set(model.toJson()),
         XCollection.user.doc(uid).update({"verify": VerifyStatus.pending.name}),
       ]);
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }

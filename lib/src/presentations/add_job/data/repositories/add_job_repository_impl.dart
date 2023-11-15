@@ -17,7 +17,7 @@ class AddJobRepositoryImpl extends AddJobRepository {
       final firestore = XCollection.job.doc();
       AddJobModel postModel = AddJobModel.fromJobEntity(job);
       await firestore.set(postModel.toJson());
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       log(e.toString());
       return DataFailed(e.toString());
@@ -30,7 +30,7 @@ class AddJobRepositoryImpl extends AddJobRepository {
       final firestore = XCollection.job.doc(job.id);
       UpdateJobModel postModel = UpdateJobModel.fromJobEntity(job);
       await firestore.update(postModel.toJson());
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       log(e.toString());
       return DataFailed(e.toString());

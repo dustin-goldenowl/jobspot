@@ -55,13 +55,18 @@ class FavouritePostEvent extends ViewPostEvent {
 }
 
 class FavouriteCommentEvent extends ViewPostEvent {
-  final String id;
+  final String commentID;
+  final String ownerComment;
   final List<String> listFavourite;
 
-  FavouriteCommentEvent({required this.id, required this.listFavourite});
+  FavouriteCommentEvent({
+    required this.commentID,
+    required this.ownerComment,
+    required this.listFavourite,
+  });
 
   @override
-  List<Object?> get props => [id, listFavourite];
+  List<Object?> get props => [commentID, ownerComment, listFavourite];
 }
 
 class ChangeTextCommentEvent extends ViewPostEvent {

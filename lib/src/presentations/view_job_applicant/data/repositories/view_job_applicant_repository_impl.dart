@@ -79,7 +79,7 @@ class ViewJobApplicantRepositoryImpl extends ViewJobApplicantRepository {
       await XCollection.apply
           .doc(consider.applyID)
           .update({"status": consider.status.name});
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }

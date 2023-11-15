@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:jobspot/src/core/constants/constants.dart';
 import 'package:jobspot/src/core/resources/data_state.dart';
 import 'package:jobspot/src/core/service/firebase_collection.dart';
+import 'package:jobspot/src/presentations/applicant_profile/domain/use_cases/get_list_user_use_case.dart';
 import 'package:jobspot/src/presentations/connection/data/models/post_model.dart';
 import 'package:jobspot/src/presentations/connection/data/models/user_model.dart';
 import 'package:jobspot/src/presentations/connection/domain/entities/post_entity.dart';
@@ -26,10 +27,12 @@ import 'package:jobspot/src/presentations/view_post/domain/repositories/view_pos
 class ViewPostRepositoryImpl extends ViewPostRepository {
   final SendNotificationUseCase _sendNotificationUseCase;
   final DeleteNotificationUseCase _deleteNotificationUseCase;
+  final GetListUserUseCase _getListUserUseCase;
 
   ViewPostRepositoryImpl(
     this._sendNotificationUseCase,
     this._deleteNotificationUseCase,
+    this._getListUserUseCase,
   );
 
   @override
@@ -40,7 +43,8 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
           listComment.map((e) => XCollection.comment.doc(e).get()).toList());
       List<CommentModel> comments =
           response.map((e) => CommentModel.fromSnapshot(e)).toList();
-      final listUser = await getListUser(comments);
+      final listUser = await _getListUserUseCase.call(
+          params: comments.map((e) => e.owner).toSet());
       comments = comments
           .map((e) => e.copyWith(
               user: listUser.firstWhere((element) => element.id == e.owner)))
@@ -50,16 +54,6 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
       log(e.toString());
       return DataFailed(e.toString());
     }
-  }
-
-  Future<List<UserModel>> getListUser(List<CommentModel> datas) async {
-    Set<String> listUserId = {};
-    for (var data in datas) {
-      listUserId.add(data.owner);
-    }
-    final userData = await Future.wait(
-        listUserId.map((id) => XCollection.user.doc(id).get()).toList());
-    return userData.map((e) => UserModel.fromDocumentSnapshot(e)).toList();
   }
 
   @override
@@ -84,7 +78,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
           );
           return DataSuccess(postModel.toPostEntity());
         }
-        return DataSuccess(null);
+        return const DataSuccess(null);
       });
     } catch (e) {
       return Stream.value(DataFailed(e.toString()));
@@ -123,7 +117,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
       await postStore.update({
         "comment": [...comments, commentStore.id]
       });
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -151,7 +145,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
         _deleteNotificationUseCase.call(params: notification);
       }
       await XCollection.post.doc(favourite.id).update({"like": listFavourite});
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -165,6 +159,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
           .update({"like": favourite.listFavourite});
       final notification = SendNotificationEntity(
         action: favourite.id,
+        navigationAction: favourite.navigationAction,
         to: favourite.uidTo,
         type: AppTags.favouriteCmt,
       );
@@ -174,7 +169,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
       } else {
         _deleteNotificationUseCase.call(params: notification);
       }
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -196,7 +191,8 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
       String? highLevel = snapshot.data()!["highLevel"];
       _sendNotificationUseCase.call(
           params: SendNotificationEntity(
-        action: comment.postID,
+        action: comment.commentID,
+        navigationAction: comment.postID,
         to: comment.uidComment,
         type: AppTags.reply,
       ));
@@ -214,7 +210,7 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
           "reply": [...listReply, replyCommentStore.id]
         }),
       ]);
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -246,7 +242,8 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
 
       List<CommentModel> listComment =
           response.map((e) => CommentModel.fromSnapshot(e)).toList();
-      final listUser = await getListUser(listComment);
+      final listUser = await _getListUserUseCase.call(
+          params: listComment.map((e) => e.owner).toSet());
       listComment = listComment
           .map(
             (e) => e.copyWith(
@@ -272,9 +269,12 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
             commentID: entity.commentID, replyCommentID: entity.replyCommentID),
         deleteChildComment(field: "comment", commentID: entity.commentID),
         deleteChildComment(field: "highLevel", commentID: entity.commentID),
+        deleteNotification(type: AppTags.reply, commentID: entity.commentID),
+        deleteNotification(
+            type: AppTags.favouriteCmt, commentID: entity.commentID),
         XCollection.comment.doc(entity.commentID).delete(),
       ]);
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
@@ -310,7 +310,27 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
   }) async {
     final response =
         await XCollection.comment.where(field, isEqualTo: commentID).get();
+
+    final listID = response.docs.map((e) => e.id).toList();
+
+    await Future.wait([
+      ...listID.map((e) => XCollection.comment.doc(e).delete()),
+      ...listID
+          .map((e) => deleteNotification(type: AppTags.reply, commentID: e)),
+      ...listID.map(
+          (e) => deleteNotification(type: AppTags.favouriteCmt, commentID: e))
+    ]);
+  }
+
+  Future deleteNotification({
+    required String type,
+    required String commentID,
+  }) async {
+    final response = await XCollection.notification
+        .where("type", isEqualTo: type)
+        .where("action", isEqualTo: commentID)
+        .get();
     await Future.wait(
-        response.docs.map((e) => XCollection.comment.doc(e.id).delete()));
+        response.docs.map((e) => XCollection.notification.doc(e.id).delete()));
   }
 }

@@ -63,7 +63,7 @@ class HomeAdminRepositoryImpl extends HomeAdminRepository {
       await XCollection.user
           .doc(consider.toUserID)
           .update({"verify": consider.status.name});
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }

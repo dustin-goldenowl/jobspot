@@ -67,7 +67,7 @@ class ViewCompanyProfileRepositoryImpl extends ViewCompanyProfileRepository {
       } else {
         _deleteNotificationUseCase.call(params: notification);
       }
-      return DataSuccess(true);
+      return const DataSuccess(true);
     } catch (e) {
       return DataFailed(e.toString());
     }
