@@ -269,6 +269,9 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
             commentID: entity.commentID, replyCommentID: entity.replyCommentID),
         deleteChildComment(field: "comment", commentID: entity.commentID),
         deleteChildComment(field: "highLevel", commentID: entity.commentID),
+        deleteNotification(type: AppTags.reply, commentID: entity.commentID),
+        deleteNotification(
+            type: AppTags.favouriteCmt, commentID: entity.commentID),
         XCollection.comment.doc(entity.commentID).delete(),
       ]);
       return const DataSuccess(true);
@@ -307,7 +310,27 @@ class ViewPostRepositoryImpl extends ViewPostRepository {
   }) async {
     final response =
         await XCollection.comment.where(field, isEqualTo: commentID).get();
+
+    final listID = response.docs.map((e) => e.id).toList();
+
+    await Future.wait([
+      ...listID.map((e) => XCollection.comment.doc(e).delete()),
+      ...listID
+          .map((e) => deleteNotification(type: AppTags.reply, commentID: e)),
+      ...listID.map(
+          (e) => deleteNotification(type: AppTags.favouriteCmt, commentID: e))
+    ]);
+  }
+
+  Future deleteNotification({
+    required String type,
+    required String commentID,
+  }) async {
+    final response = await XCollection.notification
+        .where("type", isEqualTo: type)
+        .where("action", isEqualTo: commentID)
+        .get();
     await Future.wait(
-        response.docs.map((e) => XCollection.comment.doc(e.id).delete()));
+        response.docs.map((e) => XCollection.notification.doc(e.id).delete()));
   }
 }
